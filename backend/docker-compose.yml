@@ -1,0 +1,15 @@
+version: "3"
+services:
+  db:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: thecakeisalive
+      MYSQL_DATABASE: dumpster
+    ports:
+      - "3306:3306"
+    volumes:
+      - "/var/lib/mysql/"
+  api:
+    build: ./api/
+    ports:
+      - "3000:3000"

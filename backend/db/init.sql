@@ -1,0 +1,1 @@
+CREATE TABLE points (g POINT);
