@@ -1,19 +1,12 @@
 import * as React from "react";
-import {Button, Slider, StyleSheet, TextInput} from "react-native";
+import {Button, StyleSheet} from "react-native";
 
-import EditScreenInfo from "../components/EditScreenInfo";
 import {Text, View} from "../components/Themed";
 import MapView, {Callout, Marker, UrlTile} from "react-native-maps";
 
-export default function TabOneScreen() {
+export default function MapScreen() {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Tab One</Text>
-            <View
-                style={styles.separator}
-                lightColor="#eee"
-                darkColor="rgba(255,255,255,0.1)"
-            />
             <MapView
                 provider={null}
                 initialRegion={{
@@ -23,18 +16,20 @@ export default function TabOneScreen() {
                     longitudeDelta: 0.0421,
                 }}
                 style={{
-                    width: 300,
-                    height: 400,
-                }}>
+                    flex: 1,
+                    width: '100%',
+                }}
+                showsPointsOfInterest={false}
+                mapPadding={{ top: 0, left: 0, right: 0, bottom: 0}}
+            >
                 <Marker
                     coordinate={{ latitude : 37.78824 , longitude : -122.4323 }}
                 >
                     <Callout>
                         <View>
-                            <Text style={styles.title}>Test?</Text>
-                            <Text>Is this a test?</Text>
-                            <Slider value={0.3} />
-                            <Button title="delet" onPress={() => null}/>
+                            <Text style={styles.title}>Bunnpris</Text>
+                            <Text>Groceries</Text>
+                            <Button title="More" onPress={() => null}/>
                         </View>
                     </Callout>
                 </Marker>

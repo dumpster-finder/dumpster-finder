@@ -5,9 +5,17 @@ import * as React from "react";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import TabOneScreen from "../screens/TabOneScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
-import {BottomTabParamList, TabOneParamList, TabTwoParamList} from "../types";
+import MapScreen from "../screens/MapScreen";
+import ListScreen from "../screens/ListScreen";
+import InfoScreen from "../screens/InfoScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+import {
+    BottomTabParamList,
+    InfoTabParamList,
+    ListTabParamList,
+    MapTabParamList,
+    SettingsTabParamList,
+} from "../types";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -16,11 +24,11 @@ export default function BottomTabNavigator() {
 
     return (
         <BottomTab.Navigator
-            initialRouteName="Map"
+            initialRouteName="MapTab"
             tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
             <BottomTab.Screen
-                name="Map"
-                component={TabOneNavigator}
+                name="MapTab"
+                component={MapTabNavigator}
                 options={{
                     tabBarIcon: ({color}) => (
                         <TabBarIcon name="navigate" color={color} />
@@ -28,8 +36,8 @@ export default function BottomTabNavigator() {
                 }}
             />
             <BottomTab.Screen
-                name="List"
-                component={TabTwoNavigator}
+                name="ListTab"
+                component={ListTabNavigator}
                 options={{
                     tabBarIcon: ({color}) => (
                         <TabBarIcon name="menu" color={color} />
@@ -37,8 +45,8 @@ export default function BottomTabNavigator() {
                 }}
             />
             <BottomTab.Screen
-                name="Info"
-                component={TabTwoNavigator}
+                name="InfoTab"
+                component={InfoTabNavigator}
                 options={{
                     tabBarIcon: ({color}) => (
                         <TabBarIcon name="information-circle" color={color} />
@@ -46,8 +54,8 @@ export default function BottomTabNavigator() {
                 }}
             />
             <BottomTab.Screen
-                name="Settings"
-                component={TabTwoNavigator}
+                name="SettingsTab"
+                component={SettingsTabNavigator}
                 options={{
                     tabBarIcon: ({color}) => (
                         <TabBarIcon name="settings" color={color} />
@@ -66,30 +74,58 @@ function TabBarIcon(props: {name: string; color: string}) {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const MapTabStack = createStackNavigator<MapTabParamList>();
 
-function TabOneNavigator() {
+function MapTabNavigator() {
     return (
-        <TabOneStack.Navigator>
-            <TabOneStack.Screen
-                name="TabOneScreen"
-                component={TabOneScreen}
-                options={{headerTitle: "Tab One Title"}}
+        <MapTabStack.Navigator>
+            <MapTabStack.Screen
+                name="MapTabScreen"
+                component={MapScreen}
+                options={{headerTitle: "Map View"}}
             />
-        </TabOneStack.Navigator>
+        </MapTabStack.Navigator>
     );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const ListTabStack = createStackNavigator<ListTabParamList>();
 
-function TabTwoNavigator() {
+function ListTabNavigator() {
     return (
-        <TabTwoStack.Navigator>
-            <TabTwoStack.Screen
-                name="TabTwoScreen"
-                component={TabTwoScreen}
-                options={{headerTitle: "Tab Two Title"}}
+        <ListTabStack.Navigator>
+            <ListTabStack.Screen
+                name="ListTabScreen"
+                component={ListScreen}
+                options={{headerTitle: "List View"}}
             />
-        </TabTwoStack.Navigator>
+        </ListTabStack.Navigator>
+    );
+}
+
+const InfoTabStack = createStackNavigator<InfoTabParamList>();
+
+function InfoTabNavigator() {
+    return (
+        <InfoTabStack.Navigator>
+            <InfoTabStack.Screen
+                name="InfoTabScreen"
+                component={InfoScreen}
+                options={{headerTitle: "Info"}}
+            />
+        </InfoTabStack.Navigator>
+    );
+}
+
+const SettingsTabStack = createStackNavigator<SettingsTabParamList>();
+
+function SettingsTabNavigator() {
+    return (
+        <SettingsTabStack.Navigator>
+            <SettingsTabStack.Screen
+                name="SettingsTabScreen"
+                component={SettingsScreen}
+                options={{headerTitle: "Settings"}}
+            />
+        </SettingsTabStack.Navigator>
     );
 }
