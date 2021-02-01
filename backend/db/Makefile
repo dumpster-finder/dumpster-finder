@@ -4,7 +4,7 @@ all: maria tables
 
 maria: Dockerfile
 	docker image build -t maria .
-	docker run --detach --name db maria
+	docker run --detach -p 3306:3306 --name db maria
 
 tables:
 	docker exec db bash setup.sh
