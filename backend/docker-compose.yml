@@ -1,4 +1,5 @@
 version: "3"
+
 services:
   db:
     image: mariadb:latest
@@ -8,8 +9,11 @@ services:
     expose:
       - "3306"
     volumes:
-      - "/var/lib/mysql/"
+      - "dumpsterdb:/var/lib/mysql/"
   api:
     build: ./api/
     ports:
       - "3000:3000"
+
+volumes:
+  dumpsterdb:
