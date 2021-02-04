@@ -33,7 +33,7 @@ deploy:
     - apt-get install --assume-yes rsync
     # Sync repo with remote,
     # leaving .env files and node_modules intact
-    - rsync --archive --delete
+    - rsync --archive --delete -v
             --exclude='.git'
             --exclude='node_modules'
             --exclude='.env'
