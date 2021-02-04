@@ -38,8 +38,6 @@ deploy:
             --exclude='node_modules'
             --exclude='.env'
             backend/ "dumpster@$SERVER_IP:dumpster"
-    # Install new dependencies
-    - ssh "dumpster@$SERVER_IP" "cd dumpster/api; npm install"
     # Restart service
     - ssh "dumpster@$SERVER_IP" systemctl restart dumpster
   only:
