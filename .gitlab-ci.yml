@@ -24,16 +24,16 @@ deploy:
   stage: deploy
   script:
     # Copy SSH credentials from CI file variables
-    - mkdir .ssh
-    - cp "$SSH_KNOWN_HOSTS" .ssh/known_hosts
-    - cp "$SSH_PRIVATE_KEY" .ssh/id_rsa
-    - chmod 600 .ssh/id_rsa
+    - mkdir ~/.ssh
+    - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
+    - cp "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
     # Install rsync
     - apt-get update
     - apt-get install --assume-yes rsync
     # Sync repo with remote,
     # leaving .env files and node_modules intact
-    - rsync --archive --delete -v
+    - rsync --archive --delete
             --exclude='.git'
             --exclude='node_modules'
             --exclude='.env'
