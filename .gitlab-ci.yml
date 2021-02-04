@@ -39,7 +39,7 @@ deploy:
             --exclude='.env'
             backend/ "dumpster@$SERVER_IP:dumpster"
     # Restart service
-    - ssh "dumpster@$SERVER_IP" systemctl restart dumpster
+    - ssh "dumpster@$SERVER_IP" -- systemctl --user restart dumpster
   only:
     # This is currently meant for test builds,
     # so the develop branch must be included
