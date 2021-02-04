@@ -1,0 +1,17 @@
+[Unit]
+Description=Dumpster Finder Backend
+After=network.target
+; TODO: Require docker. Currently seems impossible.
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+
+; Start in dumpster directory, run docker-compose
+WorkingDirectory=/home/dumpster/dumpster
+ExecStart=/usr/bin/docker-compose up -d --build
+ExecStop=/usr/bin/docker-compose down
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=default.target

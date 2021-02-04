@@ -23,7 +23,8 @@ export default function () {
             },
             servers: [
                 {
-                    url: "http://localhost:3000/",
+                    // This depends on what host the server is deployed to
+                    url: `http://${process.env.API_HOST}:${process.env.API_PORT}/`,
                 },
             ],
         },

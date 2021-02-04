@@ -2,7 +2,7 @@
 const dotenvResult = require("dotenv").config();
 if (dotenvResult.error) throw dotenvResult.error;
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.API_PORT || 3000;
 
 import app from "./server";
 

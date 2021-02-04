@@ -4,13 +4,19 @@ import swagger from "./routes/swagger";
 import example from "./routes/example";
 import sequelize from "./config/sequelize";
 
-(async () => {
+const connectToDatabase = async () => {
     try {
         await sequelize.authenticate();
         console.log("Database connection established!");
     } catch (e) {
-        console.error("Could not connect to the database", e);
+        console.error("Could not connect to the database, retrying...", e);
+        // Retry after a few seconds
+        setTimeout(connectToDatabase, 3000);
     }
+};
+
+(async () => {
+    await connectToDatabase();
 })();
 
 const app = express();

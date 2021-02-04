@@ -1,0 +1,49 @@
+image: node:latest
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo TODO
+
+test_frontend:
+  stage: test
+  script:
+    - echo TODO
+
+test_backend:
+  stage: test
+  script:
+    - echo TODO
+
+deploy:
+  stage: deploy
+  script:
+    # Copy SSH credentials from CI file variables
+    - mkdir .ssh
+    - cp "$SSH_KNOWN_HOSTS" .ssh/known_hosts
+    - cp "$SSH_PRIVATE_KEY" .ssh/id_rsa
+    - chmod 600 .ssh/id_rsa
+    # Install rsync
+    - apt-get update
+    - apt-get install --assume-yes rsync
+    # Sync repo with remote,
+    # leaving .env files and node_modules intact
+    - rsync --archive --delete
+            --exclude='.git'
+            --exclude='node_modules'
+            --exclude='.env'
+            backend/ "dumpster@$SERVER_IP:dumpster"
+    # Install new dependencies
+    - ssh "dumpster@$SERVER_IP" "cd dumpster/api; npm install"
+    # Restart service
+    - ssh "dumpster@$SERVER_IP" systemctl restart dumpster
+  only:
+    # This is currently meant for test builds,
+    # so the develop branch must be included
+    - develop
+    - master

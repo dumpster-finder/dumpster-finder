@@ -5,8 +5,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: thecakeisalive
       MYSQL_DATABASE: dumpster
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     volumes:
       - "/var/lib/mysql/"
   api:

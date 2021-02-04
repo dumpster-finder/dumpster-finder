@@ -2,6 +2,8 @@
 
 Split into API server, database server and file server.
 
+The database server is *not* exposed to the public.
+
 ## Instructions
 
 To build the images and start docker-compose deattached:
@@ -21,3 +23,10 @@ To stop and clean up the containers:
 ```sh
 docker-compose down
 ```
+
+## Deployment
+
+blah blah
+
+Copy the .env file and make a few changes:
+
