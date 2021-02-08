@@ -11,8 +11,11 @@ CREATE TABLE things (
     PRIMARY KEY things(id)
 );
 
+-- DROP 'EM ALL! (╯°□°）╯︵ ┻━┻
 DROP TABLE IF EXISTS
     PhotoReports, Photos,
+    DumpsterTags, StandardTags, Tags,
+    DumpsterCategories, Categories,
     Ratings, Comments,
     Dumpsters,
     StoreTypes, DumpsterTypes;
@@ -29,6 +32,8 @@ CREATE TABLE StoreTypes (
     type VARCHAR(24) NOT NULL
 );
 
+-- Dumpsters: Uniquely identified by position
+--            (you better know what a dumpster is)
 CREATE TABLE Dumpsters (
     id INT PRIMARY KEY AUTO_INCREMENT,
     position POINT UNIQUE NOT NULL,
@@ -40,7 +45,7 @@ CREATE TABLE Dumpsters (
 
     -- Attributes:
     locked BOOLEAN NOT NULL,
-    positiveViewOnDiving BOOLEAN NOT NULL,
+    positiveViewOnDiving BOOLEAN, -- NULL if unknown (triple boolean hell)
     emptyingSchedule VARCHAR(128), -- should this be nullable?
     cleanliness TINYINT UNSIGNED NOT NULL,
 
@@ -55,20 +60,22 @@ CREATE TABLE Ratings (
     id INT PRIMARY KEY AUTO_INCREMENT,
     dumpster INT NOT NULL REFERENCES Dumpsters(id),
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    rating INT NOT NULL,
+    rating TINYINT UNSIGNED NOT NULL,
     INDEX (dumpster)
 );
 
+-- Comments convey a diver's experience with a particular dumpster
 CREATE TABLE Comments (
     id INT PRIMARY KEY AUTO_INCREMENT,
     dumpster INT NOT NULL REFERENCES Dumpsters(id),
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     nickname VARCHAR(24) NOT NULL,
     comment TEXT NOT NULL,
-    rating INT NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
+    rating TINYINT UNSIGNED NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
     INDEX (date)
 );
 
+-- Photos give a clear view of the state of a dumpster
 CREATE TABLE Photos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     url VARCHAR(256) NOT NULL,
@@ -76,7 +83,7 @@ CREATE TABLE Photos (
     INDEX (key_)
 );
 
-
+-- Photos may contain unwanted imagery that will need to be moderated
 CREATE TABLE PhotoReports (
     id INT PRIMARY KEY AUTO_INCREMENT,
     photo INT NOT NULL REFERENCES Photos(id),
@@ -90,7 +97,7 @@ CREATE TABLE Categories (
     category VARCHAR(24) NOT NULL
 );
 
--- Connection
+-- Any dumpster could have contents of many categories
 CREATE TABLE DumpsterCategories (
     dumpster INT NOT NULL REFERENCES Dumpsters(id),
     category INT NOT NULL REFERENCES Categories(id)
@@ -109,15 +116,15 @@ CREATE TABLE DumpsterTags (
     tag INT NOT NULL REFERENCES Tags(id),
 
     -- Composite amount:
-    amount INT NOT NULL,
-    unit VARCHAR(12) NOT NULL,
+    amount INT,
+    unit VARCHAR(12),
 
     -- Quality rating:
-    quality INT NOT NULL,
+    quality TINYINT UNSIGNED,
 
     -- Dates:
     foundDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    expiryDate TIMESTAMP NOT NULL,
+    expiryDate TIMESTAMP,
     INDEX (foundDate),
     INDEX (expiryDate)
 );
