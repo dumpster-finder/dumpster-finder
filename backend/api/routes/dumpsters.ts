@@ -26,10 +26,8 @@
 /**
  * @swagger
  * tags:
- *   - name: Thing
- *     description: Example of an API spec
- *   - name: Hello
- *     description: ehlo
+ *   - name: Dumpsters
+ *     description: Dumpster API
  */
 import {Router} from "express";
 import {validate} from "express-validation";
@@ -41,23 +39,92 @@ import models from "../models";
 export default function () {
     const thingDAO = ThingDAO(models);
     const router = Router();
+    const dumpsterControl = //Add dumpster Control here
+
+        /**
+         * @swagger
+         * /example/dumpsters:
+         *   get:
+         *     summary: say hello or sth
+         *     tags: [Dumpster]
+         *     responses:
+         *       "200":
+         *         description: the greeting
+         *         content:
+         *           application/json:
+         *             schema:
+         *               $ref: '#/components/schemas/dumpster/:dumpsterID'
+         */
+        router.get("/dumpsters", async (req, res) => {
+            try {
+                const dumpsters = await dumpsterControl.getAll();
+                res.status(200).json(dumpsters);
+            } catch (e) {
+                console.error('Something went wrong!', e);
+                res.status(500).send("uh?");
+            }
+        });
 
     /**
      * @swagger
-     * /example/hello:
+     * /example/Dumpster:
      *   get:
      *     summary: say hello or sth
-     *     tags: [Hello]
+     *     tags: [Dumpster]
+     *      parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
      *     responses:
      *       "200":
      *         description: the greeting
      *         content:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/Hello'
+     *               $ref: '#/components/schemas/dumpster/:dumpsterID'
      */
-    router.get("/getDumpster", (req, res) => {
-        res.json({hi: "there"});
+    router.get("/dumpsters/:dumpsterID", async (req: {params: {id: number}}, res) => {
+        try {
+            const dumpsters = await dumpsterControl.getOne(dumpsterID);
+            res.status(200).json(dumpsters);
+        } catch (e) {
+            console.error('Something went wrong!', e);
+            res.status(500).send("uh?");
+        }
+    });
+
+    /**
+     * @swagger
+     * /example/Dumpster:
+     *   get:
+     *     summary: say hello or sth
+     *     tags: [Dumpster]
+     *      parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     responses:
+     *       "200":
+     *         description: the greeting
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/dumpster/:dumpsterID'
+     */
+    router.post("/dumpsters/", validate(postDumpster)async (req, res) => {
+        try {
+            const dumpsters = await dumpsterControl.getOne(dumpsterID);
+            res.status(200).json(dumpsters);
+        } catch (e) {
+            console.error('Something went wrong!', e);
+            res.status(500).send("uh?");
+        }
     });
 
     /**
