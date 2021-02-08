@@ -1,5 +1,10 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
+    <SqlCodeStyleSettings version="5">
+      <option name="TABLE_OPENING" value="1" />
+      <option name="TABLE_CONTENT" value="2" />
+      <option name="TABLE_CLOSING" value="6" />
+    </SqlCodeStyleSettings>
     <codeStyleSettings language="JSON">
       <indentOptions>
         <option name="INDENT_SIZE" value="4" />

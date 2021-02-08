@@ -7,7 +7,8 @@ maria: Dockerfile
 	docker run --detach -p 3306:3306 --name db maria
 
 tables:
-	docker exec db bash setup.sh
+	mysql --host=127.0.0.1 --user=root --password=thecakeisalive dumpster < init.sql
+
 
 clean:
 	docker container stop db
