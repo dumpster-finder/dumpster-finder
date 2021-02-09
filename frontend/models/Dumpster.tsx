@@ -6,7 +6,7 @@ class Dumpster {
     position: Position;
     emptyingSchedule: string;
     locked: boolean;
-    positiveStoreViewOnDiving: boolean;
+    positiveStoreViewOnDiving: boolean | null;
     cleanliness: number;
     rating: number;
     dumpsterType: string;
@@ -29,7 +29,7 @@ class Dumpster {
         position: Position;
         emptyingSchedule: string;
         locked: boolean;
-        positiveStoreViewOnDiving: boolean;
+        positiveStoreViewOnDiving: boolean | null;
         cleanliness: number;
         rating: number;
         dumpsterType: string;
