@@ -53,6 +53,16 @@ CREATE TABLE Dumpsters (
     SPATIAL INDEX (position)
 );
 
+-- Dumpster may not exist, or there might be misinformation in the data.
+-- This should be reported.
+CREATE TABLE DumpsterReports (
+    dumpsterReportID INT PRIMARY KEY AUTO_INCREMENT,
+    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
+    reason TEXT NOT NULL,
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX (dumpsterID)
+);
+
 -- Rating instances
 -- A dumpster's rating is calculated as an average of
 -- these instances (perhaps filtered by recency)
