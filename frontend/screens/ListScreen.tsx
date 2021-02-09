@@ -1,16 +1,20 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import {ScrollView, StyleSheet, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import ListCards from '../components/ListCards'
 
 export default function ListScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>This will be a list</Text>
+    <ScrollView style={styles.scrollView}>
+      <ListCards/>
+      <ListCards/>
+      <ListCards/>
+      <ListCards/>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="/screens/ListScreen.tsx" />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -20,6 +24,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  scrollView: {
+    flex: 1,
   },
   title: {
     fontSize: 20,
