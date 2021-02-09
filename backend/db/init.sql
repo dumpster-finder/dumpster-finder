@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS
     DumpsterTags, StandardTags, Tags,
     DumpsterCategories, Categories,
     Ratings, Comments,
-    Dumpsters,
+    DumpsterReports, Dumpsters,
     StoreTypes, DumpsterTypes;
 
 -- Dumpster types: Compressor, dumpster, idk
