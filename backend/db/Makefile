@@ -7,7 +7,7 @@ maria: Dockerfile
 	docker run --detach -p 3306:3306 --name db maria
 
 tables:
-	docker exec db bash setup.sh
+	./setup.sh
 
 clean:
 	docker container stop db
