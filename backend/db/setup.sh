@@ -1,2 +1,5 @@
 #!/bin/sh
-mysql --user=root --password=thecakeisalive dumpster < init.sql
+for script in init data
+do
+  mysql --user=root --password=thecakeisalive dumpster < "$script".sql
+done
