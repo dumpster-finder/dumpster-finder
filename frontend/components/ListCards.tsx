@@ -3,9 +3,11 @@ import * as React from "react";
 import {Card, Text, Icon} from "react-native-elements";
 import {  View } from './Themed';
 import {Image, StyleSheet, TouchableOpacity} from "react-native";
+import Dumpster from "../models/Dumpster";
+import {Props} from "react";
 
 
-export default function ListCards()  {
+export default function ListCards({dumpster}: {dumpster: Dumpster})  {
     let variable : number = 1;
     return (
         <TouchableOpacity
@@ -25,9 +27,9 @@ export default function ListCards()  {
                     />
                 <View style={{width: '60%'}} >
                     <Card.Title><Text h4>
-                        Dumpster Moholt
+                        {dumpster.name}
                     </Text></Card.Title>
-                    <Text>safdsfds</Text>
+                    <Text>{dumpster.storeType}</Text>
                     <View style={{
                         flex: 1,
                         flexDirection: 'row',
@@ -52,13 +54,13 @@ export default function ListCards()  {
                         </View>
                         <View style={{width: '50%',
                             alignItems: 'flex-start'}} >
-                            <Text>4.5</Text>
+                            <Text>{dumpster.rating}</Text>
                         </View>
                     </View>
                         <View style={{width: '33%',
                             alignItems: 'flex-end'
                         }}>
-                            { variable > 2?
+                            {dumpster.locked?
                                 <Icon name='lock'
                                 color='#FF0000' />:
                                 <Icon name='lock-open'
