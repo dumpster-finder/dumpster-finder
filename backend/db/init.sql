@@ -1,8 +1,7 @@
 -- ♪♫ Living in the database ♪♫
 
 -- old test things
-DROP TABLE IF EXISTS points, things;
-CREATE TABLE points (g POINT);
+DROP TABLE IF EXISTS things;
 
 CREATE TABLE things (
     id INT AUTO_INCREMENT,
@@ -22,30 +21,31 @@ DROP TABLE IF EXISTS
 
 -- Dumpster types: Compressor, dumpster, idk
 CREATE TABLE DumpsterTypes (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    type VARCHAR(24) NOT NULL
+    dumpsterTypeID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(24) NOT NULL
 );
 
 -- Store types: Grocery, electronics, etc.
 CREATE TABLE StoreTypes (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    type VARCHAR(24) NOT NULL
+    storeTypeID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(24) NOT NULL
 );
 
 -- Dumpsters: Uniquely identified by position
 --            (you better know what a dumpster is)
 CREATE TABLE Dumpsters (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    dumpsterID INT PRIMARY KEY AUTO_INCREMENT,
     position POINT UNIQUE NOT NULL,
     name VARCHAR(64) NOT NULL,
+    dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     -- Categorization:
-    type INT NOT NULL REFERENCES DumpsterTypes(id),
-    storeType INT NOT NULL REFERENCES StoreTypes(id),
+    dumpsterTypeID INT NOT NULL REFERENCES DumpsterTypes(dumpsterTypeID),
+    storeTypeID INT NOT NULL REFERENCES StoreTypes(storeTypeID),
 
     -- Attributes:
     locked BOOLEAN NOT NULL,
-    positiveViewOnDiving BOOLEAN, -- NULL if unknown (triple boolean hell)
+    positiveStoreViewOnDiving BOOLEAN, -- NULL if unknown (triple boolean hell)
     emptyingSchedule VARCHAR(128), -- should this be nullable?
     cleanliness TINYINT UNSIGNED NOT NULL,
 
@@ -57,63 +57,66 @@ CREATE TABLE Dumpsters (
 -- A dumpster's rating is calculated as an average of
 -- these instances (perhaps filtered by recency)
 CREATE TABLE Ratings (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    dumpster INT NOT NULL REFERENCES Dumpsters(id),
-    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ratingID INT PRIMARY KEY AUTO_INCREMENT,
+    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
     rating TINYINT UNSIGNED NOT NULL,
-    INDEX (dumpster)
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX (dumpsterID)
 );
 
 -- Comments convey a diver's experience with a particular dumpster
 CREATE TABLE Comments (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    dumpster INT NOT NULL REFERENCES Dumpsters(id),
-    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    commentID INT PRIMARY KEY AUTO_INCREMENT,
+    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
     nickname VARCHAR(24) NOT NULL,
     comment TEXT NOT NULL,
     rating TINYINT UNSIGNED NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (date)
 );
 
 -- Photos give a clear view of the state of a dumpster
 CREATE TABLE Photos (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    photoID INT PRIMARY KEY AUTO_INCREMENT,
     url VARCHAR(256) NOT NULL,
     key_ VARCHAR(256) NOT NULL, -- for deleting the photo if you regret everything
+    dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (key_)
 );
 
 -- Photos may contain unwanted imagery that will need to be moderated
 CREATE TABLE PhotoReports (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    photo INT NOT NULL REFERENCES Photos(id),
+    photoReportID INT PRIMARY KEY AUTO_INCREMENT,
+    photoID INT NOT NULL REFERENCES Photos(photoID),
     reason TEXT NOT NULL,
-    INDEX (photo)
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX (photoID)
 );
 
 -- Categories are general types of content that *we* define
 CREATE TABLE Categories (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    category VARCHAR(24) NOT NULL
+    categoryID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(24) NOT NULL
 );
 
 -- Any dumpster could have contents of many categories
 CREATE TABLE DumpsterCategories (
-    dumpster INT NOT NULL REFERENCES Dumpsters(id),
-    category INT NOT NULL REFERENCES Categories(id)
+    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
+    categoryID INT NOT NULL REFERENCES Categories(categoryID),
+    dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tags are *specific* content types
 CREATE TABLE Tags (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    category INT NOT NULL REFERENCES Categories(id),
-    tag VARCHAR(24) NOT NULL
+    tagID INT PRIMARY KEY AUTO_INCREMENT,
+    categoryID INT NOT NULL REFERENCES Categories(categoryID),
+    name VARCHAR(24) NOT NULL
 );
 
 -- Contains data about the particular instance of the content type
 CREATE TABLE DumpsterTags (
-    dumpster INT NOT NULL REFERENCES Dumpsters(id),
-    tag INT NOT NULL REFERENCES Tags(id),
+    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
+    tagID INT NOT NULL REFERENCES Tags(tagID),
 
     -- Composite amount:
     amount INT,
@@ -131,5 +134,5 @@ CREATE TABLE DumpsterTags (
 
 -- Collection of foreign keys
 CREATE TABLE StandardTags (
-    tag INT PRIMARY KEY REFERENCES Tags(id)
+    tagID INT PRIMARY KEY REFERENCES Tags(tagID)
 );
