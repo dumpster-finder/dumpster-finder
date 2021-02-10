@@ -40,7 +40,8 @@ import ThingDAO from "../daos/example";
 import models from "../models";
 import {postDumpster} from "../validators/dumpsters";
 
-//TODO add validation and models
+//TODO add validation and models, and DAO for the key ones
+//TODO change storetype and dumpstertype to String primary key and foreign key
 export default function () {
     const thingDAO = ThingDAO(models);
     const router = Router();
