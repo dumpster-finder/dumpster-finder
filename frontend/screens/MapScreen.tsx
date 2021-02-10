@@ -5,8 +5,9 @@ import {Text, View} from "../components/Themed";
 import MapView, {Callout, Marker, UrlTile} from "react-native-maps";
 import {Icon, SearchBar} from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
+import {StackNavigationProp} from "@react-navigation/stack";
 
-export default function MapScreen() {
+export default function MapScreen({navigation}:{navigation: StackNavigationProp<any>}) {
     const colorScheme = useColorScheme();
     return (
         <View style={styles.container}>
@@ -29,7 +30,9 @@ export default function MapScreen() {
                         name="plus"
                         type="font-awesome"
                         onPress={() => {
-                            console.log("add");
+                            navigation.navigate("AddPositionScreen", {
+                                screen: "AddPositionScreen",
+                            });
                         }}
                     />
                 </View>
@@ -65,19 +68,25 @@ export default function MapScreen() {
                 }}
                 style={{
                     flex: 9,
-                    width: '100%',
+                    width: "100%",
                 }}
                 showsPointsOfInterest={false}
-                mapPadding={{ top: 0, left: 0, right: 0, bottom: 0}}
-            >
+                mapPadding={{
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                }}>
                 <Marker
-                    coordinate={{ latitude : 37.78824 , longitude : -122.4323 }}
-                >
+                    coordinate={{
+                        latitude: 37.78824,
+                        longitude: -122.4323,
+                    }}>
                     <Callout>
                         <View>
                             <Text style={styles.title}>Bunnpris</Text>
                             <Text>Groceries</Text>
-                            <Button title="More" onPress={() => null}/>
+                            <Button title="More" onPress={() => null} />
                         </View>
                     </Callout>
                 </Marker>

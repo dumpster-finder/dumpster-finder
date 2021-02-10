@@ -16,6 +16,8 @@ import {
     MapTabParamList,
     SettingsTabParamList,
 } from "../types";
+import AddInfoScreen from "../screens/AddInfoScreen";
+import AddPositionScreen from "../screens/AddPositionScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -84,6 +86,16 @@ function MapTabNavigator() {
                 component={MapScreen}
                 options={{headerTitle: "Map View"}}
             />
+            <MapTabStack.Screen
+                name="AddPositionScreen"
+                component={AddPositionScreen}
+                options={{headerTitle: "Add dumpster position"}}
+            />
+            <MapTabStack.Screen
+                name="AddInfoScreen"
+                component={AddInfoScreen}
+                options={{headerTitle: "Add dumpster info"}}
+            />
         </MapTabStack.Navigator>
     );
 }
@@ -98,6 +110,14 @@ function ListTabNavigator() {
                 component={ListScreen}
                 options={{headerTitle: "List View"}}
             />
+            <ListTabStack.Screen
+                name="AddPositionScreen"
+                component={AddPositionScreen}
+                options={{headerTitle: "Add dumpster position"}}/>
+            <ListTabStack.Screen
+                name="AddInfoScreen"
+                component={AddInfoScreen}
+                options={{headerTitle: "Add dumpster info"}}/>
         </ListTabStack.Navigator>
     );
 }
