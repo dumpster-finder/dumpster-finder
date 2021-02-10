@@ -53,39 +53,59 @@ const c: Dumpster = {
     dumpsterType: "idk",
 };
 
-
-
 export default function ListScreen() {
     const colorScheme = useColorScheme();
     const allDumpsters = [a, b, c];
 
     return (
         <ScrollView style={styles.scrollView}>
-            <View style={{
-                width: '100%',
-                flex: 1,
-                flexDirection: 'row',
-                alignItems:'center',
-                justifyContent: 'center'
-            }}>
-                <View style={{width: '90%', height:'100%'}} >
-                    <SearchBar
-                        lightTheme={colorScheme === 'light'}
-                        placeholder="Type Here..."
-                        value={''}
+            <View
+                style={{
+                    width: "100%",
+                    flex: 1,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}>
+                <View
+                    style={{
+                        width: "10%",
+                        height: "100%",
+                        justifyContent: "center",
+                    }}>
+                    <Icon
+                        name="plus"
+                        type="font-awesome"
+                        onPress={() => {
+                            console.log("add");
+                        }}
                     />
                 </View>
-                <View style={{width: '10%', height:'100%', justifyContent:'center'}} >
-                    <Icon name='filter' type="font-awesome"/>
+                <View style={{width: "80%", height: "100%"}}>
+                    <SearchBar
+                        lightTheme={colorScheme === "light"}
+                        placeholder="Type Here..."
+                        value={""}
+                    />
+                </View>
+                <View
+                    style={{
+                        width: "10%",
+                        height: "100%",
+                        justifyContent: "center",
+                    }}>
+                    <Icon
+                        name="filter"
+                        type="font-awesome"
+                        onPress={() => {
+                            console.log("filter");
+                        }}
+                    />
                 </View>
             </View>
-            {allDumpsters.map((thisDumpster) => <ListCards dumpster={thisDumpster}/>)}
-            <View
-                style={styles.separator}
-                lightColor="#eee"
-                darkColor="rgba(255,255,255,0.1)"
-            />
-            <EditScreenInfo path="/screens/ListScreen.tsx" />
+            {allDumpsters.map(thisDumpster => (
+                <ListCards dumpster={thisDumpster} />
+            ))}
         </ScrollView>
     );
 }

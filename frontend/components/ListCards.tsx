@@ -9,7 +9,7 @@ export default function ListCards({dumpster}: {dumpster: Dumpster}) {
     return (
         <TouchableOpacity
             onPress={() => {
-                console.log("does not work");
+                console.log("Card");
             }}>
             <Card
                 containerStyle={{width: "95%", height: 150, padding: 0}}
