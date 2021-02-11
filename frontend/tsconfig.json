@@ -1,12 +1,27 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "jsx": "react-native",
-    "lib": ["dom", "esnext"],
-    "moduleResolution": "node",
-    "noEmit": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "strict": true
-  }
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "jsx": "react-native",
+        "lib": ["dom", "esnext"],
+        "moduleResolution": "node",
+        "noEmit": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "strict": true
+    },
+    "typedocOptions": {
+        "entryPoints": [
+            "App.tsx",
+            "types.tsx",
+            "screens",
+            "redux",
+            "navigation",
+            "models",
+            "hooks",
+            "constants",
+            "components",
+            "@types"
+        ],
+        "out": "docs"
+    }
 }

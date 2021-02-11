@@ -1,4 +1,5 @@
 /**
+ * @hidden
  * @swagger
  * components:
  *   schemas:
@@ -24,6 +25,7 @@
  */
 
 /**
+ * @hidden
  * @swagger
  * tags:
  *   - name: Thing
