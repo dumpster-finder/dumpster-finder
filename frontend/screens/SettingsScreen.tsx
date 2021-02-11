@@ -1,13 +1,26 @@
 import * as React from "react";
-import {StyleSheet, Switch} from "react-native";
+import { StyleSheet, Switch } from "react-native";
 
-import EditScreenInfo from "../components/EditScreenInfo";
-import {View} from "../components/Themed";
-import {Button, Input, SearchBar, Text} from "react-native-elements";
+import { View } from "../components/Themed";
+import { Button, Input, SearchBar, Text } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
+import { useSelector } from "react-redux";
+import {
+    darkModeSelector,
+    nicknameSelector,
+    setDarkMode,
+    setNickname,
+} from "../redux/slices/configSlice";
+import { useAppDispatch } from "../redux/store";
+import { useState } from "react";
 
 export default function SettingsScreen() {
     const colorScheme = useColorScheme();
+    const dispatch = useAppDispatch();
+    const darkMode = useSelector(darkModeSelector);
+    const nickname = useSelector(nicknameSelector);
+
+    const [nicknameFieldText, setNicknameFieldText] = useState("");
 
     return (
         <View style={styles.container}>
@@ -48,8 +61,16 @@ export default function SettingsScreen() {
                         justifyContent: "center",
                     }}>
                     <Text h4>Set nickname</Text>
-                    <Input placeholder="Nickname" />
-                    <Button title="Set nickname" style={{width: " 50%"}} />
+                    <Text>{nickname}</Text>
+                    <Input
+                        placeholder="Nickname"
+                        onChangeText={s => setNicknameFieldText(s)}
+                    />
+                    <Button
+                        title="Set nickname"
+                        style={{ width: " 50%" }}
+                        onPress={() => dispatch(setNickname(nicknameFieldText))}
+                    />
                 </View>
 
                 <View
@@ -67,7 +88,10 @@ export default function SettingsScreen() {
                             flex: 1,
                             flexDirection: "row",
                         }}>
-                        <Switch value={true} />
+                        <Switch
+                            value={darkMode}
+                            onValueChange={v => dispatch(setDarkMode(v))}
+                        />
                         <Text>Dark mode</Text>
                     </View>
                     <View
