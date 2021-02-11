@@ -1,8 +1,6 @@
-import { createAsyncThunk, createSlice, Dispatch } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Dumpster from "../../models/Dumpster";
 import Position from "../../models/Position";
-import { setPosition } from "./configSlice";
-import { useAppDispatch } from "../store";
 
 /**
  * The dumpster list will be fetched asynchronously,
@@ -16,6 +14,8 @@ interface SliceState {
 
 /**
  * Fetch dumpsters around the given coordinate
+ *
+ * Usage: dispatch(fetchNearbyDumpsters({latitude: 0, longitude: 0}))
  */
 export const fetchNearbyDumpsters = createAsyncThunk(
     "dumpsters/fetchNearbyDumpsters",
@@ -27,7 +27,7 @@ export const fetchNearbyDumpsters = createAsyncThunk(
                 () =>
                     resolve({
                         dumpsters: [
-                            new Dumpster({
+                            {
                                 dumpsterID: 2,
                                 dumpsterType: "Dumpster",
                                 cleanliness: 1,
@@ -41,7 +41,7 @@ export const fetchNearbyDumpsters = createAsyncThunk(
                                 positiveStoreViewOnDiving: true,
                                 rating: 2,
                                 storeType: "Groceries",
-                            }),
+                            },
                         ],
                     }),
                 3000,
@@ -63,12 +63,11 @@ export const dumpsterSlice = createSlice({
         addDumpster: ({ dumpsters }, { payload }) => {
             dumpsters.push(payload);
         },
+        addDumpsters: ({ dumpsters }, { payload }) => {
+            dumpsters.concat(payload);
+        },
     },
     extraReducers: builder => {
-        builder.addCase(setPosition, (state, action) => {
-            const dispatch = useAppDispatch();
-            dispatch(fetchNearbyDumpsters(action.payload));
-        })
         builder.addCase(
             fetchNearbyDumpsters.pending,
             (state: SliceState, action) => {
@@ -92,7 +91,7 @@ export const dumpsterSlice = createSlice({
     },
 });
 
-export const { addDumpster } = dumpsterSlice.actions;
+export const { addDumpster, addDumpsters } = dumpsterSlice.actions;
 
 export default dumpsterSlice.reducer;
 

@@ -7,7 +7,8 @@ import Navigation from "./navigation";
 import { ThemeProvider } from "react-native-elements";
 import { theme } from "./constants/Theme";
 import { Provider } from "react-redux";
-import store from "./redux/store";
+import store, { persistor } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function App() {
     const isLoadingComplete = useCachedResources();
@@ -18,14 +19,16 @@ export default function App() {
     } else {
         return (
             <Provider store={store}>
-                <SafeAreaProvider>
-                    <ThemeProvider
-                        useDark={colorScheme === "dark"}
-                        theme={theme}>
-                        <Navigation colorScheme={colorScheme} />
-                        <StatusBar />
-                    </ThemeProvider>
-                </SafeAreaProvider>
+                <PersistGate loading={null} persistor={persistor}>
+                    <SafeAreaProvider>
+                        <ThemeProvider
+                            useDark={colorScheme === "dark"}
+                            theme={theme}>
+                            <Navigation colorScheme={colorScheme} />
+                            <StatusBar />
+                        </ThemeProvider>
+                    </SafeAreaProvider>
+                </PersistGate>
             </Provider>
         );
     }
