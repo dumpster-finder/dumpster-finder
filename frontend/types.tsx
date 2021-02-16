@@ -20,8 +20,12 @@ export type InfoTabParamList = {
 
 export type ListTabParamList = {
   ListTabScreen: undefined;
+  AddPositionScreen: undefined;
+  AddInfoScreen: undefined;
 };
 
 export type MapTabParamList = {
   MapTabScreen: undefined;
+  AddPositionScreen: undefined;
+  AddInfoScreen: undefined;
 };

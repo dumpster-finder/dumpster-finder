@@ -13,6 +13,7 @@ import ListCards from "../components/ListCards";
 import Dumpster from "../models/Dumpster";
 import {Icon, SearchBar} from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
+import {StackNavigationProp} from "@react-navigation/stack";
 
 const a: Dumpster = {
     dumpsterID: 1,
@@ -53,7 +54,7 @@ const c: Dumpster = {
     dumpsterType: "idk",
 };
 
-export default function ListScreen() {
+export default function ListScreen({navigation}:{navigation: StackNavigationProp<any>}) {
     const colorScheme = useColorScheme();
     const allDumpsters = [a, b, c];
 
@@ -77,7 +78,9 @@ export default function ListScreen() {
                         name="plus"
                         type="font-awesome"
                         onPress={() => {
-                            console.log("add");
+                            navigation.navigate("AddPositionScreen", {
+                                screen: "AddPositionScreen",
+                            });
                         }}
                     />
                 </View>
