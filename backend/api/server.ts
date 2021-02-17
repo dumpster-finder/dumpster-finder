@@ -1,9 +1,11 @@
-import express from "express";
 import cors from "cors";
-import swagger from "./routes/swagger";
 import example from "./routes/example";
 import dumpsters from "./routes/dumpsters";
+import express from "express";
 import sequelize from "./config/sequelize";
+import swagger from "./routes/swagger";
+import pino from "pino";
+import expressPino from "express-pino-logger";
 
 const connectToDatabase = async () => {
     try {
@@ -22,9 +24,12 @@ const connectToDatabase = async () => {
 
 const app = express();
 
+export const logger = pino({ level: process.env.LOG_LEVEL || "info" });
+
 // Express middleware
 app.use(express.json());
 app.use(cors());
+app.use(expressPino({ logger }));
 
 app.use("/spec", swagger());
 
