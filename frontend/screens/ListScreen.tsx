@@ -14,6 +14,8 @@ import Dumpster from "../models/Dumpster";
 import {Icon, SearchBar} from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
 import {StackNavigationProp} from "@react-navigation/stack";
+import {useAppDispatch} from "../redux/store";
+import {setCurrentDumpster} from"../redux/slices/dumpsterSlice"
 
 const a: Dumpster = {
     dumpsterID: 1,
@@ -23,7 +25,7 @@ const a: Dumpster = {
     locked: true,
     positiveStoreViewOnDiving: false,
     rating: 4.5,
-    cleanliness: 3.5,
+    cleanliness: 76,
     storeType: "Food",
     dumpsterType: "idk",
 };
@@ -36,7 +38,7 @@ const b: Dumpster = {
     locked: false,
     positiveStoreViewOnDiving: true,
     rating: 2.5,
-    cleanliness: 1.5,
+    cleanliness: 14,
     storeType: "Electronics",
     dumpsterType: "idk",
 };
@@ -49,7 +51,7 @@ const c: Dumpster = {
     locked: false,
     positiveStoreViewOnDiving: true,
     rating: 4.5,
-    cleanliness: 3.5,
+    cleanliness: 74,
     storeType: "Beds",
     dumpsterType: "idk",
 };
@@ -57,6 +59,7 @@ const c: Dumpster = {
 export default function ListScreen({navigation}:{navigation: StackNavigationProp<any>}) {
     const colorScheme = useColorScheme();
     const allDumpsters = [a, b, c];
+    const dispatch = useAppDispatch();
 
     return (
         <ScrollView style={styles.scrollView}>
@@ -106,9 +109,19 @@ export default function ListScreen({navigation}:{navigation: StackNavigationProp
                     />
                 </View>
             </View>
+
             {allDumpsters.map(thisDumpster => (
+                <TouchableOpacity
+                    onPress={() => {
+                        dispatch(setCurrentDumpster(thisDumpster))
+                        navigation.navigate("DetailsScreen", {
+                            screen: "DetailsScreen",
+                        });
+                    }}>
                 <ListCards dumpster={thisDumpster} />
+                </TouchableOpacity>
             ))}
+
         </ScrollView>
     );
 }

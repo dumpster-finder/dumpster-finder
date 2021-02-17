@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Dumpster from "../../models/Dumpster";
 import Position from "../../models/Position";
+import {RootState} from "../store";
 
 /**
  * The dumpster list will be fetched asynchronously,
@@ -10,6 +11,7 @@ interface SliceState {
     dumpsters: Dumpster[];
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
+    currentDumpster: Dumpster | null;
 }
 
 /**
@@ -57,6 +59,7 @@ export const dumpsterSlice = createSlice({
         dumpsters: [],
         status: "idle",
         error: null,
+        currentDumpster: null,
     } as SliceState,
     reducers: {
         // idk if this even makes sence
@@ -65,6 +68,9 @@ export const dumpsterSlice = createSlice({
         },
         addDumpsters: ({ dumpsters }, { payload }) => {
             dumpsters.concat(payload);
+        },
+        setCurrentDumpster: (state, { payload }) => {
+            state.currentDumpster = payload;
         },
     },
     extraReducers: builder => {
@@ -91,9 +97,12 @@ export const dumpsterSlice = createSlice({
     },
 });
 
-export const { addDumpster, addDumpsters } = dumpsterSlice.actions;
+export const { addDumpster, addDumpsters, setCurrentDumpster } = dumpsterSlice.actions;
 
 export default dumpsterSlice.reducer;
 
-export const selectDumpsterByID = (state: SliceState, dumpsterID: number) =>
-    state.dumpsters.find(d => d.dumpsterID === dumpsterID);
+export const selectDumpsterByID = (state: RootState, dumpsterID: number) =>
+    state.dumpsters.dumpsters.find(d => d.dumpsterID === dumpsterID);
+
+export const selectCurrentDumpster = (state: RootState) =>
+    state.dumpsters.currentDumpster;

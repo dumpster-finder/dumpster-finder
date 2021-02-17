@@ -20,6 +20,7 @@ import {
 import {colors} from "react-native-elements";
 import AddInfoScreen from "../screens/AddInfoScreen";
 import AddPositionScreen from "../screens/AddPositionScreen";
+import DetailsScreen from "../screens/DetailsScreen";
 
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -122,6 +123,10 @@ function ListTabNavigator() {
                 name="AddInfoScreen"
                 component={AddInfoScreen}
                 options={{headerTitle: "Add dumpster info"}}/>
+            <ListTabStack.Screen
+                name="DetailsScreen"
+                component={DetailsScreen}
+                options={{headerTitle: "DetailsScreen"}}/>
         </ListTabStack.Navigator>
     );
 }

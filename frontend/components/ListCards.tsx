@@ -3,14 +3,11 @@ import {Card, Text, Icon} from "react-native-elements";
 import {View} from "./Themed";
 import {Image, TouchableOpacity} from "react-native";
 import Dumpster from "../models/Dumpster";
-
+import {StackNavigationProp} from "@react-navigation/stack";
 
 export default function ListCards({dumpster}: {dumpster: Dumpster}) {
     return (
-        <TouchableOpacity
-            onPress={() => {
-                console.log("Card");
-            }}>
+
             <Card
                 containerStyle={{width: "95%", height: 150, padding: 0}}
                 wrapperStyle={{flex: 1, flexDirection: "row"}}>
@@ -68,6 +65,6 @@ export default function ListCards({dumpster}: {dumpster: Dumpster}) {
                     </View>
                 </View>
             </Card>
-        </TouchableOpacity>
+
     );
 }
