@@ -11,7 +11,6 @@ export default function DetailsScreen() {
     const tags = ["Food", "milk", "juice", "Fruit", "Tears"];
     const tagArrays = [];
     const tagNrLine = 3;
-    const int = 50;
     const photos = [
         "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
         "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
