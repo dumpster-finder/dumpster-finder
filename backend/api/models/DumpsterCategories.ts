@@ -44,8 +44,8 @@ export function init(sequelize: Sequelize) {
 
 // The type is not defined yet, so use a substitute
 export function associate({
-    Things,
-}: {
+                              Things,
+                          }: {
     Things: ModelStatic<Model<ThingAttributes, ThingCreationAttributes>>;
 }) {
     // do associations like

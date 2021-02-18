@@ -54,5 +54,4 @@ export function associate({
     Thing.hasMany(Thangs, { foreignKey: "thingID"});
 }
 
-import {Sequelize, DataTypes, Optional, Model} from "sequelize";
 

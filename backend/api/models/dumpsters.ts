@@ -2,11 +2,13 @@ import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { DumpsterTypeAttributes, DumpsterTypeCreationAttributes } from "./dumpsterTypes";
 import { StoreTypeAttributes, StoreTypeCreationAttributes } from "./storeTypes";
 
-export interface dumpsterAttributes {
+export interface DumpsterAttributes {
     dumpsterID: number;
     position: object;
     name: string;
     dateAdded: string;
+    dumpsterTypeID: number;
+    storeTypeID: number;
     locked: boolean;
     positiveStoreViewOnDiving?: boolean;
     emptyingSchedule?: string;
@@ -14,15 +16,17 @@ export interface dumpsterAttributes {
 }
 
 export interface DumpsterCreationAttributes
-    extends Optional<dumpsterAttributes, "dumpsterID"> {}
+    extends Optional<DumpsterAttributes, "dumpsterID"> {}
 
-class Dumpster
-    extends Model<dumpsterAttributes, DumpsterCreationAttributes>
-    implements dumpsterAttributes {
+class Dumpsters
+    extends Model<DumpsterAttributes, DumpsterCreationAttributes>
+    implements DumpsterAttributes {
     dumpsterID!: number;
     position!: object;
     name!: string;
     dateAdded!: string;
+    dumpsterTypeID!: number;
+    storeTypeID!: number;
     locked!: boolean;
     positiveStoreViewOnDiving?: boolean;
     emptyingSchedule?: string;
@@ -32,7 +36,7 @@ class Dumpster
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    Dumpster.init(
+    Dumpsters.init(
         {
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
@@ -49,6 +53,12 @@ export function init(sequelize: Sequelize) {
             dateAdded: {
                 type: DataTypes.DATE,
                 defaultValue: Sequelize.fn('now'),
+            },
+            dumpsterTypeID: {
+                type: DataTypes.INTEGER.UNSIGNED
+            },
+            storeTypeID: {
+                type: DataTypes.INTEGER.UNSIGNED
             },
             locked: {
                 type: DataTypes.BOOLEAN,
@@ -72,7 +82,7 @@ export function init(sequelize: Sequelize) {
     );
     // do associations like
     // Thing.hasMany()
-    return Dumpster;
+    return Dumpsters;
 }
 
 // The type is not defined yet, so use a substitute

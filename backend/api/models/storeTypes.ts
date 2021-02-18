@@ -10,7 +10,7 @@ export interface StoreTypeCreationAttributes
 
 class StoreTypes
     extends Model<StoreTypeAttributes, StoreTypeCreationAttributes>
-    implements StoreTypeCreationAttributes {
+    implements StoreTypeAttributes {
     public storeTypeID!: number;
     public name!: string;
 }

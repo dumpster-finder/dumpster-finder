@@ -10,9 +10,9 @@ import * as Thangs from "./thang";
  */
 
 const Models = {
-    Dumpsters: Dumpsters.init(sequelize),
     DumpsterTypes: DumpsterTypes.init(sequelize),
     StoreTypes: StoreTypes.init(sequelize),
+    Dumpsters: Dumpsters.init(sequelize),
     Things: Things.init(sequelize),
     Thangs: Thangs.init(sequelize)
 };
