@@ -11,7 +11,7 @@ export default function AddInfoScreen() {
     const [dumpster, onChangeDumpster] = useState(dumpsterTypes[0]);
     const [store, onChangeStore] = useState(storeTypes[0]);
     const [empty, onChangeEmpty] = useState("");
-    const [cleanliness, onChangeClean] = useState("50");
+    const [cleanliness, onChangeClean] = useState(50);
     const [isPositive, setIsPositive] = useState(false);
     const [isLocked, setIsLocked] = useState(false);
 
@@ -168,7 +168,7 @@ export default function AddInfoScreen() {
                         maximumValue={100}
                         minimumTrackTintColor="#222"
                         minimumValue={0}
-                        onSlidingComplete={value => onChangeClean(value.toString())
+                        onSlidingComplete={value => onChangeClean(value)
                             }
                         orientation="horizontal"
                         step={1}
@@ -176,7 +176,7 @@ export default function AddInfoScreen() {
                         thumbStyle={{height: 20, width: 20}}
                         thumbTouchSize={{width: 40, height: 40}}
                         trackStyle={{height: 10, borderRadius: 20}}
-                        value={parseInt(cleanliness)}
+                        value={cleanliness}
                     />
                 </View>
 

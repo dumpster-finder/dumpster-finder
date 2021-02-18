@@ -1,7 +1,7 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-elements";
-import { StackNavigationProp } from "@react-navigation/stack";
+import {StyleSheet, View} from "react-native";
+import {Button, Text} from "react-native-elements";
+import {StackNavigationProp} from "@react-navigation/stack";
 
 export default function AddPositionScreen({
     navigation,
@@ -41,7 +41,7 @@ export default function AddPositionScreen({
                                 screen: "AddInfoScreen",
                             });
                         }}
-                        style={{ width: " 50%" }}
+                        style={{width: " 50%"}}
                     />
                 </View>
             </View>
