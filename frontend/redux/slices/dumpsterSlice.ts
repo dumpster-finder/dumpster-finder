@@ -66,8 +66,8 @@ export const dumpsterSlice = createSlice({
         addDumpster: ({ dumpsters }, { payload }) => {
             dumpsters.push(payload);
         },
-        addDumpsters: ({ dumpsters }, { payload }) => {
-            dumpsters.concat(payload);
+        addDumpsters: ({ dumpsters }, { payload }: { payload: Dumpster[] }) => {
+            dumpsters.push(...payload);
         },
         setCurrentDumpster: (state, { payload }) => {
             state.currentDumpster = payload;
@@ -101,8 +101,11 @@ export const { addDumpster, addDumpsters, setCurrentDumpster } = dumpsterSlice.a
 
 export default dumpsterSlice.reducer;
 
-export const selectDumpsterByID = (state: RootState, dumpsterID: number) =>
+export const allDumpstersSelector = (state: RootState) =>
+    state.dumpsters.dumpsters
+
+export const dumpsterSelectorByID = (state: RootState, dumpsterID: number) =>
     state.dumpsters.dumpsters.find(d => d.dumpsterID === dumpsterID);
 
-export const selectCurrentDumpster = (state: RootState) =>
+export const currentDumpsterSelector = (state: RootState) =>
     state.dumpsters.currentDumpster;

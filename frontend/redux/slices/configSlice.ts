@@ -1,6 +1,6 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import Position from "../../models/Position";
-import {RootState} from "../store";
+import { RootState } from "../store";
 
 interface SliceState {
     position: Position;
@@ -14,12 +14,12 @@ export const configSlice = createSlice({
     name: "config",
     initialState: {
         position: {
-            longitude: 0,
-            latitude: 0
+            latitude: 63.41775,
+            longitude: 10.404344,
         },
         nickname: "Anonymous",
         darkMode: false,
-        firstTime: true
+        firstTime: true,
     } as SliceState,
     reducers: {
         /**
@@ -29,7 +29,7 @@ export const configSlice = createSlice({
          *
          * @param payload String to set as username
          */
-        setNickname: (state, { payload }) => {
+        setNickname: (state, { payload }: { payload: string }) => {
             state.nickname = payload;
         },
         /**
@@ -39,19 +39,24 @@ export const configSlice = createSlice({
          *
          * @param payload Position to set
          */
-        setPosition: (state, { payload }) => {
+        setPosition: (state, { payload }: { payload: Position }) => {
             state.position = payload;
         },
-        setDarkMode: (state, { payload }) => {
+        setDarkMode: (state, { payload }: { payload: boolean }) => {
             state.darkMode = payload;
         },
-        setFirstTime: (state, { payload }) => {
+        setFirstTime: (state, { payload }: { payload: boolean }) => {
             state.firstTime = payload;
         },
     },
 });
 
-export const { setNickname, setPosition, setDarkMode, setFirstTime } = configSlice.actions;
+export const {
+    setNickname,
+    setPosition,
+    setDarkMode,
+    setFirstTime,
+} = configSlice.actions;
 
 export const nicknameSelector = (state: RootState) => state.config.nickname;
 export const positionSelector = (state: RootState) => state.config.position;

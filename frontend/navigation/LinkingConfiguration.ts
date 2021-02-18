@@ -6,14 +6,30 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          MapTab: {
             screens: {
-              TabOneScreen: 'one',
+              MapScreen: 'map',
+              DetailsScreen: 'details',
+              AddPositionScreen: 'addPos',
+              AddInfoScreen: 'addInfo',
             },
           },
-          TabTwo: {
+          ListTab: {
             screens: {
-              TabTwoScreen: 'two',
+              ListScreen: 'list',
+              DetailsScreen: 'details',
+              AddPositionScreen: 'addPos',
+              AddInfoScreen: 'addInfo',
+            },
+          },
+          InfoTab: {
+            screens: {
+              InfoScreen: 'info',
+            },
+          },
+          SettingsTab: {
+            screens: {
+              SettingsScreen: 'settings',
             },
           },
         },

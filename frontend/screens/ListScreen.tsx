@@ -7,7 +7,8 @@ import { Icon, SearchBar } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useAppDispatch } from "../redux/store";
-import { setCurrentDumpster } from "../redux/slices/dumpsterSlice";
+import {allDumpstersSelector, setCurrentDumpster} from "../redux/slices/dumpsterSlice";
+import {useSelector} from "react-redux";
 
 const a: Dumpster = {
     dumpsterID: 1,
@@ -54,8 +55,8 @@ export default function ListScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const colorScheme = useColorScheme();
-    const allDumpsters = [a, b, c];
     const dispatch = useAppDispatch();
+    const dumpsters = useSelector(allDumpstersSelector);
 
     return (
         <ScrollView style={styles.scrollView}>
@@ -106,8 +107,9 @@ export default function ListScreen({
                 </View>
             </View>
 
-            {allDumpsters.map(thisDumpster => (
+            {dumpsters.map(thisDumpster => (
                 <TouchableOpacity
+                    key={thisDumpster.dumpsterID}
                     onPress={() => {
                         dispatch(setCurrentDumpster(thisDumpster));
                         navigation.navigate("DetailsScreen", {

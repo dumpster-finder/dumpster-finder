@@ -1,0 +1,40 @@
+import Dumpster from "../models/Dumpster";
+
+export const testDumpsters: Dumpster[] = [
+    {
+        dumpsterID: 1,
+        name: "Helen's store",
+        position: { latitude: 63.412113, longitude: 10.440253 },
+        emptyingSchedule: "Mondays",
+        locked: true,
+        positiveStoreViewOnDiving: false,
+        rating: 4.5,
+        cleanliness: 76,
+        storeType: "Food",
+        dumpsterType: "idk",
+    },
+    {
+        dumpsterID: 2,
+        name: "Tore's store",
+        position: { latitude: 63.411402, longitude: 10.434084 },
+        emptyingSchedule: "First Tuesday in the month",
+        locked: false,
+        positiveStoreViewOnDiving: true,
+        rating: 2.5,
+        cleanliness: 14,
+        storeType: "Electronics",
+        dumpsterType: "idk",
+    },
+    {
+        dumpsterID: 3,
+        name: "Jon's store",
+        position: { latitude: 63.434678, longitude: 10.412455 },
+        emptyingSchedule: "Every day",
+        locked: false,
+        positiveStoreViewOnDiving: true,
+        rating: 4.5,
+        cleanliness: 74,
+        storeType: "Beds",
+        dumpsterType: "idk",
+    },
+];

@@ -3,11 +3,12 @@ import { View } from "../components/Themed";
 import { Image, StyleSheet } from "react-native";
 import { Button, Icon, Text, AirbnbRating, Card } from "react-native-elements";
 import { useSelector } from "react-redux";
-import { selectCurrentDumpster } from "../redux/slices/dumpsterSlice";
 import { useState } from "react";
+import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
+
 
 export default function DetailsScreen() {
-    const dumpster = useSelector(selectCurrentDumpster);
+    const dumpster = useSelector(currentDumpsterSelector);
     const tags = ["Food", "milk", "juice", "Fruit", "Tears"];
     const tagArrays = [];
     const tagNrLine = 3;
