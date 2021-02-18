@@ -1,13 +1,16 @@
 import * as React from "react";
-import {Button, StyleSheet} from "react-native";
-
-import {Text, View} from "../components/Themed";
-import MapView, {Callout, Marker, UrlTile} from "react-native-maps";
-import {Icon, SearchBar} from "react-native-elements";
+import { Button, StyleSheet } from "react-native";
+import { Text, View } from "../components/Themed";
+import MapView, { Callout, Marker, UrlTile } from "react-native-maps";
+import { Icon, SearchBar } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
-import {StackNavigationProp} from "@react-navigation/stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-export default function MapScreen({navigation}:{navigation: StackNavigationProp<any>}) {
+export default function MapScreen({
+    navigation,
+}: {
+    navigation: StackNavigationProp<any>;
+}) {
     const colorScheme = useColorScheme();
     return (
         <View style={styles.container}>
@@ -36,7 +39,7 @@ export default function MapScreen({navigation}:{navigation: StackNavigationProp<
                         }}
                     />
                 </View>
-                <View style={{width: "80%", height: "100%"}}>
+                <View style={{ width: "80%", height: "100%" }}>
                     <SearchBar
                         lightTheme={colorScheme === "light"}
                         placeholder="Type Here..."

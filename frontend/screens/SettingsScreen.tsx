@@ -1,6 +1,5 @@
 import * as React from "react";
 import { StyleSheet, Switch } from "react-native";
-
 import { View } from "../components/Themed";
 import { Button, Input, SearchBar, Text } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";

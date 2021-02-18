@@ -1,26 +1,18 @@
 import * as React from "react";
-import {
-    ScrollView,
-    StyleSheet,
-    TouchableHighlight,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-} from "react-native";
-
-import EditScreenInfo from "../components/EditScreenInfo";
-import {Text, View} from "../components/Themed";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { View } from "../components/Themed";
 import ListCards from "../components/ListCards";
 import Dumpster from "../models/Dumpster";
-import {Icon, SearchBar} from "react-native-elements";
+import { Icon, SearchBar } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
-import {StackNavigationProp} from "@react-navigation/stack";
-import {useAppDispatch} from "../redux/store";
-import {setCurrentDumpster} from"../redux/slices/dumpsterSlice"
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useAppDispatch } from "../redux/store";
+import { setCurrentDumpster } from "../redux/slices/dumpsterSlice";
 
 const a: Dumpster = {
     dumpsterID: 1,
     name: "Helens' store",
-    position: {latitude: 1, longitude: 2},
+    position: { latitude: 1, longitude: 2 },
     emptyingSchedule: "Monday",
     locked: true,
     positiveStoreViewOnDiving: false,
@@ -33,7 +25,7 @@ const a: Dumpster = {
 const b: Dumpster = {
     dumpsterID: 1,
     name: "Tores' store",
-    position: {latitude: 1, longitude: 2},
+    position: { latitude: 1, longitude: 2 },
     emptyingSchedule: "Today",
     locked: false,
     positiveStoreViewOnDiving: true,
@@ -46,7 +38,7 @@ const b: Dumpster = {
 const c: Dumpster = {
     dumpsterID: 1,
     name: "Jons' store",
-    position: {latitude: 1, longitude: 2},
+    position: { latitude: 1, longitude: 2 },
     emptyingSchedule: "Today",
     locked: false,
     positiveStoreViewOnDiving: true,
@@ -56,7 +48,11 @@ const c: Dumpster = {
     dumpsterType: "idk",
 };
 
-export default function ListScreen({navigation}:{navigation: StackNavigationProp<any>}) {
+export default function ListScreen({
+    navigation,
+}: {
+    navigation: StackNavigationProp<any>;
+}) {
     const colorScheme = useColorScheme();
     const allDumpsters = [a, b, c];
     const dispatch = useAppDispatch();
@@ -87,7 +83,7 @@ export default function ListScreen({navigation}:{navigation: StackNavigationProp
                         }}
                     />
                 </View>
-                <View style={{width: "80%", height: "100%"}}>
+                <View style={{ width: "80%", height: "100%" }}>
                     <SearchBar
                         lightTheme={colorScheme === "light"}
                         placeholder="Type Here..."
@@ -113,15 +109,14 @@ export default function ListScreen({navigation}:{navigation: StackNavigationProp
             {allDumpsters.map(thisDumpster => (
                 <TouchableOpacity
                     onPress={() => {
-                        dispatch(setCurrentDumpster(thisDumpster))
+                        dispatch(setCurrentDumpster(thisDumpster));
                         navigation.navigate("DetailsScreen", {
                             screen: "DetailsScreen",
                         });
                     }}>
-                <ListCards dumpster={thisDumpster} />
+                    <ListCards dumpster={thisDumpster} />
                 </TouchableOpacity>
             ))}
-
         </ScrollView>
     );
 }

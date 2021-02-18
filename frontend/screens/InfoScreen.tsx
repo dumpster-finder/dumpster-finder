@@ -1,15 +1,13 @@
 import * as React from "react";
-import {Image, StyleSheet, Switch} from "react-native";
-
-import EditScreenInfo from "../components/EditScreenInfo";
-import {View} from "../components/Themed";
-import {Card, Icon, Text} from "react-native-elements";
+import { StyleSheet } from "react-native";
+import { View } from "../components/Themed";
+import { Icon, Text } from "react-native-elements";
 
 export default function InfoScreen() {
     return (
         <View style={styles.container}>
             <View>
-                <Text h1 style={{alignSelf: "center"}}>
+                <Text h1 style={{ alignSelf: "center" }}>
                     Info
                 </Text>
                 <View
@@ -27,10 +25,10 @@ export default function InfoScreen() {
                             flexDirection: "row",
                             alignItems: "center",
                         }}>
-                        <View style={{width: "20%", height: "100%"}}>
+                        <View style={{ width: "20%", height: "100%" }}>
                             <Icon name="star" color="#FFD100" />
                         </View>
-                        <View style={{width: "80%", height: "100%"}}>
+                        <View style={{ width: "80%", height: "100%" }}>
                             <Text>Rating for dumpster</Text>
                         </View>
                     </View>
@@ -42,14 +40,14 @@ export default function InfoScreen() {
                             flexDirection: "row",
                             alignItems: "center",
                         }}>
-                        <View style={{width: "20%", height: "100%"}}>
+                        <View style={{ width: "20%", height: "100%" }}>
                             <Icon
                                 name="lock"
                                 type="font-awesome"
                                 color="#FF0000"
                             />
                         </View>
-                        <View style={{width: "80%", height: "100%"}}>
+                        <View style={{ width: "80%", height: "100%" }}>
                             <Text>The dumpster is locked</Text>
                         </View>
                     </View>
@@ -61,14 +59,14 @@ export default function InfoScreen() {
                             flexDirection: "row",
                             alignItems: "center",
                         }}>
-                        <View style={{width: "20%", height: "100%"}}>
+                        <View style={{ width: "20%", height: "100%" }}>
                             <Icon
                                 name="unlock"
                                 type="font-awesome"
                                 color="#54C500"
                             />
                         </View>
-                        <View style={{width: "80%", height: "100%"}}>
+                        <View style={{ width: "80%", height: "100%" }}>
                             <Text>The dumpster is open</Text>
                         </View>
                     </View>
@@ -80,10 +78,10 @@ export default function InfoScreen() {
                             flexDirection: "row",
                             alignItems: "center",
                         }}>
-                        <View style={{width: "20%", height: "100%"}}>
+                        <View style={{ width: "20%", height: "100%" }}>
                             <Icon name="edit" type="font-awesome" />
                         </View>
-                        <View style={{width: "80%", height: "100%"}}>
+                        <View style={{ width: "80%", height: "100%" }}>
                             <Text>Edit the dumpster</Text>
                         </View>
                     </View>
@@ -95,10 +93,10 @@ export default function InfoScreen() {
                             flexDirection: "row",
                             alignItems: "center",
                         }}>
-                        <View style={{width: "20%", height: "100%"}}>
+                        <View style={{ width: "20%", height: "100%" }}>
                             <Icon name="delete" />
                         </View>
-                        <View style={{width: "80%", height: "100%"}}>
+                        <View style={{ width: "80%", height: "100%" }}>
                             <Text>When the dumpster is emptied </Text>
                         </View>
                     </View>
@@ -110,10 +108,10 @@ export default function InfoScreen() {
                             flexDirection: "row",
                             alignItems: "center",
                         }}>
-                        <View style={{width: "20%", height: "100%"}}>
+                        <View style={{ width: "20%", height: "100%" }}>
                             <Icon name="thumbs-up" type="font-awesome" />
                         </View>
-                        <View style={{width: "80%", height: "100%"}}>
+                        <View style={{ width: "80%", height: "100%" }}>
                             <Text>The shop’s view on dumpster diving </Text>
                         </View>
                     </View>
