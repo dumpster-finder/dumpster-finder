@@ -4,12 +4,15 @@ import {StackNavigationProp} from "@react-navigation/stack";
 import {useSelector} from "react-redux";
 import {positionSelector} from "../redux/slices/configSlice";
 import PositionSetter from "../components/PositionSetter";
+import {useAppDispatch} from "../redux/store";
+import {setEditorPosition} from "../redux/slices/editorSlice";
 
 export default function AddPositionScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const dispatch = useAppDispatch();
     const currentPosition = useSelector(positionSelector);
 
     return (
@@ -18,7 +21,7 @@ export default function AddPositionScreen({
                 initialPosition={currentPosition}
                 onSubmit={position => {
                     // TODO set the created dumpster's position
-                    console.log(position);
+                    dispatch(setEditorPosition(position));
                     navigation.navigate("AddInfoScreen", {
                         screen: "AddInfoScreen",
                     });
