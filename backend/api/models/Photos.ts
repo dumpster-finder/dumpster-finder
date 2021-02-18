@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
+import {PhotoReports} from "./PhotoReports";
 
 export interface PhotoAttributes {
     photoID: number;
@@ -61,4 +62,5 @@ export function associate({
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
+    Photos.hasMany(PhotoReports, { foreignKey: "photoReportID"});
 }

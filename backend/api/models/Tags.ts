@@ -1,52 +1,52 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { ThingAttributes, ThingCreationAttributes } from "./example";
+import { CategoryAttributes, CategoryCreationAttributes } from "./Categories";
 
-export interface ThangAttributes {
-    id: number;
+export interface TagAttributes {
+    tagID: number;
+    categoryID: number;
     name: string;
-    thingID: number;
 }
 
-export interface ThangCreationAttributes
-    extends Optional<ThangAttributes, "id"> {}
+export interface TagCreationAttributes
+    extends Optional<TagAttributes, "tagID"> {}
 
-export class Thang
-    extends Model<ThangAttributes, ThangCreationAttributes>
-    implements ThangAttributes {
-    public id!: number;
-    public name!: string;
-    public thingID!: number;
+export class Tags
+    extends Model<TagAttributes, TagCreationAttributes>
+    implements TagAttributes {
+    tagID!: number;
+    categoryID!: number;
+    name!: string;
 }
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    Thang.init(
+    Tags.init(
         {
-            id: {
+            tagID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true,
             },
+            categoryID: {
+                type: DataTypes.INTEGER.UNSIGNED,
+            },
             name: {
                 type: DataTypes.STRING,
-            },
-            thingID: {
-                type: DataTypes.INTEGER.UNSIGNED,
             }
         },
         {
             sequelize,
-            tableName: "thangs",
+            tableName: "Tags",
         },
     );
-    return Thang;
+    return Tags;
 }
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Things,
+                              Categories,
                           }: {
-    Things: ModelStatic<Model<ThingAttributes, ThingCreationAttributes>>;
+    Categories: ModelStatic<Model<CategoryAttributes, CategoryCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()

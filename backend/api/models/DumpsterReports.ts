@@ -1,52 +1,57 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { ThingAttributes, ThingCreationAttributes } from "./example";
+import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
 
-export interface ThangAttributes {
-    id: number;
-    name: string;
-    thingID: number;
+export interface DumpsterReportAttributes {
+    dumpsterReportID: number;
+    dumpsterID: number;
+    reason: string;
+    date: string;
 }
 
-export interface ThangCreationAttributes
-    extends Optional<ThangAttributes, "id"> {}
+export interface DumpsterReportCreationAttributes
+    extends Optional<DumpsterReportAttributes, "dumpsterReportID"> {}
 
-export class Thang
-    extends Model<ThangAttributes, ThangCreationAttributes>
-    implements ThangAttributes {
-    public id!: number;
-    public name!: string;
-    public thingID!: number;
+export class DumpsterReports
+    extends Model<DumpsterReportAttributes, DumpsterReportCreationAttributes>
+    implements DumpsterReportAttributes {
+    dumpsterReportID!: number;
+    dumpsterID!: number;
+    reason!: string;
+    date!: string;
 }
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    Thang.init(
+    DumpsterReports.init(
         {
-            id: {
+            dumpsterReportID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true,
             },
-            name: {
+            dumpsterID: {
+                type: DataTypes.INTEGER.UNSIGNED,
+            },
+            reason: {
                 type: DataTypes.STRING,
             },
-            thingID: {
-                type: DataTypes.INTEGER.UNSIGNED,
-            }
+            date: {
+                type: DataTypes.DATE,
+            },
         },
         {
             sequelize,
-            tableName: "thangs",
+            tableName: "DumpsterReports",
         },
     );
-    return Thang;
+    return DumpsterReports;
 }
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Things,
+                              Dumpsters,
                           }: {
-    Things: ModelStatic<Model<ThingAttributes, ThingCreationAttributes>>;
+    Dumpsters: ModelStatic<Model<DumpsterAttributes, DumpsterCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()

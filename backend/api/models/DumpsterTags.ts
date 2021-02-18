@@ -1,52 +1,77 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { ThingAttributes, ThingCreationAttributes } from "./example";
+import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
+import { TagAttributes, TagCreationAttributes } from "./Tags";
 
-export interface ThangAttributes {
-    id: number;
-    name: string;
-    thingID: number;
+export interface DumpsterTagAttributes {
+    dumpsterID: number;
+    tagID: number;
+    amount?: number;
+    unit?: string;
+    quality?: number;
+    foundDate: string;
+    expiryDate?: string;
 }
 
-export interface ThangCreationAttributes
-    extends Optional<ThangAttributes, "id"> {}
+export interface DumpsterTagCreationAttributes
+    extends Optional<DumpsterTagAttributes, "dumpsterID"> {}
 
-export class Thang
-    extends Model<ThangAttributes, ThangCreationAttributes>
-    implements ThangAttributes {
-    public id!: number;
-    public name!: string;
-    public thingID!: number;
+export class DumpsterTags
+    extends Model<DumpsterTagAttributes, DumpsterTagCreationAttributes>
+    implements DumpsterTagAttributes {
+    dumpsterID!: number;
+    tagID!: number;
+    amount?: number;
+    unit?: string;
+    quality?: number;
+    foundDate!: string;
+    expiryDate?: string;
 }
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    Thang.init(
+    DumpsterTags.init(
         {
-            id: {
+            dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true,
             },
-            name: {
-                type: DataTypes.STRING,
-            },
-            thingID: {
+            tagID: {
                 type: DataTypes.INTEGER.UNSIGNED,
-            }
+            },
+            amount: {
+                type: DataTypes.INTEGER,
+            },
+            unit: {
+                type: DataTypes.STRING,
+                autoIncrement: true,
+                primaryKey: true,
+            },
+            quality: {
+                type: DataTypes.TINYINT.UNSIGNED,
+            },
+            foundDate: {
+                type: DataTypes.DATE,
+            },
+            expiryDate: {
+                type: DataTypes.DATE,
+            },
         },
         {
             sequelize,
-            tableName: "thangs",
+            tableName: "DumpsterTags",
         },
     );
-    return Thang;
+    return DumpsterTags;
 }
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Things,
-                          }: {
-    Things: ModelStatic<Model<ThingAttributes, ThingCreationAttributes>>;
+    Dumpsters,
+    Tags
+}: {
+    Dumpsters: ModelStatic<Model<DumpsterAttributes, DumpsterCreationAttributes>>;
+    Tags: ModelStatic<Model<TagAttributes, TagCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()

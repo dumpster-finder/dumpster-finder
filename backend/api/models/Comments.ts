@@ -1,52 +1,67 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { ThingAttributes, ThingCreationAttributes } from "./example";
+import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
 
-export interface ThangAttributes {
-    id: number;
-    name: string;
-    thingID: number;
+export interface CommentAttributes {
+    commentID: number;
+    dumpsterID: number;
+    nickname: string;
+    comment: string;
+    rating: number;
+    date: string;
 }
 
-export interface ThangCreationAttributes
-    extends Optional<ThangAttributes, "id"> {}
+export interface CommentCreationAttributes
+    extends Optional<CommentAttributes, "commentID"> {}
 
-export class Thang
-    extends Model<ThangAttributes, ThangCreationAttributes>
-    implements ThangAttributes {
-    public id!: number;
-    public name!: string;
-    public thingID!: number;
+export class Comments
+    extends Model<CommentAttributes, CommentCreationAttributes>
+    implements CommentAttributes {
+    commentID!: number;
+    dumpsterID!: number;
+    nickname!: string;
+    comment!: string;
+    rating!: number;
+    date!: string;
 }
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    Thang.init(
+    Comments.init(
         {
-            id: {
+            commentID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true,
             },
-            name: {
+            dumpsterID: {
+                type: DataTypes.INTEGER.UNSIGNED,
+            },
+            nickname: {
                 type: DataTypes.STRING,
             },
-            thingID: {
-                type: DataTypes.INTEGER.UNSIGNED,
-            }
+            comment: {
+                type: DataTypes.STRING,
+            },
+            rating: {
+                type: DataTypes.TINYINT,
+            },
+            date: {
+                type: DataTypes.DATE,
+            },
         },
         {
             sequelize,
-            tableName: "thangs",
+            tableName: "Comments",
         },
     );
-    return Thang;
+    return Comments;
 }
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Things,
+                              Dumpsters,
                           }: {
-    Things: ModelStatic<Model<ThingAttributes, ThingCreationAttributes>>;
+    Dumpsters: ModelStatic<Model<DumpsterAttributes, DumpsterCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()

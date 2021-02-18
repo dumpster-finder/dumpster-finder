@@ -1,52 +1,41 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { ThingAttributes, ThingCreationAttributes } from "./example";
+import { TagAttributes, TagCreationAttributes } from "./Tags";
 
-export interface ThangAttributes {
-    id: number;
-    name: string;
-    thingID: number;
+export interface StandardTagAttributes {
+    tagID: number;
 }
 
-export interface ThangCreationAttributes
-    extends Optional<ThangAttributes, "id"> {}
+export interface StandardTagCreationAttributes
+    extends Optional<StandardTagAttributes, "tagID"> {}
 
-export class Thang
-    extends Model<ThangAttributes, ThangCreationAttributes>
-    implements ThangAttributes {
-    public id!: number;
-    public name!: string;
-    public thingID!: number;
+export class StandardTags
+    extends Model<StandardTagAttributes, StandardTagCreationAttributes>
+    implements StandardTagAttributes {
+    public tagID!: number;
 }
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    Thang.init(
+    StandardTags.init(
         {
-            id: {
+            tagID: {
                 type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
                 primaryKey: true,
             },
-            name: {
-                type: DataTypes.STRING,
-            },
-            thingID: {
-                type: DataTypes.INTEGER.UNSIGNED,
-            }
         },
         {
             sequelize,
-            tableName: "thangs",
+            tableName: "StandardTags",
         },
     );
-    return Thang;
+    return StandardTags;
 }
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Things,
+                              Tags,
                           }: {
-    Things: ModelStatic<Model<ThingAttributes, ThingCreationAttributes>>;
+    Tags: ModelStatic<Model<TagAttributes, TagCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()

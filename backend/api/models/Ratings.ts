@@ -1,52 +1,57 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { ThingAttributes, ThingCreationAttributes } from "./example";
+import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
 
-export interface ThangAttributes {
-    id: number;
-    name: string;
-    thingID: number;
+export interface RatingAttributes {
+    ratingID: number;
+    dumpsterID: number;
+    rating: number;
+    date: string;
 }
 
-export interface ThangCreationAttributes
-    extends Optional<ThangAttributes, "id"> {}
+export interface RatingCreationAttributes
+    extends Optional<RatingAttributes, "ratingID"> {}
 
-export class Thang
-    extends Model<ThangAttributes, ThangCreationAttributes>
-    implements ThangAttributes {
-    public id!: number;
-    public name!: string;
-    public thingID!: number;
+export class Ratings
+    extends Model<RatingAttributes, RatingCreationAttributes>
+    implements RatingAttributes {
+    ratingID!: number;
+    dumpsterID!: number;
+    rating!: number;
+    date!: string;
 }
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    Thang.init(
+    Ratings.init(
         {
-            id: {
+            ratingID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true,
             },
-            name: {
-                type: DataTypes.STRING,
-            },
-            thingID: {
+            dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
+            },
+            rating: {
+                type: DataTypes.TINYINT.UNSIGNED,
+            },
+            date: {
+                type: DataTypes.DATE,
             }
         },
         {
             sequelize,
-            tableName: "thangs",
+            tableName: "Ratings",
         },
     );
-    return Thang;
+    return Ratings;
 }
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Things,
+                              Dumpsters,
                           }: {
-    Things: ModelStatic<Model<ThingAttributes, ThingCreationAttributes>>;
+    Dumpsters: ModelStatic<Model<DumpsterAttributes, DumpsterCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()

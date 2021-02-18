@@ -65,13 +65,13 @@ export function init(sequelize: Sequelize) {
                 defaultValue: false
             },
             positiveStoreViewOnDiving: {
-                type: DataTypes.DATE,
+                type: DataTypes.BOOLEAN,
             },
             emptyingSchedule: {
-                type: DataTypes.DATE,
+                type: DataTypes.STRING,
             },
             cleanliness: {
-                type: DataTypes.DATE,
+                type: DataTypes.TINYINT.UNSIGNED,
                 defaultValue: 5
             },
         },

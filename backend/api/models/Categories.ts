@@ -1,28 +1,27 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { ThingAttributes, ThingCreationAttributes } from "./example";
+import { DumpsterCategoryAttributes, DumpsterCategoryCreationAttributes } from "./DumpsterCategories";
+import { TagAttributes, TagCreationAttributes } from "./Tags";
 
-export interface ThangAttributes {
-    id: number;
+export interface CategoryAttributes {
+    categoryID : number;
     name: string;
-    thingID: number;
 }
 
-export interface ThangCreationAttributes
-    extends Optional<ThangAttributes, "id"> {}
+export interface CategoryCreationAttributes
+    extends Optional<CategoryAttributes, "categoryID"> {}
 
-export class Thang
-    extends Model<ThangAttributes, ThangCreationAttributes>
-    implements ThangAttributes {
-    public id!: number;
+export class Categories
+    extends Model<CategoryAttributes, CategoryCreationAttributes>
+    implements CategoryAttributes {
+    public categoryID!: number;
     public name!: string;
-    public thingID!: number;
 }
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    Thang.init(
+    Categories.init(
         {
-            id: {
+            categoryID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true,
@@ -30,23 +29,22 @@ export function init(sequelize: Sequelize) {
             name: {
                 type: DataTypes.STRING,
             },
-            thingID: {
-                type: DataTypes.INTEGER.UNSIGNED,
-            }
         },
         {
             sequelize,
-            tableName: "thangs",
+            tableName: "Categories",
         },
     );
-    return Thang;
+    return Categories;
 }
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Things,
-                          }: {
-    Things: ModelStatic<Model<ThingAttributes, ThingCreationAttributes>>;
+    DumpsterCategories,
+    Tags,
+}: {
+    DumpsterCategories: ModelStatic<Model<DumpsterCategoryAttributes, DumpsterCategoryCreationAttributes>>;
+    Tags: ModelStatic<Model<TagAttributes, TagCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()

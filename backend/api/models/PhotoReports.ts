@@ -1,52 +1,57 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { ThingAttributes, ThingCreationAttributes } from "./example";
+import { PhotoAttributes, PhotoCreationAttributes } from "./Photos";
 
-export interface ThangAttributes {
-    id: number;
-    name: string;
-    thingID: number;
+export interface PhotoReportAttributes {
+    photoReportID: number;
+    photoID: number;
+    reason: string;
+    date: string;
 }
 
-export interface ThangCreationAttributes
-    extends Optional<ThangAttributes, "id"> {}
+export interface PhotoReportCreationAttributes
+    extends Optional<PhotoReportAttributes, "photoReportID"> {}
 
-export class Thang
-    extends Model<ThangAttributes, ThangCreationAttributes>
-    implements ThangAttributes {
-    public id!: number;
-    public name!: string;
-    public thingID!: number;
+export class PhotoReports
+    extends Model<PhotoReportAttributes, PhotoReportCreationAttributes>
+    implements PhotoReportAttributes {
+    public photoReportID!: number;
+    public photoID!: number;
+    public reason!: string;
+    public date!: string;
 }
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    Thang.init(
+    PhotoReports.init(
         {
-            id: {
+            photoReportID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true,
             },
-            name: {
+            photoID: {
+                type: DataTypes.INTEGER.UNSIGNED,
+            },
+            reason: {
                 type: DataTypes.STRING,
             },
-            thingID: {
-                type: DataTypes.INTEGER.UNSIGNED,
+            date: {
+                type: DataTypes.DATE,
             }
         },
         {
             sequelize,
-            tableName: "thangs",
+            tableName: "PhotoReports",
         },
     );
-    return Thang;
+    return PhotoReports;
 }
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Things,
+                              Photos,
                           }: {
-    Things: ModelStatic<Model<ThingAttributes, ThingCreationAttributes>>;
+    Photos: ModelStatic<Model<PhotoAttributes, PhotoCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()
