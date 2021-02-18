@@ -1,6 +1,6 @@
-import {Ionicons} from "@expo/vector-icons";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {createStackNavigator} from "@react-navigation/stack";
+import { Ionicons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 
 import Colors from "../constants/Colors";
@@ -17,6 +17,10 @@ import {
     SettingsTabParamList,
 } from "../types";
 
+import AddInfoScreen from "../screens/AddInfoScreen";
+import AddPositionScreen from "../screens/AddPositionScreen";
+import DetailsScreen from "../screens/DetailsScreen";
+
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
@@ -25,12 +29,12 @@ export default function BottomTabNavigator() {
     return (
         <BottomTab.Navigator
             initialRouteName="MapTab"
-            tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
+            tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
             <BottomTab.Screen
                 name="MapTab"
                 component={MapTabNavigator}
                 options={{
-                    tabBarIcon: ({color}) => (
+                    tabBarIcon: ({ color }) => (
                         <TabBarIcon name="navigate" color={color} />
                     ),
                 }}
@@ -39,7 +43,7 @@ export default function BottomTabNavigator() {
                 name="ListTab"
                 component={ListTabNavigator}
                 options={{
-                    tabBarIcon: ({color}) => (
+                    tabBarIcon: ({ color }) => (
                         <TabBarIcon name="menu" color={color} />
                     ),
                 }}
@@ -48,7 +52,7 @@ export default function BottomTabNavigator() {
                 name="InfoTab"
                 component={InfoTabNavigator}
                 options={{
-                    tabBarIcon: ({color}) => (
+                    tabBarIcon: ({ color }) => (
                         <TabBarIcon name="information-circle" color={color} />
                     ),
                 }}
@@ -57,7 +61,7 @@ export default function BottomTabNavigator() {
                 name="SettingsTab"
                 component={SettingsTabNavigator}
                 options={{
-                    tabBarIcon: ({color}) => (
+                    tabBarIcon: ({ color }) => (
                         <TabBarIcon name="settings" color={color} />
                     ),
                 }}
@@ -68,8 +72,9 @@ export default function BottomTabNavigator() {
 
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
-function TabBarIcon(props: {name: string; color: string}) {
-    return <Ionicons size={30} style={{marginBottom: -3}} {...props} />;
+function TabBarIcon(props: { name: string; color: string }) {
+    // @ts-ignore
+    return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
@@ -82,7 +87,22 @@ function MapTabNavigator() {
             <MapTabStack.Screen
                 name="MapTabScreen"
                 component={MapScreen}
-                options={{headerTitle: "Map View"}}
+                options={{ headerTitle: "Map View" }}
+            />
+            <MapTabStack.Screen
+                name="AddPositionScreen"
+                component={AddPositionScreen}
+                options={{ headerTitle: "Add dumpster position" }}
+            />
+            <MapTabStack.Screen
+                name="AddInfoScreen"
+                component={AddInfoScreen}
+                options={{ headerTitle: "Add dumpster info" }}
+            />
+            <ListTabStack.Screen
+                name="DetailsScreen"
+                component={DetailsScreen}
+                options={{ headerTitle: "DetailsScreen" }}
             />
         </MapTabStack.Navigator>
     );
@@ -96,7 +116,22 @@ function ListTabNavigator() {
             <ListTabStack.Screen
                 name="ListTabScreen"
                 component={ListScreen}
-                options={{headerTitle: "List View"}}
+                options={{ headerTitle: "List View" }}
+            />
+            <ListTabStack.Screen
+                name="AddPositionScreen"
+                component={AddPositionScreen}
+                options={{ headerTitle: "Add dumpster position" }}
+            />
+            <ListTabStack.Screen
+                name="AddInfoScreen"
+                component={AddInfoScreen}
+                options={{ headerTitle: "Add dumpster info" }}
+            />
+            <ListTabStack.Screen
+                name="DetailsScreen"
+                component={DetailsScreen}
+                options={{ headerTitle: "DetailsScreen" }}
             />
         </ListTabStack.Navigator>
     );
@@ -110,7 +145,7 @@ function InfoTabNavigator() {
             <InfoTabStack.Screen
                 name="InfoTabScreen"
                 component={InfoScreen}
-                options={{headerTitle: "Info"}}
+                options={{ headerTitle: "Info" }}
             />
         </InfoTabStack.Navigator>
     );
@@ -124,7 +159,7 @@ function SettingsTabNavigator() {
             <SettingsTabStack.Screen
                 name="SettingsTabScreen"
                 component={SettingsScreen}
-                options={{headerTitle: "Settings"}}
+                options={{ headerTitle: "Settings" }}
             />
         </SettingsTabStack.Navigator>
     );

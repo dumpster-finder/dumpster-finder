@@ -4,7 +4,7 @@ type RecursivePartial<T> = { [P in keyof T]?: RecursivePartial<T[P]> };
 
 declare module 'react-native-elements' {
     export interface TextProps {
-        p1Style: StyleProp<TextStyle>;
+        p1Style?: StyleProp<TextStyle>;
     }
 
     export interface Colors {

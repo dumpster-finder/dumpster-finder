@@ -1,33 +1,105 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import * as React from "react";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { View } from "../components/Themed";
+import ListCards from "../components/ListCards";
+import { Icon, SearchBar } from "react-native-elements";
+import useColorScheme from "../hooks/useColorScheme";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useAppDispatch } from "../redux/store";
+import {allDumpstersSelector, setCurrentDumpster} from "../redux/slices/dumpsterSlice";
+import {useSelector} from "react-redux";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+export default function ListScreen({
+    navigation,
+}: {
+    navigation: StackNavigationProp<any>;
+}) {
+    const colorScheme = useColorScheme();
+    const dispatch = useAppDispatch();
+    const dumpsters = useSelector(allDumpstersSelector);
 
-export default function ListScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>This will be a list</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/ListScreen.tsx" />
-    </View>
-  );
+    return (
+        <ScrollView style={styles.scrollView}>
+            <View
+                style={{
+                    width: "100%",
+                    flex: 1,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}>
+                <View
+                    style={{
+                        width: "10%",
+                        height: "100%",
+                        justifyContent: "center",
+                    }}>
+                    <Icon
+                        name="plus"
+                        type="font-awesome"
+                        onPress={() => {
+                            navigation.navigate("AddPositionScreen", {
+                                screen: "AddPositionScreen",
+                            });
+                        }}
+                    />
+                </View>
+                <View style={{ width: "80%", height: "100%" }}>
+                    <SearchBar
+                        lightTheme={colorScheme === "light"}
+                        placeholder="Type Here..."
+                        value={""}
+                    />
+                </View>
+                <View
+                    style={{
+                        width: "10%",
+                        height: "100%",
+                        justifyContent: "center",
+                    }}>
+                    <Icon
+                        name="filter"
+                        type="font-awesome"
+                        onPress={() => {
+                            console.log("filter");
+                        }}
+                    />
+                </View>
+            </View>
+
+            {dumpsters.map(thisDumpster => (
+                <TouchableOpacity
+                    key={thisDumpster.dumpsterID}
+                    onPress={() => {
+                        dispatch(setCurrentDumpster(thisDumpster));
+                        navigation.navigate("DetailsScreen", {
+                            screen: "DetailsScreen",
+                        });
+                    }}>
+                    <ListCards dumpster={thisDumpster} />
+                </TouchableOpacity>
+            ))}
+        </ScrollView>
+    );
 }
 
 // jesus, dette kan trekkes ut i noe eget, kanskje
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    scrollView: {
+        flex: 1,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: "bold",
+    },
+    separator: {
+        marginVertical: 30,
+        height: 1,
+        width: "80%",
+    },
 });
