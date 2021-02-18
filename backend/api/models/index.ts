@@ -1,14 +1,19 @@
 import sequelize from "../config/sequelize";
-import Things from "./example";
+import * as Things from "./example";
+import * as Thangs from "./thang";
 
 /**
  * Sequelize Boilerplate: Simple Edition
  */
 
-const models = {
-    Things: Things(sequelize),
+const Models = {
+    Things: Things.init(sequelize),
+    Thangs: Thangs.init(sequelize)
 };
 
-export default models;
+Thangs.associate(Models);
+Things.associate(Models);
 
-export type MyModels = typeof models;
+export default Models;
+
+export type MyModels = typeof Models;
