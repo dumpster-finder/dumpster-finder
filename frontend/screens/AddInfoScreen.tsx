@@ -59,7 +59,7 @@ export default function AddInfoScreen() {
                             onChangeDumpster(itemValue)
                         }>
                         {dumpsterTypes.map(i => (
-                            <Picker.Item label={i} value={i} />
+                            <Picker.Item key={i} label={i} value={i} />
                         ))}
                     </Picker>
                 </View>
@@ -80,7 +80,7 @@ export default function AddInfoScreen() {
                             onChangeStore(itemValue)
                         }>
                         {storeTypes.map(i => (
-                            <Picker.Item label={i} value={i} />
+                            <Picker.Item key={i} label={i} value={i} />
                         ))}
                     </Picker>
                 </View>
