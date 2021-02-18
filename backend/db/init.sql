@@ -60,10 +60,10 @@ CREATE TABLE Dumpsters (
 
     -- Position index!
     SPATIAL INDEX (position),
-    FOREIGN KEY Dumpsters(dumpsterTypeID)
+    CONSTRAINT dumpsterFK1 FOREIGN KEY Dumpsters(dumpsterTypeID)
         REFERENCES DumpsterTypes (dumpsterTypeID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
-    FOREIGN KEY Dumpsters(storeTypeID)
+    CONSTRAINT dumpsterFK2 FOREIGN KEY Dumpsters(storeTypeID)
         REFERENCES StoreTypes (storeTypeID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
@@ -76,7 +76,7 @@ CREATE TABLE DumpsterReports (
     reason TEXT NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (dumpsterID),
-    FOREIGN KEY DumpsterReports(dumpsterTypeID)
+    FOREIGN KEY DumpsterReports(dumpsterID)
         REFERENCES Dumpsters (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
@@ -146,10 +146,10 @@ CREATE TABLE DumpsterCategories (
     dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
     categoryID INT NOT NULL REFERENCES Categories(categoryID),
     dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY DumpsterCategories(dumpsterID)
+    CONSTRAINT dumpsterCategoriesFK1 FOREIGN KEY DumpsterCategories(dumpsterID)
         REFERENCES Dumpsters (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
-    FOREIGN KEY DumpsterCategories(categoryID)
+    CONSTRAINT dumpsterCategoriesFK2 FOREIGN KEY DumpsterCategories(categoryID)
         REFERENCES Categories (categoryID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
@@ -181,10 +181,10 @@ CREATE TABLE DumpsterTags (
     expiryDate TIMESTAMP,
     INDEX (foundDate),
     INDEX (expiryDate),
-    FOREIGN KEY DumpsterTags(dumpsterID)
+    CONSTRAINT dumpsterTagsFK1 FOREIGN KEY DumpsterTags(dumpsterID)
         REFERENCES Dumpsters (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
-    FOREIGN KEY DumpsterTags(tagID)
+    CONSTRAINT dumpsterTagsFK2 FOREIGN KEY DumpsterTags(tagID)
         REFERENCES Tags (tagID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
