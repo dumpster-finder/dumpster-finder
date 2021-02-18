@@ -47,5 +47,5 @@ export function associate({
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
-    StoreTypes.hasMany(Dumpsters, { foreignKey: "dumpsterTypeID"});
+    StoreTypes.hasMany(Dumpsters, { foreignKey: "storeTypeID "});
 }
