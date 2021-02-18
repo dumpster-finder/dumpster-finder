@@ -1,14 +1,38 @@
 import * as React from "react";
-import {Button, StyleSheet} from "react-native";
-
-import {Text, View} from "../components/Themed";
-import MapView, {Callout, Marker, UrlTile} from "react-native-maps";
-import {Icon, SearchBar} from "react-native-elements";
+import { StyleSheet } from "react-native";
+import { View } from "../components/Themed";
+import MapView, { UrlTile } from "react-native-maps";
+import { Icon, SearchBar } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
-import {StackNavigationProp} from "@react-navigation/stack";
+import { StackNavigationProp } from "@react-navigation/stack";
+import DumpsterMarker from "../components/DumpsterMarker";
+import { useAppDispatch } from "../redux/store";
+import {allDumpstersSelector, setCurrentDumpster} from "../redux/slices/dumpsterSlice";
+import { useSelector } from "react-redux";
+import { positionSelector, setPosition } from "../redux/slices/configSlice";
+import { useEffect } from "react";
 
-export default function MapScreen({navigation}:{navigation: StackNavigationProp<any>}) {
+export default function MapScreen({
+    navigation,
+}: {
+    navigation: StackNavigationProp<any>;
+}) {
+    const dispatch = useAppDispatch();
     const colorScheme = useColorScheme();
+    const position = useSelector(positionSelector);
+    const dumpsters = useSelector(allDumpstersSelector);
+
+    useEffect(() => {
+        // this is here for testing purposes
+        // (since the initialState originally had position (0, 0))
+        dispatch(
+            setPosition({
+                latitude: 63.41775,
+                longitude: 10.404344,
+            }),
+        );
+    }, []);
+
     return (
         <View style={styles.container}>
             <View
@@ -36,7 +60,7 @@ export default function MapScreen({navigation}:{navigation: StackNavigationProp<
                         }}
                     />
                 </View>
-                <View style={{width: "80%", height: "100%"}}>
+                <View style={{ width: "80%", height: "100%" }}>
                     <SearchBar
                         lightTheme={colorScheme === "light"}
                         placeholder="Type Here..."
@@ -61,8 +85,7 @@ export default function MapScreen({navigation}:{navigation: StackNavigationProp<
             <MapView
                 provider={null}
                 initialRegion={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
+                    ...position, // Expands to latitude and longitude
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
@@ -77,19 +100,18 @@ export default function MapScreen({navigation}:{navigation: StackNavigationProp<
                     right: 0,
                     bottom: 0,
                 }}>
-                <Marker
-                    coordinate={{
-                        latitude: 37.78824,
-                        longitude: -122.4323,
-                    }}>
-                    <Callout>
-                        <View>
-                            <Text style={styles.title}>Bunnpris</Text>
-                            <Text>Groceries</Text>
-                            <Button title="More" onPress={() => null} />
-                        </View>
-                    </Callout>
-                </Marker>
+                {dumpsters.map(dumpster => (
+                    <DumpsterMarker
+                        dumpster={dumpster}
+                        onPress={() => {
+                            // TODO: Discuss what we are to do here.
+                            //       This sets the dumpster of the details view
+                            //       in the list tab as well as the map tab!
+                            dispatch(setCurrentDumpster(dumpster));
+                            navigation.navigate("DetailsScreen");
+                        }}
+                    />
+                ))}
                 <UrlTile
                     /**
                      * The url template of the tile server. The patterns {x} {y} {z} will be replaced at runtime

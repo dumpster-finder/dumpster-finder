@@ -10,6 +10,8 @@ import {Provider, useSelector} from "react-redux";
 import store, { persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import {firstTimeSelector, setDarkMode, setFirstTime} from "./redux/slices/configSlice";
+import {addDumpsters} from "./redux/slices/dumpsterSlice";
+import {testDumpsters} from "./constants/TestData";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
@@ -18,6 +20,7 @@ const InnerApp = () => {
     const firstTime = useSelector(firstTimeSelector);
 
     useEffect(() => {
+        store.dispatch(addDumpsters(testDumpsters));
         if (firstTime) {
             store.dispatch(setDarkMode(colorScheme === "dark"));
             // unset firstTime only AFTER the intro page has been shown!
