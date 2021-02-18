@@ -1,14 +1,19 @@
 import sequelize from "../config/sequelize";
-import Things from "./example";
+import * as Dumpsters from "./dumpsters";
+import * as DumpsterTypes from "./dumpsterTypes";
 
 /**
  * Sequelize Boilerplate: Simple Edition
  */
 
-const models = {
-    Things: Things(sequelize),
+const Models = {
+    Dumpsters: Dumpsters.init(sequelize),
+    DumpsterTypes: DumpsterTypes.init(sequelize)
 };
 
-export default models;
+Dumpsters.associate(Models);
+DumpsterTypes.associate(Models);
 
-export type MyModels = typeof models;
+export default Models;
+
+export type MyModels = typeof Models;

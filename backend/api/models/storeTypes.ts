@@ -1,16 +1,16 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 
-export interface DumpsterTypeAttributes {
-    dumpsterTypeID : number;
+export interface StoreTypeAttributes {
+    storeTypeID : number;
     name: string;
 }
 
-export interface DumpsterTypeCreationAttributes
-    extends Optional<DumpsterTypeAttributes, "dumpsterTypeID"> {}
+export interface StoreTypeCreationAttributes
+    extends Optional<StoreTypeAttributes, "storeTypeID"> {}
 
-class DumpsterTypes
-    extends Model<DumpsterTypeAttributes, DumpsterTypeCreationAttributes>
-    implements DumpsterTypeCreationAttributes {
+class StoreTypes
+    extends Model<StoreTypeAttributes, StoreTypeCreationAttributes>
+    implements StoreTypeCreationAttributes {
     public id!: number;
     public name!: string;
 }
@@ -18,9 +18,9 @@ class DumpsterTypes
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    DumpsterTypes.init(
+    StoreTypes.init(
         {
-            dumpsterTypeID : {
+            storeTypeID : {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true,
@@ -32,12 +32,12 @@ export function init(sequelize: Sequelize) {
         },
         {
             sequelize,
-            tableName: "DumpsterTypes",
+            tableName: "StoreTypes",
         },
     );
     // do associations like
     // Thing.hasMany()
-    return DumpsterTypes;
+    return StoreTypes;
 }
 export function associate({
     Dumpsters,
@@ -47,6 +47,5 @@ export function associate({
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
-    DumpsterTypes.hasMany(Dumpsters, { foreignKey: "dumpsterTypeID"});
+    StoreTypes.hasMany(Dumpsters, { foreignKey: "dumpsterTypeID"});
 }
-
