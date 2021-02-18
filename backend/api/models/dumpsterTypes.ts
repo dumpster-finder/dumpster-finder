@@ -11,7 +11,7 @@ export interface DumpsterTypeCreationAttributes
 class DumpsterTypes
     extends Model<DumpsterTypeAttributes, DumpsterTypeCreationAttributes>
     implements DumpsterTypeCreationAttributes {
-    public id!: number;
+    public dumpsterTypeID!: number;
     public name!: string;
 }
 

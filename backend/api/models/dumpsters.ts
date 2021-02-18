@@ -1,13 +1,12 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { DumpsterTypeAttributes, DumpsterTypeCreationAttributes } from "./dumpsterTypes";
+import { StoreTypeAttributes, StoreTypeCreationAttributes } from "./storeTypes";
 
 export interface dumpsterAttributes {
     dumpsterID: number;
     position: object;
     name: string;
     dateAdded: string;
-    dumpsterTypeID: number;
-    storeTypeID: number;
     locked: boolean;
     positiveStoreViewOnDiving?: boolean;
     emptyingSchedule?: string;
@@ -24,8 +23,6 @@ class Dumpster
     position!: object;
     name!: string;
     dateAdded!: string;
-    dumpsterTypeID!: number;
-    storeTypeID!: number;
     locked!: boolean;
     positiveStoreViewOnDiving?: boolean;
     emptyingSchedule?: string;
@@ -34,7 +31,7 @@ class Dumpster
 }
 
 // Inject Sequelize
-export default function (sequelize: Sequelize) {
+export function init(sequelize: Sequelize) {
     Dumpster.init(
         {
             dumpsterID: {
@@ -52,15 +49,6 @@ export default function (sequelize: Sequelize) {
             dateAdded: {
                 type: DataTypes.DATE,
                 defaultValue: Sequelize.fn('now'),
-            },
-            dumpsterTypeID: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                references: {
-                    model: ''
-                }
-            },
-            storeTypeID: {
-                type: DataTypes.INTEGER.UNSIGNED,
             },
             locked: {
                 type: DataTypes.BOOLEAN,
@@ -90,8 +78,10 @@ export default function (sequelize: Sequelize) {
 // The type is not defined yet, so use a substitute
 export function associate({
     DumpsterTypes,
+    StoreTypes,
 }: {
     DumpsterTypes: ModelStatic<Model<any, any>>;
+    StoreTypes: ModelStatic<Model<any, any>>;
 }) {
     // do associations like
     // Thing.hasMany()
