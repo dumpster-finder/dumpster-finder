@@ -1,5 +1,4 @@
 // this is a stupid example!
-import {Model, Sequelize} from "sequelize";
 import {MyModels} from "../models";
 import {ThingCreationAttributes} from "../models/example";
 

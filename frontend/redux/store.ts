@@ -3,6 +3,7 @@ import dumpsterReducer from "./slices/dumpsterSlice";
 import { useDispatch } from "react-redux";
 import { combineReducers } from "redux";
 import configReducer from "./slices/configSlice";
+import editorReducer from "./slices/editorSlice";
 import {
     persistStore,
     persistReducer,
@@ -27,6 +28,7 @@ const store = configureStore({
         combineReducers({
             dumpsters: dumpsterReducer,
             config: configReducer,
+            editor: editorReducer,
         }),
     ),
     middleware: getDefaultMiddleware({

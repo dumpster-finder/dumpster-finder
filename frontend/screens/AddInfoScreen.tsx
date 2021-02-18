@@ -1,19 +1,34 @@
 import * as React from "react";
-import {Picker, StyleSheet, Switch, View} from "react-native";
-import {Button, Icon, Input, Slider, Text} from "react-native-elements";
-import {useState} from "react";
+import { Picker, StyleSheet, Switch, View } from "react-native";
+import { Button, Icon, Input, Slider, Text } from "react-native-elements";
+import { useState } from "react";
+import { useAppDispatch } from "../redux/store";
+import {
+    editorPositionSelector,
+    resetEditor,
+} from "../redux/slices/editorSlice";
+import { useSelector } from "react-redux";
+import Dumpster from "../models/Dumpster";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { StackActions } from "@react-navigation/native";
 
-export default function AddInfoScreen() {
+export default function AddInfoScreen({
+    navigation,
+}: {
+    navigation: StackNavigationProp<any>;
+}) {
+    const dispatch = useAppDispatch();
+    const position = useSelector(editorPositionSelector);
     const dumpsterTypes = ["Metal", "Compressor", "Plastic"];
     const storeTypes = ["Food", "Electronics"];
 
-    const [name, onChangeName] = useState("");
-    const [dumpster, onChangeDumpster] = useState(dumpsterTypes[0]);
-    const [store, onChangeStore] = useState(storeTypes[0]);
-    const [empty, onChangeEmpty] = useState("");
-    const [cleanliness, onChangeClean] = useState("50");
-    const [isPositive, setIsPositive] = useState(false);
-    const [isLocked, setIsLocked] = useState(false);
+    const [name, setName] = useState("");
+    const [dumpsterType, setDumpsterType] = useState(dumpsterTypes[0]);
+    const [storeType, setStoreType] = useState(storeTypes[0]);
+    const [emptyingSchedule, setEmptyingSchedule] = useState("");
+    const [cleanliness, setCleanliness] = useState(50);
+    const [positiveStoreViewOnDiving, setIsPositive] = useState(false);
+    const [locked, setLocked] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -37,7 +52,7 @@ export default function AddInfoScreen() {
                     <Text>Name:</Text>
                     <Input
                         placeholder="Name"
-                        onChangeText={text => onChangeName(text)}
+                        onChangeText={text => setName(text)}
                         value={name}
                     />
                 </View>
@@ -53,13 +68,13 @@ export default function AddInfoScreen() {
                     }}>
                     <Text>Dumpster type:</Text>
                     <Picker
-                        selectedValue={dumpster}
-                        style={{height: 50, width: 150}}
+                        selectedValue={dumpsterType}
+                        style={{ height: 50, width: 150 }}
                         onValueChange={(itemValue: string, itemIndex: number) =>
-                            onChangeDumpster(itemValue)
+                            setDumpsterType(itemValue)
                         }>
                         {dumpsterTypes.map(i => (
-                            <Picker.Item label={i} value={i} />
+                            <Picker.Item key={i} label={i} value={i} />
                         ))}
                     </Picker>
                 </View>
@@ -74,13 +89,13 @@ export default function AddInfoScreen() {
                     }}>
                     <Text>Store type:</Text>
                     <Picker
-                        selectedValue={store}
-                        style={{height: 50, width: 150}}
+                        selectedValue={storeType}
+                        style={{ height: 50, width: 150 }}
                         onValueChange={(itemValue: string) =>
-                            onChangeStore(itemValue)
+                            setStoreType(itemValue)
                         }>
                         {storeTypes.map(i => (
-                            <Picker.Item label={i} value={i} />
+                            <Picker.Item key={i} label={i} value={i} />
                         ))}
                     </Picker>
                 </View>
@@ -109,7 +124,7 @@ export default function AddInfoScreen() {
                         onValueChange={() =>
                             setIsPositive(previousState => !previousState)
                         }
-                        value={isPositive}
+                        value={positiveStoreViewOnDiving}
                     />
                     <Icon name="thumbs-up" type="font-awesome" />
                     <Text>Positive attitude</Text>
@@ -126,9 +141,9 @@ export default function AddInfoScreen() {
                     }}>
                     <Switch
                         onValueChange={() =>
-                            setIsLocked(previousState => !previousState)
+                            setLocked(previousState => !previousState)
                         }
-                        value={isLocked}
+                        value={locked}
                     />
                     <Icon name="lock" type="font-awesome" />
                     <Text>Locked</Text>
@@ -146,8 +161,8 @@ export default function AddInfoScreen() {
                     <Icon name="delete" />
                     <Input
                         placeholder="Emptied at times..."
-                        onChangeText={text => onChangeEmpty(text)}
-                        value={empty}
+                        onChangeText={text => setEmptyingSchedule(text)}
+                        value={emptyingSchedule}
                     />
                 </View>
 
@@ -168,15 +183,14 @@ export default function AddInfoScreen() {
                         maximumValue={100}
                         minimumTrackTintColor="#222"
                         minimumValue={0}
-                        onSlidingComplete={value => onChangeClean(value.toString())
-                            }
+                        onSlidingComplete={setCleanliness}
                         orientation="horizontal"
                         step={1}
-                        style={{width: "60%", height: 200, marginLeft: 5}}
-                        thumbStyle={{height: 20, width: 20}}
-                        thumbTouchSize={{width: 40, height: 40}}
-                        trackStyle={{height: 10, borderRadius: 20}}
-                        value={parseInt(cleanliness)}
+                        style={{ width: "60%", height: 200, marginLeft: 5 }}
+                        thumbStyle={{ height: 20, width: 20 }}
+                        thumbTouchSize={{ width: 40, height: 40 }}
+                        trackStyle={{ height: 10, borderRadius: 20 }}
+                        value={cleanliness}
                     />
                 </View>
 
@@ -187,7 +201,7 @@ export default function AddInfoScreen() {
                         alignItems: "center",
                         justifyContent: "center",
                     }}>
-                    <Button title="Add photo" style={{width: " 50%"}} />
+                    <Button title="Add photo" style={{ width: " 50%" }} />
                 </View>
 
                 <View
@@ -199,22 +213,34 @@ export default function AddInfoScreen() {
                     }}>
                     <Button
                         title="Save dumpster"
-                        style={{width: " 50%"}}
-                        onPress={() => print()}
+                        style={{ width: " 50%" }}
+                        onPress={handleSubmit}
                     />
                 </View>
             </View>
         </View>
     );
 
-    function print() {
-        //console.log(name);
-        //console.log(dumpster);
-        //console.log(store);
-        //console.log(isPositive);
-        //console.log(isLocked);
-        //console.log(empty);
-        console.log(cleanliness);
+    function handleSubmit() {
+        // Post the dumpster, add it to the list of dumpster if that succeeds
+        // TODO: actually make the above happen
+        //       it is now substituted with this:
+        // (rating is omitted because it is calculated later, idk what the backend will do rn)
+        const dumpster: Omit<Dumpster, "dumpsterID" | "rating"> = {
+            name,
+            position,
+            dumpsterType,
+            storeType,
+            emptyingSchedule,
+            cleanliness,
+            positiveStoreViewOnDiving,
+            locked,
+        };
+        console.log(dumpster); // TODO: delete this afterwards
+        // Then reset the editor's state
+        dispatch(resetEditor());
+        // And navigate back to where you were before!
+        navigation.dispatch(StackActions.popToTop());
     }
 }
 

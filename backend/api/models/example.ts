@@ -1,4 +1,4 @@
-import {Sequelize, DataTypes, Optional, Model} from "sequelize";
+import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 
 export interface ThingAttributes {
     id: number;
@@ -18,7 +18,7 @@ export class Thing
 }
 
 // Inject Sequelize
-export default function (sequelize: Sequelize) {
+export function init(sequelize: Sequelize) {
     Thing.init(
         {
             id: {
@@ -39,9 +39,19 @@ export default function (sequelize: Sequelize) {
             tableName: "things",
         },
     );
+    return Thing;
+}
+
+// The type is not defined yet, so use a substitute
+export function associate({
+    Thangs,
+}: {
+    Thangs: ModelStatic<Model<any, any>>;
+}) {
     // do associations like
     // Thing.hasMany()
-    return Thing;
+    // using the supplied Models object
+    Thing.hasMany(Thangs, { foreignKey: "thingID"});
 }
 
 import {Sequelize, DataTypes, Optional, Model} from "sequelize";

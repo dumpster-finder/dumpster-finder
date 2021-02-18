@@ -1,13 +1,22 @@
 -- ♪♫ Living in the database ♪♫
 
 -- old test things
-DROP TABLE IF EXISTS things;
+DROP TABLE IF EXISTS thangs, things;
 
 CREATE TABLE things (
     id INT AUTO_INCREMENT,
     thing VARCHAR(128) NOT NULL,
     number INT,
     PRIMARY KEY things(id)
+    );
+
+CREATE TABLE thangs (
+    id INT PRIMARY KEY AUTO_INCREMENT ,
+    name VARCHAR(128) NOT NULL,
+    thingID INT NOT NULL REFERENCES things(id),
+    FOREIGN KEY things(thingID)
+        REFERENCES things (id)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- DROP 'EM ALL! (╯°□°）╯︵ ┻━┻
@@ -50,7 +59,13 @@ CREATE TABLE Dumpsters (
     cleanliness TINYINT UNSIGNED NOT NULL,
 
     -- Position index!
-    SPATIAL INDEX (position)
+    SPATIAL INDEX (position),
+    FOREIGN KEY Dumpsters(dumpsterTypeID)
+        REFERENCES DumpsterTypes (dumpsterTypeID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    FOREIGN KEY Dumpsters(storeTypeID)
+        REFERENCES StoreTypes (storeTypeID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Dumpster may not exist, or there might be misinformation in the data.
@@ -60,7 +75,10 @@ CREATE TABLE DumpsterReports (
     dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
     reason TEXT NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    INDEX (dumpsterID)
+    INDEX (dumpsterID),
+    FOREIGN KEY DumpsterReports(dumpsterTypeID)
+        REFERENCES Dumpsters (dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Rating instances
@@ -71,7 +89,10 @@ CREATE TABLE Ratings (
     dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
     rating TINYINT UNSIGNED NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    INDEX (dumpsterID)
+    INDEX (dumpsterID),
+    FOREIGN KEY Ratings(dumpsterID)
+        REFERENCES Dumpsters (dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Comments convey a diver's experience with a particular dumpster
@@ -82,16 +103,24 @@ CREATE TABLE Comments (
     comment TEXT NOT NULL,
     rating TINYINT UNSIGNED NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    INDEX (date)
+    INDEX (date),
+    FOREIGN KEY Comments(dumpsterID)
+        REFERENCES Dumpsters (dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
+
 );
 
 -- Photos give a clear view of the state of a dumpster
 CREATE TABLE Photos (
     photoID INT PRIMARY KEY AUTO_INCREMENT,
+    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
     url VARCHAR(256) NOT NULL,
     key_ VARCHAR(256) NOT NULL, -- for deleting the photo if you regret everything
     dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    INDEX (key_)
+    INDEX (key_),
+    FOREIGN KEY Photos(dumpsterID)
+        REFERENCES Dumpsters (dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Photos may contain unwanted imagery that will need to be moderated
@@ -100,7 +129,10 @@ CREATE TABLE PhotoReports (
     photoID INT NOT NULL REFERENCES Photos(photoID),
     reason TEXT NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    INDEX (photoID)
+    INDEX (photoID),
+    FOREIGN KEY PhotoReports(photoID)
+        REFERENCES Photos (photoID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Categories are general types of content that *we* define
@@ -113,14 +145,23 @@ CREATE TABLE Categories (
 CREATE TABLE DumpsterCategories (
     dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
     categoryID INT NOT NULL REFERENCES Categories(categoryID),
-    dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY DumpsterCategories(dumpsterID)
+        REFERENCES Dumpsters (dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    FOREIGN KEY DumpsterCategories(categoryID)
+        REFERENCES Categories (categoryID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Tags are *specific* content types
 CREATE TABLE Tags (
     tagID INT PRIMARY KEY AUTO_INCREMENT,
     categoryID INT NOT NULL REFERENCES Categories(categoryID),
-    name VARCHAR(24) NOT NULL
+    name VARCHAR(24) NOT NULL,
+    FOREIGN KEY Tags(categoryID)
+        REFERENCES Categories (categoryID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Contains data about the particular instance of the content type
@@ -139,10 +180,19 @@ CREATE TABLE DumpsterTags (
     foundDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     expiryDate TIMESTAMP,
     INDEX (foundDate),
-    INDEX (expiryDate)
+    INDEX (expiryDate),
+    FOREIGN KEY DumpsterTags(dumpsterID)
+        REFERENCES Dumpsters (dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    FOREIGN KEY DumpsterTags(tagID)
+        REFERENCES Tags (tagID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Collection of foreign keys
 CREATE TABLE StandardTags (
-    tagID INT PRIMARY KEY REFERENCES Tags(tagID)
+    tagID INT PRIMARY KEY REFERENCES Tags(tagID),
+    FOREIGN KEY StandardTags(tagID)
+        REFERENCES Tags (tagID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );

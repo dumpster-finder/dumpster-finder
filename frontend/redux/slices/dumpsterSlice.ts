@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Dumpster from "../../models/Dumpster";
 import Position from "../../models/Position";
 import {RootState} from "../store";
+import {testDumpsters} from "../../constants/TestData";
 
 /**
  * The dumpster list will be fetched asynchronously,
@@ -56,7 +57,7 @@ export const fetchNearbyDumpsters = createAsyncThunk(
 export const dumpsterSlice = createSlice({
     name: "dumpsters",
     initialState: {
-        dumpsters: [],
+        dumpsters: testDumpsters,
         status: "idle",
         error: null,
         currentDumpster: null,
@@ -68,6 +69,9 @@ export const dumpsterSlice = createSlice({
         },
         addDumpsters: ({ dumpsters }, { payload }: { payload: Dumpster[] }) => {
             dumpsters.push(...payload);
+        },
+        setDumpsters: (state, { payload }: { payload: Dumpster[] }) => {
+            state.dumpsters = payload;
         },
         setCurrentDumpster: (state, { payload }) => {
             state.currentDumpster = payload;
@@ -97,7 +101,7 @@ export const dumpsterSlice = createSlice({
     },
 });
 
-export const { addDumpster, addDumpsters, setCurrentDumpster } = dumpsterSlice.actions;
+export const { addDumpster, addDumpsters, setDumpsters, setCurrentDumpster } = dumpsterSlice.actions;
 
 export default dumpsterSlice.reducer;
 
