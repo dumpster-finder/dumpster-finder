@@ -37,6 +37,7 @@ import {Router} from "express";
 import {validate} from "express-validation";
 import {postThing} from "../validators/example";
 import ThingDAO from "../daos/example";
+import DumpsterDAO from "../daos/Dumpsters"
 import models from "../models";
 import {postDumpster} from "../validators/dumpsters";
 
@@ -94,7 +95,37 @@ export default function () {
      */
     router.get("/dumpsters/:dumpsterID", async (req: {params: {dumpsterID: number}}, res) => {
         try {
-            const dumpsters = await dumpsterControl.getOne(dumpsterID);
+            const dumpsters = await DumpsterDAO.getAllByDumpsterType(id);
+            res.status(200).json(dumpsters);
+        } catch (e) {
+            console.error('Something went wrong!', e);
+            res.status(500).send("uh?");
+        }
+    });
+    /**
+     * @swagger
+     * /dumpsters/dumpster-types/:id:
+     *   get:
+     *     summary: GET Dumpster by dumpster Type
+     *     tags: [Dumpsters]
+     *     parameters:
+     *       - in: path
+     *         name: id
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster-Type ID
+     *     responses:
+     *       "200":
+     *         description: the greeting
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/dumpsters/dumpster-types/:id'
+     */
+    router.get("/dumpsters/dumpster-types/:id", async (req: {params: {id: number}}, res) => {
+        try {
+            const dumpsters = await DumpsterDAO.getAllByDumpsterType(id);
             res.status(200).json(dumpsters);
         } catch (e) {
             console.error('Something went wrong!', e);

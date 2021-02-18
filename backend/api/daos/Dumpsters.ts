@@ -3,7 +3,7 @@ import {MyModels} from "../models";
 
 export default function ({Dumpsters}: MyModels) {
     return {
-        getAllByDumpsterType: (id: number) => Dumpsters.findAll({ where: { dumpsterTypeID : id }}).then((thangs) => thangs),
+        getAllByDumpsterType: (id: number) => Dumpsters.findAll({ where: { dumpsterTypeID : id }}).then((dumpsters) => dumpsters),
 
         // this is why we want ThangCreationAttributes...
         addOne: (thang: any) =>
