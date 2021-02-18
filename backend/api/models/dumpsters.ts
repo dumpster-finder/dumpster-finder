@@ -80,8 +80,8 @@ export function associate({
     DumpsterTypes,
     StoreTypes,
 }: {
-    DumpsterTypes: ModelStatic<Model<any, any>>;
-    StoreTypes: ModelStatic<Model<any, any>>;
+    DumpsterTypes: ModelStatic<Model<DumpsterTypeAttributes, DumpsterTypeCreationAttributes>>;
+    StoreTypes: ModelStatic<Model<StoreTypeAttributes, StoreTypeCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()
