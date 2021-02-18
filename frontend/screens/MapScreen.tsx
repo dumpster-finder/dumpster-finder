@@ -1,15 +1,16 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
-
 import { View } from "../components/Themed";
 import MapView, { UrlTile } from "react-native-maps";
 import { Icon, SearchBar } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterMarker from "../components/DumpsterMarker";
-import { testDumpsters } from "../constants/TestData";
 import { useAppDispatch } from "../redux/store";
-import { setCurrentDumpster } from "../redux/slices/dumpsterSlice";
+import {allDumpstersSelector, setCurrentDumpster} from "../redux/slices/dumpsterSlice";
+import { useSelector } from "react-redux";
+import { positionSelector, setPosition } from "../redux/slices/configSlice";
+import { useEffect } from "react";
 
 export default function MapScreen({
     navigation,
@@ -18,6 +19,20 @@ export default function MapScreen({
 }) {
     const dispatch = useAppDispatch();
     const colorScheme = useColorScheme();
+    const position = useSelector(positionSelector);
+    const dumpsters = useSelector(allDumpstersSelector);
+
+    useEffect(() => {
+        // this is here for testing purposes
+        // (since the initialState originally had position (0, 0))
+        dispatch(
+            setPosition({
+                latitude: 63.41775,
+                longitude: 10.404344,
+            }),
+        );
+    }, []);
+
     return (
         <View style={styles.container}>
             <View
@@ -70,8 +85,7 @@ export default function MapScreen({
             <MapView
                 provider={null}
                 initialRegion={{
-                    latitude: 63.41775,
-                    longitude: 10.404344,
+                    ...position, // Expands to latitude and longitude
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
@@ -86,14 +100,15 @@ export default function MapScreen({
                     right: 0,
                     bottom: 0,
                 }}>
-                {testDumpsters.map(dumpster => (
+                {dumpsters.map(dumpster => (
                     <DumpsterMarker
                         dumpster={dumpster}
                         onPress={() => {
+                            // TODO: Discuss what we are to do here.
+                            //       This sets the dumpster of the details view
+                            //       in the list tab as well as the map tab!
                             dispatch(setCurrentDumpster(dumpster));
-                            navigation.navigate("DetailsScreen", {
-                                screen: "DetailsScreen",
-                            });
+                            navigation.navigate("DetailsScreen");
                         }}
                     />
                 ))}

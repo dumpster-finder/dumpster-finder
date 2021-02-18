@@ -1,14 +1,13 @@
 import * as React from "react";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-
 import { View } from "../components/Themed";
 import ListCards from "../components/ListCards";
 import { Icon, SearchBar } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useAppDispatch } from "../redux/store";
-import { setCurrentDumpster } from "../redux/slices/dumpsterSlice";
-import { testDumpsters } from "../constants/TestData";
+import {allDumpstersSelector, setCurrentDumpster} from "../redux/slices/dumpsterSlice";
+import {useSelector} from "react-redux";
 
 export default function ListScreen({
     navigation,
@@ -17,6 +16,7 @@ export default function ListScreen({
 }) {
     const colorScheme = useColorScheme();
     const dispatch = useAppDispatch();
+    const dumpsters = useSelector(allDumpstersSelector);
 
     return (
         <ScrollView style={styles.scrollView}>
@@ -67,7 +67,7 @@ export default function ListScreen({
                 </View>
             </View>
 
-            {testDumpsters.map(thisDumpster => (
+            {dumpsters.map(thisDumpster => (
                 <TouchableOpacity
                     key={thisDumpster.dumpsterID}
                     onPress={() => {
