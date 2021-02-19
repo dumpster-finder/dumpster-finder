@@ -2,9 +2,8 @@ import * as React from "react";
 import { useState } from "react";
 import MapView, { Marker } from "react-native-maps";
 import Position from "../models/Position";
-import { Button, Text } from "react-native-elements";
-import { View } from "./Themed";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
+import {Button, Layout, Text} from "@ui-kitten/components";
 
 export default function ({
     initialPosition,
@@ -33,16 +32,17 @@ export default function ({
                     onDragEnd={e => setPosition(e.nativeEvent.coordinate)}
                 />
             </MapView>
-            <View style={styles.positionBox}>
-                <Text style={styles.text}>
+            <Layout style={styles.positionBox}>
+                <Text category="h4">
                     {"("}{position.latitude.toFixed(5)}{", "}
                     {position.longitude.toFixed(5)}{")"}
                 </Text>
-            </View>
+            </Layout>
             <Button
                 onPress={() => onSubmit(position)}
-                title="Set position"
-            />
+            >
+                Set position
+            </Button>
         </>
     );
 }

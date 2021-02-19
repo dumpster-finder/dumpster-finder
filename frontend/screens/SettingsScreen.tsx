@@ -1,7 +1,6 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import { View } from "../components/Themed";
 import { Button, Layout, Text, Toggle, Input } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import {
