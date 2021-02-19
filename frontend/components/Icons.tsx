@@ -35,6 +35,40 @@ export const PositiveIcon = (props: IconProps) => (
     <BaseIcon {...props} name="star" />
 );
 
+export const StarIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="star" />
+);
+
+export const PlusIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="plus-outline" />
+);
+
+export const FilterIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="funnel" />
+);
+
+export const SearchIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="search" />
+);
+
+export const FlagIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="flag" />
+);
+
+export const EditIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="edit-2" />
+);
+
+export const ArrowLeftIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="arrow-ios-back" />
+);
+
+export const ArrowRightIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="arrow-ios-forward" />
+);
+
+
+
 const styles = StyleSheet.create({
     icon: {
         width: 32,

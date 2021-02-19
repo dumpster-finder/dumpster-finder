@@ -11,6 +11,7 @@ import {allDumpstersSelector, setCurrentDumpster} from "../redux/slices/dumpster
 import { useSelector } from "react-redux";
 import { positionSelector, setPosition } from "../redux/slices/configSlice";
 import { useEffect } from "react";
+import SearchHeader from "../components/SearchHeader";
 
 export default function MapScreen({
     navigation,
@@ -35,53 +36,11 @@ export default function MapScreen({
 
     return (
         <View style={styles.container}>
-            <View
-                style={{
-                    width: "100%",
-                    flex: 1,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: 10,
-                }}>
-                <View
-                    style={{
-                        width: "10%",
-                        height: "100%",
-                        justifyContent: "center",
-                    }}>
-                    <Icon
-                        name="plus"
-                        type="font-awesome"
-                        onPress={() => {
-                            navigation.navigate("AddPositionScreen", {
-                                screen: "AddPositionScreen",
-                            });
-                        }}
-                    />
-                </View>
-                <View style={{ width: "80%", height: "100%" }}>
-                    <SearchBar
-                        lightTheme={colorScheme === "light"}
-                        placeholder="Type Here..."
-                        value={""}
-                    />
-                </View>
-                <View
-                    style={{
-                        width: "10%",
-                        height: "100%",
-                        justifyContent: "center",
-                    }}>
-                    <Icon
-                        name="filter"
-                        type="font-awesome"
-                        onPress={() => {
-                            console.log("filter");
-                        }}
-                    />
-                </View>
-            </View>
+            <SearchHeader onPressPlus={() => {
+                navigation.navigate("AddPositionScreen", {
+                    screen: "AddPositionScreen",
+                });
+            }}/>
             <MapView
                 provider={null}
                 initialRegion={{

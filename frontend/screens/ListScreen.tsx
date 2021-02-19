@@ -1,13 +1,15 @@
 import * as React from "react";
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import { View } from "../components/Themed";
+import { ScrollView, StyleSheet } from "react-native";
 import ListCards from "../components/ListCards";
-import { Icon, SearchBar } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useAppDispatch } from "../redux/store";
-import {allDumpstersSelector, setCurrentDumpster} from "../redux/slices/dumpsterSlice";
-import {useSelector} from "react-redux";
+import {
+    allDumpstersSelector,
+    setCurrentDumpster,
+} from "../redux/slices/dumpsterSlice";
+import { useSelector } from "react-redux";
+import SearchHeader from "../components/SearchHeader";
 
 export default function ListScreen({
     navigation,
@@ -20,60 +22,23 @@ export default function ListScreen({
 
     return (
         <ScrollView style={styles.scrollView}>
-            <View
-                style={{
-                    width: "100%",
-                    flex: 1,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}>
-                <View
-                    style={{
-                        width: "10%",
-                        height: "100%",
-                        justifyContent: "center",
-                    }}>
-                    <Icon
-                        name="plus"
-                        type="font-awesome"
-                        onPress={() => {
-                            navigation.navigate("AddPositionScreen", {
-                                screen: "AddPositionScreen",
-                            });
-                        }}
-                    />
-                </View>
-                <View style={{ width: "80%", height: "100%" }}>
-                    <SearchBar
-                        lightTheme={colorScheme === "light"}
-                        placeholder="Type Here..."
-                        value={""}
-                    />
-                </View>
-                <View
-                    style={{
-                        width: "10%",
-                        height: "100%",
-                        justifyContent: "center",
-                    }}>
-                    <Icon
-                        name="filter"
-                        type="font-awesome"
-                        onPress={() => {
-                            console.log("filter");
-                        }}
-                    />
-                </View>
-            </View>
-
-            {dumpsters.map(thisDumpster => (
-                <ListCards dumpster={thisDumpster} onPress={() => {
-                    dispatch(setCurrentDumpster(thisDumpster));
-                    navigation.navigate("DetailsScreen", {
-                        screen: "DetailsScreen",
+            <SearchHeader
+                onPressPlus={() => {
+                    navigation.navigate("AddPositionScreen", {
+                        screen: "AddPositionScreen",
                     });
-                }} />
+                }}
+            />
+            {dumpsters.map(thisDumpster => (
+                <ListCards
+                    dumpster={thisDumpster}
+                    onPress={() => {
+                        dispatch(setCurrentDumpster(thisDumpster));
+                        navigation.navigate("DetailsScreen", {
+                            screen: "DetailsScreen",
+                        });
+                    }}
+                />
             ))}
         </ScrollView>
     );

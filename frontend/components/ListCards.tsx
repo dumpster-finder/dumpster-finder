@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Card, Text, Icon } from "@ui-kitten/components";
+import { Card, Text} from "@ui-kitten/components";
 import { View } from "./Themed";
 import { Image, StyleSheet} from "react-native";
 import Dumpster from "../models/Dumpster";
+import { StarIcon, LockIcon } from "../components/Icons";
 
 export default function ListCards({ dumpster, onPress}: { dumpster: Dumpster, onPress: () => void }) {
     return (
@@ -48,7 +49,7 @@ export default function ListCards({ dumpster, onPress}: { dumpster: Dumpster, on
                                     width: "50%",
                                     alignItems: "flex-end",
                                 }}>
-                                <Text>S</Text>
+                                <StarIcon/>
                             </View>
                             <View
                                 style={{
@@ -63,7 +64,7 @@ export default function ListCards({ dumpster, onPress}: { dumpster: Dumpster, on
                                 width: "33%",
                                 alignItems: "flex-end",
                             }}>
-                            {dumpster.locked ? <Text> Locked</Text> : null}
+                            {dumpster.locked ? <LockIcon/> : null}
                         </View>
                     </View>
                 </View>

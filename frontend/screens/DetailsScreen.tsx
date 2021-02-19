@@ -1,10 +1,22 @@
 import * as React from "react";
 import { View } from "../components/Themed";
 import { Image, StyleSheet } from "react-native";
-import { Button, Icon, Text, AirbnbRating, Card } from "react-native-elements";
+import { AirbnbRating} from "react-native-elements";
+import { Button, Text } from "@ui-kitten/components";
+import {
+    FlagIcon,
+    EditIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
+    TrashIcon,
+    StarIcon,
+    NegativeIcon,
+    PositiveIcon,
+    LockIcon,
+} from "../components/Icons";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
-import {useState} from "react";
+import { useState } from "react";
 
 export default function DetailsScreen() {
     const dumpster = useSelector(currentDumpsterSelector);
@@ -43,7 +55,8 @@ export default function DetailsScreen() {
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
-                    }}>
+                    }}
+                >
                     <View
                         style={{
                             height: "10%",
@@ -52,25 +65,23 @@ export default function DetailsScreen() {
                             flexDirection: "row",
                             alignItems: "center",
                             justifyContent: "center",
-                        }}>
-                        <Icon
-                            name="flag"
-                            type="font-awesome"
-                            style={{ width: "5%" }}
-                            onPress={() => {
-                                console.log("flag");
-                            }}
+                        }}
+                    >
+                        <Button
+                            style={{ width: "15%", margin: 2 }}
+                            appearance="ghost"
+                            status="danger"
+                            accessoryLeft={FlagIcon}
                         />
-                        <View style={{ width: "90%", alignItems: "center" }}>
-                            <Text h3>{dumpster.name}</Text>
+
+                        <View style={{ width: "70%", alignItems: "center" }}>
+                            <Text category="h4">{dumpster.name}</Text>
                         </View>
-                        <Icon
-                            name="edit"
-                            type="font-awesome"
-                            style={{ width: "5%" }}
-                            onPress={() => {
-                                console.log("edit");
-                            }}
+                        <Button
+                            style={{ width: "15%", margin: 2 }}
+                            appearance="ghost"
+                            status="danger"
+                            accessoryLeft={EditIcon}
                         />
                     </View>
                     <View
@@ -81,8 +92,9 @@ export default function DetailsScreen() {
                             flexDirection: "column",
                             alignItems: "center",
                             justifyContent: "center",
-                        }}>
-                        <Text h4>{dumpster.storeType}</Text>
+                        }}
+                    >
+                        <Text category="h6">{dumpster.storeType}</Text>
                         <View
                             style={{
                                 width: "100%",
@@ -90,16 +102,18 @@ export default function DetailsScreen() {
                                 flexDirection: "row",
                                 alignItems: "center",
                                 justifyContent: "center",
-                            }}>
-                            <Icon
-                                name="chevron-left"
-                                type="font-awesome"
+                            }}
+                        >
+                            <Button
                                 style={{ width: "10%" }}
+                                appearance="ghost"
+                                status="danger"
+                                accessoryLeft={ArrowLeftIcon}
                                 onPress={() => {
                                     if (photoDisp - 1 >= 0) {
-                                        onPhotoChange(photoDisp-1)
+                                        onPhotoChange(photoDisp - 1);
                                     } else {
-                                        onPhotoChange(photos.length - 1)
+                                        onPhotoChange(photos.length - 1);
                                     }
                                 }}
                             />
@@ -115,17 +129,18 @@ export default function DetailsScreen() {
                                     uri: photos[photoDisp],
                                 }}
                             />
-                            <Icon
-                                name="chevron-right"
-                                type="font-awesome"
+                            <Button
                                 style={{ width: "10%" }}
+                                appearance="ghost"
+                                status="danger"
+                                accessoryLeft={ArrowRightIcon}
                                 onPress={() => {
                                     if (photoDisp + 1 >= photos.length) {
                                         photoCounter = 0;
-                                        onPhotoChange(0)
+                                        onPhotoChange(0);
                                     } else {
                                         ++photoCounter;
-                                        onPhotoChange(photoDisp + 1)
+                                        onPhotoChange(photoDisp + 1);
                                     }
                                 }}
                             />
@@ -141,7 +156,8 @@ export default function DetailsScreen() {
                                             alignItems: "center",
                                             justifyContent: "center",
                                             backgroundColor: "blue",
-                                        }}>
+                                        }}
+                                    >
                                         {tagArrays.map(tagArray => (
                                             <View
                                                 style={{
@@ -151,26 +167,22 @@ export default function DetailsScreen() {
                                                     alignItems: "center",
                                                     justifyContent:
                                                         "flex-start",
-                                                }}>
+                                                }}
+                                            >
                                                 {tagArray.map(tag => (
-                                                    <Card
-                                                        containerStyle={{
+                                                    <Text
+                                                        style={{
                                                             backgroundColor:
                                                                 "lightgray",
+                                                            marginVertical: 2,
+                                                            marginHorizontal: 5,
                                                             borderRadius: 10,
-                                                            paddingVertical: 0,
+                                                            paddingVertical: 3,
                                                             paddingHorizontal: 5,
-                                                        }}>
-                                                        <Text
-                                                            style={{
-                                                                backgroundColor:
-                                                                    "lightgray",
-                                                                marginVertical: 2,
-                                                                marginHorizontal: 5,
-                                                            }}>
-                                                            {tag}
-                                                        </Text>
-                                                    </Card>
+                                                        }}
+                                                    >
+                                                        {tag}
+                                                    </Text>
                                                 ))}
                                             </View>
                                         ))}
@@ -185,26 +197,22 @@ export default function DetailsScreen() {
                                             flexDirection: "row",
                                             alignItems: "center",
                                             justifyContent: "flex-start",
-                                        }}>
+                                        }}
+                                    >
                                         {tags.map(tag => (
-                                            <Card
-                                                containerStyle={{
+                                            <Text
+                                                style={{
                                                     backgroundColor:
                                                         "lightgray",
+                                                    marginVertical: 2,
+                                                    marginHorizontal: 5,
                                                     borderRadius: 10,
-                                                    paddingVertical: 0,
+                                                    paddingVertical: 3,
                                                     paddingHorizontal: 5,
-                                                }}>
-                                                <Text
-                                                    style={{
-                                                        backgroundColor:
-                                                            "lightgray",
-                                                        marginVertical: 2,
-                                                        marginHorizontal: 5,
-                                                    }}>
-                                                    {tag}
-                                                </Text>
-                                            </Card>
+                                                }}
+                                            >
+                                                {tag}
+                                            </Text>
                                         ))}
                                     </View>
                                 </>
@@ -217,7 +225,8 @@ export default function DetailsScreen() {
                             width: "100%",
                             alignItems: "center",
                             justifyContent: "center",
-                        }}>
+                        }}
+                    >
                         <View
                             style={{
                                 width: "95%",
@@ -225,7 +234,8 @@ export default function DetailsScreen() {
                                 flexDirection: "row",
                                 alignItems: "center",
                                 justifyContent: "center",
-                            }}>
+                            }}
+                        >
                             <View style={{ width: "50%" }}>
                                 <Text>I am left</Text>
                             </View>
@@ -237,19 +247,15 @@ export default function DetailsScreen() {
                                         flexDirection: "row",
                                         alignItems: "center",
                                         justifyContent: "center",
-                                    }}>
-                                    <Icon
-                                        name="delete"
-                                        style={{ width: "10%" }}
-                                        onPress={() => {
-                                            console.log("arrow-right");
-                                        }}
-                                    />
+                                    }}
+                                >
+                                    <TrashIcon />
                                     <View
                                         style={{
                                             width: "90%",
                                             paddingLeft: 5,
-                                        }}>
+                                        }}
+                                    >
                                         <Text>{dumpster.emptyingSchedule}</Text>
                                     </View>
                                 </View>
@@ -260,20 +266,15 @@ export default function DetailsScreen() {
                                         flexDirection: "row",
                                         alignItems: "center",
                                         justifyContent: "center",
-                                    }}>
-                                    <Icon
-                                        name="star"
-                                        color="#FFD100"
-                                        style={{ width: "10%" }}
-                                        onPress={() => {
-                                            console.log("arrow-right");
-                                        }}
-                                    />
+                                    }}
+                                >
+                                    <StarIcon />
                                     <View
                                         style={{
                                             width: "90%",
                                             paddingLeft: 5,
-                                        }}>
+                                        }}
+                                    >
                                         <Text>{dumpster.rating}</Text>
                                     </View>
                                 </View>
@@ -284,25 +285,18 @@ export default function DetailsScreen() {
                                         flexDirection: "row",
                                         alignItems: "center",
                                         justifyContent: "flex-start",
-                                    }}>
+                                    }}
+                                >
                                     {dumpster.locked ? (
                                         <>
-                                            <Icon
-                                                name="lock"
-                                                type="font-awesome"
-                                                color="#FF0000"
-                                            />
+                                            <LockIcon />
                                             <Text style={{ paddingLeft: 5 }}>
                                                 Locked
                                             </Text>
                                         </>
                                     ) : (
                                         <>
-                                            <Icon
-                                                name="unlock"
-                                                type="font-awesome"
-                                                color="#54C500"
-                                            />
+                                            <LockIcon />
                                             <Text style={{ paddingLeft: 5 }}>
                                                 Open
                                             </Text>
@@ -316,23 +310,18 @@ export default function DetailsScreen() {
                                         flexDirection: "row",
                                         alignItems: "center",
                                         justifyContent: "flex-start",
-                                    }}>
+                                    }}
+                                >
                                     {dumpster.positiveStoreViewOnDiving ? (
                                         <>
-                                            <Icon
-                                                name="thumbs-up"
-                                                type="font-awesome"
-                                            />
+                                            <PositiveIcon />
                                             <Text style={{ paddingLeft: 5 }}>
                                                 Positive attitude
                                             </Text>
                                         </>
                                     ) : (
                                         <>
-                                            <Icon
-                                                name="thumbs-down"
-                                                type="font-awesome"
-                                            />
+                                            <NegativeIcon />
                                             <Text style={{ paddingLeft: 5 }}>
                                                 Negative attitude
                                             </Text>
@@ -346,7 +335,8 @@ export default function DetailsScreen() {
                                         flexDirection: "row",
                                         alignItems: "center",
                                         justifyContent: "flex-start",
-                                    }}>
+                                    }}
+                                >
                                     <View style={{ width: "50%" }}>
                                         <Text>Cleanliness:</Text>
                                     </View>
@@ -356,7 +346,8 @@ export default function DetailsScreen() {
                                             height: "100%",
                                             paddingHorizontal: 5,
                                             justifyContent: "center",
-                                        }}>
+                                        }}
+                                    >
                                         <View
                                             style={{
                                                 width: "100%",
@@ -364,7 +355,8 @@ export default function DetailsScreen() {
                                                 backgroundColor: "lightgray",
                                                 borderRadius: 5,
                                                 borderWidth: 1,
-                                            }}>
+                                            }}
+                                        >
                                             <View
                                                 style={{
                                                     width:
@@ -385,7 +377,8 @@ export default function DetailsScreen() {
                                         flexDirection: "row",
                                         alignItems: "center",
                                         justifyContent: "flex-start",
-                                    }}>
+                                    }}
+                                >
                                     <View style={{ width: "50%" }}>
                                         <Text>Type: </Text>
                                     </View>
@@ -393,7 +386,8 @@ export default function DetailsScreen() {
                                         style={{
                                             width: "90%",
                                             paddingLeft: 5,
-                                        }}>
+                                        }}
+                                    >
                                         <Text>{dumpster.dumpsterType}</Text>
                                     </View>
                                 </View>
@@ -401,14 +395,12 @@ export default function DetailsScreen() {
                         </View>
                         <View>
                             <Button
-                                title="Comments"
-                                style={{ width: " 50%" }}
-                                buttonStyle={{
-                                    backgroundColor: "gray",
-                                    paddingVertical: 2,
-                                }}
-                                titleStyle={{ color: "black" }}
-                            />
+                                style={{ backgroundColor: "gray" }}
+                                size={"small"}
+                                onPress={() => console.log("Comment")}
+                            >
+                                Comment
+                            </Button>
                         </View>
                         <Text>Rate me:</Text>
                         <View style={{ height: "20%" }}>
