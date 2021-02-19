@@ -29,4 +29,5 @@ export type MapTabParamList = {
   MapTabScreen: undefined;
   AddPositionScreen: undefined;
   AddInfoScreen: undefined;
+  DetailsScreen: undefined;
 };

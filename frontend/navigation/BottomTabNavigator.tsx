@@ -37,6 +37,7 @@ export default function BottomTabNavigator() {
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="navigate" color={color} />
                     ),
+                    title: "Map",
                 }}
             />
             <BottomTab.Screen
@@ -46,6 +47,7 @@ export default function BottomTabNavigator() {
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="menu" color={color} />
                     ),
+                    title: "List",
                 }}
             />
             <BottomTab.Screen
@@ -55,6 +57,7 @@ export default function BottomTabNavigator() {
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="information-circle" color={color} />
                     ),
+                    title: "Info",
                 }}
             />
             <BottomTab.Screen
@@ -64,6 +67,7 @@ export default function BottomTabNavigator() {
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="settings" color={color} />
                     ),
+                    title: "Settings",
                 }}
             />
         </BottomTab.Navigator>
@@ -92,17 +96,17 @@ function MapTabNavigator() {
             <MapTabStack.Screen
                 name="AddPositionScreen"
                 component={AddPositionScreen}
-                options={{ headerTitle: "Add dumpster position" }}
+                options={{ headerTitle: "Set dumpster position" }}
             />
             <MapTabStack.Screen
                 name="AddInfoScreen"
                 component={AddInfoScreen}
-                options={{ headerTitle: "Add dumpster info" }}
+                options={{ headerTitle: "Set dumpster info" }}
             />
             <ListTabStack.Screen
                 name="DetailsScreen"
                 component={DetailsScreen}
-                options={{ headerTitle: "DetailsScreen" }}
+                options={{ headerTitle: "Details" }}
             />
         </MapTabStack.Navigator>
     );
@@ -121,17 +125,17 @@ function ListTabNavigator() {
             <ListTabStack.Screen
                 name="AddPositionScreen"
                 component={AddPositionScreen}
-                options={{ headerTitle: "Add dumpster position" }}
+                options={{ headerTitle: "Set dumpster position" }}
             />
             <ListTabStack.Screen
                 name="AddInfoScreen"
                 component={AddInfoScreen}
-                options={{ headerTitle: "Add dumpster info" }}
+                options={{ headerTitle: "Set dumpster info" }}
             />
             <ListTabStack.Screen
                 name="DetailsScreen"
                 component={DetailsScreen}
-                options={{ headerTitle: "DetailsScreen" }}
+                options={{ headerTitle: "Details" }}
             />
         </ListTabStack.Navigator>
     );

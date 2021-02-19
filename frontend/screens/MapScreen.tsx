@@ -104,6 +104,7 @@ export default function MapScreen({
                 }}>
                 {dumpsters.map(dumpster => (
                     <DumpsterMarker
+                        key={dumpster.dumpsterID}
                         dumpster={dumpster}
                         onPress={() => {
                             // TODO: Discuss what we are to do here.
