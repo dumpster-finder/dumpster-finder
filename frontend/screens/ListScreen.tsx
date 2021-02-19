@@ -68,16 +68,12 @@ export default function ListScreen({
             </View>
 
             {dumpsters.map(thisDumpster => (
-                <TouchableOpacity
-                    key={thisDumpster.dumpsterID}
-                    onPress={() => {
-                        dispatch(setCurrentDumpster(thisDumpster));
-                        navigation.navigate("DetailsScreen", {
-                            screen: "DetailsScreen",
-                        });
-                    }}>
-                    <ListCards dumpster={thisDumpster} />
-                </TouchableOpacity>
+                <ListCards dumpster={thisDumpster} onPress={() => {
+                    dispatch(setCurrentDumpster(thisDumpster));
+                    navigation.navigate("DetailsScreen", {
+                        screen: "DetailsScreen",
+                    });
+                }} />
             ))}
         </ScrollView>
     );
