@@ -29,6 +29,6 @@ export class DumpsterService {
     }
 
     addDumpster(dumpster: Omit<Dumpster, "dumpsterID" | "rating">) {
-
+        console.log(dumpster);
     }
 }
