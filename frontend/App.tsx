@@ -10,6 +10,7 @@ import { Provider, useSelector } from "react-redux";
 import store, { persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import {
+    darkModeSelector,
     firstTimeSelector,
     setDarkMode,
     setFirstTime,
@@ -17,18 +18,20 @@ import {
 import { setDumpsters } from "./redux/slices/dumpsterSlice";
 import { testDumpsters } from "./constants/TestData";
 import * as eva from "@eva-design/eva";
-import { ApplicationProvider } from "@ui-kitten/components";
+import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
 const InnerApp = () => {
-    const colorScheme = useColorScheme();
+    const externalColorScheme = useColorScheme();
+    const darkMode = useSelector(darkModeSelector);
     const firstTime = useSelector(firstTimeSelector);
 
     useEffect(() => {
         store.dispatch(setDumpsters(testDumpsters));
         if (firstTime) {
-            store.dispatch(setDarkMode(colorScheme === "dark"));
+            store.dispatch(setDarkMode(externalColorScheme === "dark"));
             // unset firstTime only AFTER the intro page has been shown!
             // perhaps you could just navigate TO the intro page right here.
             // navigator.navigate("thatpage") or sth, idk
@@ -38,12 +41,17 @@ const InnerApp = () => {
 
     return (
         <SafeAreaProvider>
+            <IconRegistry icons={EvaIconsPack} />
             <ApplicationProvider
                 {...eva}
-                theme={colorScheme === "light" ? eva.light : eva.dark}>
+                theme={darkMode ? eva.dark : eva.light}
+            >
                 {/* TODO: Remove Elements' ThemeProvider... */}
-                <ThemeProvider useDark={colorScheme === "dark"} theme={theme}>
-                    <Navigation colorScheme={colorScheme} />
+                <ThemeProvider
+                    useDark={externalColorScheme === "dark"}
+                    theme={theme}
+                >
+                    <Navigation colorScheme={externalColorScheme} />
                     <StatusBar />
                 </ThemeProvider>
             </ApplicationProvider>

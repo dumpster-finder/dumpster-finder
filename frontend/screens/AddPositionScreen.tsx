@@ -1,11 +1,12 @@
 import * as React from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet} from "react-native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {useSelector} from "react-redux";
 import {positionSelector} from "../redux/slices/configSlice";
 import PositionSetter from "../components/PositionSetter";
 import {useAppDispatch} from "../redux/store";
 import {setEditorPosition} from "../redux/slices/editorSlice";
+import {Layout} from "@ui-kitten/components";
 
 export default function AddPositionScreen({
     navigation,
@@ -16,7 +17,7 @@ export default function AddPositionScreen({
     const currentPosition = useSelector(positionSelector);
 
     return (
-        <View style={styles.container}>
+        <Layout style={styles.container}>
             <PositionSetter
                 initialPosition={currentPosition}
                 onSubmit={position => {
@@ -27,7 +28,7 @@ export default function AddPositionScreen({
                     });
                 }}
             />
-        </View>
+        </Layout>
     );
 }
 
