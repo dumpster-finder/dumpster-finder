@@ -3,7 +3,7 @@ import Dumpster from "../../models/Dumpster";
 import Position from "../../models/Position";
 import {RootState} from "../store";
 import {testDumpsters} from "../../constants/TestData";
-import {DumpsterService} from "../../service";
+import {DumpsterService} from "../../services";
 
 /**
  * The dumpster list will be fetched asynchronously,
