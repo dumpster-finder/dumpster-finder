@@ -33,25 +33,28 @@ export function init(sequelize: Sequelize) {
         {
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
                 primaryKey: true,
+                allowNull: false,
             },
             tagID: {
                 type: DataTypes.INTEGER.UNSIGNED,
+                primaryKey: true,
+                allowNull: false,
             },
             amount: {
                 type: DataTypes.INTEGER,
             },
             unit: {
                 type: DataTypes.STRING,
-                autoIncrement: true,
-                primaryKey: true,
             },
             quality: {
                 type: DataTypes.TINYINT.UNSIGNED,
+
             },
             foundDate: {
                 type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: Sequelize.fn('now'),
             },
             expiryDate: {
                 type: DataTypes.DATE,

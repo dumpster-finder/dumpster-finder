@@ -27,7 +27,7 @@ export function init(sequelize: Sequelize) {
             },
             name: {
                 type: DataTypes.STRING,
-                defaultValue: "Generic",
+                allowNull: false,
             },
         },
         {

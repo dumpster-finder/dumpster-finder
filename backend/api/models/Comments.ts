@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
+import {Sequelize, DataTypes, Optional, Model, ModelStatic} from "sequelize";
 import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
 
 export interface CommentAttributes {
@@ -35,18 +35,25 @@ export function init(sequelize: Sequelize) {
             },
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false,
             },
             nickname: {
                 type: DataTypes.STRING,
+                allowNull: false,
             },
             comment: {
                 type: DataTypes.STRING,
+                allowNull: false,
             },
             rating: {
                 type: DataTypes.TINYINT,
+                allowNull: false,
+                defaultValue: 0
             },
             date: {
                 type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: Sequelize.fn('now')
             },
         },
         {

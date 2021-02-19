@@ -29,9 +29,11 @@ export function init(sequelize: Sequelize) {
             },
             categoryID: {
                 type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false,
             },
             name: {
                 type: DataTypes.STRING,
+                allowNull: false,
             }
         },
         {
@@ -44,11 +46,17 @@ export function init(sequelize: Sequelize) {
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Categories,
-                          }: {
+    Categories,
+    DumpsterTags,
+    StandardTags
+}: {
+    DumpsterTags: ModelStatic<Model<any, any>>;
+    StandardTags: ModelStatic<Model<any, any>>;
     Categories: ModelStatic<Model<CategoryAttributes, CategoryCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
+    Tags.hasMany(DumpsterTags, { foreignKey: "tagID"});
+    Tags.hasMany(StandardTags, { foreignKey: "tagID"});
 }

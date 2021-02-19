@@ -26,14 +26,18 @@ export function init(sequelize: Sequelize) {
         {
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
                 primaryKey: true,
+                allowNull: false,
             },
             categoryID: {
                 type: DataTypes.INTEGER.UNSIGNED,
+                primaryKey: true,
+                allowNull: false,
             },
             dateAdded: {
                 type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: Sequelize.fn('now'),
             }
         },
         {

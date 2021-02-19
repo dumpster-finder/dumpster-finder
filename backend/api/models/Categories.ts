@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { DumpsterCategoryAttributes, DumpsterCategoryCreationAttributes } from "./DumpsterCategories";
 import { TagAttributes, TagCreationAttributes } from "./Tags";
+import {Photos} from "./Photos";
 
 export interface CategoryAttributes {
     categoryID : number;
@@ -28,6 +29,7 @@ export function init(sequelize: Sequelize) {
             },
             name: {
                 type: DataTypes.STRING,
+                allowNull: false,
             },
         },
         {
@@ -49,4 +51,6 @@ export function associate({
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
+    Categories.hasMany(Tags, { foreignKey: "dumpsterTypeID"});
+    Categories.hasMany(DumpsterCategories, { foreignKey: "dumpsterTypeID"});
 }

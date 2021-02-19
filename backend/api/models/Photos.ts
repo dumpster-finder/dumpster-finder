@@ -34,15 +34,20 @@ export function init(sequelize: Sequelize) {
             },
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false,
             },
             url: {
                 type: DataTypes.STRING,
+                allowNull: false,
             },
             key_: {
                 type: DataTypes.STRING,
+                allowNull: false,
             },
             dateAdded: {
-                type: DataTypes.GEOMETRY('POINT'),
+                type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: Sequelize.fn('now'),
             },
         },
         {
@@ -55,12 +60,14 @@ export function init(sequelize: Sequelize) {
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Dumpsters,
-                          }: {
+    Dumpsters,
+    PhotoReports
+}: {
     Dumpsters: ModelStatic<Model<DumpsterAttributes, DumpsterCreationAttributes>>;
+    PhotoReports: ModelStatic<Model<any, any>>;
 }) {
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
-    Photos.hasMany(PhotoReports, { foreignKey: "photoReportID"});
+    Photos.hasMany(PhotoReports, { foreignKey: "photoID"});
 }

@@ -33,7 +33,7 @@ export function init(sequelize: Sequelize) {
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Tags,
+    Tags,
                           }: {
     Tags: ModelStatic<Model<TagAttributes, TagCreationAttributes>>;
 }) {

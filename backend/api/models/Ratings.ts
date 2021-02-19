@@ -31,12 +31,16 @@ export function init(sequelize: Sequelize) {
             },
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false,
             },
             rating: {
                 type: DataTypes.TINYINT.UNSIGNED,
+                allowNull: false,
             },
             date: {
                 type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: Sequelize.fn('now'),
             }
         },
         {
