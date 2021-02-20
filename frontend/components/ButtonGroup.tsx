@@ -129,9 +129,9 @@ class ButtonGroupBase extends React.Component<ButtonGroupProps> {
 
         return React.cloneElement(element, {
             key: index,
-            // appearance: appearance,
+            appearance: element.props.appearance || appearance,
             size: size,
-            // status: status,
+            status: element.props.status || status,
             style: [element.props.style, styles.button, shapeStyle, startShapeStyle, endShapeStyle],
         });
     };
