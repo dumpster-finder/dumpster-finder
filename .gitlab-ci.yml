@@ -3,8 +3,6 @@ image: node:latest
 include:
   # For detecting secret keys and the like that are accidentally committed
   - template: Security/Secret-Detection.gitlab-ci.yml
-  # For estimating degradation/improvement of code quality
-  - template: Code-Quality.gitlab-ci.yml
 
 stages:
   - build
@@ -25,10 +23,6 @@ test_backend:
   stage: test
   script:
     - echo TODO
-
-code_quality:
-  artifacts:
-    paths: [gl-code-quality-report.json]
 
 deploy:
   stage: deploy
