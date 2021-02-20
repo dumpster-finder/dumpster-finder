@@ -8,7 +8,6 @@ import {
     IndexPath,
     Select,
     SelectItem,
-    ButtonGroup,
 } from "@ui-kitten/components";
 import { useState } from "react";
 import { useAppDispatch } from "../redux/store";
@@ -22,6 +21,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { StackActions } from "@react-navigation/native";
 import { Slider } from "react-native-elements";
 import { LockIcon, PositiveIcon, TrashIcon } from "../components/Icons";
+import {ButtonGroup} from "../components/ButtonGroup";
 
 export default function AddInfoScreen({
     navigation,
@@ -102,7 +102,7 @@ export default function AddInfoScreen({
                 placeholder="Categories"
                 value={showCategories()}
                 selectedIndex={categorySelectedIndex}
-                onSelect={index => setCategoryMultiSelectedIndex(index)}
+                onSelect={index => Array.isArray(index) && setCategoryMultiSelectedIndex(index)}
             >
                 {categories.map((type, i) => (
                     <SelectItem key={i} title={type} />
@@ -124,18 +124,21 @@ export default function AddInfoScreen({
                     <Button
                         style={{ width: "33.3%", paddingHorizontal: 5 }}
                         onPress={() => setIsPositive(0)}
+                        appearance={positiveStoreViewOnDiving === 0 ? "filled" : "outline"}
                     >
                         Negative
                     </Button>
                     <Button
                         style={{ width: "33.3%", paddingHorizontal: 5 }}
                         onPress={() => setIsPositive(1)}
+                        appearance={positiveStoreViewOnDiving === 1 ? "filled" : "outline"}
                     >
                         Neutral
                     </Button>
                     <Button
                         style={{ width: "33.3%", paddingHorizontal: 5 }}
                         onPress={() => setIsPositive(2)}
+                        appearance={positiveStoreViewOnDiving === 2 ? "filled" : "outline"}
                     >
                         Positive
                     </Button>
@@ -159,12 +162,14 @@ export default function AddInfoScreen({
                     <Button
                         style={{ width: "50%" }}
                         onPress={() => setLocked(true)}
+                        appearance={locked ? "filled" : "outline"}
                     >
                         Locked
                     </Button>
                     <Button
                         style={{ width: "50%" }}
                         onPress={() => setLocked(false)}
+                        appearance={!locked ? "filled" : "outline"}
                     >
                         Open
                     </Button>
