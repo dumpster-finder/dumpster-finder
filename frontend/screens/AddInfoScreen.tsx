@@ -19,9 +19,14 @@ import { useSelector } from "react-redux";
 import Dumpster from "../models/Dumpster";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackActions } from "@react-navigation/native";
-import { Slider } from "react-native-elements";
-import { LockIcon, PositiveIcon, TrashIcon } from "../components/Icons";
-import {ButtonGroup} from "../components/ButtonGroup";
+import {
+    CleanIcon,
+    FadedCleanIcon,
+    LockIcon,
+    PositiveIcon,
+    TrashIcon,
+} from "../components/Icons";
+import { ButtonGroup } from "../components/ButtonGroup";
 
 export default function AddInfoScreen({
     navigation,
@@ -33,13 +38,21 @@ export default function AddInfoScreen({
     const dumpsterTypes = ["Metal", "Compressor", "Plastic"];
     const storeTypes = ["Food", "Electronics"];
     const categories = ["Meat", "Fruit", "Vegetables", "Spices"];
+    const cleanlinessRange = [
+        "Filthy",
+        "Dirty",
+        "Average",
+        "Clean",
+        "Pristine",
+    ];
+
     const [name, setName] = useState("");
     const [dumpsterTypeIndex, setDumpsterTypeIndex] = useState(
         new IndexPath(0),
     );
     const [storeTypeIndex, setStoreTypeIndex] = useState(new IndexPath(0));
     const [emptyingSchedule, setEmptyingSchedule] = useState("");
-    const [cleanliness, setCleanliness] = useState(50);
+    const [cleanliness, setCleanliness] = useState(3);
     const [locked, setLocked] = useState(false);
     const [
         categorySelectedIndex,
@@ -57,16 +70,7 @@ export default function AddInfoScreen({
                 value={name}
             />
 
-            <View
-                style={{
-                    height: "5%",
-                    width: "80%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    flexDirection: "row",
-                }}
-            >
+            <View style={styles.row}>
                 <Select
                     label="Dumpster type"
                     selectedIndex={dumpsterTypeIndex}
@@ -102,63 +106,69 @@ export default function AddInfoScreen({
                 placeholder="Categories"
                 value={showCategories()}
                 selectedIndex={categorySelectedIndex}
-                onSelect={index => Array.isArray(index) && setCategoryMultiSelectedIndex(index)}
+                onSelect={index =>
+                    Array.isArray(index) && setCategoryMultiSelectedIndex(index)
+                }
             >
                 {categories.map((type, i) => (
                     <SelectItem key={i} title={type} />
                 ))}
             </Select>
-            <View
-                style={{
-                    width: "80%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    flexDirection: "row",
-                }}
-            >
-                <View style={{ width: "10%" }}>
+            <View style={styles.row}>
+                <View style={styles.icon}>
                     <PositiveIcon />
                 </View>
-                <ButtonGroup style={{ width: "90%" }} appearance={"outline"}>
+                <ButtonGroup
+                    style={styles.nextToIcon}
+                    appearance="outline"
+                    status="basic"
+                >
                     <Button
                         style={{ width: "33.3%", paddingHorizontal: 5 }}
                         onPress={() => setIsPositive(0)}
-                        appearance={positiveStoreViewOnDiving === 0 ? "filled" : "outline"}
+                        appearance={
+                            positiveStoreViewOnDiving === 0
+                                ? "filled"
+                                : "outline"
+                        }
                     >
                         Negative
                     </Button>
                     <Button
                         style={{ width: "33.3%", paddingHorizontal: 5 }}
                         onPress={() => setIsPositive(1)}
-                        appearance={positiveStoreViewOnDiving === 1 ? "filled" : "outline"}
+                        appearance={
+                            positiveStoreViewOnDiving === 1
+                                ? "filled"
+                                : "outline"
+                        }
                     >
                         Neutral
                     </Button>
                     <Button
                         style={{ width: "33.3%", paddingHorizontal: 5 }}
                         onPress={() => setIsPositive(2)}
-                        appearance={positiveStoreViewOnDiving === 2 ? "filled" : "outline"}
+                        appearance={
+                            positiveStoreViewOnDiving === 2
+                                ? "filled"
+                                : "outline"
+                        }
                     >
                         Positive
                     </Button>
                 </ButtonGroup>
             </View>
 
-            <View
-                style={{
-                    width: "80%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    flexDirection: "row",
-                }}
-            >
-                <View style={{ width: "10%" }}>
+            <View style={styles.row}>
+                <View style={styles.icon}>
                     <LockIcon />
                 </View>
 
-                <ButtonGroup style={{ width: "90%" }} appearance={"outline"}>
+                <ButtonGroup
+                    style={styles.nextToIcon}
+                    appearance="outline"
+                    status="basic"
+                >
                     <Button
                         style={{ width: "50%" }}
                         onPress={() => setLocked(true)}
@@ -176,75 +186,52 @@ export default function AddInfoScreen({
                 </ButtonGroup>
             </View>
 
-            <View
-                style={{
-                    height: "5%",
-                    width: "80%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    flexDirection: "row",
-                }}
-            >
-                <View style={{ width: "10%" }}>
+            <View style={styles.row}>
+                <View style={styles.icon}>
                     <TrashIcon />
                 </View>
                 <Input
-                    style={{ width: "90%" }}
+                    style={styles.nextToIcon}
                     placeholder="Emptied at times..."
                     onChangeText={text => setEmptyingSchedule(text)}
                     value={emptyingSchedule}
                 />
             </View>
 
-            <View
-                style={{
-                    height: "5%",
-                    width: "60%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    flexDirection: "row",
-                }}
-            >
-                <Text>Cleanliness:</Text>
-                <Slider
-                    animateTransitions
-                    animationType="timing"
-                    maximumTrackTintColor="#ccc"
-                    maximumValue={100}
-                    minimumTrackTintColor="#222"
-                    minimumValue={0}
-                    onSlidingComplete={setCleanliness}
-                    orientation="horizontal"
-                    step={1}
-                    style={{ width: "60%", height: 200, marginLeft: 5 }}
-                    thumbStyle={{ height: 20, width: 20 }}
-                    thumbTouchSize={{ width: 40, height: 40 }}
-                    trackStyle={{ height: 10, borderRadius: 20 }}
-                    value={cleanliness}
-                />
+            <View style={styles.row}>
+                <View style={styles.icon}>
+                    <TrashIcon />
+                </View>
+
+                <ButtonGroup
+                    style={styles.nextToIcon}
+                    appearance="outline"
+                    status="basic"
+                >
+                    {cleanlinessRange.map((name, i) => (
+                        <Button
+                            style={{ width: "20%" }}
+                            onPress={() => setCleanliness(i)}
+                            appearance={cleanliness >= i ? "filled" : "outline"}
+                            accessoryLeft={
+                                cleanliness >= i ? CleanIcon : FadedCleanIcon
+                            }
+                        />
+                    ))}
+                </ButtonGroup>
             </View>
 
-            <View
-                style={{
-                    width: "80%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    flexDirection: "row",
-                }}
-            >
+            <View style={styles.row}>
                 <Button
-                    appearance={"outline"}
-                    status={"basic"}
+                    appearance="outline"
+                    status="primary"
                     style={{ width: " 48%", margin: "2%" }}
                     onPress={() => console.log("photo")}
                 >
                     Add photo
                 </Button>
                 <Button
-                    status={"basic"}
+                    status="primary"
                     style={{ width: " 48%", margin: "2%" }}
                     onPress={handleSubmit}
                 >
@@ -255,13 +242,9 @@ export default function AddInfoScreen({
     );
 
     function showCategories() {
-        let categoryValues = "";
-        categorySelectedIndex.map(
-            (type, i) =>
-                (categoryValues +=
-                    categories[categorySelectedIndex[i].row] + ", "),
-        );
-        return categoryValues;
+        return categorySelectedIndex
+            .map(({ row }) => categories[row])
+            .join(", ");
     }
 
     function handleSubmit() {
@@ -296,7 +279,6 @@ export default function AddInfoScreen({
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: 400,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -306,11 +288,18 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         flexGrow: 0,
     },
-    title: {
-        fontSize: 20,
-        fontWeight: "bold",
+    icon: {
+        width: "10%",
+        marginHorizontal: 4,
     },
-    width: {
-        width: "100%",
+    row: {
+        width: "80%",
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
+        flexDirection: "row",
+    },
+    nextToIcon: {
+        width: "90%",
     },
 });

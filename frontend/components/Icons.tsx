@@ -1,19 +1,25 @@
 import React from "react";
-import { Icon, IconProps } from "@ui-kitten/components";
+import { Icon, IconProps as BaseIconProps } from "@ui-kitten/components";
 import { withStyles } from '@ui-kitten/components';
 import {StyleSheet} from "react-native";
 
+type IconProps = BaseIconProps & { faded?: boolean };
+
 const UnthemedIcon = (props: IconProps) => {
-    const { eva, style, ...restProps } = props;
+    const { eva, style, faded, ...restProps } = props;
+    const fill = faded ? eva.style.fadedIcon.color : eva.style.icon.color;
     return (
-        <Icon {...restProps} fill={eva.style.icon.color} style={[eva.style.icon, style, styles.icon]} />
+        <Icon {...restProps} fill={fill} style={[eva.style.icon, styles.icon, style]} />
     );
 };
 
 export const BaseIcon = withStyles(UnthemedIcon, (theme) => {
     return {
         icon: {
-            color: theme['color-basic-900'],
+            color: theme['color-basic-800'],
+        },
+        fadedIcon: {
+            color: theme['color-basic-600'],
         },
     }
 });
@@ -33,6 +39,14 @@ export const NegativeIcon = (props: IconProps) => (
 
 export const PositiveIcon = (props: IconProps) => (
     <BaseIcon {...props} name="star" />
+);
+
+export const CleanIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="star" />
+);
+
+export const FadedCleanIcon = (props: IconProps) => (
+    <BaseIcon {...props} faded name="star" />
 );
 
 export const StarIcon = (props: IconProps) => (
