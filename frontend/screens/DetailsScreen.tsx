@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View } from "../components/Themed";
 import { Image, StyleSheet } from "react-native";
-import { AirbnbRating} from "react-native-elements";
+import { AirbnbRating } from "react-native-elements";
 import { Button, Text } from "@ui-kitten/components";
 import {
     FlagIcon,
@@ -30,6 +30,7 @@ export default function DetailsScreen() {
     ];
     const [photoDisp, onPhotoChange] = useState(0);
     let photoCounter = 0;
+    let a = false;
 
     if (tags.length > tagNrLine) {
         const turns = tags.length / tagNrLine;
@@ -312,19 +313,39 @@ export default function DetailsScreen() {
                                         justifyContent: "flex-start",
                                     }}
                                 >
-                                    {dumpster.positiveStoreViewOnDiving ? (
+                                    {dumpster.positiveStoreViewOnDiving ===
+                                    null ? (
                                         <>
                                             <PositiveIcon />
                                             <Text style={{ paddingLeft: 5 }}>
-                                                Positive attitude
+                                                Unknown
                                             </Text>
                                         </>
                                     ) : (
                                         <>
-                                            <NegativeIcon />
-                                            <Text style={{ paddingLeft: 5 }}>
-                                                Negative attitude
-                                            </Text>
+                                            {dumpster.positiveStoreViewOnDiving ? (
+                                                <>
+                                                    <PositiveIcon />
+                                                    <Text
+                                                        style={{
+                                                            paddingLeft: 5,
+                                                        }}
+                                                    >
+                                                        Positive attitude
+                                                    </Text>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <NegativeIcon />
+                                                    <Text
+                                                        style={{
+                                                            paddingLeft: 5,
+                                                        }}
+                                                    >
+                                                        Negative attitude
+                                                    </Text>
+                                                </>
+                                            )}
                                         </>
                                     )}
                                 </View>
@@ -395,7 +416,7 @@ export default function DetailsScreen() {
                         </View>
                         <View>
                             <Button
-                                style={{ backgroundColor: "gray" }}
+                                status={"basic"}
                                 size={"small"}
                                 onPress={() => console.log("Comment")}
                             >

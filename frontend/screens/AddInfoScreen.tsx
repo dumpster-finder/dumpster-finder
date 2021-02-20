@@ -5,10 +5,10 @@ import {
     Layout,
     Input,
     Text,
-    Toggle,
     IndexPath,
     Select,
     SelectItem,
+    ButtonGroup,
 } from "@ui-kitten/components";
 import { useState } from "react";
 import { useAppDispatch } from "../redux/store";
@@ -21,7 +21,7 @@ import Dumpster from "../models/Dumpster";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackActions } from "@react-navigation/native";
 import { Slider } from "react-native-elements";
-import {LockIcon, PositiveIcon, TrashIcon} from "../components/Icons";
+import { LockIcon, PositiveIcon, TrashIcon } from "../components/Icons";
 
 export default function AddInfoScreen({
     navigation,
@@ -32,43 +32,35 @@ export default function AddInfoScreen({
     const position = useSelector(editorPositionSelector);
     const dumpsterTypes = ["Metal", "Compressor", "Plastic"];
     const storeTypes = ["Food", "Electronics"];
-
+    const categories = ["Meat", "Fruit", "Vegetables", "Spices"];
     const [name, setName] = useState("");
-    const [dumpsterType, setDumpsterType] = useState(dumpsterTypes[0]);
     const [dumpsterTypeIndex, setDumpsterTypeIndex] = useState(
         new IndexPath(0),
     );
-    const [storeType, setStoreType] = useState(storeTypes[0]);
     const [storeTypeIndex, setStoreTypeIndex] = useState(new IndexPath(0));
     const [emptyingSchedule, setEmptyingSchedule] = useState("");
     const [cleanliness, setCleanliness] = useState(50);
-    const [positiveStoreViewOnDiving, setIsPositive] = useState(false);
     const [locked, setLocked] = useState(false);
+    const [
+        categorySelectedIndex,
+        setCategoryMultiSelectedIndex,
+    ] = React.useState([new IndexPath(0)]);
+    const [positiveStoreViewOnDiving, setIsPositive] = useState(1);
 
     return (
         <Layout style={styles.container}>
-            <View
-                style={{
-                    height: "5%",
-                    width: "60%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    flexDirection: "row",
-                }}
-            >
-                <Input
-                    placeholder="Name"
-                    label="Name"
-                    onChangeText={text => setName(text)}
-                    value={name}
-                />
-            </View>
+            <Input
+                style={{ width: "80%" }}
+                placeholder="Name"
+                label="Store name"
+                onChangeText={text => setName(text)}
+                value={name}
+            />
 
             <View
                 style={{
                     height: "5%",
-                    width: "60%",
+                    width: "80%",
                     alignItems: "center",
                     justifyContent: "center",
                     flex: 1,
@@ -78,105 +70,122 @@ export default function AddInfoScreen({
                 <Select
                     label="Dumpster type"
                     selectedIndex={dumpsterTypeIndex}
+                    value={dumpsterTypes[dumpsterTypeIndex.row]}
                     onSelect={index =>
                         index instanceof IndexPath &&
                         setDumpsterTypeIndex(index)
                     }
-                    style={{ width: 100 }}
+                    style={{ width: "48%", margin: "2%" }}
                 >
                     {dumpsterTypes.map((type, i) => (
                         <SelectItem key={i} title={type} />
                     ))}
                 </Select>
-            </View>
-            <View
-                style={{
-                    height: "5%",
-                    width: "60%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    flexDirection: "row",
-                }}
-            >
                 <Select
                     label="Store type"
                     selectedIndex={storeTypeIndex}
+                    value={storeTypes[storeTypeIndex.row]}
                     onSelect={index =>
-                        index instanceof IndexPath &&
-                        setStoreTypeIndex(index)
+                        index instanceof IndexPath && setStoreTypeIndex(index)
                     }
-                    style={{ width: 100 }}
+                    style={{ width: "48%", margin: "2%" }}
                 >
                     {storeTypes.map((type, i) => (
                         <SelectItem key={i} title={type} />
                     ))}
                 </Select>
             </View>
+            <Select
+                label="Categories"
+                style={{ width: "80%" }}
+                multiSelect={true}
+                placeholder="Categories"
+                value={showCategories()}
+                selectedIndex={categorySelectedIndex}
+                onSelect={index => setCategoryMultiSelectedIndex(index)}
+            >
+                {categories.map((type, i) => (
+                    <SelectItem key={i} title={type} />
+                ))}
+            </Select>
             <View
                 style={{
-                    height: "5%",
-                    width: "60%",
+                    width: "80%",
                     alignItems: "center",
                     justifyContent: "center",
                     flex: 1,
                     flexDirection: "row",
                 }}
             >
-                <Input label="Tags" placeholder="IDK" />
+                <View style={{ width: "10%" }}>
+                    <PositiveIcon />
+                </View>
+                <ButtonGroup style={{ width: "90%" }} appearance={"outline"}>
+                    <Button
+                        style={{ width: "33.3%", paddingHorizontal: 5 }}
+                        onPress={() => setIsPositive(0)}
+                    >
+                        Negative
+                    </Button>
+                    <Button
+                        style={{ width: "33.3%", paddingHorizontal: 5 }}
+                        onPress={() => setIsPositive(1)}
+                    >
+                        Neutral
+                    </Button>
+                    <Button
+                        style={{ width: "33.3%", paddingHorizontal: 5 }}
+                        onPress={() => setIsPositive(2)}
+                    >
+                        Positive
+                    </Button>
+                </ButtonGroup>
             </View>
+
             <View
                 style={{
-                    height: "5%",
-                    width: "60%",
+                    width: "80%",
                     alignItems: "center",
                     justifyContent: "center",
                     flex: 1,
                     flexDirection: "row",
                 }}
             >
-                <PositiveIcon/>
-                <Toggle
-                    onChange={() =>
-                        setIsPositive(previousState => !previousState)
-                    }
-                    checked={positiveStoreViewOnDiving}
-                >
-                    Positive attitude
-                </Toggle>
+                <View style={{ width: "10%" }}>
+                    <LockIcon />
+                </View>
+
+                <ButtonGroup style={{ width: "90%" }} appearance={"outline"}>
+                    <Button
+                        style={{ width: "50%" }}
+                        onPress={() => setLocked(true)}
+                    >
+                        Locked
+                    </Button>
+                    <Button
+                        style={{ width: "50%" }}
+                        onPress={() => setLocked(false)}
+                    >
+                        Open
+                    </Button>
+                </ButtonGroup>
             </View>
 
             <View
                 style={{
                     height: "5%",
-                    width: "60%",
+                    width: "80%",
                     alignItems: "center",
                     justifyContent: "center",
                     flex: 1,
                     flexDirection: "row",
                 }}
             >
-                <LockIcon />
-                <Toggle
-                    onChange={() => setLocked(previousState => !previousState)}
-                    checked={locked}
-                >
-                    Locked
-                </Toggle>
-            </View>
-
-            <View
-                style={{
-                    height: "5%",
-                    width: "60%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    flexDirection: "row",
-                }}
-            >
-                <TrashIcon />
+                <View style={{ width: "10%" }}>
+                    <TrashIcon />
+                </View>
                 <Input
+                    style={{ width: "90%" }}
                     placeholder="Emptied at times..."
                     onChangeText={text => setEmptyingSchedule(text)}
                     value={emptyingSchedule}
@@ -214,31 +223,49 @@ export default function AddInfoScreen({
 
             <View
                 style={{
-                    height: "10%",
-                    width: "60%",
+                    width: "80%",
                     alignItems: "center",
                     justifyContent: "center",
+                    flex: 1,
+                    flexDirection: "row",
                 }}
             >
-                <Button style={{ width: " 50%" }}>Add photo</Button>
-            </View>
-
-            <View
-                style={{
-                    height: "15%",
-                    width: "60%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <Button style={{ width: " 50%" }} onPress={handleSubmit}>
+                <Button
+                    appearance={"outline"}
+                    status={"basic"}
+                    style={{ width: " 48%", margin: "2%" }}
+                    onPress={() => console.log("photo")}
+                >
+                    Add photo
+                </Button>
+                <Button
+                    status={"basic"}
+                    style={{ width: " 48%", margin: "2%" }}
+                    onPress={handleSubmit}
+                >
                     Save
                 </Button>
             </View>
         </Layout>
     );
 
+    function showCategories() {
+        let categoryValues = "";
+        categorySelectedIndex.map(
+            (type, i) =>
+                (categoryValues +=
+                    categories[categorySelectedIndex[i].row] + ", "),
+        );
+        return categoryValues;
+    }
+
     function handleSubmit() {
+        let positiveView = null;
+        if (positiveStoreViewOnDiving === 0) {
+            positiveView = false;
+        } else if (positiveStoreViewOnDiving === 2) {
+            positiveView = true;
+        }
         // Post the dumpster, add it to the list of dumpster if that succeeds
         // TODO: actually make the above happen
         //       it is now substituted with this:
@@ -250,10 +277,10 @@ export default function AddInfoScreen({
             storeType: storeTypes[storeTypeIndex.row],
             emptyingSchedule,
             cleanliness,
-            positiveStoreViewOnDiving,
+            positiveStoreViewOnDiving: positiveView,
             locked,
         };
-        console.log(dumpster); // TODO: delete this afterwards
+        console.log(dumpster.positiveStoreViewOnDiving); // TODO: delete this afterwards
         // Then reset the editor's state
         dispatch(resetEditor());
         // And navigate back to where you were before!
