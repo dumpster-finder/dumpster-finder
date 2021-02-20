@@ -26,6 +26,10 @@ test_backend:
   script:
     - echo TODO
 
+code_quality:
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
 deploy:
   stage: deploy
   script:
