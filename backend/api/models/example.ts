@@ -9,7 +9,7 @@ export interface ThingAttributes {
 export interface ThingCreationAttributes
     extends Optional<ThingAttributes, "id"> {}
 
-class Thing
+export class Thing
     extends Model<ThingAttributes, ThingCreationAttributes>
     implements ThingAttributes {
     public id!: number;
@@ -53,3 +53,5 @@ export function associate({
     // using the supplied Models object
     Thing.hasMany(Thangs, { foreignKey: "thingID"});
 }
+
+
