@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import {
     Button,
     Layout,
@@ -61,183 +61,190 @@ export default function AddInfoScreen({
     const [positiveStoreViewOnDiving, setIsPositive] = useState(1);
 
     return (
-        <Layout style={styles.container}>
-            <Input
-                style={{ width: "80%" }}
-                placeholder="Name"
-                label="Store name"
-                onChangeText={text => setName(text)}
-                value={name}
-            />
-
-            <View style={styles.row}>
-                <Select
-                    label="Dumpster type"
-                    selectedIndex={dumpsterTypeIndex}
-                    value={dumpsterTypes[dumpsterTypeIndex.row]}
-                    onSelect={index =>
-                        index instanceof IndexPath &&
-                        setDumpsterTypeIndex(index)
-                    }
-                    style={{ width: "48%", margin: "2%" }}
-                >
-                    {dumpsterTypes.map((type, i) => (
-                        <SelectItem key={i} title={type} />
-                    ))}
-                </Select>
-                <Select
-                    label="Store type"
-                    selectedIndex={storeTypeIndex}
-                    value={storeTypes[storeTypeIndex.row]}
-                    onSelect={index =>
-                        index instanceof IndexPath && setStoreTypeIndex(index)
-                    }
-                    style={{ width: "48%", margin: "2%" }}
-                >
-                    {storeTypes.map((type, i) => (
-                        <SelectItem key={i} title={type} />
-                    ))}
-                </Select>
-            </View>
-            <Select
-                label="Categories"
-                style={{ width: "80%" }}
-                multiSelect={true}
-                placeholder="Categories"
-                value={showCategories()}
-                selectedIndex={categorySelectedIndex}
-                onSelect={index =>
-                    Array.isArray(index) && setCategoryMultiSelectedIndex(index)
-                }
-            >
-                {categories.map((type, i) => (
-                    <SelectItem key={i} title={type} />
-                ))}
-            </Select>
-            <View style={styles.row}>
-                <View style={styles.icon}>
-                    <PositiveIcon />
-                </View>
-                <ButtonGroup
-                    style={styles.nextToIcon}
-                    appearance="outline"
-                    status="basic"
-                >
-                    <Button
-                        style={{ width: "33.3%", paddingHorizontal: 5 }}
-                        onPress={() => setIsPositive(0)}
-                        appearance={
-                            positiveStoreViewOnDiving === 0
-                                ? "filled"
-                                : "outline"
-                        }
-                    >
-                        Negative
-                    </Button>
-                    <Button
-                        style={{ width: "33.3%", paddingHorizontal: 5 }}
-                        onPress={() => setIsPositive(1)}
-                        appearance={
-                            positiveStoreViewOnDiving === 1
-                                ? "filled"
-                                : "outline"
-                        }
-                    >
-                        Neutral
-                    </Button>
-                    <Button
-                        style={{ width: "33.3%", paddingHorizontal: 5 }}
-                        onPress={() => setIsPositive(2)}
-                        appearance={
-                            positiveStoreViewOnDiving === 2
-                                ? "filled"
-                                : "outline"
-                        }
-                    >
-                        Positive
-                    </Button>
-                </ButtonGroup>
-            </View>
-
-            <View style={styles.row}>
-                <View style={styles.icon}>
-                    <LockIcon />
-                </View>
-
-                <ButtonGroup
-                    style={styles.nextToIcon}
-                    appearance="outline"
-                    status="basic"
-                >
-                    <Button
-                        style={{ width: "50%" }}
-                        onPress={() => setLocked(true)}
-                        appearance={locked ? "filled" : "outline"}
-                    >
-                        Locked
-                    </Button>
-                    <Button
-                        style={{ width: "50%" }}
-                        onPress={() => setLocked(false)}
-                        appearance={!locked ? "filled" : "outline"}
-                    >
-                        Open
-                    </Button>
-                </ButtonGroup>
-            </View>
-
-            <View style={styles.row}>
-                <View style={styles.icon}>
-                    <TrashIcon />
-                </View>
+        <Layout>
+            <ScrollView scrollEnabled style={styles.fullWidth} contentContainerStyle={styles.container}>
                 <Input
-                    style={styles.nextToIcon}
-                    placeholder="Emptied at times..."
-                    onChangeText={text => setEmptyingSchedule(text)}
-                    value={emptyingSchedule}
+                    style={{ width: "80%" }}
+                    placeholder="Name"
+                    label="Store name"
+                    onChangeText={text => setName(text)}
+                    value={name}
                 />
-            </View>
-
-            <View style={styles.row}>
-                <View style={styles.icon}>
-                    <TrashIcon />
+                <View style={styles.row}>
+                    <Select
+                        label="Dumpster type"
+                        selectedIndex={dumpsterTypeIndex}
+                        value={dumpsterTypes[dumpsterTypeIndex.row]}
+                        onSelect={index =>
+                            index instanceof IndexPath &&
+                            setDumpsterTypeIndex(index)
+                        }
+                        style={{ width: "48%", margin: "2%" }}
+                    >
+                        {dumpsterTypes.map((type, i) => (
+                            <SelectItem key={i} title={type} />
+                        ))}
+                    </Select>
+                    <Select
+                        label="Store type"
+                        selectedIndex={storeTypeIndex}
+                        value={storeTypes[storeTypeIndex.row]}
+                        onSelect={index =>
+                            index instanceof IndexPath &&
+                            setStoreTypeIndex(index)
+                        }
+                        style={{ width: "48%", margin: "2%" }}
+                    >
+                        {storeTypes.map((type, i) => (
+                            <SelectItem key={i} title={type} />
+                        ))}
+                    </Select>
+                </View>
+                <Select
+                    label="Categories"
+                    style={{ width: "80%" }}
+                    multiSelect={true}
+                    placeholder="Categories"
+                    value={showCategories()}
+                    selectedIndex={categorySelectedIndex}
+                    onSelect={index =>
+                        Array.isArray(index) &&
+                        setCategoryMultiSelectedIndex(index)
+                    }
+                >
+                    {categories.map((type, i) => (
+                        <SelectItem key={i} title={type} />
+                    ))}
+                </Select>
+                <View style={styles.row}>
+                    <View style={styles.icon}>
+                        <PositiveIcon />
+                    </View>
+                    <ButtonGroup
+                        style={styles.nextToIcon}
+                        appearance="outline"
+                        status="basic"
+                    >
+                        <Button
+                            style={{ width: "33.3%", paddingHorizontal: 5 }}
+                            onPress={() => setIsPositive(0)}
+                            appearance={
+                                positiveStoreViewOnDiving === 0
+                                    ? "filled"
+                                    : "outline"
+                            }
+                        >
+                            Negative
+                        </Button>
+                        <Button
+                            style={{ width: "33.3%", paddingHorizontal: 5 }}
+                            onPress={() => setIsPositive(1)}
+                            appearance={
+                                positiveStoreViewOnDiving === 1
+                                    ? "filled"
+                                    : "outline"
+                            }
+                        >
+                            Neutral
+                        </Button>
+                        <Button
+                            style={{ width: "33.3%", paddingHorizontal: 5 }}
+                            onPress={() => setIsPositive(2)}
+                            appearance={
+                                positiveStoreViewOnDiving === 2
+                                    ? "filled"
+                                    : "outline"
+                            }
+                        >
+                            Positive
+                        </Button>
+                    </ButtonGroup>
                 </View>
 
-                <ButtonGroup
-                    style={styles.nextToIcon}
-                    appearance="outline"
-                    status="basic"
-                >
-                    {cleanlinessRange.map((name, i) => (
-                        <Button
-                            style={{ width: "20%" }}
-                            onPress={() => setCleanliness(i)}
-                            appearance={cleanliness >= i ? "filled" : "outline"}
-                            accessoryLeft={
-                                cleanliness >= i ? CleanIcon : FadedCleanIcon
-                            }
-                        />
-                    ))}
-                </ButtonGroup>
-            </View>
+                <View style={styles.row}>
+                    <View style={styles.icon}>
+                        <LockIcon />
+                    </View>
 
-            <View style={styles.row}>
-                <Button
-                    appearance="outline"
-                    status="primary"
-                    style={{ width: " 48%", margin: "2%" }}
-                    onPress={() => console.log("photo")}
-                >
-                    Add photo
-                </Button>
-                <Button
-                    status="primary"
-                    style={{ width: " 48%", margin: "2%" }}
-                    onPress={handleSubmit}
-                >
-                    Save
-                </Button>
-            </View>
+                    <ButtonGroup
+                        style={styles.nextToIcon}
+                        appearance="outline"
+                        status="basic"
+                    >
+                        <Button
+                            style={{ width: "50%" }}
+                            onPress={() => setLocked(true)}
+                            appearance={locked ? "filled" : "outline"}
+                        >
+                            Locked
+                        </Button>
+                        <Button
+                            style={{ width: "50%" }}
+                            onPress={() => setLocked(false)}
+                            appearance={!locked ? "filled" : "outline"}
+                        >
+                            Open
+                        </Button>
+                    </ButtonGroup>
+                </View>
+
+                <View style={styles.row}>
+                    <View style={styles.icon}>
+                        <TrashIcon />
+                    </View>
+                    <Input
+                        style={styles.nextToIcon}
+                        placeholder="Emptied at times..."
+                        onChangeText={text => setEmptyingSchedule(text)}
+                        value={emptyingSchedule}
+                    />
+                </View>
+
+                <View style={styles.row}>
+                    <View style={styles.icon}>
+                        <TrashIcon />
+                    </View>
+
+                    <ButtonGroup
+                        style={styles.nextToIcon}
+                        appearance="outline"
+                        status="basic"
+                    >
+                        {cleanlinessRange.map((name, i) => (
+                            <Button
+                                style={{ width: "20%" }}
+                                onPress={() => setCleanliness(i)}
+                                appearance={
+                                    cleanliness >= i ? "filled" : "outline"
+                                }
+                                accessoryLeft={
+                                    cleanliness >= i
+                                        ? CleanIcon
+                                        : FadedCleanIcon
+                                }
+                            />
+                        ))}
+                    </ButtonGroup>
+                </View>
+
+                <View style={styles.row}>
+                    <Button
+                        appearance="outline"
+                        status="primary"
+                        style={{ width: " 48%", margin: "2%" }}
+                        onPress={() => console.log("photo")}
+                    >
+                        Add photo
+                    </Button>
+                    <Button
+                        status="primary"
+                        style={{ width: " 48%", margin: "2%" }}
+                        onPress={handleSubmit}
+                    >
+                        Save
+                    </Button>
+                </View>
+            </ScrollView>
         </Layout>
     );
 
@@ -282,11 +289,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    horizontalContainer: {
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "flex-start",
-        flexGrow: 0,
+    fullWidth: {
+        width: "100%",
+        minHeight: "100%",
     },
     icon: {
         width: "10%",
