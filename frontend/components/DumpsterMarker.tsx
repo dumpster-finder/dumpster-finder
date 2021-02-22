@@ -1,8 +1,8 @@
 import React from "react";
 import { Callout, Marker } from "react-native-maps";
-import { View } from "./Themed";
 import { Text } from "react-native-elements";
 import Dumpster from "../models/Dumpster";
+import { View } from "react-native";
 
 /**
  * Displays a dumpster as a marker on a map
@@ -13,7 +13,7 @@ import Dumpster from "../models/Dumpster";
  */
 export default function ({
     dumpster: { name, storeType, dumpsterType, position },
-    onPress
+    onPress,
 }: {
     dumpster: Dumpster;
     onPress: () => void;

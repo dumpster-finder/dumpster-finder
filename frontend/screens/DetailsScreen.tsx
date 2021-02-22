@@ -1,8 +1,7 @@
 import * as React from "react";
-import { View } from "../components/Themed";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { AirbnbRating } from "react-native-elements";
-import { Button, Text } from "@ui-kitten/components";
+import {Button, Layout, Text} from "@ui-kitten/components";
 import {
     FlagIcon,
     EditIcon,
@@ -47,7 +46,7 @@ export default function DetailsScreen() {
         );
     } else {
         return (
-            <View style={styles.container}>
+            <Layout style={styles.container}>
                 <View
                     style={{
                         height: "100%",
@@ -156,7 +155,7 @@ export default function DetailsScreen() {
                                             flexDirection: "column",
                                             alignItems: "center",
                                             justifyContent: "center",
-                                            backgroundColor: "blue",
+                                            // backgroundColor: "blue",
                                         }}
                                     >
                                         {tagArrays.map(tagArray => (
@@ -429,7 +428,7 @@ export default function DetailsScreen() {
                         </View>
                     </View>
                 </View>
-            </View>
+            </Layout>
         );
     }
 }

@@ -1,8 +1,6 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
-import { View } from "../components/Themed";
+import { StyleSheet, View } from "react-native";
 import MapView, { UrlTile } from "react-native-maps";
-import { Icon, SearchBar } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterMarker from "../components/DumpsterMarker";
@@ -12,6 +10,7 @@ import { useSelector } from "react-redux";
 import { positionSelector, setPosition } from "../redux/slices/configSlice";
 import { useEffect } from "react";
 import SearchHeader from "../components/SearchHeader";
+import {Layout} from "@ui-kitten/components";
 
 export default function MapScreen({
     navigation,
@@ -19,7 +18,6 @@ export default function MapScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const dispatch = useAppDispatch();
-    const colorScheme = useColorScheme();
     const position = useSelector(positionSelector);
     const dumpsters = useSelector(allDumpstersSelector);
 
@@ -35,7 +33,7 @@ export default function MapScreen({
     }, []);
 
     return (
-        <View style={styles.container}>
+        <Layout style={styles.container}>
             <SearchHeader onPressPlus={() => {
                 navigation.navigate("AddPositionScreen", {
                     screen: "AddPositionScreen",
@@ -90,7 +88,7 @@ export default function MapScreen({
                     flipY={false}
                 />
             </MapView>
-        </View>
+        </Layout>
     );
 }
 

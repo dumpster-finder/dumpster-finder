@@ -1,7 +1,6 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import { View } from "../components/Themed";
 import { Icon } from "react-native-elements";
 import { Layout, Text } from "@ui-kitten/components";
 

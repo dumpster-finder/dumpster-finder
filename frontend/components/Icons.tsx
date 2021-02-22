@@ -16,10 +16,10 @@ const UnthemedIcon = (props: IconProps) => {
 export const BaseIcon = withStyles(UnthemedIcon, (theme) => {
     return {
         icon: {
-            color: theme['color-basic-800'],
+            color: theme['text-basic-color'],
         },
         fadedIcon: {
-            color: theme['color-basic-600'],
+            color: theme['text-disabled-color'],
         },
     }
 });

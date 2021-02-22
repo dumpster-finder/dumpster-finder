@@ -4,7 +4,6 @@ import {
     Button,
     Layout,
     Input,
-    Text,
     IndexPath,
     Select,
     SelectItem,

@@ -1,11 +1,16 @@
 import * as React from "react";
-import { Card, Text} from "@ui-kitten/components";
-import { View } from "./Themed";
-import { Image, StyleSheet} from "react-native";
+import { Card, Text } from "@ui-kitten/components";
+import { Image, StyleSheet, View } from "react-native";
 import Dumpster from "../models/Dumpster";
-import { StarIcon, LockIcon } from "../components/Icons";
+import { StarIcon, LockIcon } from "./Icons";
 
-export default function ListCards({ dumpster, onPress}: { dumpster: Dumpster, onPress: () => void }) {
+export default function ListCards({
+    dumpster,
+    onPress,
+}: {
+    dumpster: Dumpster;
+    onPress: () => void;
+}) {
     return (
         <Card onPress={onPress}>
             <View style={styles.footerContainer}>
@@ -29,12 +34,14 @@ export default function ListCards({ dumpster, onPress}: { dumpster: Dumpster, on
                             flexDirection: "row",
                             justifyContent: "space-between",
                             alignItems: "flex-end",
-                        }}>
+                        }}
+                    >
                         <View
                             style={{
                                 width: "33%",
                                 alignItems: "flex-start",
-                            }}>
+                            }}
+                        >
                             <Text>0.2 km</Text>
                         </View>
                         <View
@@ -43,19 +50,22 @@ export default function ListCards({ dumpster, onPress}: { dumpster: Dumpster, on
                                 flex: 1,
                                 flexDirection: "row",
                                 alignItems: "flex-end",
-                            }}>
+                            }}
+                        >
                             <View
                                 style={{
                                     width: "50%",
                                     alignItems: "flex-end",
-                                }}>
-                                <StarIcon/>
+                                }}
+                            >
+                                <StarIcon />
                             </View>
                             <View
                                 style={{
                                     width: "50%",
                                     alignItems: "flex-start",
-                                }}>
+                                }}
+                            >
                                 <Text>{dumpster.rating}</Text>
                             </View>
                         </View>
@@ -63,8 +73,9 @@ export default function ListCards({ dumpster, onPress}: { dumpster: Dumpster, on
                             style={{
                                 width: "33%",
                                 alignItems: "flex-end",
-                            }}>
-                            {dumpster.locked ? <LockIcon/> : null}
+                            }}
+                        >
+                            {dumpster.locked ? <LockIcon /> : null}
                         </View>
                     </View>
                 </View>
