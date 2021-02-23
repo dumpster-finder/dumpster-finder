@@ -47,6 +47,7 @@ import {validate} from "express-validation";
 import {postThing} from "../validators/example";
 import ThingDAO from "../daos/example";
 import ThangDAO from "../daos/thang";
+import DumpsterDAO from "../daos/dumpsters";
 import Models from "../models";
 import thang from "../daos/thang";
 
@@ -55,6 +56,7 @@ export default function () {
     const thingDAO = ThingDAO(Models);
     const thangDAO = ThangDAO(Models);
     const router = Router();
+    const dumpsterDAO = DumpsterDAO(Models);
 
     /**
      * @swagger
@@ -91,6 +93,7 @@ export default function () {
      */
     router.post("/", validate(postThing), async (req, res) => {
         try {
+            console.log("Hello fro example");
             await thingDAO.addOne(req.body);
             res.status(201).send("Success");
         } catch (e) {
@@ -219,6 +222,7 @@ export default function () {
             res.status(500).send("uh?");
         }
     });
+
 
     return router;
 }
