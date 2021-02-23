@@ -1,18 +1,58 @@
 import sequelize from "../config/sequelize";
+import * as Dumpsters from "./dumpsters";
+import * as DumpsterTypes from "./dumpsterTypes";
+import * as StoreTypes from "./storeTypes"
 import * as Things from "./example";
 import * as Thangs from "./thang";
+import * as Categories from "./Categories";
+import * as Comments from "./Comments";
+import * as DumpsterCategories from "./DumpsterCategories"
+import * as DumpsterReports from "./DumpsterReports";
+import * as PhotoReports from "./PhotoReports";
+import * as Photos from "./Photos";
+import * as Ratings from "./Ratings";
+import * as StandardTags from "./StandardTags"
+import * as Tags from "./Tags";
+import * as DumpsterTags from "./DumpsterTags";
 
 /**
  * Sequelize Boilerplate: Simple Edition
  */
 
 const Models = {
+    DumpsterTypes: DumpsterTypes.init(sequelize),
+    StoreTypes: StoreTypes.init(sequelize),
+    Categories: Categories.init(sequelize),
+    Dumpsters: Dumpsters.init(sequelize),
+    Tags: Tags.init(sequelize),
     Things: Things.init(sequelize),
-    Thangs: Thangs.init(sequelize)
+    Thangs: Thangs.init(sequelize),
+    Comments: Comments.init(sequelize),
+    DumpsterCategories: DumpsterCategories.init(sequelize),
+    DumpsterReports: DumpsterReports.init(sequelize),
+    PhotoReports: PhotoReports.init(sequelize),
+    Photos: Photos.init(sequelize),
+    Ratings: Ratings.init(sequelize),
+    StandardTags: StandardTags.init(sequelize),
+    DumpsterTags: DumpsterTags.init(sequelize),
 };
 
+
+DumpsterTypes.associate(Models);
+StoreTypes.associate(Models);
+Dumpsters.associate(Models);
 Thangs.associate(Models);
 Things.associate(Models);
+Categories.associate(Models);
+Comments.associate(Models);
+DumpsterCategories.associate(Models);
+DumpsterReports.associate(Models);
+PhotoReports.associate(Models);
+Photos.associate(Models);
+Ratings.associate(Models);
+StandardTags.associate(Models);
+Tags.associate(Models);
+DumpsterTags.associate(Models);
 
 export default Models;
 

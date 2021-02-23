@@ -1,9 +1,21 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { ThingAttributes, ThingCreationAttributes } from "./example";
 
-class Thang extends Model {
+export interface ThangAttributes {
+    id: number;
+    name: string;
+    thingID: number;
+}
+
+export interface ThangCreationAttributes
+    extends Optional<ThangAttributes, "id"> {}
+
+export class Thang
+    extends Model<ThangAttributes, ThangCreationAttributes>
+    implements ThangAttributes {
     public id!: number;
     public name!: string;
+    public thingID!: number;
 }
 
 // Inject Sequelize
@@ -18,6 +30,9 @@ export function init(sequelize: Sequelize) {
             name: {
                 type: DataTypes.STRING,
             },
+            thingID: {
+                type: DataTypes.INTEGER.UNSIGNED,
+            }
         },
         {
             sequelize,
