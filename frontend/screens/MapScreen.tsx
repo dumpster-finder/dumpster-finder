@@ -1,7 +1,9 @@
 import * as React from "react";
+
 import { StyleSheet, View } from "react-native";
 import MapView, { UrlTile } from "react-native-maps";
 import useColorScheme from "../hooks/useColorScheme";
+import { Icon, SearchBar } from "react-native-elements";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterMarker from "../components/DumpsterMarker";
 import { useAppDispatch } from "../redux/store";
@@ -11,6 +13,7 @@ import { positionSelector, setPosition } from "../redux/slices/configSlice";
 import { useEffect } from "react";
 //import SearchHeader from "../components/SearchHeader";
 import {Layout} from "@ui-kitten/components";
+
 
 export default function MapScreen({
     navigation,

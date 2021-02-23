@@ -3,6 +3,7 @@ import Dumpster from "../../models/Dumpster";
 import Position from "../../models/Position";
 import {RootState} from "../store";
 import {testDumpsters} from "../../constants/TestData";
+import {DumpsterService} from "../../services";
 
 /**
  * The dumpster list will be fetched asynchronously,
@@ -22,35 +23,13 @@ interface SliceState {
  */
 export const fetchNearbyDumpsters = createAsyncThunk(
     "dumpsters/fetchNearbyDumpsters",
-    async (location: Position) => {
+    async (position: Position) => {
         // the error is handled outside
         // this is a very temporary replacement!
-        const data: { dumpsters: Dumpster[] } = await new Promise(resolve =>
-            setTimeout(
-                () =>
-                    resolve({
-                        dumpsters: [
-                            {
-                                dumpsterID: 2,
-                                dumpsterType: "Dumpster",
-                                cleanliness: 1,
-                                locked: true,
-                                emptyingSchedule: "Every day of the week",
-                                name: "Bunnpris Moholt",
-                                position: {
-                                    longitude: 24,
-                                    latitude: 23,
-                                },
-                                positiveStoreViewOnDiving: true,
-                                rating: 2,
-                                storeType: "Groceries",
-                            },
-                        ],
-                    }),
-                3000,
-            ),
-        );
-        return data.dumpsters;
+        // less temporary now...
+        // error should be handled automatically
+        // TODO either fetch state or take radius as additional arg
+        return await DumpsterService.getNearbyDumpsters(position, 60);
     },
 );
 
@@ -88,7 +67,7 @@ export const dumpsterSlice = createSlice({
             fetchNearbyDumpsters.fulfilled,
             (state: SliceState, action) => {
                 state.status = "succeeded";
-                state.dumpsters.concat(action.payload);
+                state.dumpsters.push(...action.payload);
             },
         );
         builder.addCase(

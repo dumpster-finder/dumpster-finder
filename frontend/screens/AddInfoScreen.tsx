@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import Dumpster from "../models/Dumpster";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackActions } from "@react-navigation/native";
+import {DumpsterService} from "../services";
 
 export default function AddInfoScreen({
     navigation,
@@ -21,7 +22,6 @@ export default function AddInfoScreen({
     const position = useSelector(editorPositionSelector);
     const dumpsterTypes = ["Metal", "Compressor", "Plastic"];
     const storeTypes = ["Food", "Electronics"];
-
     const [name, setName] = useState("");
     const [dumpsterType, setDumpsterType] = useState(dumpsterTypes[0]);
     const [storeType, setStoreType] = useState(storeTypes[0]);
@@ -29,7 +29,7 @@ export default function AddInfoScreen({
     const [cleanliness, setCleanliness] = useState(50);
     const [positiveStoreViewOnDiving, setIsPositive] = useState(false);
     const [locked, setLocked] = useState(false);
-
+    const [checked, setChecked] = React.useState('first');
     return (
         <View style={styles.container}>
             <View
@@ -183,6 +183,7 @@ export default function AddInfoScreen({
                         maximumValue={100}
                         minimumTrackTintColor="#222"
                         minimumValue={0}
+
                         onSlidingComplete={setCleanliness}
                         orientation="horizontal"
                         step={1}
@@ -236,11 +237,17 @@ export default function AddInfoScreen({
             positiveStoreViewOnDiving,
             locked,
         };
-        console.log(dumpster); // TODO: delete this afterwards
-        // Then reset the editor's state
-        dispatch(resetEditor());
-        // And navigate back to where you were before!
-        navigation.dispatch(StackActions.popToTop());
+        if(name === ""){
+            console.log("We need a name")
+        }else{
+            DumpsterService.addDumpster(dumpster);
+            //console.log(dumpster); // TODO: delete this afterwards
+            // Then reset the editor's state
+            dispatch(resetEditor());
+            // And navigate back to where you were before!
+            navigation.dispatch(StackActions.popToTop());
+        }
+
     }
 }
 

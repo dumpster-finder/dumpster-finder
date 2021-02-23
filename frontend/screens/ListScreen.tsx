@@ -2,12 +2,52 @@ import * as React from "react";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { View } from "../components/Themed";
 import ListCards from "../components/ListCards";
+import Dumpster from "../models/Dumpster";
 import { Icon, SearchBar } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useAppDispatch } from "../redux/store";
 import {allDumpstersSelector, setCurrentDumpster} from "../redux/slices/dumpsterSlice";
 import {useSelector} from "react-redux";
+
+const a: Dumpster = {
+    dumpsterID: 1,
+    name: "Helens' store",
+    position: { latitude: 1, longitude: 2 },
+    emptyingSchedule: "Monday",
+    locked: true,
+    positiveStoreViewOnDiving: false,
+    rating: 4.5,
+    cleanliness: 76,
+    storeType: "Food",
+    dumpsterType: "idk",
+};
+
+const b: Dumpster = {
+    dumpsterID: 1,
+    name: "Tores' store",
+    position: { latitude: 1, longitude: 2 },
+    emptyingSchedule: "Today",
+    locked: false,
+    positiveStoreViewOnDiving: true,
+    rating: 2.5,
+    cleanliness: 14,
+    storeType: "Electronics",
+    dumpsterType: "idk",
+};
+
+const c: Dumpster = {
+    dumpsterID: 1,
+    name: "Jons' store",
+    position: { latitude: 1, longitude: 2 },
+    emptyingSchedule: "Today",
+    locked: false,
+    positiveStoreViewOnDiving: true,
+    rating: 4.5,
+    cleanliness: 74,
+    storeType: "Beds",
+    dumpsterType: "idk",
+};
 
 export default function ListScreen({
     navigation,

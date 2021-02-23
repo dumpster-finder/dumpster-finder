@@ -3,8 +3,9 @@ import { View } from "../components/Themed";
 import { Image, StyleSheet } from "react-native";
 import { Button, Icon, Text, AirbnbRating, Card } from "react-native-elements";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
-import {useState} from "react";
+
 
 export default function DetailsScreen() {
     const dumpster = useSelector(currentDumpsterSelector);
@@ -97,9 +98,9 @@ export default function DetailsScreen() {
                                 style={{ width: "10%" }}
                                 onPress={() => {
                                     if (photoDisp - 1 >= 0) {
-                                        onPhotoChange(photoDisp-1)
+                                        onPhotoChange(photoDisp - 1);
                                     } else {
-                                        onPhotoChange(photos.length - 1)
+                                        onPhotoChange(photos.length - 1);
                                     }
                                 }}
                             />
@@ -122,10 +123,10 @@ export default function DetailsScreen() {
                                 onPress={() => {
                                     if (photoDisp + 1 >= photos.length) {
                                         photoCounter = 0;
-                                        onPhotoChange(0)
+                                        onPhotoChange(0);
                                     } else {
                                         ++photoCounter;
-                                        onPhotoChange(photoDisp + 1)
+                                        onPhotoChange(photoDisp + 1);
                                     }
                                 }}
                             />
