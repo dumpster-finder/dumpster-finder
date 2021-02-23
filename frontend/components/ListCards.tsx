@@ -1,32 +1,32 @@
 import * as React from "react";
-import {Card, Text, Icon} from "react-native-elements";
-import {View} from "./Themed";
-import {Image, TouchableOpacity} from "react-native";
+import { Card, Text } from "@ui-kitten/components";
+import { Image, StyleSheet, View } from "react-native";
 import Dumpster from "../models/Dumpster";
-import {StackNavigationProp} from "@react-navigation/stack";
+import { StarIcon, LockIcon } from "./Icons";
 
-export default function ListCards({dumpster}: {dumpster: Dumpster}) {
+export default function ListCards({
+    dumpster,
+    onPress,
+}: {
+    dumpster: Dumpster;
+    onPress: () => void;
+}) {
     return (
-
-            <Card
-                containerStyle={{width: "95%", height: 150, padding: 0}}
-                wrapperStyle={{flex: 1, flexDirection: "row"}}>
+        <Card onPress={onPress}>
+            <View style={styles.footerContainer}>
                 <Image
                     style={{
-                        display: "flex",
                         alignItems: "stretch",
                         width: "40%",
+                        height: "100%",
                     }}
-                    resizeMode="contain"
                     source={{
                         uri:
-                            "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
+                            "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
                     }}
                 />
-                <View style={{width: "60%"}}>
-                    <Card.Title>
-                        <Text h4>{dumpster.name}</Text>
-                    </Card.Title>
+                <View style={{ width: "60%", height: "100%" }}>
+                    <Text category="h6">{dumpster.name}</Text>
                     <Text>{dumpster.storeType}</Text>
                     <View
                         style={{
@@ -34,8 +34,14 @@ export default function ListCards({dumpster}: {dumpster: Dumpster}) {
                             flexDirection: "row",
                             justifyContent: "space-between",
                             alignItems: "flex-end",
-                        }}>
-                        <View style={{width: "33%", alignItems: "flex-start"}}>
+                        }}
+                    >
+                        <View
+                            style={{
+                                width: "33%",
+                                alignItems: "flex-start",
+                            }}
+                        >
                             <Text>0.2 km</Text>
                         </View>
                         <View
@@ -44,27 +50,55 @@ export default function ListCards({dumpster}: {dumpster: Dumpster}) {
                                 flex: 1,
                                 flexDirection: "row",
                                 alignItems: "flex-end",
-                            }}>
+                            }}
+                        >
                             <View
-                                style={{width: "50%", alignItems: "flex-end"}}>
-                                <Icon name="star" color="#FFD100" />
+                                style={{
+                                    width: "50%",
+                                    alignItems: "flex-end",
+                                }}
+                            >
+                                <StarIcon size="medium" />
                             </View>
                             <View
                                 style={{
                                     width: "50%",
                                     alignItems: "flex-start",
-                                }}>
+                                }}
+                            >
                                 <Text>{dumpster.rating}</Text>
                             </View>
                         </View>
-                        <View style={{width: "33%", alignItems: "flex-end"}}>
-                            {dumpster.locked ? (
-                                <Icon name="lock" type="font-awesome" color="#FF0000" />
-                            ) : null}
+                        <View
+                            style={{
+                                width: "33%",
+                                alignItems: "flex-end",
+                            }}
+                        >
+                            {dumpster.locked ? <LockIcon size="medium" /> : null}
                         </View>
                     </View>
                 </View>
-            </Card>
-
+            </View>
+        </Card>
     );
 }
+
+const styles = StyleSheet.create({
+    card: {
+        flexDirection: "row",
+        justifyContent: "center",
+    },
+    footerContainer: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "flex-end",
+    },
+    footerControl: {
+        marginHorizontal: 2,
+    },
+    icon: {
+        width: 32,
+        height: 32,
+    },
+});
