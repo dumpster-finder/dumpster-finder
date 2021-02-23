@@ -31,6 +31,7 @@ export default function ListScreen({
                 />
                 {dumpsters.map(thisDumpster => (
                     <ListCards
+                        key={thisDumpster.dumpsterID}
                         dumpster={thisDumpster}
                         onPress={() => {
                             dispatch(setCurrentDumpster(thisDumpster));

@@ -211,6 +211,7 @@ export default function AddInfoScreen({
                     >
                         {cleanlinessRange.map((name, i) => (
                             <Button
+                                key={i}
                                 style={{ width: "20%" }}
                                 onPress={() => setCleanliness(i)}
                                 appearance={
