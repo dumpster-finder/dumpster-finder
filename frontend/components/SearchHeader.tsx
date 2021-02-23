@@ -20,21 +20,24 @@ export default function SearchHeader({
             }}
         >
             <Button
-                style={{ width: "20%", margin: 2 }}
+                style={{ width: "10%", margin: 2 }}
                 appearance="ghost"
                 status="danger"
                 accessoryLeft={PlusIcon}
                 onPress={onPressPlus}
             />
-            <Autocomplete
-                style={{ width: "100%" }}
-                placeholder="Place your Text"
-                accessoryLeft={SearchIcon}
-                onChangeText={text => setText(text)}
-                value={text}
-            />
+            <View style={{width: '80%'}}>
+                <Autocomplete
+                    style={{ width: "100%" }}
+                    placeholder="Place your Text"
+                    accessoryLeft={SearchIcon}
+                    onChangeText={text => setText(text)}
+                    value={text}
+                />
+            </View>
+
             <Button
-                style={{ width: "20%", margin: 2 }}
+                style={{ width: "10%", margin: 2 }}
                 appearance="ghost"
                 status="danger"
                 accessoryLeft={FilterIcon}
