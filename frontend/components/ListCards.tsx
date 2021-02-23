@@ -58,7 +58,7 @@ export default function ListCards({
                                     alignItems: "flex-end",
                                 }}
                             >
-                                <StarIcon />
+                                <StarIcon size="medium" />
                             </View>
                             <View
                                 style={{
@@ -75,7 +75,7 @@ export default function ListCards({
                                 alignItems: "flex-end",
                             }}
                         >
-                            {dumpster.locked ? <LockIcon /> : null}
+                            {dumpster.locked ? <LockIcon size="medium" /> : null}
                         </View>
                     </View>
                 </View>

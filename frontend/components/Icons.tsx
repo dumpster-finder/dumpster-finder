@@ -1,29 +1,35 @@
 import React from "react";
 import { Icon, IconProps as BaseIconProps } from "@ui-kitten/components";
-import { withStyles } from '@ui-kitten/components';
-import {StyleSheet} from "react-native";
+import { withStyles } from "@ui-kitten/components";
+import { StyleSheet } from "react-native";
 
-type IconProps = BaseIconProps & { faded?: boolean };
+type IconProps = BaseIconProps & {
+    faded?: boolean;
+    color?: "red" | "green" | "yellow" | "faded"
+    size?: "small" | "medium" | "large";
+};
 
-const UnthemedIcon = (props: IconProps) => {
-    const { eva, style, faded, ...restProps } = props;
+const UnthemedIcon = ({ eva, style, size, faded, ...restProps }: IconProps) => {
     const fill = faded ? eva.style.fadedIcon.color : eva.style.icon.color;
     return (
-        <Icon {...restProps} fill={fill} style={[eva.style.icon, styles.icon, style]} />
+        <Icon
+            {...restProps}
+            fill={fill}
+            style={[eva.style.icon, size && styles[size], style]}
+        />
     );
 };
 
-export const BaseIcon = withStyles(UnthemedIcon, (theme) => {
+export const BaseIcon = withStyles(UnthemedIcon, theme => {
     return {
         icon: {
-            color: theme['text-basic-color'],
+            color: theme["text-basic-color"],
         },
         fadedIcon: {
-            color: theme['text-disabled-color'],
+            color: theme["text-disabled-color"],
         },
-    }
+    };
 });
-
 
 export const LockIcon = (props: IconProps) => (
     <BaseIcon {...props} name="lock" />
@@ -81,11 +87,17 @@ export const ArrowRightIcon = (props: IconProps) => (
     <BaseIcon {...props} name="arrow-ios-forward" />
 );
 
-
-
-const styles = StyleSheet.create({
-    icon: {
+const styles: Record<string, any> = StyleSheet.create({
+    small: {
+        width: 16,
+        height: 16,
+    },
+    medium: {
+        width: 24,
+        height: 24,
+    },
+    large: {
         width: 32,
-        height: 32
-    }
-})
+        height: 32,
+    },
+});

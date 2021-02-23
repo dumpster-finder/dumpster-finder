@@ -249,7 +249,7 @@ export default function DetailsScreen() {
                                         justifyContent: "center",
                                     }}
                                 >
-                                    <TrashIcon />
+                                    <TrashIcon size="medium" />
                                     <View
                                         style={{
                                             width: "90%",
@@ -268,7 +268,7 @@ export default function DetailsScreen() {
                                         justifyContent: "center",
                                     }}
                                 >
-                                    <StarIcon />
+                                    <StarIcon size="medium" />
                                     <View
                                         style={{
                                             width: "90%",
@@ -289,14 +289,14 @@ export default function DetailsScreen() {
                                 >
                                     {dumpster.locked ? (
                                         <>
-                                            <LockIcon />
+                                            <LockIcon size="medium" />
                                             <Text style={{ paddingLeft: 5 }}>
                                                 Locked
                                             </Text>
                                         </>
                                     ) : (
                                         <>
-                                            <LockIcon />
+                                            <LockIcon size="medium" />
                                             <Text style={{ paddingLeft: 5 }}>
                                                 Open
                                             </Text>
@@ -315,7 +315,7 @@ export default function DetailsScreen() {
                                     {dumpster.positiveStoreViewOnDiving ===
                                     null ? (
                                         <>
-                                            <PositiveIcon />
+                                            <PositiveIcon size="medium" />
                                             <Text style={{ paddingLeft: 5 }}>
                                                 Unknown
                                             </Text>
@@ -324,7 +324,7 @@ export default function DetailsScreen() {
                                         <>
                                             {dumpster.positiveStoreViewOnDiving ? (
                                                 <>
-                                                    <PositiveIcon />
+                                                    <PositiveIcon size="medium" />
                                                     <Text
                                                         style={{
                                                             paddingLeft: 5,
@@ -335,7 +335,7 @@ export default function DetailsScreen() {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <NegativeIcon />
+                                                    <NegativeIcon size="medium" />
                                                     <Text
                                                         style={{
                                                             paddingLeft: 5,

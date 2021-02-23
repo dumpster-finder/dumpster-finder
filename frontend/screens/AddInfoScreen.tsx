@@ -117,7 +117,7 @@ export default function AddInfoScreen({
                 </Select>
                 <View style={styles.row}>
                     <View style={styles.icon}>
-                        <PositiveIcon />
+                        <PositiveIcon size="medium" />
                     </View>
                     <ButtonGroup
                         style={styles.nextToIcon}
@@ -162,7 +162,7 @@ export default function AddInfoScreen({
 
                 <View style={styles.row}>
                     <View style={styles.icon}>
-                        <LockIcon />
+                        <LockIcon size="medium" />
                     </View>
 
                     <ButtonGroup
@@ -189,7 +189,7 @@ export default function AddInfoScreen({
 
                 <View style={styles.row}>
                     <View style={styles.icon}>
-                        <TrashIcon />
+                        <TrashIcon size="medium" />
                     </View>
                     <Input
                         style={styles.nextToIcon}
@@ -201,7 +201,7 @@ export default function AddInfoScreen({
 
                 <View style={styles.row}>
                     <View style={styles.icon}>
-                        <TrashIcon />
+                        <TrashIcon size="medium" />
                     </View>
 
                     <ButtonGroup
