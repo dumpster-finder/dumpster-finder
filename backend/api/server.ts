@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import swagger from "./routes/swagger";
 import example from "./routes/example";
+import dumpsters from "./routes/dumpsters";
 import sequelize from "./config/sequelize";
 
 const connectToDatabase = async () => {
@@ -28,5 +29,7 @@ app.use(cors());
 app.use("/spec", swagger());
 
 app.use("/example", example());
+
+app.use("/dumpsters", dumpsters())
 
 export default app;
