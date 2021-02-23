@@ -42,7 +42,7 @@ export default function ListCards({
                                 alignItems: "flex-start",
                             }}
                         >
-                            <Text>0.2 km</Text>
+                            <Text>{setDistance()} km</Text>
                         </View>
                         <View
                             style={{
@@ -82,6 +82,22 @@ export default function ListCards({
             </View>
         </Card>
     );
+
+    function setDistance(){
+        const here = [63.41974342191292, 10.402676756914719];
+        const earthRadiusKm = 6371;
+
+        const dLat = (here[0] -dumpster.position.latitude) * Math.PI / 180;
+        const dLon = (here[1] - dumpster.position.longitude) * Math.PI / 180;
+
+        const lat1 = here[0] * Math.PI / 180;
+        const lat2 = dumpster.position.latitude * Math.PI /180;
+
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = earthRadiusKm * c;
+        return distance.toFixed(1);
+    }
 }
 
 const styles = StyleSheet.create({

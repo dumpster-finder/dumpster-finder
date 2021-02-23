@@ -26,6 +26,7 @@ import {
     TrashIcon,
 } from "../components/Icons";
 import { ButtonGroup } from "../components/ButtonGroup";
+import {DumpsterService} from "../services";
 
 export default function AddInfoScreen({
     navigation,
@@ -255,31 +256,37 @@ export default function AddInfoScreen({
     }
 
     function handleSubmit() {
-        let positiveView = null;
-        if (positiveStoreViewOnDiving === 0) {
-            positiveView = false;
-        } else if (positiveStoreViewOnDiving === 2) {
-            positiveView = true;
+        if(name != ""){
+            let positiveView = null;
+            if (positiveStoreViewOnDiving === 0) {
+                positiveView = false;
+            } else if (positiveStoreViewOnDiving === 2) {
+                positiveView = true;
+            }
+            // Post the dumpster, add it to the list of dumpster if that succeeds
+            // TODO: actually make the above happen
+            //       it is now substituted with this:
+            // (rating is omitted because it is calculated later, idk what the backend will do rn)
+            const dumpster: Omit<Dumpster, "dumpsterID" | "rating"> = {
+                name,
+                position,
+                dumpsterType: dumpsterTypes[dumpsterTypeIndex.row],
+                storeType: storeTypes[storeTypeIndex.row],
+                emptyingSchedule,
+                cleanliness,
+                positiveStoreViewOnDiving: positiveView,
+                locked,
+            };
+            DumpsterService.addDumpster(dumpster);
+            //console.log(dumpster.positiveStoreViewOnDiving); // TODO: delete this afterwards
+            // Then reset the editor's state
+            dispatch(resetEditor());
+            // And navigate back to where you were before!
+            navigation.dispatch(StackActions.popToTop());
+        }else{
+            console.log("Does not have name")
         }
-        // Post the dumpster, add it to the list of dumpster if that succeeds
-        // TODO: actually make the above happen
-        //       it is now substituted with this:
-        // (rating is omitted because it is calculated later, idk what the backend will do rn)
-        const dumpster: Omit<Dumpster, "dumpsterID" | "rating"> = {
-            name,
-            position,
-            dumpsterType: dumpsterTypes[dumpsterTypeIndex.row],
-            storeType: storeTypes[storeTypeIndex.row],
-            emptyingSchedule,
-            cleanliness,
-            positiveStoreViewOnDiving: positiveView,
-            locked,
-        };
-        console.log(dumpster.positiveStoreViewOnDiving); // TODO: delete this afterwards
-        // Then reset the editor's state
-        dispatch(resetEditor());
-        // And navigate back to where you were before!
-        navigation.dispatch(StackActions.popToTop());
+
     }
 }
 
