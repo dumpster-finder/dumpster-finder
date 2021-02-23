@@ -27,6 +27,7 @@ import {
 } from "../components/Icons";
 import { ButtonGroup } from "../components/ButtonGroup";
 import {DumpsterService} from "../services";
+import Rating from "../components/Rating";
 
 export default function AddInfoScreen({
     navigation,
@@ -204,29 +205,9 @@ export default function AddInfoScreen({
                     <View style={styles.icon}>
                         <TrashIcon size="medium" />
                     </View>
-
-                    <ButtonGroup
-                        style={styles.nextToIcon}
-                        appearance="outline"
-                        status="basic"
-                    >
-                        {cleanlinessRange.map((name, i) => (
-                            <Button
-                                key={i}
-                                style={{ width: "20%" }}
-                                onPress={() => setCleanliness(i)}
-                                appearance={
-                                    cleanliness >= i ? "filled" : "outline"
-                                }
-                                accessoryLeft={
-                                    cleanliness >= i
-                                        ? CleanIcon
-                                        : FadedCleanIcon
-                                }
-                            />
-                        ))}
-                    </ButtonGroup>
+                    <Rating/>
                 </View>
+
 
                 <View style={styles.row}>
                     <Button
