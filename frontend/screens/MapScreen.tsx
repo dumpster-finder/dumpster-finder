@@ -1,8 +1,6 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
-import { View } from "../components/Themed";
+import { StyleSheet, View } from "react-native";
 import MapView, { UrlTile } from "react-native-maps";
-import { Icon, SearchBar } from "react-native-elements";
 import useColorScheme from "../hooks/useColorScheme";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterMarker from "../components/DumpsterMarker";
@@ -11,6 +9,8 @@ import {allDumpstersSelector, setCurrentDumpster} from "../redux/slices/dumpster
 import { useSelector } from "react-redux";
 import { positionSelector, setPosition } from "../redux/slices/configSlice";
 import { useEffect } from "react";
+//import SearchHeader from "../components/SearchHeader";
+import {Layout} from "@ui-kitten/components";
 
 export default function MapScreen({
     navigation,
@@ -18,7 +18,6 @@ export default function MapScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const dispatch = useAppDispatch();
-    const colorScheme = useColorScheme();
     const position = useSelector(positionSelector);
     const dumpsters = useSelector(allDumpstersSelector);
 
@@ -34,54 +33,8 @@ export default function MapScreen({
     }, []);
 
     return (
-        <View style={styles.container}>
-            <View
-                style={{
-                    width: "100%",
-                    flex: 1,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: 10,
-                }}>
-                <View
-                    style={{
-                        width: "10%",
-                        height: "100%",
-                        justifyContent: "center",
-                    }}>
-                    <Icon
-                        name="plus"
-                        type="font-awesome"
-                        onPress={() => {
-                            navigation.navigate("AddPositionScreen", {
-                                screen: "AddPositionScreen",
-                            });
-                        }}
-                    />
-                </View>
-                <View style={{ width: "80%", height: "100%" }}>
-                    <SearchBar
-                        lightTheme={colorScheme === "light"}
-                        placeholder="Type Here..."
-                        value={""}
-                    />
-                </View>
-                <View
-                    style={{
-                        width: "10%",
-                        height: "100%",
-                        justifyContent: "center",
-                    }}>
-                    <Icon
-                        name="filter"
-                        type="font-awesome"
-                        onPress={() => {
-                            console.log("filter");
-                        }}
-                    />
-                </View>
-            </View>
+        <Layout style={styles.container}>
+
             <MapView
                 provider={null}
                 initialRegion={{
@@ -131,7 +84,7 @@ export default function MapScreen({
                     flipY={false}
                 />
             </MapView>
-        </View>
+        </Layout>
     );
 }
 
