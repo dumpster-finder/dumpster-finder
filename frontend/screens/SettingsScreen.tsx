@@ -1,8 +1,6 @@
 import * as React from "react";
-import { StyleSheet, Switch } from "react-native";
-import { View } from "../components/Themed";
-import { Button, Input, SearchBar, Text } from "react-native-elements";
-import useColorScheme from "../hooks/useColorScheme";
+import { StyleSheet, View } from "react-native";
+import { Button, Layout, Text, Toggle, Input } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import {
     darkModeSelector,
@@ -14,7 +12,6 @@ import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
 
 export default function SettingsScreen() {
-    const colorScheme = useColorScheme();
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
     const nickname = useSelector(nicknameSelector);
@@ -22,7 +19,7 @@ export default function SettingsScreen() {
     const [nicknameFieldText, setNicknameFieldText] = useState("");
 
     return (
-        <View style={styles.container}>
+        <Layout style={styles.container}>
             <View
                 style={{
                     height: "100%",
@@ -38,7 +35,7 @@ export default function SettingsScreen() {
                         alignItems: "center",
                         justifyContent: "flex-end",
                     }}>
-                    <Text h4>Set position</Text>
+                    <Text category="h2">Set position</Text>
                 </View>
                 <View
                     style={{
@@ -46,11 +43,8 @@ export default function SettingsScreen() {
                         width: "90%",
                         justifyContent: "flex-start",
                     }}>
-                    <SearchBar
-                        lightTheme={colorScheme === "light"}
-                        placeholder="Type Here..."
-                        value={""}
-                    />
+                    {/* TODO: Make this a searchbar *or something else* */}
+                    <Input placeholder="Type Here..." value={""} />
                 </View>
                 <View
                     style={{
@@ -59,17 +53,18 @@ export default function SettingsScreen() {
                         alignItems: "center",
                         justifyContent: "center",
                     }}>
-                    <Text h4>Set nickname</Text>
-                    <Text>{nickname}</Text>
+                    <Text category="h2">Set nickname</Text>
                     <Input
                         placeholder="Nickname"
+                        value={nickname}
                         onChangeText={s => setNicknameFieldText(s)}
                     />
                     <Button
-                        title="Set nickname"
-                        style={{ width: " 50%" }}
-                        onPress={() => dispatch(setNickname(nicknameFieldText))}
-                    />
+                        onPress={() =>
+                            dispatch(setNickname(nicknameFieldText))
+                        }>
+                        Set nickname
+                    </Button>
                 </View>
 
                 <View
@@ -87,11 +82,11 @@ export default function SettingsScreen() {
                             flex: 1,
                             flexDirection: "row",
                         }}>
-                        <Switch
-                            value={darkMode}
-                            onValueChange={v => dispatch(setDarkMode(v))}
-                        />
-                        <Text>Dark mode</Text>
+                        <Toggle
+                            checked={darkMode}
+                            onChange={v => dispatch(setDarkMode(v))}>
+                            Dark mode
+                        </Toggle>
                     </View>
                     <View
                         style={{
@@ -101,12 +96,11 @@ export default function SettingsScreen() {
                             flex: 1,
                             flexDirection: "row",
                         }}>
-                        <Switch value={true} />
-                        <Text>Other shit</Text>
+                        <Toggle checked>Other shit</Toggle>
                     </View>
                 </View>
             </View>
-        </View>
+        </Layout>
     );
 }
 
@@ -115,23 +109,5 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-    },
-    horizontalContainer: {
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "flex-start",
-        flexGrow: 0,
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: "80%",
-    },
-    width: {
-        width: "100%",
     },
 });
