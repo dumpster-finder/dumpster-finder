@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { AirbnbRating } from "react-native-elements";
+import {AirbnbRating } from 'react-native-ratings';
 import {Button, Layout, Text} from "@ui-kitten/components";
 import {
     FlagIcon,
