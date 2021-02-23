@@ -91,6 +91,16 @@ export const BrushIcon = (props: IconProps) => (
     <BaseIcon {...props} name="brush" />
 );
 
+export const MessageIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="message-square" />
+);
+
+export const MenuIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="menu" />
+);
+
+
+
 
 const styles: Record<string, any> = StyleSheet.create({
     small: {

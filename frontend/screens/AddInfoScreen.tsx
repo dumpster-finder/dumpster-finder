@@ -7,6 +7,7 @@ import {
     IndexPath,
     Select,
     SelectItem,
+    Text,
 } from "@ui-kitten/components";
 import { useState } from "react";
 import { useAppDispatch } from "../redux/store";
@@ -26,7 +27,7 @@ import {
     TrashIcon,
 } from "../components/Icons";
 import { ButtonGroup } from "../components/ButtonGroup";
-import {DumpsterService} from "../services";
+import { DumpsterService } from "../services";
 import Rating from "../components/Rating";
 
 export default function AddInfoScreen({
@@ -53,7 +54,7 @@ export default function AddInfoScreen({
     );
     const [storeTypeIndex, setStoreTypeIndex] = useState(new IndexPath(0));
     const [emptyingSchedule, setEmptyingSchedule] = useState("");
-    const [cleanliness, setCleanliness] = useState(3);
+    const [cleanliness, setCleanliness] = useState(2);
     const [locked, setLocked] = useState(false);
     const [
         categorySelectedIndex,
@@ -63,7 +64,11 @@ export default function AddInfoScreen({
 
     return (
         <Layout>
-            <ScrollView scrollEnabled style={styles.fullWidth} contentContainerStyle={styles.container}>
+            <ScrollView
+                scrollEnabled
+                style={styles.fullWidth}
+                contentContainerStyle={styles.container}
+            >
                 <Input
                     style={{ width: "80%" }}
                     placeholder="Name"
@@ -117,6 +122,9 @@ export default function AddInfoScreen({
                         <SelectItem key={i} title={type} />
                     ))}
                 </Select>
+                <View style={{ width: "80%", paddingTop: "3%" }}>
+                    <Text>Store's view on dumpster diving:</Text>
+                </View>
                 <View style={styles.row}>
                     <View style={styles.icon}>
                         <PositiveIcon size="medium" />
@@ -189,6 +197,9 @@ export default function AddInfoScreen({
                     </ButtonGroup>
                 </View>
 
+                <View style={{ width: "80%" }}>
+                    <Text>Emptying schedule:</Text>
+                </View>
                 <View style={styles.row}>
                     <View style={styles.icon}>
                         <TrashIcon size="medium" />
@@ -200,21 +211,19 @@ export default function AddInfoScreen({
                         value={emptyingSchedule}
                     />
                 </View>
-
-                <View style={styles.row}>
-                    <View style={styles.icon}>
-                        <TrashIcon size="medium" />
-                    </View>
-                    <Rating/>
+                <View style={{ width: "80%" }}>
+                    <Text>Cleanliness:</Text>
                 </View>
-
+                <View style={styles.row}>
+                    <Rating value={cleanliness} onChange={setCleanliness} />
+                </View>
 
                 <View style={styles.row}>
                     <Button
                         appearance="outline"
                         status="primary"
                         style={{ width: " 48%", margin: "2%" }}
-                        onPress={() => console.log("photo")}
+                        onPress={() => console.log(cleanliness)}
                     >
                         Add photo
                     </Button>
@@ -237,7 +246,8 @@ export default function AddInfoScreen({
     }
 
     function handleSubmit() {
-        if(name != ""){
+        if (name != "") {
+            let clean = cleanliness + 1;
             let positiveView = null;
             if (positiveStoreViewOnDiving === 0) {
                 positiveView = false;
@@ -254,7 +264,7 @@ export default function AddInfoScreen({
                 dumpsterType: dumpsterTypes[dumpsterTypeIndex.row],
                 storeType: storeTypes[storeTypeIndex.row],
                 emptyingSchedule,
-                cleanliness,
+                cleanliness: clean,
                 positiveStoreViewOnDiving: positiveView,
                 locked,
             };
@@ -264,10 +274,9 @@ export default function AddInfoScreen({
             dispatch(resetEditor());
             // And navigate back to where you were before!
             navigation.dispatch(StackActions.popToTop());
-        }else{
-            console.log("Does not have name")
+        } else {
+            console.log("Does not have name");
         }
-
     }
 }
 

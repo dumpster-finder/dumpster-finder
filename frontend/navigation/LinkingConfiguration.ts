@@ -12,6 +12,8 @@ export default {
               DetailsScreen: 'details',
               AddPositionScreen: 'addPos',
               AddInfoScreen: 'addInfo',
+              CommentScreen: 'comments',
+              ContentScreen: "contents",
             },
           },
           ListTab: {
@@ -20,6 +22,8 @@ export default {
               DetailsScreen: 'details',
               AddPositionScreen: 'addPos',
               AddInfoScreen: 'addInfo',
+              CommentScreen: 'comments',
+              ContentScreen: "contents",
             },
           },
           InfoTab: {

@@ -1,10 +1,8 @@
 import * as React from "react";
 import { Image, StyleSheet, View } from "react-native";
-import {AirbnbRating } from 'react-native-ratings';
-import {Button, Layout, Text} from "@ui-kitten/components";
+import { AirbnbRating } from "react-native-ratings";
+import { Button, Layout, Text } from "@ui-kitten/components";
 import {
-    FlagIcon,
-    EditIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
     TrashIcon,
@@ -12,12 +10,20 @@ import {
     NegativeIcon,
     PositiveIcon,
     LockIcon,
+    MessageIcon,
+    MenuIcon,
 } from "../components/Icons";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { useState } from "react";
+import { StackNavigationProp } from "@react-navigation/stack";
+import Burgermenu from "../components/Burgermenu";
 
-export default function DetailsScreen() {
+export default function DetailsScreen({
+    navigation,
+}: {
+    navigation: StackNavigationProp<any>;
+}) {
     const dumpster = useSelector(currentDumpsterSelector);
     const tags = ["Food", "milk", "juice", "Fruit", "Tears"];
     const tagArrays = [];
@@ -30,6 +36,7 @@ export default function DetailsScreen() {
     const [photoDisp, onPhotoChange] = useState(0);
     let photoCounter = 0;
     let a = false;
+    const [menu, setMenu] = useState("");
 
     if (tags.length > tagNrLine) {
         const turns = tags.length / tagNrLine;
@@ -67,22 +74,18 @@ export default function DetailsScreen() {
                             justifyContent: "center",
                         }}
                     >
-                        <Button
+                        <View
                             style={{ width: "15%", margin: 2 }}
-                            appearance="ghost"
-                            status="danger"
-                            accessoryLeft={FlagIcon}
                         />
 
                         <View style={{ width: "70%", alignItems: "center" }}>
                             <Text category="h4">{dumpster.name}</Text>
                         </View>
-                        <Button
+                        <View
                             style={{ width: "15%", margin: 2 }}
-                            appearance="ghost"
-                            status="danger"
-                            accessoryLeft={EditIcon}
-                        />
+                        >
+                            <Burgermenu value={menu} onChange={setMenu}/>
+                        </View>
                     </View>
                     <View
                         style={{
@@ -417,14 +420,31 @@ export default function DetailsScreen() {
                             <Button
                                 status={"basic"}
                                 size={"small"}
-                                onPress={() => console.log("Comment")}
+                                onPress={() =>
+                                    navigation.navigate("ContentScreen", {
+                                        screen: "ContentScreen",
+                                    })}
                             >
-                                Comment
+                                Contents
                             </Button>
                         </View>
                         <Text>Rate me:</Text>
-                        <View style={{ height: "20%" }}>
-                            <AirbnbRating size={20} showRating={false} />
+                        <View style={{ width: "100%", flexDirection: "row" }}>
+                            <View style={{ width: "10%" }} />
+                            <View style={{ width: "80%" }}>
+                                <AirbnbRating size={20} showRating={false} />
+                            </View>
+                            <Button
+                                style={{ width: "10%", margin: 2 }}
+                                appearance="ghost"
+                                status="danger"
+                                accessoryLeft={MessageIcon}
+                                onPress={() =>
+                                    navigation.navigate("CommentScreen", {
+                                        screen: "CommentScreen",
+                                    })
+                                }
+                            />
                         </View>
                     </View>
                 </View>

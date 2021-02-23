@@ -9,6 +9,7 @@ import MapScreen from "../screens/MapScreen";
 import ListScreen from "../screens/ListScreen";
 import InfoScreen from "../screens/InfoScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import CommentScreen from "../screens/CommentScreen";
 import {
     BottomTabParamList,
     InfoTabParamList,
@@ -20,6 +21,7 @@ import {
 import AddInfoScreen from "../screens/AddInfoScreen";
 import AddPositionScreen from "../screens/AddPositionScreen";
 import DetailsScreen from "../screens/DetailsScreen";
+import ContentScreen from "../screens/ContentScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -108,6 +110,17 @@ function MapTabNavigator() {
                 component={DetailsScreen}
                 options={{ headerTitle: "Details" }}
             />
+            <ListTabStack.Screen
+                name="CommentScreen"
+                component={CommentScreen}
+                options={{ headerTitle: "Comments" }}
+            />
+
+            <ListTabStack.Screen
+                name="ContentScreen"
+                component={ContentScreen}
+                options={{ headerTitle: "Content" }}
+            />
         </MapTabStack.Navigator>
     );
 }
@@ -136,6 +149,16 @@ function ListTabNavigator() {
                 name="DetailsScreen"
                 component={DetailsScreen}
                 options={{ headerTitle: "Details" }}
+            />
+            <ListTabStack.Screen
+                name="CommentScreen"
+                component={CommentScreen}
+                options={{ headerTitle: "Comments" }}
+            />
+            <ListTabStack.Screen
+                name="ContentScreen"
+                component={ContentScreen}
+                options={{ headerTitle: "Content" }}
             />
         </ListTabStack.Navigator>
     );

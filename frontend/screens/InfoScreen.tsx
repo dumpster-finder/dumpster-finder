@@ -1,6 +1,11 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import { Icon } from "react-native-elements";
+import {
+    StarIcon,
+    LockIcon,
+    TrashIcon,
+    PositiveIcon,
+} from "../components/Icons";
 import { Layout, Text } from "@ui-kitten/components";
 
 export default function InfoScreen() {
@@ -11,7 +16,7 @@ export default function InfoScreen() {
             </Text>
             <View style={styles.box}>
                 <View style={styles.iconPart}>
-                    <Icon name="star" color="#FFD100" />
+                    <StarIcon size="medium" />
                 </View>
                 <View style={styles.textPart}>
                     <Text>Rating for dumpster</Text>
@@ -20,7 +25,7 @@ export default function InfoScreen() {
 
             <View style={styles.box}>
                 <View style={styles.iconPart}>
-                    <Icon name="lock" type="font-awesome" color="#FF0000" />
+                    <LockIcon size="medium" />
                 </View>
                 <View style={styles.textPart}>
                     <Text>The dumpster is locked</Text>
@@ -29,25 +34,7 @@ export default function InfoScreen() {
 
             <View style={styles.box}>
                 <View style={styles.iconPart}>
-                    <Icon name="unlock" type="font-awesome" color="#54C500" />
-                </View>
-                <View style={styles.textPart}>
-                    <Text>The dumpster is open</Text>
-                </View>
-            </View>
-
-            <View style={styles.box}>
-                <View style={styles.iconPart}>
-                    <Icon name="edit" type="font-awesome" />
-                </View>
-                <View style={styles.textPart}>
-                    <Text>Edit the dumpster</Text>
-                </View>
-            </View>
-
-            <View style={styles.box}>
-                <View style={styles.iconPart}>
-                    <Icon name="delete" />
+                    <TrashIcon size="medium" />
                 </View>
                 <View style={styles.textPart}>
                     <Text>When the dumpster is emptied </Text>
@@ -56,7 +43,7 @@ export default function InfoScreen() {
 
             <View style={styles.box}>
                 <View style={styles.iconPart}>
-                    <Icon name="thumbs-up" type="font-awesome" />
+                    <PositiveIcon size="medium" />
                 </View>
                 <View style={styles.textPart}>
                     <Text>The shop’s view on dumpster diving </Text>
@@ -119,6 +106,7 @@ const styles = StyleSheet.create({
     iconPart: {
         width: "20%",
         height: "100%",
+        alignItems: "flex-end",
     },
     textPart: {
         width: "80%",

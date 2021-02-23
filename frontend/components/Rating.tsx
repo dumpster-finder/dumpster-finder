@@ -1,11 +1,16 @@
 import * as React from "react";
-import {View} from "react-native";
-import {useState} from "react";
-import {Button, Text} from "@ui-kitten/components"
-import {CleanIcon, FadedCleanIcon} from "./Icons";
+import { View } from "react-native";
+import { useState } from "react";
+import { Button, Text } from "@ui-kitten/components";
+import { CleanIcon, FadedCleanIcon } from "./Icons";
 
-export default function Rating (){
-    const [cleanliness, setCleanliness] = useState(2);
+export default function Rating({
+    value,
+    onChange,
+}: {
+    value: number;
+    onChange: (newValue: number) => void;
+}) {
     const cleanlinessRange = [
         "Filthy",
         "Dirty",
@@ -13,22 +18,24 @@ export default function Rating (){
         "Clean",
         "Pristine",
     ];
-    return(
-        <View style={{alignItems: "center"}}>
-            <Text>{cleanlinessRange[cleanliness]}</Text>
-            <View style={{flex: 1, flexDirection: "row"}}>
-                {cleanlinessRange.map((data, i) => <>
-                    <Button appearance="ghost" key={i}
+    return (
+        <View style={{ alignItems: "center" }}>
+            <Text>{cleanlinessRange[value]}</Text>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+                {cleanlinessRange.map((data, i) => (
+                    <>
+                        <Button
+                            appearance="ghost"
+                            key={i}
                             style={{ width: "10%" }}
-                            onPress={() => setCleanliness(i)}
+                            onPress={() => onChange(i)}
                             accessoryLeft={
-                                cleanliness >= i
-                                    ? CleanIcon
-                                    : FadedCleanIcon
-                            }/>
-                </>)}
+                                value >= i ? CleanIcon : FadedCleanIcon
+                            }
+                        />
+                    </>
+                ))}
             </View>
         </View>
-
     );
 }
