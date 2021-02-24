@@ -35,6 +35,10 @@ export const LockIcon = (props: IconProps) => (
     <BaseIcon {...props} name="lock" />
 );
 
+export const OpenLockIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="unlock" />
+);
+
 export const TrashIcon = (props: IconProps) => (
     <BaseIcon {...props} name="trash" />
 );
