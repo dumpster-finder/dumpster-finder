@@ -25,6 +25,8 @@ export type ListTabParamList = {
   DetailsScreen: undefined;
   CommentScreen: undefined;
   ContentScreen: undefined;
+  EditContentScreen: undefined;
+  EditDumpsterScreen: undefined;
 };
 
 export type MapTabParamList = {
@@ -34,4 +36,6 @@ export type MapTabParamList = {
   DetailsScreen: undefined;
   CommentScreen: undefined;
   ContentScreen: undefined;
+  EditContentScreen: undefined;
+  EditDumpsterScreen: undefined;
 };

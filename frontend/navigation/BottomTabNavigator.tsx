@@ -22,6 +22,8 @@ import AddInfoScreen from "../screens/AddInfoScreen";
 import AddPositionScreen from "../screens/AddPositionScreen";
 import DetailsScreen from "../screens/DetailsScreen";
 import ContentScreen from "../screens/ContentScreen";
+import EditContentScreen from "../screens/EditContentScreen";
+import EditDumpsterScreen from "../screens/EditDumpsterScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -121,6 +123,16 @@ function MapTabNavigator() {
                 component={ContentScreen}
                 options={{ headerTitle: "Content" }}
             />
+            <ListTabStack.Screen
+                name="EditContentScreen"
+                component={EditContentScreen}
+                options={{ headerTitle: "Edit content" }}
+            />
+            <ListTabStack.Screen
+                name="EditDumpsterScreen"
+                component={EditDumpsterScreen}
+                options={{ headerTitle: "Edit dumpster" }}
+            />
         </MapTabStack.Navigator>
     );
 }
@@ -159,6 +171,16 @@ function ListTabNavigator() {
                 name="ContentScreen"
                 component={ContentScreen}
                 options={{ headerTitle: "Content" }}
+            />
+            <ListTabStack.Screen
+                name="EditContentScreen"
+                component={EditContentScreen}
+                options={{ headerTitle: "Edit content" }}
+            />
+            <ListTabStack.Screen
+                name="EditDumpsterScreen"
+                component={EditDumpsterScreen}
+                options={{ headerTitle: "Edit dumpster" }}
             />
         </ListTabStack.Navigator>
     );

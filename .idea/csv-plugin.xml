@@ -10,6 +10,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\frontend\components\Burgermenu.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\frontend\navigation\LinkingConfiguration.ts">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\frontend\screens\AddInfoScreen.tsx">
           <value>
             <Attribute>

@@ -6,10 +6,13 @@ import { MenuIcon } from "./Icons";
 
 export default function Burgermenu({
     value,
-    onChange,
+    onSelect,
+    onPress,
 }: {
-    value: string;
-    onChange: (newValue: string) => void;
+    value: number;
+    onSelect: (newValue: number) => void;
+    onPress: void;
+
 }) {
     const [visible, setVisible] = useState(false);
     const menuItems = [
@@ -18,6 +21,10 @@ export default function Burgermenu({
         "Edit dumpster",
         "Edit content",
     ];
+    const onMenuPress = (i: number ) => {
+        setVisible(false);
+        onSelect(i)
+    };
     return (
         <Layout level="1">
             <OverflowMenu
@@ -32,7 +39,7 @@ export default function Burgermenu({
                 onBackdropPress={() => setVisible(false)}
             >
                 {menuItems.map((item, i) => (
-                    <MenuItem title={item} key={i} onPress={() => onChange(item)}/>
+                    <MenuItem title={item} key={i} onPress={() => onMenuPress(i)}/>
                 ))}
             </OverflowMenu>
         </Layout>

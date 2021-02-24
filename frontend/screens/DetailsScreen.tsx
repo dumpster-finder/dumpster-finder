@@ -35,8 +35,7 @@ export default function DetailsScreen({
     ];
     const [photoDisp, onPhotoChange] = useState(0);
     let photoCounter = 0;
-    let a = false;
-    const [menu, setMenu] = useState("");
+    const [menu, setMenu] = useState(-1);
 
     if (tags.length > tagNrLine) {
         const turns = tags.length / tagNrLine;
@@ -84,7 +83,7 @@ export default function DetailsScreen({
                         <View
                             style={{ width: "15%", margin: 2 }}
                         >
-                            <Burgermenu value={menu} onChange={setMenu}/>
+                            <Burgermenu value={menu} onSelect={setMenu} onPress={menuSelect()}/>
                         </View>
                     </View>
                     <View
@@ -451,6 +450,26 @@ export default function DetailsScreen({
             </Layout>
         );
     }
+    function menuSelect(){
+        if(menu !=-1){
+            console.log(menu);
+            if(menu === 0){
+                console.log('flag')
+            }else if(menu === 1){
+                console.log('Rev')
+            }else if(menu === 2){
+                console.log('Edit')
+                navigation.navigate("EditDumpsterScreen", {
+                    screen: "EditDumpsterScreen",
+                })
+            }else{
+                navigation.navigate("EditContentScreen", {
+                    screen: "EditContentScreen",
+                })
+            }
+        }
+    }
+
 }
 const styles = StyleSheet.create({
     container: {

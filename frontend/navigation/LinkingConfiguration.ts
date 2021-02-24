@@ -14,6 +14,8 @@ export default {
               AddInfoScreen: 'addInfo',
               CommentScreen: 'comments',
               ContentScreen: "contents",
+              EditContentScreen: "EditCont",
+              EditDumpsterScreen: "EditDumpster",
             },
           },
           ListTab: {
@@ -24,6 +26,8 @@ export default {
               AddInfoScreen: 'addInfo',
               CommentScreen: 'comments',
               ContentScreen: "contents",
+              EditContentScreen: "EditCont",
+              EditDumpsterScreen: "EditDumpster",
             },
           },
           InfoTab: {
