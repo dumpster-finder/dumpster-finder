@@ -1,16 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Dumpster from "../../models/Dumpster";
 import Position from "../../models/Position";
-import {RootState} from "../store";
-import {testDumpsters} from "../../constants/TestData";
-import {DumpsterService} from "../../services";
+import { RootState } from "../store";
+import { DumpsterService } from "../../services";
 
 /**
  * The dumpster list will be fetched asynchronously,
  * thus requiring some extra state for bookkeeping.
  */
 interface SliceState {
-    dumpsters: Dumpster[];
+    dumpsters: Record<string, Dumpster>;
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
     currentDumpster: Dumpster | null;
@@ -19,38 +18,62 @@ interface SliceState {
 /**
  * Fetch dumpsters around the given coordinate
  *
- * Usage: dispatch(fetchNearbyDumpsters({latitude: 0, longitude: 0}))
+ * Usage: dispatch(fetchNearbyDumpsters({latitude: 0, longitude: 0}, 6000))
  */
 export const fetchNearbyDumpsters = createAsyncThunk(
     "dumpsters/fetchNearbyDumpsters",
-    async (position: Position) => {
+    async ({ position, radius }: { position: Position; radius: number }) => {
         // the error is handled outside
         // this is a very temporary replacement!
         // less temporary now...
         // error should be handled automatically
         // TODO either fetch state or take radius as additional arg
-        return await DumpsterService.getNearbyDumpsters(position, 60);
+
+        return await DumpsterService.getNearbyDumpsters(position, radius);
     },
 );
 
 export const dumpsterSlice = createSlice({
     name: "dumpsters",
     initialState: {
-        dumpsters: testDumpsters,
+        dumpsters: {},
         status: "idle",
         error: null,
         currentDumpster: null,
     } as SliceState,
     reducers: {
-        // idk if this even makes sence
-        addDumpster: ({ dumpsters }, { payload }) => {
-            dumpsters.push(payload);
+        /**
+         * Adds a single dumpster to the cache
+         *
+         * Usage: dispatch(addDumpster(someDumpster));
+         *
+         * @param payload A dumpster object
+         */
+        addDumpster: ({ dumpsters }, { payload }: { payload: Dumpster }) => {
+            console.log(payload)
+            dumpsters[payload.dumpsterID] = payload;
         },
+        /**
+         * Adds a list of dumpsters to the cache
+         *
+         * Usage: dispatch(addDumpsters(someListOfDumpsters));
+         *
+         * @param payload A list of dumpsters
+         */
         addDumpsters: ({ dumpsters }, { payload }: { payload: Dumpster[] }) => {
-            dumpsters.push(...payload);
+            payload.forEach(d => (dumpsters[d.dumpsterID] = d));
         },
+        /**
+         * Replaces the currently cached dumpsters
+         * (useful for when the app loads a new)
+         *
+         * Usage: dispatch(setDumpsters(someListOfDumpsters));
+         *
+         * @param payload A list of dumpsters
+         */
         setDumpsters: (state, { payload }: { payload: Dumpster[] }) => {
-            state.dumpsters = payload;
+            state.dumpsters = {};
+            payload.forEach(d => (state.dumpsters[d.dumpsterID] = d));
         },
         setCurrentDumpster: (state, { payload }) => {
             state.currentDumpster = payload;
@@ -67,7 +90,9 @@ export const dumpsterSlice = createSlice({
             fetchNearbyDumpsters.fulfilled,
             (state: SliceState, action) => {
                 state.status = "succeeded";
-                state.dumpsters.push(...action.payload);
+                action.payload.forEach(
+                    d => (state.dumpsters[d.dumpsterID] = d),
+                );
             },
         );
         builder.addCase(
@@ -80,15 +105,25 @@ export const dumpsterSlice = createSlice({
     },
 });
 
-export const { addDumpster, addDumpsters, setDumpsters, setCurrentDumpster } = dumpsterSlice.actions;
+export const {
+    addDumpster,
+    addDumpsters,
+    setDumpsters,
+    setCurrentDumpster,
+} = dumpsterSlice.actions;
 
 export default dumpsterSlice.reducer;
 
-export const allDumpstersSelector = (state: RootState) =>
-    state.dumpsters.dumpsters
+export const allDumpstersSelector = (state: RootState) => {
+    const res = [];
+    for (const key in state.dumpsters.dumpsters) {
+        res.push(state.dumpsters.dumpsters[key]);
+    }
+    return res;
+};
 
-export const dumpsterSelectorByID = (state: RootState, dumpsterID: number) =>
-    state.dumpsters.dumpsters.find(d => d.dumpsterID === dumpsterID);
+export const dumpsterSelectorByID = (dumpsterID: number) => (state: RootState) =>
+    state.dumpsters.dumpsters[dumpsterID];
 
 export const currentDumpsterSelector = (state: RootState) =>
     state.dumpsters.currentDumpster;

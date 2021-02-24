@@ -14,6 +14,7 @@ import {
     editorPositionSelector,
     resetEditor,
 } from "../redux/slices/editorSlice";
+import { addDumpster } from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
 import Dumpster from "../models/Dumpster";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -255,7 +256,7 @@ export default function AddInfoScreen({
             .join(", ");
     }
 
-    function handleSubmit() {
+    async function handleSubmit() {
         if(name != ""){
             let positiveView = null;
             if (positiveStoreViewOnDiving === 0) {
@@ -263,9 +264,6 @@ export default function AddInfoScreen({
             } else if (positiveStoreViewOnDiving === 2) {
                 positiveView = true;
             }
-            // Post the dumpster, add it to the list of dumpster if that succeeds
-            // TODO: actually make the above happen
-            //       it is now substituted with this:
             // (rating is omitted because it is calculated later, idk what the backend will do rn)
             const dumpster: Omit<Dumpster, "dumpsterID" | "rating"> = {
                 name,
@@ -277,8 +275,12 @@ export default function AddInfoScreen({
                 positiveStoreViewOnDiving: positiveView,
                 locked,
             };
-            DumpsterService.addDumpster(dumpster);
-            //console.log(dumpster.positiveStoreViewOnDiving); // TODO: delete this afterwards
+
+            // Post the dumpster, then fetch & add it to the list of dumpster if that succeeds
+            const { data: { dumpsterID } } = await DumpsterService.addDumpster(dumpster);
+            // Add this dumpster to the list of dumpsters!
+            // TODO or just actually fetch data from the backend, y'know
+            dispatch(addDumpster({ ...dumpster, dumpsterID, rating: 0}))
             // Then reset the editor's state
             dispatch(resetEditor());
             // And navigate back to where you were before!
