@@ -4,8 +4,8 @@ if (dotenvResult.error) throw dotenvResult.error;
 
 const PORT = process.env.API_PORT || 3000;
 
-import app from "./server";
+import app, {logger} from "./server";
 
 app.listen(PORT, () => {
-    console.log(`Listening on ${PORT}...`);
+    logger.info(`Listening on ${PORT}...`);
 });

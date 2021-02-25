@@ -43,18 +43,17 @@
  */
 import {Router} from "express";
 import {validate} from "express-validation";
-import {postThing} from "../validators/example";
 import ThingDAO from "../daos/example";
 import DumpsterDAO from "../daos/dumpsters"
-import models from "../models";
 import {postDumpster} from "../validators/dumpsters";
+import {RouteDependencies} from "../types";
 
 //TODO add validation and models, and DAO for the key ones
 //TODO change storetype and dumpstertype to String primary key and foreign key
-export default function () {
-    const thingDAO = ThingDAO(models);
+export default function ({ logger, Models }: RouteDependencies) {
+    const thingDAO = ThingDAO(Models);
     const router = Router();
-    const dumpsterDAO = DumpsterDAO(models);
+    const dumpsterDAO = DumpsterDAO(Models);
 
 
         /**
@@ -76,7 +75,7 @@ export default function () {
                 const dumpsters = await dumpsterDAO.getAll();
                 res.status(200).json(dumpsters);
             } catch (e) {
-                console.error('Something went wrong!', e);
+                logger.error('Something went wrong!', e);
                 res.status(500).send("uh?");
             }
         });
@@ -113,7 +112,7 @@ export default function () {
              */
 
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -147,7 +146,7 @@ export default function () {
 
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -212,7 +211,7 @@ export default function () {
 
                      */
                 } catch (e) {
-                    console.error('Something went wrong!', e);
+                    logger.error('Something went wrong!', e);
                     res.status(500).send("uh?");
                 }
             });
@@ -258,7 +257,7 @@ export default function () {
 
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -284,7 +283,7 @@ export default function () {
 
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -311,7 +310,7 @@ export default function () {
 
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -359,7 +358,7 @@ export default function () {
 
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -397,7 +396,7 @@ export default function () {
 
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -430,7 +429,7 @@ export default function () {
 
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -461,7 +460,7 @@ export default function () {
             res.status(200).json(dumpsters);
             */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -487,7 +486,7 @@ export default function () {
 
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -513,7 +512,7 @@ export default function () {
             res.status(200).json(dumpsters);
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -540,7 +539,7 @@ export default function () {
 
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
@@ -576,7 +575,7 @@ export default function () {
 
              */
         } catch (e) {
-            console.error('Something went wrong!', e);
+            logger.error('Something went wrong!', e);
             res.status(500).send("uh?");
         }
     });
