@@ -1,6 +1,7 @@
 import sequelize from "../config/sequelize";
 import * as Dumpsters from "./dumpsters";
 import * as DumpsterTypes from "./dumpsterTypes";
+import * as DumpsterPositions from "./DumpsterPositions";
 import * as StoreTypes from "./storeTypes"
 import * as Things from "./example";
 import * as Thangs from "./thang";
@@ -21,6 +22,7 @@ import * as DumpsterTags from "./DumpsterTags";
 
 const Models = {
     DumpsterTypes: DumpsterTypes.init(sequelize),
+    DumpsterPositions: DumpsterPositions.init(sequelize),
     StoreTypes: StoreTypes.init(sequelize),
     Categories: Categories.init(sequelize),
     Dumpsters: Dumpsters.init(sequelize),
@@ -39,6 +41,7 @@ const Models = {
 
 
 DumpsterTypes.associate(Models);
+DumpsterPositions.associate(Models);
 StoreTypes.associate(Models);
 Dumpsters.associate(Models);
 Thangs.associate(Models);
