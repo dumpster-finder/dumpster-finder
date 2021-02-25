@@ -49,7 +49,6 @@ import ThingDAO from "../daos/example";
 import ThangDAO from "../daos/thang";
 import DumpsterDAO from "../daos/dumpsters";
 import Models from "../models";
-import thang from "../daos/thang";
 import {RouteDependencies} from "../types";
 
 

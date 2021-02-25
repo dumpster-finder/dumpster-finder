@@ -6,6 +6,7 @@ import sequelize from "./config/sequelize";
 import swagger from "./routes/swagger";
 import pino from "pino";
 import expressPino from "express-pino-logger";
+import Models from "./models";
 
 const connectToDatabase = async () => {
     try {
@@ -31,7 +32,8 @@ const app = express();
 export const logger = pino({ level: process.env.LOG_LEVEL || "info" });
 
 const dependencies = {
-    logger
+    logger,
+    Models
 };
 
 // Express middleware
@@ -43,6 +45,6 @@ app.use("/spec", swagger());
 
 app.use("/example", example(dependencies));
 
-app.use("/dumpsters", dumpsters())
+app.use("/dumpsters", dumpsters(dependencies))
 
 export default app;
