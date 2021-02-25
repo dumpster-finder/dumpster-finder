@@ -26,9 +26,9 @@ import {
     PositiveIcon,
     TrashIcon,
 } from "../components/Icons";
-import { ButtonGroup } from "../components/ButtonGroup";
 import { DumpsterService } from "../services";
 import Rating from "../components/Rating";
+import ButtonGroupDisplay from "../components/ButtonGroupDisplay";
 
 export default function AddInfoScreen({
     navigation,
@@ -47,6 +47,8 @@ export default function AddInfoScreen({
         "Clean",
         "Pristine",
     ];
+    const lock = ["Locked", "Unlocked"];
+    const view = ["Negative", "Neutral", "Positive"];
 
     const [name, setName] = useState("");
     const [dumpsterTypeIndex, setDumpsterTypeIndex] = useState(
@@ -60,7 +62,8 @@ export default function AddInfoScreen({
         categorySelectedIndex,
         setCategoryMultiSelectedIndex,
     ] = React.useState([new IndexPath(0)]);
-    const [positiveStoreViewOnDiving, setIsPositive] = useState(1);
+    let storeViewValue = 1;
+
 
     return (
         <Layout>
@@ -129,45 +132,7 @@ export default function AddInfoScreen({
                     <View style={styles.icon}>
                         <PositiveIcon size="medium" />
                     </View>
-                    <ButtonGroup
-                        style={styles.nextToIcon}
-                        appearance="outline"
-                        status="basic"
-                    >
-                        <Button
-                            style={{ width: "33.3%", paddingHorizontal: 5 }}
-                            onPress={() => setIsPositive(0)}
-                            appearance={
-                                positiveStoreViewOnDiving === 0
-                                    ? "filled"
-                                    : "outline"
-                            }
-                        >
-                            Negative
-                        </Button>
-                        <Button
-                            style={{ width: "33.3%", paddingHorizontal: 5 }}
-                            onPress={() => setIsPositive(1)}
-                            appearance={
-                                positiveStoreViewOnDiving === 1
-                                    ? "filled"
-                                    : "outline"
-                            }
-                        >
-                            Neutral
-                        </Button>
-                        <Button
-                            style={{ width: "33.3%", paddingHorizontal: 5 }}
-                            onPress={() => setIsPositive(2)}
-                            appearance={
-                                positiveStoreViewOnDiving === 2
-                                    ? "filled"
-                                    : "outline"
-                            }
-                        >
-                            Positive
-                        </Button>
-                    </ButtonGroup>
+                    <ButtonGroupDisplay values={view} onSelect={storeView}/>
                 </View>
 
                 <View style={styles.row}>
@@ -175,26 +140,7 @@ export default function AddInfoScreen({
                         <LockIcon size="medium" />
                     </View>
 
-                    <ButtonGroup
-                        style={styles.nextToIcon}
-                        appearance="outline"
-                        status="basic"
-                    >
-                        <Button
-                            style={{ width: "50%" }}
-                            onPress={() => setLocked(true)}
-                            appearance={locked ? "filled" : "outline"}
-                        >
-                            Locked
-                        </Button>
-                        <Button
-                            style={{ width: "50%" }}
-                            onPress={() => setLocked(false)}
-                            appearance={!locked ? "filled" : "outline"}
-                        >
-                            Open
-                        </Button>
-                    </ButtonGroup>
+                    <ButtonGroupDisplay values={lock} onSelect={isLocked}/>
                 </View>
 
                 <View style={{ width: "80%" }}>
@@ -239,6 +185,18 @@ export default function AddInfoScreen({
         </Layout>
     );
 
+    function storeView(index: number){
+        storeViewValue = index;
+    }
+
+    function isLocked(index: number){
+        if(index === 0){
+            setLocked(false)
+        }else{
+            setLocked(true)
+        }
+    }
+
     function showCategories() {
         return categorySelectedIndex
             .map(({ row }) => categories[row])
@@ -246,12 +204,20 @@ export default function AddInfoScreen({
     }
 
     function handleSubmit() {
+
+        let positiveView = null;
+        if (storeViewValue === 0) {
+            positiveView = false;
+        } else if (storeViewValue === 2) {
+            positiveView = true;
+        }
+        console.log(positiveView)
         if (name != "") {
             let clean = cleanliness + 1;
             let positiveView = null;
-            if (positiveStoreViewOnDiving === 0) {
+            if (storeViewValue === 0) {
                 positiveView = false;
-            } else if (positiveStoreViewOnDiving === 2) {
+            } else if (storeViewValue === 2) {
                 positiveView = true;
             }
             // Post the dumpster, add it to the list of dumpster if that succeeds
