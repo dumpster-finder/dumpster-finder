@@ -18,16 +18,16 @@ CREATE TABLE thangs (
         REFERENCES things (id)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
-
+SET foreign_key_checks = 0;
 -- DROP 'EM ALL! (╯°□°）╯︵ ┻━┻
 DROP TABLE IF EXISTS
     PhotoReports, Photos,
     DumpsterTags, StandardTags, Tags,
     DumpsterCategories, Categories,
     Ratings, Comments,
-    DumpsterReports, Dumpsters,
+    DumpsterReports,  Dumpsters, DumpsterPositions,
     StoreTypes, DumpsterTypes;
-
+SET foreign_key_checks = 1;
 -- Dumpster types: Compressor, dumpster, idk
 CREATE TABLE DumpsterTypes (
     dumpsterTypeID INT PRIMARY KEY AUTO_INCREMENT,
@@ -39,14 +39,24 @@ CREATE TABLE StoreTypes (
     storeTypeID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(24) NOT NULL
 );
-
+-- Dumpster Positions: Stores dumpster id and position
+-- saves a lot of pain using UUID and revision while maintaining
+-- unique positions for non revised dumpsters
+CREATE TABLE DumpsterPositions (
+    dumpsterID INT PRIMARY KEY AUTO_INCREMENT,
+    position POINT UNIQUE NOT NULL,
+    revisionID INT REFERENCES Dumpsters(dumpsterID),
+    SPATIAL INDEX (position)
+);
 -- Dumpsters: Uniquely identified by position
 --            (you better know what a dumpster is)
 CREATE TABLE Dumpsters (
-    dumpsterID INT PRIMARY KEY AUTO_INCREMENT,
-    position POINT UNIQUE NOT NULL,
+    revisionID INT PRIMARY KEY AUTO_INCREMENT,
+    dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
+    position POINT NOT NULL,
     name VARCHAR(64) NOT NULL,
     dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dateUpdated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     -- Categorization:
     dumpsterTypeID INT NOT NULL REFERENCES DumpsterTypes(dumpsterTypeID),
@@ -57,27 +67,34 @@ CREATE TABLE Dumpsters (
     positiveStoreViewOnDiving BOOLEAN, -- NULL if unknown (triple boolean hell)
     emptyingSchedule VARCHAR(128), -- should this be nullable?
     cleanliness TINYINT UNSIGNED NOT NULL,
+    userID VARCHAR(256),
 
     -- Position index!
     SPATIAL INDEX (position),
     CONSTRAINT dumpsterFK1 FOREIGN KEY Dumpsters(dumpsterTypeID)
         REFERENCES DumpsterTypes (dumpsterTypeID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT dumpsterFK2 FOREIGN KEY Dumpsters(storeTypeID)
+    CONSTRAINT dumpsterFK2 FOREIGN KEY Dumpsters(dumpsterID)
+        REFERENCES DumpsterPositions (dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT dumpsterFK3 FOREIGN KEY Dumpsters(storeTypeID)
         REFERENCES StoreTypes (storeTypeID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
+ALTER TABLE DumpsterPositions ADD FOREIGN KEY (revisionID) references Dumpsters(revisionID) ON UPDATE RESTRICT ON DELETE SET NULL;
+
+
 
 -- Dumpster may not exist, or there might be misinformation in the data.
 -- This should be reported.
 CREATE TABLE DumpsterReports (
     dumpsterReportID INT PRIMARY KEY AUTO_INCREMENT,
-    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
+    dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     reason TEXT NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (dumpsterID),
     FOREIGN KEY DumpsterReports(dumpsterID)
-        REFERENCES Dumpsters (dumpsterID)
+        REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
@@ -85,27 +102,28 @@ CREATE TABLE DumpsterReports (
 -- A dumpster's rating is calculated as an average of
 -- these instances (perhaps filtered by recency)
 CREATE TABLE Ratings (
-    ratingID INT PRIMARY KEY AUTO_INCREMENT,
-    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
+    userID VARCHAR(256),
+    dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     rating TINYINT UNSIGNED NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (dumpsterID),
+    PRIMARY KEY(userID, dumpsterID),
     FOREIGN KEY Ratings(dumpsterID)
-        REFERENCES Dumpsters (dumpsterID)
+        REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Comments convey a diver's experience with a particular dumpster
 CREATE TABLE Comments (
     commentID INT PRIMARY KEY AUTO_INCREMENT,
-    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
+    dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     nickname VARCHAR(24) NOT NULL,
     comment TEXT NOT NULL,
     rating TINYINT UNSIGNED NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (date),
     FOREIGN KEY Comments(dumpsterID)
-        REFERENCES Dumpsters (dumpsterID)
+        REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 
 );
@@ -113,13 +131,13 @@ CREATE TABLE Comments (
 -- Photos give a clear view of the state of a dumpster
 CREATE TABLE Photos (
     photoID INT PRIMARY KEY AUTO_INCREMENT,
-    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
+    dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     url VARCHAR(256) NOT NULL,
-    key_ VARCHAR(256) NOT NULL, -- for deleting the photo if you regret everything
+    userID VARCHAR(256) NOT NULL, -- for deleting the photo if you regret everything
     dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    INDEX (key_),
+    INDEX (userID),
     FOREIGN KEY Photos(dumpsterID)
-        REFERENCES Dumpsters (dumpsterID)
+        REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
@@ -143,13 +161,17 @@ CREATE TABLE Categories (
 
 -- Any dumpster could have contents of many categories
 CREATE TABLE DumpsterCategories (
-    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
+    dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
+    revisionID INT NOT NULL REFERENCES Dumpsters(revisionID),
     categoryID INT NOT NULL REFERENCES Categories(categoryID),
     dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT dumpsterCategoriesFK1 FOREIGN KEY DumpsterCategories(dumpsterID)
-        REFERENCES Dumpsters (dumpsterID)
+        REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT dumpsterCategoriesFK2 FOREIGN KEY DumpsterCategories(categoryID)
+    CONSTRAINT dumpsterCategoriesFK2 FOREIGN KEY DumpsterCategories(revisionID)
+        REFERENCES Dumpsters (revisionID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT dumpsterCategoriesFK3 FOREIGN KEY DumpsterCategories(categoryID)
         REFERENCES Categories (categoryID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
@@ -166,7 +188,7 @@ CREATE TABLE Tags (
 
 -- Contains data about the particular instance of the content type
 CREATE TABLE DumpsterTags (
-    dumpsterID INT NOT NULL REFERENCES Dumpsters(dumpsterID),
+    dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     tagID INT NOT NULL REFERENCES Tags(tagID),
 
     -- Composite amount:
@@ -182,7 +204,7 @@ CREATE TABLE DumpsterTags (
     INDEX (foundDate),
     INDEX (expiryDate),
     CONSTRAINT dumpsterTagsFK1 FOREIGN KEY DumpsterTags(dumpsterID)
-        REFERENCES Dumpsters (dumpsterID)
+        REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT dumpsterTagsFK2 FOREIGN KEY DumpsterTags(tagID)
         REFERENCES Tags (tagID)
