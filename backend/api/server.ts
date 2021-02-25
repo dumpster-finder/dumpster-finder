@@ -24,7 +24,15 @@ const connectToDatabase = async () => {
 
 const app = express();
 
+/**
+ * Configured Pino logger
+ * Please pass it to routes instead of importing this instance
+ */
 export const logger = pino({ level: process.env.LOG_LEVEL || "info" });
+
+const dependencies = {
+    logger
+};
 
 // Express middleware
 app.use(express.json());
@@ -33,7 +41,7 @@ app.use(expressPino({ logger }));
 
 app.use("/spec", swagger());
 
-app.use("/example", example());
+app.use("/example", example(dependencies));
 
 app.use("/dumpsters", dumpsters())
 
