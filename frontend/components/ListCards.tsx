@@ -18,7 +18,6 @@ export default function ListCards({
             <View style={styles.footerContainer}>
                 <Image
                     style={{
-                        resizeMode: "contain",
                         width: "40%",
                         height: "100%",
                     }}
