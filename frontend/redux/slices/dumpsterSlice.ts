@@ -50,7 +50,6 @@ export const dumpsterSlice = createSlice({
          * @param payload A dumpster object
          */
         addDumpster: ({ dumpsters }, { payload }: { payload: Dumpster }) => {
-            console.log(payload)
             dumpsters[payload.dumpsterID] = payload;
         },
         /**
@@ -116,8 +115,10 @@ export default dumpsterSlice.reducer;
 
 export const allDumpstersSelector = (state: RootState) => {
     const res = [];
-    for (const key in state.dumpsters.dumpsters) {
-        res.push(state.dumpsters.dumpsters[key]);
+    const dumpsters = state.dumpsters.dumpsters;
+    for (const key in dumpsters) {
+        if (dumpsters[key])
+            res.push(dumpsters[key]);
     }
     return res;
 };
