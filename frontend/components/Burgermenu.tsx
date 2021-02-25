@@ -5,14 +5,9 @@ import { Button } from "@ui-kitten/components";
 import { MenuIcon } from "./Icons";
 
 export default function Burgermenu({
-    value,
     onSelect,
-    onPress,
 }: {
-    value: number;
     onSelect: (newValue: number) => void;
-    onPress: void;
-
 }) {
     const [visible, setVisible] = useState(false);
     const menuItems = [
@@ -21,7 +16,7 @@ export default function Burgermenu({
         "Edit dumpster",
         "Edit content",
     ];
-    const onMenuPress = (i: number ) => {
+    const onMenuPress = (i: number) => {
         setVisible(false);
         onSelect(i)
     };

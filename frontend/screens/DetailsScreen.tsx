@@ -74,9 +74,7 @@ export default function DetailsScreen({
                             </View>
                             <View style={styles.sideIcons}>
                                 <Burgermenu
-                                    value={menu}
-                                    onSelect={setMenu}
-                                    onPress={menuSelect()}
+                                    onSelect={menuSelect}
                                 />
                             </View>
                         </View>
@@ -264,23 +262,28 @@ export default function DetailsScreen({
         }
     }
 
-    function menuSelect() {
-        if (menu != -1) {
-            console.log(menu);
-            if (menu === 0) {
+    function menuSelect(menuIndex: number) {
+        switch (menuIndex) {
+            case 0:
                 console.log("flag");
-            } else if (menu === 1) {
-                console.log("Rev");
-            } else if (menu === 2) {
+                break;
+            case 1:
+                console.log("Revision");
+                break;
+            case 2:
                 console.log("Edit");
                 navigation.navigate("EditDumpsterScreen", {
                     screen: "EditDumpsterScreen",
                 });
-            } else {
+                break;
+            case 3:
                 navigation.navigate("EditContentScreen", {
                     screen: "EditContentScreen",
                 });
-            }
+                break;
+            default:
+                console.log(menuIndex);
+                break;
         }
     }
 }
