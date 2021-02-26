@@ -4,7 +4,7 @@
   "description": "An API for dumpster diving",
   "main": "index.ts",
   "scripts": {
-    "start": "nodemon index.ts | pino-pretty -t",
+    "start": "nodemon index.ts | pino-pretty -c -t",
     "test": "jest",
     "docs": "typedoc --out docs *.ts */*.ts"
   },

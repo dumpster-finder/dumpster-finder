@@ -75,7 +75,7 @@ export default function ({ logger, Models }: RouteDependencies) {
                 const dumpsters = await dumpsterDAO.getAll();
                 res.status(200).json(dumpsters);
             } catch (e) {
-                logger.error('Something went wrong!', e);
+                logger.error(e, 'Something went wrong!');
                 res.status(500).send("uh?");
             }
         });

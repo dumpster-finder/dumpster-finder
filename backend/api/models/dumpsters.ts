@@ -14,10 +14,10 @@ export interface DumpsterAttributes {
     dumpsterTypeID: number;
     storeTypeID: number;
     locked: boolean;
-    positiveStoreViewOnDiving?: boolean;
-    emptyingSchedule?: string;
+    positiveStoreViewOnDiving: boolean | null;
+    emptyingSchedule: string | null;
     cleanliness: number;
-    userID?: string;
+    userID: string | null;
 }
 
 export interface DumpsterCreationAttributes
@@ -35,10 +35,10 @@ class Dumpsters
     dumpsterTypeID!: number;
     storeTypeID!: number;
     locked!: boolean;
-    positiveStoreViewOnDiving?: boolean;
-    emptyingSchedule?: string;
+    positiveStoreViewOnDiving!: boolean | null;
+    emptyingSchedule!: string | null;
     cleanliness!: number;
-    userID?: string;
+    userID!: string | null;
 }
 
 // Inject Sequelize

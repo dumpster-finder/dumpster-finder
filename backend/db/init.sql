@@ -45,7 +45,7 @@ CREATE TABLE StoreTypes (
 CREATE TABLE DumpsterPositions (
     dumpsterID INT PRIMARY KEY AUTO_INCREMENT,
     position POINT UNIQUE NOT NULL,
-    revisionID INT REFERENCES Dumpsters(dumpsterID),
+    revisionID INT, -- references Dumpsters(revisionID)
     SPATIAL INDEX (position)
 );
 -- Dumpsters: Uniquely identified by position
@@ -81,6 +81,7 @@ CREATE TABLE Dumpsters (
         REFERENCES StoreTypes (storeTypeID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
+
 ALTER TABLE DumpsterPositions ADD FOREIGN KEY (revisionID) references Dumpsters(revisionID) ON UPDATE RESTRICT ON DELETE SET NULL;
 
 
