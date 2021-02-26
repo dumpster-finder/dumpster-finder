@@ -31,6 +31,8 @@ const InnerApp = () => {
     const radius = useSelector(radiusSelector);
 
     useEffect(() => {
+        // TODO prevent this necessity (had to clear out old data)
+        store.dispatch(setDumpsters([]));
         store.dispatch(fetchNearbyDumpsters({position, radius}));
         if (firstTime) {
             store.dispatch(setDarkMode(externalColorScheme === "dark"));
