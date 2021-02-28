@@ -21,7 +21,7 @@ export interface DumpsterAttributes {
 }
 
 export interface DumpsterCreationAttributes
-    extends Optional<DumpsterAttributes, "dumpsterID"> {}
+    extends Optional<DumpsterAttributes, "revisionID" | "dateAdded" | "dateUpdated"> {}
 
 class Dumpsters
     extends Model<DumpsterAttributes, DumpsterCreationAttributes>

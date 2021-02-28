@@ -2,7 +2,13 @@ import { MyModels } from "../models";
 import { literal } from "sequelize";
 import Dumpster from "../types/Dumpster";
 
-export default function({ DumpsterPositions, Dumpsters }: MyModels) {
+export default function ({
+    DumpsterPositions,
+    Dumpsters,
+    DumpsterTypes,
+    StoreTypes,
+    sequelize,
+}: MyModels) {
     return {
         getAll: () =>
             Dumpsters.findAll({
@@ -15,13 +21,17 @@ export default function({ DumpsterPositions, Dumpsters }: MyModels) {
                     "emptyingSchedule",
                     "cleanliness",
                     [
-                        literal("(SELECT t.name FROM DumpsterTypes as t WHERE t.dumpsterTypeID = Dumpsters.dumpsterTypeID)"),
-                        "dumpsterType"
+                        literal(
+                            "(SELECT t.name FROM DumpsterTypes as t WHERE t.dumpsterTypeID = Dumpsters.dumpsterTypeID)",
+                        ),
+                        "dumpsterType",
                     ],
                     [
-                        literal("(SELECT t.name FROM StoreTypes as t WHERE t.storeTypeID = Dumpsters.storeTypeID)"),
-                        "storeType"
-                    ]
+                        literal(
+                            "(SELECT t.name FROM StoreTypes as t WHERE t.storeTypeID = Dumpsters.storeTypeID)",
+                        ),
+                        "storeType",
+                    ],
                 ],
                 where: literal(
                     "Dumpsters.revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)",
@@ -52,6 +62,55 @@ export default function({ DumpsterPositions, Dumpsters }: MyModels) {
         getAllByDumpsterType: (id: number) =>
             Dumpsters.findAll({ where: { dumpsterTypeID: id } }),
 
-        addOne: (thang: any) => Dumpsters.create(thang).then(data => data),
+        addOne: async (dumpster: Omit<Dumpster, "dumpsterID" | "rating">) => {
+            // Rewrite position data to GeoJSON format
+            const position = {
+                type: "Point",
+                coordinates: [
+                    dumpster.position.latitude,
+                    dumpster.position.longitude,
+                ],
+            };
+
+            // Perform transaction
+            const result = await sequelize.transaction(async t => {
+                const dumpsterPosition = await DumpsterPositions.create({
+                    position,
+                }, { transaction: t });
+                // @ts-ignore
+                const dumpsterID = dumpsterPosition.dataValues.dumpsterID;
+
+                // TODO refactor these calls as subqueries
+                const dumpsterTypeID = (
+                    await DumpsterTypes.findOne({
+                        where: { name: dumpster.dumpsterType },
+                        transaction: t,
+                    })
+                )?.dumpsterTypeID!;
+                const storeTypeID = (
+                    await StoreTypes.findOne({
+                        where: { name: dumpster.storeType },
+                        transaction: t,
+                    })
+                )?.storeTypeID!;
+
+                const data = await Dumpsters.create({
+                    // @ts-ignore
+                    dumpsterID,
+                    ...dumpster,
+                    dumpsterTypeID,
+                    storeTypeID,
+                    userID: "temp",
+                    position,
+                }, { transaction: t });
+
+                await DumpsterPositions.update({
+                    // @ts-ignore
+                    revisionID: data.dataValues.revisionID,
+                }, { where: { dumpsterID }, transaction: t });
+                return data;
+            });
+            return result;
+        },
     };
 }
