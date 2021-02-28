@@ -5,30 +5,28 @@ import { ButtonGroup } from "./ButtonGroup";
 import { useState } from "react";
 
 export default function ButtonGroupDisplay({
+    value,
     values,
     onSelect,
 }: {
+    value:number;
     values: string[];
     onSelect: (newValue: number) => void;
 }) {
     const width = 100 / values.length;
-    const [selected, setSelected] = useState(1);
     return (
         <ButtonGroup style={{width: "90%"}} appearance="outline" status="basic">
-            {values.map((value, i) => (
+            {values.map((name, i) => (
                 <Button
                     key={i}
                     style={{ width: width + "%" }}
-                    onPress={() => valueChange(i)}
-                    appearance={selected === i ? "filled" : "outline"}
+                    onPress={() => onSelect(i)}
+                    appearance={value === i ? "filled" : "outline"}
                 >
-                    {value}
+                    {name}
                 </Button>
             ))}
         </ButtonGroup>
     );
-    function valueChange(i: number){
-        setSelected(i)
-        onSelect(i)
-    }
+
 }
