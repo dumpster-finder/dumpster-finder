@@ -51,6 +51,7 @@
  *                 positiveStoreViewOnDiving: false
  *                 emptyingSchedule: "Every Saturday"
  *                 cleanliness: 2
+ *         # (the ID is in the url, though)
  *         PutDumpster:
  *             allOf:
  *                 - type: object
@@ -110,7 +111,7 @@
 import { Router } from "express";
 import { validate } from "express-validation";
 import DumpsterDAO from "../daos/dumpsters";
-import { postDumpster } from "../validators/dumpsters";
+import { postDumpster, putDumpster } from "../validators/dumpsters";
 import { RouteDependencies } from "../types";
 
 //TODO add validation and models, and DAO for the key ones
@@ -233,8 +234,8 @@ export default function ({ logger, Models }: RouteDependencies) {
      *                 schema:
      *                   $ref: '#/components/schemas/PostDumpster'
      *     responses:
-     *       "200":
-     *         description: the greeting
+     *       "201":
+     *         description: The new dumpster, with ID and all
      *         content:
      *           application/json:
      *             schema:
@@ -245,55 +246,44 @@ export default function ({ logger, Models }: RouteDependencies) {
             const result = await dumpsterDAO.addOne(req.body);
             res.status(201).json(result);
         } catch (e) {
-            logger.error("Something went wrong!", e);
+            logger.error(e, "Something went wrong!");
             next(e); // Pass to Express error handler
         }
     });
 
     /**
      * @swagger
-     * /dumpsters/:
+     * /dumpsters/{dumpsterID}/:
      *   put:
      *     summary: Update a dumpster
      *     tags: [Dumpsters]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
      *     requestBody:
      *          content:
      *              application/json:
      *                 schema:
-     *                      type: object
-     *                      properties:
-     *                          id:
-     *                              type: integer
-     *                          type:
-     *                              type: integer
-     *                          storeType:
-     *                              type: integer
-     *                          locked:
-     *                              type: boolean
-     *                          positiveViewOnDiving:
-     *                              type: boolean
-     *                          emptyingSchedule:
-     *                              type: string
-     *                          cleanliness:
-     *                              type: integer
+     *                    $ref: '#/components/schemas/PostDumpster'
      *     responses:
      *       "200":
-     *         description: the greeting
+     *         description: The resulting dumpster
      *         content:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/dumpsters/'
+     *               $ref: '#/components/schemas/Dumpster'
      */
-    router.put("/dumpsters/", validate(postDumpster), async (req, res) => {
+    router.put("/:dumpsterID(\\d+)", validate(putDumpster), async (req, res, next) => {
         try {
-            /*
-            const dumpsters = await dumpsterDAO.putOne(postDumpster);
+            const dumpsters = await dumpsterDAO.updateOne({ dumpsterID: req.params.dumpsterID, ...req.body });
             res.status(200).json(dumpsters);
-
-             */
         } catch (e) {
-            logger.error("Something went wrong!", e);
-            res.status(500).send("uh?");
+            logger.error(e, "Something went wrong!");
+            next(e);
         }
     });
 
