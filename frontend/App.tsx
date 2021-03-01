@@ -20,6 +20,7 @@ import { testDumpsters } from "./constants/TestData";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import {FontAwesomePack} from "./constants/FontAwesome";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
@@ -45,7 +46,7 @@ const InnerApp = () => {
 
     return (
         <SafeAreaProvider>
-            <IconRegistry icons={EvaIconsPack} />
+            <IconRegistry icons={[EvaIconsPack, FontAwesomePack]} />
             <ApplicationProvider
                 {...eva}
                 theme={darkMode ? eva.dark : eva.light}

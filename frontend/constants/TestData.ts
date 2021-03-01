@@ -3,7 +3,7 @@ import Dumpster from "../models/Dumpster";
 export const testDumpsters: Dumpster[] = [
     {
         dumpsterID: 1,
-        name: "Helen's store",
+        name: "Helene's store",
         position: { latitude: 63.412113, longitude: 10.440253 },
         emptyingSchedule: "Mondays",
         locked: true,
@@ -11,7 +11,7 @@ export const testDumpsters: Dumpster[] = [
         rating: 4.5,
         cleanliness: 76,
         storeType: "Food",
-        dumpsterType: "idk",
+        dumpsterType: "Metal",
     },
     {
         dumpsterID: 2,
@@ -23,7 +23,7 @@ export const testDumpsters: Dumpster[] = [
         rating: 2.5,
         cleanliness: 14,
         storeType: "Electronics",
-        dumpsterType: "idk",
+        dumpsterType: "Plastic",
     },
     {
         dumpsterID: 3,
@@ -35,6 +35,6 @@ export const testDumpsters: Dumpster[] = [
         rating: 4.5,
         cleanliness: 74,
         storeType: "Beds",
-        dumpsterType: "idk",
+        dumpsterType: "Compressor",
     },
 ];

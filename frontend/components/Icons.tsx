@@ -39,6 +39,10 @@ export const LockIcon = (props: IconProps) => (
     <BaseIcon {...props} name="lock" />
 );
 
+export const OpenLockIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="unlock" />
+);
+
 export const TrashIcon = (props: IconProps) => (
     <BaseIcon {...props} name="trash" />
 );
@@ -52,11 +56,11 @@ export const PositiveIcon = (props: IconProps) => (
 );
 
 export const CleanIcon = (props: IconProps) => (
-    <BaseIcon {...props} name="star" />
+    <BaseIcon {...props} name="brush" />
 );
 
 export const FadedCleanIcon = (props: IconProps) => (
-    <BaseIcon {...props} faded name="star" />
+    <BaseIcon {...props} faded name="brush" />
 );
 
 export const StarIcon = (props: IconProps) => (
@@ -90,6 +94,30 @@ export const ArrowLeftIcon = (props: IconProps) => (
 export const ArrowRightIcon = (props: IconProps) => (
     <BaseIcon {...props} name="arrow-ios-forward" />
 );
+
+export const ArrowUpIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="arrow-upward" />
+);
+
+export const ArrowDownIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="arrow-downward" />
+);
+
+
+export const BrushIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="brush" />
+);
+
+export const MessageIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="message-square" />
+);
+
+export const MenuIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="menu" />
+);
+
+
+
 
 const styles: Record<string, any> = StyleSheet.create({
     small: {

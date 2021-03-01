@@ -12,6 +12,10 @@ export default {
               DetailsScreen: 'details',
               AddPositionScreen: 'addPos',
               AddInfoScreen: 'addInfo',
+              CommentScreen: 'comments',
+              ContentScreen: "contents",
+              EditContentScreen: "EditCont",
+              EditDumpsterScreen: "EditDumpster",
             },
           },
           ListTab: {
@@ -20,6 +24,10 @@ export default {
               DetailsScreen: 'details',
               AddPositionScreen: 'addPos',
               AddInfoScreen: 'addInfo',
+              CommentScreen: 'comments',
+              ContentScreen: "contents",
+              EditContentScreen: "EditCont",
+              EditDumpsterScreen: "EditDumpster",
             },
           },
           InfoTab: {
