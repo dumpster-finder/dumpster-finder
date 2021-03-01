@@ -2,6 +2,18 @@
  * @swagger
  * components:
  *     schemas:
+ *         Message:
+ *             type: object
+ *             properties:
+ *                 statusCode:
+ *                     type: number
+ *                     description: The HTTP status code of the response
+ *                 message:
+ *                     type: string
+ *                     description: A message describing what went wrong
+ *             example:
+ *                 statusCode: 404
+ *                 message: "Not found"
  *         PostDumpster:
  *             type: object
  *             required:
@@ -51,8 +63,7 @@
  *                 positiveStoreViewOnDiving: false
  *                 emptyingSchedule: "Every Saturday"
  *                 cleanliness: 2
- *         # (the ID is in the url, though)
- *         PutDumpster:
+ *         Dumpster:
  *             allOf:
  *                 - type: object
  *                   required:
@@ -61,21 +72,6 @@
  *                     dumpsterID:
  *                       type: number
  *                 - $ref: '#/components/schemas/PostDumpster'
- *             example:
- *                 dumpsterID: 42
- *                 name: "Some Store that has Changed"
- *                 position:
- *                     latitude: 63.422407
- *                     longitude: 10.394954
- *                 dumpsterType: "Compressor"
- *                 storeType: "Electronics"
- *                 locked: false
- *                 positiveStoreViewOnDiving: true
- *                 emptyingSchedule: "Every Saturday"
- *                 cleanliness: 2
- *         Dumpster:
- *             allOf:
- *                 - $ref: '#/components/schemas/PutDumpster'
  *                 - type: object
  *                   required:
  *                     - rating
@@ -111,7 +107,7 @@
 import { Router } from "express";
 import { validate } from "express-validation";
 import DumpsterDAO from "../daos/dumpsters";
-import { postDumpster, putDumpster } from "../validators/dumpsters";
+import { postDumpster } from "../validators/dumpsters";
 import { RouteDependencies } from "../types";
 
 //TODO add validation and models, and DAO for the key ones
@@ -149,7 +145,7 @@ export default function ({ logger, Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/:dumpsterID:
+     * /dumpsters/{dumpsterID}:
      *   get:
      *     summary: GET Dumpster by ID
      *     tags: [Dumpsters]
@@ -167,19 +163,28 @@ export default function ({ logger, Models }: RouteDependencies) {
      *           application/json:
      *             schema:
      *               $ref: '#/components/schemas/Dumpster'
+     *       "404":
+     *         description: Not found
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Message'
      */
     router.get(
-        "/dumpsters/:dumpsterID(\\d+)",
-        async (req: { params: { dumpsterID: number } }, res) => {
+        "/:dumpsterID(\\d+)",
+        async (req: { params: { dumpsterID: number } }, res, next) => {
             try {
-                /*
-            const dumpsters = await dumpsterDAO.getAllByDumpsterType(dumpsterID);
-            res.status(200).json(dumpsters);
-
-             */
+                const dumpster = await dumpsterDAO.getOne(
+                    req.params.dumpsterID,
+                );
+                if (dumpster) {
+                    res.status(200).json(dumpster);
+                } else {
+                    res.status(404).json({statusCode: 404, message: "Dumpster not found"});
+                }
             } catch (e) {
-                logger.error("Something went wrong!", e);
-                res.status(500).send("uh?");
+                logger.error(e, "Something went wrong!");
+                next(e);
             }
         },
     );
@@ -277,15 +282,22 @@ export default function ({ logger, Models }: RouteDependencies) {
      *             schema:
      *               $ref: '#/components/schemas/Dumpster'
      */
-    router.put("/:dumpsterID(\\d+)", validate(putDumpster), async (req, res, next) => {
-        try {
-            const dumpsters = await dumpsterDAO.updateOne({ dumpsterID: req.params.dumpsterID, ...req.body });
-            res.status(200).json(dumpsters);
-        } catch (e) {
-            logger.error(e, "Something went wrong!");
-            next(e);
-        }
-    });
+    router.put(
+        "/:dumpsterID(\\d+)",
+        validate(postDumpster),
+        async (req, res, next) => {
+            try {
+                const result = await dumpsterDAO.updateOne({
+                    dumpsterID: req.params.dumpsterID,
+                    ...req.body,
+                });
+                res.status(200).json(result);
+            } catch (e) {
+                logger.error(e, "Something went wrong!");
+                next(e);
+            }
+        },
+    );
 
     /**
      * TODO move?

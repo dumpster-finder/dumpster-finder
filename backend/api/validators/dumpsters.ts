@@ -1,23 +1,22 @@
 import Joi from "joi";
 
+const position = Joi.object({
+    latitude: Joi.number().min(-90).max(90).required(),
+    longitude: Joi.number().min(-180).max(180).required(),
+});
+
 /**
  * Validator for the params in a GET /dumpsters request
  */
 export const locationParams = {
     params: Joi.object({
-        position: Joi.object({
-            latitude: Joi.number().min(-90).max(90).required(),
-            longitude: Joi.number().min(-180).max(180).required(),
-        }),
+        position,
         radius: Joi.number(),
     }),
 };
 
 const baseDumpster = Joi.object().keys({
-    position: Joi.object({
-        latitude: Joi.number().min(-90).max(90).required(),
-        longitude: Joi.number().min(-180).max(180).required(),
-    }),
+    position,
     name: Joi.string(),
     dumpsterType: Joi.string(),
     storeType: Joi.string(),
@@ -28,17 +27,9 @@ const baseDumpster = Joi.object().keys({
 });
 
 /**
- * Validator for a POSTed dumpster
+ * Validator for a POSTed (or updated) dumpster
  */
 export const postDumpster = {
     body: baseDumpster,
 };
 
-/**
- * Validator for a PUT dumpster
- */
-export const putDumpster = {
-    body: baseDumpster.keys({
-        dumpsterID: Joi.number(), // does not work?
-    }),
-};

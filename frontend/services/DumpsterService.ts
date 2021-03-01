@@ -52,7 +52,7 @@ export class DumpsterService {
      *
      * @param dumpster An edited version of an existing dumpster
      */
-    updateDumpster(dumpster: Dumpster) {
+    updateDumpster(dumpster: Omit<Dumpster, "rating">) {
         // TODO eventually this'll become
         // return this.axios.put(`/dumpsters/${dumpster.dumpsterID}`, dumpster);
         console.log("Updated", dumpster);

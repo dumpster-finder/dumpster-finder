@@ -23,6 +23,29 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     rating: 1, //dumpster.rating
 });
 
+// The type is (string | ProjectionAlias)[], but I cannot find the definition of ProjectionAlias
+const dumpsterAttributes: (string | any)[] = [
+    "dumpsterID",
+    "name",
+    "position",
+    "locked",
+    "positiveStoreViewOnDiving",
+    "emptyingSchedule",
+    "cleanliness",
+    [
+        literal(
+            "(SELECT t.name FROM DumpsterTypes as t WHERE t.dumpsterTypeID = Dumpsters.dumpsterTypeID)",
+        ),
+        "dumpsterType",
+    ],
+    [
+        literal(
+            "(SELECT t.name FROM StoreTypes as t WHERE t.storeTypeID = Dumpsters.storeTypeID)",
+        ),
+        "storeType",
+    ],
+];
+
 export default function ({
     DumpsterPositions,
     Dumpsters,
@@ -33,31 +56,27 @@ export default function ({
     return {
         getAll: () =>
             Dumpsters.findAll({
-                attributes: [
-                    "dumpsterID",
-                    "name",
-                    "position",
-                    "locked",
-                    "positiveStoreViewOnDiving",
-                    "emptyingSchedule",
-                    "cleanliness",
-                    [
-                        literal(
-                            "(SELECT t.name FROM DumpsterTypes as t WHERE t.dumpsterTypeID = Dumpsters.dumpsterTypeID)",
-                        ),
-                        "dumpsterType",
-                    ],
-                    [
-                        literal(
-                            "(SELECT t.name FROM StoreTypes as t WHERE t.storeTypeID = Dumpsters.storeTypeID)",
-                        ),
-                        "storeType",
-                    ],
-                ],
+                attributes: dumpsterAttributes,
                 where: literal(
                     "Dumpsters.revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)",
                 ),
             }).then(dumpsters => dumpsters.map(toDumpster)),
+
+        /**
+         * Get one dumpster by ID
+         * TODO: Check if SQL injection is still possible after using sequelize.escape()
+         *       (it should not, especially since the endpoint route requires an ID)
+         *
+         * @param dumpsterID
+         * @return null if not found, a dumpster if found
+         */
+        getOne: (dumpsterID: number) =>
+            Dumpsters.findOne({
+                attributes: dumpsterAttributes,
+                where: literal(
+                    `dumpsterID = ${sequelize.escape(dumpsterID)} AND revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)`,
+                ),
+            }).then(dumpster => dumpster && toDumpster(dumpster)),
 
         getAllByDumpsterType: (id: number) =>
             Dumpsters.findAll({ where: { dumpsterTypeID: id } }),
@@ -154,8 +173,8 @@ export default function ({
                         storeTypeID,
                         userID: "temp",
                         position, // TODO should position be editable?
-                                  //      for now I'd say it SHOULD NOT
-                                  //      (especially since this implementation will break the link to the DumpsterPosition)
+                        //      for now I'd say it SHOULD NOT
+                        //      (especially since this implementation will break the link to the DumpsterPosition)
                     },
                     { transaction: t },
                 );
