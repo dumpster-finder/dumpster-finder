@@ -34,3 +34,13 @@ VALUES
 UPDATE DumpsterPositions SET revisionID = 1 WHERE dumpsterID = 1;
 UPDATE DumpsterPositions SET revisionID = 2 WHERE dumpsterID = 2;
 UPDATE DumpsterPositions SET revisionID = 4 WHERE dumpsterID = 3;
+
+INSERT INTO Ratings(userID, dumpsterID, rating)
+VALUES
+    ('temp1', 1, 2),
+    ('temp2', 1, 3),
+    ('temp3', 1, 3),
+    ('temp4', 1, 4),
+    ('temp5', 1, 2),
+    ('temp6', 1, 2),
+    ('temp7', 1, 2);
