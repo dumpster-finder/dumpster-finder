@@ -1,8 +1,7 @@
 import * as React from "react";
-import { View } from "react-native";
 import { Button } from "@ui-kitten/components";
 import { ButtonGroup } from "./ButtonGroup";
-import { useState } from "react";
+
 
 export default function ButtonGroupDisplay({
     value,

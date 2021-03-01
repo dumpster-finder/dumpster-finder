@@ -1,6 +1,5 @@
 import * as React from "react";
 import { IndexPath, Select, SelectItem } from "@ui-kitten/components";
-import { useState } from "react";
 
 export default function Dropdown({
     value,

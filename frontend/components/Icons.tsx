@@ -91,6 +91,15 @@ export const ArrowRightIcon = (props: IconProps) => (
     <BaseIcon {...props} name="arrow-ios-forward" />
 );
 
+export const ArrowUpIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="arrow-upward" />
+);
+
+export const ArrowDownIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="arrow-downward" />
+);
+
+
 export const BrushIcon = (props: IconProps) => (
     <BaseIcon {...props} name="brush" />
 );
