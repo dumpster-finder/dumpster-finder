@@ -12,6 +12,7 @@ import Dumpster from "../models/Dumpster";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import DumpsterEditor from "../components/DumpsterEditor";
+import {DumpsterService} from "../services";
 
 export default function AddInfoScreen({
     navigation,
@@ -36,25 +37,10 @@ export default function AddInfoScreen({
         );
     }
 
+    function save(dumpster: Dumpster) {}
+
     async function handleSubmit() {
-        if(name != ""){
-            let positiveView = null;
-            if (positiveStoreViewOnDiving === 0) {
-                positiveView = false;
-            } else if (positiveStoreViewOnDiving === 2) {
-                positiveView = true;
-            }
-            // (rating is omitted because it is calculated later, idk what the backend will do rn)
-            const dumpster: Omit<Dumpster, "dumpsterID" | "rating"> = {
-                name,
-                position,
-                dumpsterType: dumpsterTypes[dumpsterTypeIndex.row],
-                storeType: storeTypes[storeTypeIndex.row],
-                emptyingSchedule,
-                cleanliness,
-                positiveStoreViewOnDiving: positiveView,
-                locked,
-            };
+        /*
 
             // Post the dumpster, then fetch & add it to the list of dumpster if that succeeds
             const { data: { dumpsterID } } = await DumpsterService.addDumpster(dumpster);
@@ -65,9 +51,9 @@ export default function AddInfoScreen({
             dispatch(resetEditor());
             // And navigate back to where you were before!
             navigation.dispatch(StackActions.popToTop());
-        }else{
-            console.log("Does not have name")
-        }
+
+
+         */
 
     }
 }
