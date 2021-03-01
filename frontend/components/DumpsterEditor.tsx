@@ -34,8 +34,12 @@ export default function DumpsterEditor({
     const view = ["Negative", "Neutral", "Positive"];
 
     const [name, setName] = useState(dumpster.name);
-    const [dumpsterTypeIndex, setDumpsterTypeIndex] = useState(dumpsterTypes.indexOf(dumpster.dumpsterType));
-    const [storeTypeIndex, setStoreTypeIndex] = useState(storeTypes.indexOf(dumpster.storeType));
+    const [dumpsterTypeIndex, setDumpsterTypeIndex] = useState(
+        dumpsterTypes.indexOf(dumpster.dumpsterType),
+    );
+    const [storeTypeIndex, setStoreTypeIndex] = useState(
+        storeTypes.indexOf(dumpster.storeType),
+    );
     const [emptyingSchedule, setEmptyingSchedule] = useState(
         dumpster.emptyingSchedule,
     );
@@ -110,7 +114,7 @@ export default function DumpsterEditor({
                 <ButtonGroupDisplay
                     value={locked ? 0 : 1}
                     values={lock}
-                    onSelect={i => setLocked(i === 1)}
+                    onSelect={i => setLocked(i === 0)}
                 />
             </View>
 
@@ -160,10 +164,9 @@ export default function DumpsterEditor({
     );
 
     function onSaveClick() {
-       if(name !== ""){
-           const dumpsterType = dumpsterTypes[dumpsterTypeIndex]
-           const storeType = storeTypes[storeTypeIndex];
-       }
+        if (name !== "") {
+            console.log(locked)
+        }
     }
 }
 
