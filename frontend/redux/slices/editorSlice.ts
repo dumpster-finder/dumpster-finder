@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import Dumpster from "../../models/Dumpster";
 import { RootState } from "../store";
 import Position from "../../models/Position";
-import {RotateTransform} from "react-native";
 
 /**
  * State for editing/adding dumpsters

@@ -1,10 +1,10 @@
 import axios from "axios";
 import {DumpsterService as DumpsterServiceClass} from "./DumpsterService";
+import Constants from "expo-constants";
 
 // Create one single instance of Axios
-// TODO replace dotenv usage or do sth else
 const axiosInstance = axios.create({
-    baseURL: process.env.API_URL || "http://localhost:3000/",
+    baseURL: Constants.manifest.extra.apiURL || "http://localhost:3000/",
     timeout: 1000
 })
 

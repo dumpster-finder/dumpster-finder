@@ -31,6 +31,10 @@ export const BaseIcon = withStyles(UnthemedIcon, theme => {
     };
 });
 
+export const RefreshIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="refresh" />
+);
+
 export const LockIcon = (props: IconProps) => (
     <BaseIcon {...props} name="lock" />
 );

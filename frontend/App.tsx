@@ -11,11 +11,11 @@ import store, { persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import {
     darkModeSelector,
-    firstTimeSelector,
+    firstTimeSelector, positionSelector, radiusSelector,
     setDarkMode,
     setFirstTime,
 } from "./redux/slices/configSlice";
-import { setDumpsters } from "./redux/slices/dumpsterSlice";
+import {fetchNearbyDumpsters, setDumpsters} from "./redux/slices/dumpsterSlice";
 import { testDumpsters } from "./constants/TestData";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
@@ -28,9 +28,13 @@ const InnerApp = () => {
     const externalColorScheme = useColorScheme();
     const darkMode = useSelector(darkModeSelector);
     const firstTime = useSelector(firstTimeSelector);
+    const position = useSelector(positionSelector);
+    const radius = useSelector(radiusSelector);
 
     useEffect(() => {
-        store.dispatch(setDumpsters(testDumpsters));
+        // TODO prevent this necessity (had to clear out old data)
+        store.dispatch(setDumpsters([]));
+        store.dispatch(fetchNearbyDumpsters({position, radius}));
         if (firstTime) {
             store.dispatch(setDarkMode(externalColorScheme === "dark"));
             // unset firstTime only AFTER the intro page has been shown!
