@@ -2,6 +2,7 @@ import { MyModels } from "../models";
 import { literal } from "sequelize";
 import Dumpster from "../types/Dumpster";
 import { DumpsterAttributes } from "../models/dumpsters";
+import {PositionParams} from "../types/Position";
 
 const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     dumpsterID: dumpster.dumpsterID,
@@ -47,10 +48,10 @@ const dumpsterAttributes: (string | any)[] = [
     ],
     [
         literal(
-            "(SELECT IFNULL(AVG(rating), 2.5) from Ratings where dumpsterID = Dumpsters.dumpsterID)"
+            "(SELECT IFNULL(AVG(rating), 2.5) from Ratings where dumpsterID = Dumpsters.dumpsterID)",
         ),
-        "rating"
-    ]
+        "rating",
+    ],
 ];
 
 export default function ({
@@ -61,7 +62,20 @@ export default function ({
     sequelize,
 }: MyModels) {
     return {
-        getAll: () =>
+        /**
+         * Fetches all dumpsters in a given radius around a position (lat, long)
+         * TODO narrow down results by distance from point
+         *
+         * @param latitude
+         * @param longitude
+         * @param radius
+         * @return The dumpsters that fit the query
+         */
+        getAll: ({
+            latitude,
+            longitude,
+            radius,
+        }: PositionParams) =>
             Dumpsters.findAll({
                 attributes: dumpsterAttributes,
                 where: literal(
@@ -81,13 +95,24 @@ export default function ({
             Dumpsters.findOne({
                 attributes: dumpsterAttributes,
                 where: literal(
-                    `dumpsterID = ${sequelize.escape(dumpsterID)} AND revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)`,
+                    `dumpsterID = ${sequelize.escape(
+                        dumpsterID,
+                    )} AND revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)`,
                 ),
             }).then(dumpster => dumpster && toDumpster(dumpster)),
 
         getAllByDumpsterType: (id: number) =>
             Dumpsters.findAll({ where: { dumpsterTypeID: id } }),
 
+        /**
+         * Add a dumpster to the database table.
+         * When adding, the dumpster does not yet have an ID.
+         * A rather complex routine since a revision must be created,
+         * and the dumpster's current revision must be set to the one that was added.
+         *
+         * @param dumpster
+         * @return The newly posted data, with an ID
+         */
         addOne: async (dumpster: Omit<Dumpster, "dumpsterID" | "rating">) => {
             // Rewrite position data to GeoJSON format
             const position = {
@@ -127,6 +152,8 @@ export default function ({
                     {
                         dumpsterID,
                         ...dumpster,
+                        positiveStoreViewOnDiving:
+                            dumpster.positiveStoreViewOnDiving || null,
                         dumpsterTypeID,
                         storeTypeID,
                         userID: "temp",
@@ -146,6 +173,15 @@ export default function ({
             });
         },
 
+        /**
+         * Much like its sibling `addOne`,
+         * this function must handle the revision system properly.
+         * It updates the current revision ID after the update has been completed
+         * – and the update is technically a creation, for that matter.
+         *
+         * @param dumpster
+         * @return The updated data
+         */
         updateOne: async (dumpster: Omit<Dumpster, "rating">) => {
             // Rewrite position data to GeoJSON format
             const position = {
@@ -176,6 +212,8 @@ export default function ({
                 const data = await Dumpsters.create(
                     {
                         ...dumpster,
+                        positiveStoreViewOnDiving:
+                            dumpster.positiveStoreViewOnDiving || null,
                         dumpsterTypeID,
                         storeTypeID,
                         userID: "temp",

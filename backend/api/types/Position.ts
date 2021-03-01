@@ -1,4 +1,10 @@
 export default interface Position {
-    longitude: number;
     latitude: number;
+    longitude: number;
+}
+
+export interface PositionParams {
+    latitude: number;
+    longitude: number;
+    radius: number;
 }

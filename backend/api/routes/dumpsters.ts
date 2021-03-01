@@ -14,6 +14,46 @@
  *             example:
  *                 statusCode: 404
  *                 message: "Not found"
+ *
+ *         latitude:
+ *             type: number
+ *             minimum: -90
+ *             maximum: 90
+ *         longitude:
+ *             type: number
+ *             minimum: -180
+ *             maximum: 180
+ *
+ *         Position:
+ *             type: object
+ *             required:
+ *                 - latitude
+ *                 - longitude
+ *             properties:
+ *                 latitude:
+ *                     $ref: '#/components/schemas/latitude'
+ *                 longitude:
+ *                     $ref: '#/components/schemas/longitude'
+ *             example:
+ *                 latitude: 63.422407
+ *                 longitude: 10.394954
+ *
+ *         LocationParams:
+ *             type: object
+ *             required:
+ *                 - position
+ *                 - radius
+ *             properties:
+ *                 position:
+ *                     $ref: '#/components/schemas/Position'
+ *                 radius:
+ *                     type: number
+ *                     description: Radius around the given position
+ *             example:
+ *                 latitude: 63.422407
+ *                 longitude: 10.394954
+ *                 radius: 6000
+ *
  *         PostDumpster:
  *             type: object
  *             required:
@@ -26,16 +66,7 @@
  *                 - cleanliness
  *             properties:
  *                 position:
- *                     type: object
- *                     properties:
- *                         latitude:
- *                             type: number
- *                             minimum: -90
- *                             maximum: 90
- *                         longitude:
- *                             type: number
- *                             minimum: -180
- *                             maximum: 180
+ *                     $ref: '#/components/schemas/Position'
  *                 name:
  *                     type: string
  *                 dumpsterType:
@@ -63,6 +94,7 @@
  *                 positiveStoreViewOnDiving: false
  *                 emptyingSchedule: "Every Saturday"
  *                 cleanliness: 2
+ *
  *         Dumpster:
  *             allOf:
  *                 - type: object
@@ -104,11 +136,17 @@
  *     description: Dumpster API
  */
 
-import { Router } from "express";
+import { Request, Router } from "express";
 import { validate } from "express-validation";
 import DumpsterDAO from "../daos/dumpsters";
-import { postDumpster } from "../validators/dumpsters";
+import {
+    getDumpster,
+    locationParams,
+    postDumpster,
+    putDumpster,
+} from "../validators/dumpsters";
 import { RouteDependencies } from "../types";
+import { PositionParams } from "../types/Position";
 
 //TODO add validation and models, and DAO for the key ones
 //TODO change storetype and dumpstertype to String primary key and foreign key
@@ -123,6 +161,15 @@ export default function ({ logger, Models }: RouteDependencies) {
      *   get:
      *     summary: GET all dumpsters
      *     tags: [Dumpsters]
+     *     parameters:
+     *       - in: query
+     *         name: values
+     *         schema:
+     *           $ref: '#/components/schemas/LocationParams'
+     *         required: true
+     *         style: form
+     *         explode: true
+     *         description: Position and radius around it
      *     responses:
      *       "200":
      *         description: An array of dumpsters
@@ -133,15 +180,19 @@ export default function ({ logger, Models }: RouteDependencies) {
      *               items:
      *                   $ref: '#/components/schemas/Dumpster'
      */
-    router.get("/", async (req, res, next) => {
-        try {
-            const dumpsters = await dumpsterDAO.getAll();
-            res.status(200).json(dumpsters);
-        } catch (e) {
-            logger.error(e, "Something went wrong!");
-            next(e);
-        }
-    });
+    router.get(
+        "/",
+        validate(locationParams),
+        async (req: Request & { query: PositionParams }, res, next) => {
+            try {
+                const dumpsters = await dumpsterDAO.getAll(req.query);
+                res.status(200).json(dumpsters);
+            } catch (e) {
+                logger.error(e, "Something went wrong!");
+                next(e);
+            }
+        },
+    );
 
     /**
      * @swagger
@@ -172,15 +223,19 @@ export default function ({ logger, Models }: RouteDependencies) {
      */
     router.get(
         "/:dumpsterID(\\d+)",
-        async (req: { params: { dumpsterID: number } }, res, next) => {
+        validate(getDumpster),
+        async (req, res, next) => {
             try {
                 const dumpster = await dumpsterDAO.getOne(
-                    req.params.dumpsterID,
+                    parseInt(req.params.dumpsterID),
                 );
                 if (dumpster) {
                     res.status(200).json(dumpster);
                 } else {
-                    res.status(404).json({statusCode: 404, message: "Dumpster not found"});
+                    res.status(404).json({
+                        statusCode: 404,
+                        message: "Dumpster not found",
+                    });
                 }
             } catch (e) {
                 logger.error(e, "Something went wrong!");
@@ -284,11 +339,11 @@ export default function ({ logger, Models }: RouteDependencies) {
      */
     router.put(
         "/:dumpsterID(\\d+)",
-        validate(postDumpster),
+        validate(putDumpster),
         async (req, res, next) => {
             try {
                 const result = await dumpsterDAO.updateOne({
-                    dumpsterID: req.params.dumpsterID,
+                    dumpsterID: parseInt(req.params.dumpsterID),
                     ...req.body,
                 });
                 res.status(200).json(result);
