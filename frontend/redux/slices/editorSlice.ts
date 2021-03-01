@@ -21,8 +21,8 @@ const templateDumpster: Dumpster = {
     dumpsterType: "",
     storeType: "",
     emptyingSchedule: "",
-    cleanliness: 50,
-    positiveStoreViewOnDiving: true,
+    cleanliness: 3,
+    positiveStoreViewOnDiving: null,
     locked: false,
     rating: 2.5,
 };

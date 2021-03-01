@@ -13,8 +13,8 @@ export default function DumpsterEditor({
     dumpster,
     onSave,
 }: {
-    dumpster: Dumpster;
-    onSave: (newDumpster: Dumpster) => void;
+    dumpster: Omit<Dumpster, "rating">;
+    onSave: (newDumpster: Omit<Dumpster, "rating">) => void;
 }) {
     const categoryData: Record<string, string[]> = {
         Food: ["Meat", "Fruit"],
@@ -43,7 +43,7 @@ export default function DumpsterEditor({
     const [emptyingSchedule, setEmptyingSchedule] = useState(
         dumpster.emptyingSchedule,
     );
-    const [cleanliness, setCleanliness] = useState(dumpster.cleanliness);
+    const [cleanliness, setCleanliness] = useState(dumpster.cleanliness-1);
     const [locked, setLocked] = useState(dumpster.locked);
     const [storeViewIndex, setStoreViewIndex] = useState(
         dumpster.positiveStoreViewOnDiving === null
@@ -155,7 +155,7 @@ export default function DumpsterEditor({
                 <Button
                     status="primary"
                     style={{ width: " 48%", margin: "2%" }}
-                    onPress={onSaveClick}
+                    onPress={handleSubmit}
                 >
                     Save
                 </Button>
@@ -163,11 +163,20 @@ export default function DumpsterEditor({
         </ScrollView>
     );
 
-    function onSaveClick() {
-        if (name !== "") {
-            console.log(locked)
-        }
+    function handleSubmit() {
+        onSave({
+            dumpsterID: dumpster.dumpsterID,
+            name,
+            position: dumpster.position,
+            dumpsterType: dumpsterTypes[dumpsterTypeIndex],
+            storeType: storeTypes[storeTypeIndex],
+            emptyingSchedule,
+            cleanliness,
+            positiveStoreViewOnDiving: storeViewIndex === 1 ? null : storeViewIndex === 2,
+            locked,
+        });
     }
+
 }
 
 const styles = StyleSheet.create({

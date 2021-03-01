@@ -52,11 +52,9 @@ export class DumpsterService {
      *
      * @param dumpster An edited version of an existing dumpster
      */
-    updateDumpster(dumpster: Omit<Dumpster, "rating">) {
-        // TODO eventually this'll become
-        // return this.axios.put(`/dumpsters/${dumpster.dumpsterID}`, dumpster);
-        console.log("Updated", dumpster);
-        return new Promise<void>(resolve => resolve());
+    updateDumpster(dumpster: Omit<Dumpster, "rating">): Promise<Dumpster> {
+        console.log("Updated dumpster:", dumpster);
+        return this.axios.put(`/dumpsters/${dumpster.dumpsterID}`, dumpster).then(response => response.data);
     }
 
     /**
@@ -64,10 +62,8 @@ export class DumpsterService {
      *
      * @param dumpster A dumpster object without ID or rating
      */
-    addDumpster(dumpster: Omit<Dumpster, "dumpsterID" | "rating">) {
-        // TODO eventually this'll become
-        // return this.axios.post("/dumpsters", dumpster);
-        console.log("Posted", dumpster);
-        return new Promise<Partial<AxiosResponse>>(resolve => resolve({ data: { dumpsterID: 4 }}));
+    addDumpster(dumpster: Omit<Dumpster, "dumpsterID" | "rating">): Promise<Dumpster> {
+        console.log("Posted dumpster:", dumpster);
+        return this.axios.post("/dumpsters", dumpster).then(response => response.data);
     }
 }

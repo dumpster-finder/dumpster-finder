@@ -20,12 +20,13 @@ export const locationParams = {
 };
 
 const baseDumpster = Joi.object().keys({
+    dumpsterID: Joi.number().optional(), // makes requests with a superfluous dumpsterID easier to handle TODO reconsider
     position,
     name: Joi.string().required(),
     dumpsterType: Joi.string().required(),
     storeType: Joi.string().required(),
     locked: Joi.boolean().required(),
-    positiveStoreViewOnDiving: Joi.boolean().optional(),
+    positiveStoreViewOnDiving: Joi.boolean().allow(null),
     emptyingSchedule: Joi.string().required(),
     cleanliness: Joi.number().min(1).max(5).required(),
 });

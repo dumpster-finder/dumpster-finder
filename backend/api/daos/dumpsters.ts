@@ -22,7 +22,7 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     positiveStoreViewOnDiving: dumpster.positiveStoreViewOnDiving,
     emptyingSchedule: dumpster.emptyingSchedule,
     // @ts-ignore
-    rating: dumpster.dataValues.rating, //dumpster.rating
+    rating: dumpster.dataValues.rating || 2.5, // Default to average
 });
 
 // The type is (string | ProjectionAlias)[], but I cannot find the definition of ProjectionAlias

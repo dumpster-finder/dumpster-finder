@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { useAppDispatch } from "../redux/store";
 import {
+    editorDumpsterSelector,
     editorPositionSelector,
     resetEditor,
 } from "../redux/slices/editorSlice";
@@ -10,9 +11,9 @@ import { addDumpster } from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
 import Dumpster from "../models/Dumpster";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import DumpsterEditor from "../components/DumpsterEditor";
-import {DumpsterService} from "../services";
+import { DumpsterService } from "../services";
+import { StackActions } from "@react-navigation/native";
 
 export default function AddInfoScreen({
     navigation,
@@ -20,9 +21,8 @@ export default function AddInfoScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const dispatch = useAppDispatch();
-    const position = useSelector(editorPositionSelector);
+    const dumpster = useSelector(editorDumpsterSelector);
 
-    const dumpster = useSelector(currentDumpsterSelector);
     if (dumpster === null) {
         return (
             <View style={styles.container}>
@@ -32,29 +32,25 @@ export default function AddInfoScreen({
     } else {
         return (
             <Layout style={styles.container}>
-                <DumpsterEditor dumpster={dumpster} onSave={save} />
+                <DumpsterEditor dumpster={dumpster} onSave={handleSave} />
             </Layout>
         );
     }
 
-    function save(dumpster: Dumpster) {}
-
-    async function handleSubmit() {
-        /*
-
-            // Post the dumpster, then fetch & add it to the list of dumpster if that succeeds
-            const { data: { dumpsterID } } = await DumpsterService.addDumpster(dumpster);
+    async function handleSave(dumpster: Omit<Dumpster, "rating">) {
+        try {
+            // Post the dumpster, receive the actual dumpster object from the backend
+            const postedDumpster = await DumpsterService.addDumpster(dumpster);
             // Add this dumpster to the list of dumpsters!
-            // TODO or just actually fetch data from the backend, y'know
-            dispatch(addDumpster({ ...dumpster, dumpsterID, rating: 0}))
+            dispatch(addDumpster(postedDumpster));
             // Then reset the editor's state
             dispatch(resetEditor());
             // And navigate back to where you were before!
             navigation.dispatch(StackActions.popToTop());
-
-
-         */
-
+        } catch (e) {
+            // TODO Replace with better error handling
+            console.error("Could not add this dumpster:", e);
+        }
     }
 }
 
