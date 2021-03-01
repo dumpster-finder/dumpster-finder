@@ -36,14 +36,15 @@ export class DumpsterService {
      */
     getNearbyDumpsters(position: Position, radius: number) {
         // TODO eventually this'll become
-        // return this.axios.get("/dumpsters", {
-        //     params: {
-        //         ...position,
-        //         radius,
-        //     },
-        // });
         console.log(`Fetched dumpsters ${radius} meters around (${position.latitude}, ${position.latitude})`)
-        return new Promise<Dumpster[]>(resolve => resolve([]));
+        return this.axios.get("/dumpsters", {
+            // return this.axios.get("http://172.17.0.1:3000/dumpsters", {
+            params: {
+                ...position,
+                radius,
+            },
+        }).then(response => response.data);
+        // return new Promise<Dumpster[]>(resolve => resolve([]));
     }
 
     /**
@@ -51,7 +52,7 @@ export class DumpsterService {
      *
      * @param dumpster An edited version of an existing dumpster
      */
-    updateDumpster(dumpster: Dumpster) {
+    updateDumpster(dumpster: Omit<Dumpster, "rating">) {
         // TODO eventually this'll become
         // return this.axios.put(`/dumpsters/${dumpster.dumpsterID}`, dumpster);
         console.log("Updated", dumpster);

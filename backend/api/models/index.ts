@@ -21,6 +21,7 @@ import * as DumpsterTags from "./DumpsterTags";
  */
 
 const Models = {
+    sequelize,
     DumpsterTypes: DumpsterTypes.init(sequelize),
     DumpsterPositions: DumpsterPositions.init(sequelize),
     StoreTypes: StoreTypes.init(sequelize),

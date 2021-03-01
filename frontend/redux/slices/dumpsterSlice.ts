@@ -23,11 +23,7 @@ interface SliceState {
 export const fetchNearbyDumpsters = createAsyncThunk(
     "dumpsters/fetchNearbyDumpsters",
     async ({ position, radius }: { position: Position; radius: number }) => {
-        // the error is handled outside
-        // this is a very temporary replacement!
-        // less temporary now...
-        // error should be handled automatically
-        // TODO either fetch state or take radius as additional arg
+        // the error is handled outside of this thunk
 
         return await DumpsterService.getNearbyDumpsters(position, radius);
     },
@@ -90,13 +86,14 @@ export const dumpsterSlice = createSlice({
             (state: SliceState, action) => {
                 state.status = "succeeded";
                 action.payload.forEach(
-                    d => (state.dumpsters[d.dumpsterID] = d),
+                    (d: Dumpster) => (state.dumpsters[d.dumpsterID] = d),
                 );
             },
         );
         builder.addCase(
             fetchNearbyDumpsters.rejected,
             (state: SliceState, action) => {
+                console.error(action.error);
                 state.status = "failed";
                 state.error = action.error.message!;
             },
