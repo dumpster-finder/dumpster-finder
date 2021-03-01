@@ -8,6 +8,8 @@ const axiosInstance = axios.create({
     timeout: 1000
 })
 
+console.log(`Server address is ${axiosInstance.defaults.baseURL}`);
+
 const DumpsterService = new DumpsterServiceClass(axiosInstance);
 
 // Inject that instance into the services and export them

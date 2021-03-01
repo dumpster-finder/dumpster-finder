@@ -12,13 +12,19 @@ To build the image and start it:
 make maria
 ```
 
+Alternatively, to start a local MariaDB server on WSL:
+
+```sh
+make wsl
+```
+
 To run the setup script against the database, which creates the necessary tables and procedures:
 
 ```sh
 make tables
 ```
 
-**NB**: You might need to wait for a few seconds before executing this command.
+**NB**: You might need to wait for a few seconds before executing this command. Additionally, *make sure* to have a `.env` file in the backend folder.
 
 To clean up the containers:
 
