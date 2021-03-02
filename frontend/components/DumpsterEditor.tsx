@@ -8,6 +8,8 @@ import { LockIcon, PositiveIcon, TrashIcon } from "./Icons";
 import ButtonGroupDisplay from "./ButtonGroupDisplay";
 import Rating from "./Rating";
 import { useState } from "react";
+import {useSelector} from "react-redux";
+import {dumpsterTypesSelector, storeTypesSelector} from "../redux/slices/constantsSlice";
 
 export default function DumpsterEditor({
     dumpster,
@@ -21,8 +23,8 @@ export default function DumpsterEditor({
         Electronics: ["TV", "IPhone"],
         beds: ["zzz"],
     };
-    const dumpsterTypes: string[] = ["Metal", "Compressor", "Plastic"];
-    const storeTypes: string[] = ["Food", "Electronics"];
+    const dumpsterTypes: string[] = useSelector(dumpsterTypesSelector);
+    const storeTypes: string[] = useSelector(storeTypesSelector);
     const cleanlinessRange = [
         "Filthy",
         "Dirty",
@@ -148,7 +150,7 @@ export default function DumpsterEditor({
                     appearance="outline"
                     status="primary"
                     style={{ width: " 48%", margin: "2%" }}
-                    onPress={() => console.log(cleanliness)}
+                    onPress={() => console.log("images?")}
                 >
                     Add photo
                 </Button>
@@ -171,7 +173,7 @@ export default function DumpsterEditor({
             dumpsterType: dumpsterTypes[dumpsterTypeIndex],
             storeType: storeTypes[storeTypeIndex],
             emptyingSchedule,
-            cleanliness,
+            cleanliness: cleanliness + 1,
             positiveStoreViewOnDiving: storeViewIndex === 1 ? null : storeViewIndex === 2,
             locked,
         });

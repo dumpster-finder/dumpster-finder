@@ -80,9 +80,6 @@ export const constantsSlice = createSlice({
                 dumpsterTypes.forEach(c => (state.dumpsterTypes[c.dumpsterTypeID] = c.name));
                 storeTypes.forEach(c => (state.storeTypes[c.storeTypeID] = c.name));
                 categories.forEach(c => (state.categories[c.categoryID] = c.name));
-                console.log(state);
-                // @ts-ignore
-                console.log(state.categories.length);
             },
         );
         builder.addCase(
