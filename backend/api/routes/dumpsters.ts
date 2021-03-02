@@ -6,7 +6,7 @@
  *             type: object
  *             properties:
  *                 statusCode:
- *                     type: number
+ *                     type: integer
  *                     description: The HTTP status code of the response
  *                 message:
  *                     type: string
@@ -102,7 +102,7 @@
  *                     - dumpsterID
  *                   properties:
  *                     dumpsterID:
- *                       type: number
+ *                       type: integer
  *                 - $ref: '#/components/schemas/PostDumpster'
  *                 - type: object
  *                   required:
