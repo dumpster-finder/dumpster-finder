@@ -27,7 +27,6 @@ export default function GroupSelect({
         new IndexPath(1, 1),
     ]);
 
-    console.log(typeof multiSelectedIndex);
     const groupDisplayValues = multiSelectedIndex.map(index => {
         if (typeof index.section === "number") {
             const groupTitle = Object.keys(values)[index.section];
@@ -41,7 +40,7 @@ export default function GroupSelect({
             style={styles.select}
             multiSelect={true}
             value={groupDisplayValues.join(", ")}
-            placeholder="Multi"
+            placeholder="Choose..."
             onSelect={index =>
                 index instanceof Array && setMultiSelectedIndex(index)
             }

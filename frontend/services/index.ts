@@ -1,5 +1,8 @@
 import axios from "axios";
-import {DumpsterService as DumpsterServiceClass} from "./DumpsterService";
+import DumpsterServiceClass from "./DumpsterService";
+import DumpsterTypeServiceClass from "./DumpsterTypeService";
+import StoreTypeServiceClass from "./StoreTypeService";
+import CategoryServiceClass from "./CategoryService";
 import Constants from "expo-constants";
 
 // Create one single instance of Axios
@@ -10,10 +13,17 @@ const axiosInstance = axios.create({
 
 console.log(`Server address is ${axiosInstance.defaults.baseURL}`);
 
+// Inject that instance into the services
 const DumpsterService = new DumpsterServiceClass(axiosInstance);
+const DumpsterTypeService = new DumpsterTypeServiceClass(axiosInstance);
+const StoreTypeService = new StoreTypeServiceClass(axiosInstance);
+const CategoryService = new CategoryServiceClass(axiosInstance);
 
-// Inject that instance into the services and export them
+// and export them
 export {
-    DumpsterService
+    DumpsterService,
+    DumpsterTypeService,
+    StoreTypeService,
+    CategoryService
 }
 

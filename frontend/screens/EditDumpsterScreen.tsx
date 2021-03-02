@@ -28,7 +28,7 @@ export default function EditDumpsterScreen({
     } else {
         return (
             <Layout style={styles.container}>
-                <DumpsterEditor dumpster={dumpster} onSave={handleSave} />
+                <DumpsterEditor mode="edit" dumpster={dumpster} onSave={handleSave} />
             </Layout>
         );
     }
