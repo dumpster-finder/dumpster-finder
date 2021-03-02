@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Button, Input, Layout, Text } from "@ui-kitten/components";
 import Comments from "../models/Comment";
 import CommentCard from "../components/CommentCard";
@@ -36,7 +36,7 @@ export default function CommentScreen() {
     const [comment, setComment] = useState("");
     return (
         <Layout style={styles.container}>
-            <View style={styles.view}>
+            <ScrollView style={styles.scrollView}>
                 <Text>{myNick}</Text>
                 <Input
                     multiline={true}
@@ -46,8 +46,6 @@ export default function CommentScreen() {
                     onChangeText={nextValue => setComment(nextValue)}
                 />
                 <Button onPress={addComment}>Add comment</Button>
-            </View>
-            <ScrollView style={styles.scrollView}>
                 {commentList.map((value, index) => (
                     <CommentCard comment={value} key={index} />
                 ))}
@@ -80,10 +78,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-    },
-    view: {
-        width: "95%",
-        height: "30%",
     },
     scrollView: {
         flex: 1,
