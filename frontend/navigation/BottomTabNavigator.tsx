@@ -24,6 +24,7 @@ import DetailsScreen from "../screens/DetailsScreen";
 import ContentScreen from "../screens/ContentScreen";
 import EditContentScreen from "../screens/EditContentScreen";
 import EditDumpsterScreen from "../screens/EditDumpsterScreen";
+import SetPositionScreen from "../screens/SetPositionScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -209,6 +210,11 @@ function SettingsTabNavigator() {
                 name="SettingsTabScreen"
                 component={SettingsScreen}
                 options={{ headerTitle: "Settings" }}
+            />
+            <SettingsTabStack.Screen
+                name="SetPositionScreen"
+                component={SetPositionScreen}
+                options={{ headerTitle: "Set position" }}
             />
         </SettingsTabStack.Navigator>
     );

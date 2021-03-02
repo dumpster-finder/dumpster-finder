@@ -12,6 +12,7 @@ export type BottomTabParamList = {
 
 export type SettingsTabParamList = {
   SettingsTabScreen: undefined;
+  SetPositionScreen: undefined;
 };
 
 export type InfoTabParamList = {

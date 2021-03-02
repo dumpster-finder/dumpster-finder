@@ -29,10 +29,9 @@ export default function Dropdown({
            </Select>
        );
 
-       function valueChange(i: IndexPath | IndexPath[]) {
-           if(i instanceof IndexPath){
-               onSelect(i.row);
-           }
-
-       }
-   }
+    function valueChange(i: IndexPath | IndexPath[]) {
+        if (i instanceof IndexPath) {
+            onSelect(i.row);
+        }
+    }
+}

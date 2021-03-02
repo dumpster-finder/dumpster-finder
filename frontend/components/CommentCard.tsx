@@ -2,7 +2,7 @@ import * as React from "react";
 import Comments from "../models/Comment";
 import { Button, Card, Text } from "@ui-kitten/components";
 import { View } from "react-native";
-import { ArrowDownIcon, ArrowUpIcon } from "./Icons";
+import { RateDownIcon, RateUpIcon } from "./Icons";
 import { useState } from "react";
 
 export default function CommentCard({ comment }: { comment: Comments }) {
@@ -27,7 +27,7 @@ export default function CommentCard({ comment }: { comment: Comments }) {
                     appearance="outline"
                     status={votedUp === 1 ? "warning":"basic"}
                     size={"small"}
-                    accessoryLeft={ArrowUpIcon}
+                    accessoryLeft={RateUpIcon}
                     onPress={up}
                 />
                 <Button
@@ -35,7 +35,7 @@ export default function CommentCard({ comment }: { comment: Comments }) {
                     appearance="outline"
                     size={"small"}
                     status={votedUp === -1 ? "warning":"basic"}
-                    accessoryLeft={ArrowDownIcon}
+                    accessoryLeft={RateDownIcon}
                     onPress={down}
                 />
                 <View style={{marginHorizontal: 5}}>
