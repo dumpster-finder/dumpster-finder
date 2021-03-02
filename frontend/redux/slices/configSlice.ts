@@ -8,6 +8,7 @@ interface SliceState {
     nickname: string;
     darkMode: boolean;
     firstTime: boolean;
+    language: string;
     // other settings to come, stay tuned!
 }
 
@@ -18,10 +19,11 @@ export const configSlice = createSlice({
             latitude: 63.41775,
             longitude: 10.404344,
         },
-        radius: 6000,
+        radius: 5000,
         nickname: "Anonymous",
         darkMode: false,
         firstTime: true,
+        language: "Norwegian"
     } as SliceState,
     reducers: {
         setNickname: (state, { payload }: { payload: string }) => {
@@ -38,6 +40,9 @@ export const configSlice = createSlice({
         },
         setFirstTime: (state, { payload }: { payload: boolean }) => {
             state.firstTime = payload;
+        },
+        setLanguage: (state, { payload }: { payload: string }) => {
+            state.language = payload;
         },
     },
 });
@@ -75,6 +80,24 @@ export const {
      * @param payload true or false
      */
     setFirstTime,
+
+    /**
+     * Set the radius of dumpsters shown from given position
+     *
+     * Usage: dispatch(setRadius(1000));
+     *
+     * @param payload radius in meters
+     */
+    setRadius,
+
+    /**
+     * Set preferred language in app
+     *
+     * Usage: dispatch(setLanguage("Norwegian"));
+     *
+     * @param payload Language in string
+     */
+    setLanguage,
 } = configSlice.actions;
 
 export const nicknameSelector = (state: RootState) => state.config.nickname;
@@ -82,5 +105,5 @@ export const positionSelector = (state: RootState) => state.config.position;
 export const radiusSelector = (state: RootState) => state.config.radius;
 export const darkModeSelector = (state: RootState) => state.config.darkMode;
 export const firstTimeSelector = (state: RootState) => state.config.firstTime;
-
+export const languageSelector = (state: RootState) => state.config.language;
 export default configSlice.reducer;

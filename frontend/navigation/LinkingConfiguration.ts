@@ -38,6 +38,7 @@ export default {
           SettingsTab: {
             screens: {
               SettingsScreen: 'settings',
+              SetPositionScreen: 'setPos',
             },
           },
         },

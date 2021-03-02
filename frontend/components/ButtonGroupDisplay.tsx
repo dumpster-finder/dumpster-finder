@@ -13,7 +13,6 @@ export default function ButtonGroupDisplay({
     onSelect: (newValue: number) => void;
 }) {
     const width = 100 / values.length;
-    console.log(value)
     return (
         <ButtonGroup style={{width: "90%"}} appearance="outline" status="basic">
             {values.map((name, i) => (
