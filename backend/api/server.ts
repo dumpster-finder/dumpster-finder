@@ -1,12 +1,13 @@
 import cors from "cors";
 import example from "./routes/example";
 import dumpsters from "./routes/dumpsters";
-import express from "express";
+import express, {NextFunction} from "express";
 import sequelize from "./config/sequelize";
 import swagger from "./routes/swagger";
 import pino from "pino";
 import expressPino from "express-pino-logger";
 import Models from "./models";
+import {ValidationError} from "express-validation";
 
 const connectToDatabase = async () => {
     try {
@@ -46,5 +47,20 @@ app.use("/spec", swagger());
 app.use("/example", example(dependencies));
 
 app.use("/dumpsters", dumpsters(dependencies))
+
+
+/**
+ * Global error handler
+ *
+ * Gives TypeScript a heart attack
+ */
+// @ts-ignore
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.log(err.name);
+    if (err.name === "ValidationError" && err instanceof ValidationError) {
+        logger.error(err.details, "Validation failed");
+    }
+    next(err);
+})
 
 export default app;

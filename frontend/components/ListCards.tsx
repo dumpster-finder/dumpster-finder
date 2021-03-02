@@ -67,7 +67,7 @@ export default function ListCards({
                                     alignItems: "flex-start",
                                 }}
                             >
-                                <Text>{dumpster.rating}</Text>
+                                <Text>{dumpster.rating.toFixed(1)}</Text>
                             </View>
                         </View>
                         <View
