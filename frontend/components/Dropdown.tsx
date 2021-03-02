@@ -5,9 +5,11 @@ export default function Dropdown({
     value,
     label,
     values,
+    placeholder,
     onSelect,
 }: {
     value: number;
+    placeholder?: string;
     label: string;
     values: string[];
     onSelect: (newValue: number) => void;
@@ -16,7 +18,8 @@ export default function Dropdown({
            <Select
                label={label}
                selectedIndex={new IndexPath(value)}
-               value={values[value]}
+               placeholder={placeholder || "Choose..." /* TODO make the placeholder work*/}
+               value={values[value] || placeholder || "Choose..."}
                onSelect={valueChange}
                style={{ width: "48%", margin: "2%" }}
            >

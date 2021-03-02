@@ -35,7 +35,6 @@ export default class DumpsterService {
      * @return         A promise which resolves to a list of dumpsters
      */
     getNearbyDumpsters(position: Position, radius: number) {
-        // TODO eventually this'll become
         console.log(
             `Fetched dumpsters ${radius} meters around (${position.latitude}, ${position.latitude})`,
         );

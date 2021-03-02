@@ -9,7 +9,7 @@ type IconProps = BaseIconProps & {
     size?: "small" | "medium" | "large";
 };
 
-const UnthemedIcon = ({ eva, style, size, faded, ...restProps }: IconProps) => {
+export const UnthemedIcon = ({ eva, style, size, faded, ...restProps }: IconProps) => {
     const fill = faded ? eva.style.fadedIcon.color : eva.style.icon.color;
     return (
         <Icon

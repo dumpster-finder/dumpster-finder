@@ -14,9 +14,11 @@ import {dumpsterTypesSelector, storeTypesSelector} from "../redux/slices/constan
 export default function DumpsterEditor({
     dumpster,
     onSave,
+    mode,
 }: {
     dumpster: Omit<Dumpster, "rating">;
     onSave: (newDumpster: Omit<Dumpster, "rating">) => void;
+    mode: "edit" | "create";
 }) {
     const categoryData: Record<string, string[]> = {
         Food: ["Meat", "Fruit"],
@@ -66,22 +68,21 @@ export default function DumpsterEditor({
             contentContainerStyle={styles.container}
         >
             <Input
-                style={{ width: "80%" }}
-                placeholder="Name"
                 label="Store name"
+                placeholder="e.g. Tesco in East London"
                 onChangeText={text => setName(text)}
                 value={name}
             />
             <View style={styles.row}>
                 <Dropdown
                     value={dumpsterTypeIndex}
-                    label={"Dumpster type"}
+                    label="Dumpster type"
                     values={dumpsterTypes}
                     onSelect={setDumpsterTypeIndex}
                 />
                 <Dropdown
                     value={storeTypeIndex}
-                    label={"Store type"}
+                    label="Store type"
                     values={storeTypes}
                     onSelect={setStoreTypeIndex}
                 />
@@ -89,54 +90,44 @@ export default function DumpsterEditor({
             <View style={styles.row}>
                 <GroupSelect
                     sValue={multiSelectedIndex}
-                    label={"Categories"}
+                    label="Categories"
                     values={categoryData}
                     onSelect={setMultiSelectedIndex}
                 />
             </View>
-            <View style={{ width: "80%", paddingTop: "3%" }}>
-                <Text>Store's view on dumpster diving:</Text>
-            </View>
             <View style={styles.row}>
-                <View style={styles.icon}>
-                    <PositiveIcon size="medium" />
-                </View>
                 <ButtonGroupDisplay
                     value={storeViewIndex}
                     values={view}
+                    icon={PositiveIcon}
+                    label="Store's view on dumpster diving"
                     onSelect={setStoreViewIndex}
                 />
             </View>
 
             <View style={styles.row}>
-                <View style={styles.icon}>
-                    <LockIcon size="medium" />
-                </View>
-
                 <ButtonGroupDisplay
                     value={locked ? 0 : 1}
                     values={lock}
+                    label="Dumpster state"
+                    icon={LockIcon}
                     onSelect={i => setLocked(i === 0)}
                 />
             </View>
 
-            <View style={{ width: "80%" }}>
-                <Text>Emptying schedule:</Text>
-            </View>
             <View style={styles.row}>
                 <View style={styles.icon}>
                     <TrashIcon size="medium" />
                 </View>
                 <Input
                     style={styles.nextToIcon}
-                    placeholder="Emptied at times..."
+                    label="Emptying schedule"
+                    placeholder="e.g. First Monday in the month"
                     onChangeText={text => setEmptyingSchedule(text)}
                     value={emptyingSchedule}
                 />
             </View>
-            <View style={{ width: "80%" }}>
-                <Text>Cleanliness:</Text>
-            </View>
+            <Text category="s2" appearance="hint">Cleanliness</Text>
             <View style={styles.row}>
                 <Rating
                     value={cleanliness}
@@ -145,23 +136,13 @@ export default function DumpsterEditor({
                 />
             </View>
 
-            <View style={styles.row}>
-                <Button
-                    appearance="outline"
-                    status="primary"
-                    style={{ width: " 48%", margin: "2%" }}
-                    onPress={() => console.log("images?")}
-                >
-                    Add photo
-                </Button>
-                <Button
-                    status="primary"
-                    style={{ width: " 48%", margin: "2%" }}
-                    onPress={handleSubmit}
-                >
-                    Save
-                </Button>
-            </View>
+            {/* TODO picture stuff */}
+            <Button
+                status="primary"
+                onPress={handleSubmit}
+            >
+                {mode === "create" ? "Create dumpster" : "Save dumpster"}
+            </Button>
         </ScrollView>
     );
 
@@ -183,19 +164,16 @@ export default function DumpsterEditor({
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
+        paddingHorizontal: "10%",
+        paddingVertical: 12,
     },
     fullWidth: {
         width: "100%",
-        minHeight: "100%",
     },
     icon: {
         width: "10%",
     },
     row: {
-        width: "80%",
         alignItems: "center",
         justifyContent: "center",
         flex: 1,
@@ -205,14 +183,12 @@ const styles = StyleSheet.create({
         width: "90%",
     },
     photoBox: {
-        width: "80%",
         minHeight: "20%",
         alignItems: "center",
         justifyContent: "flex-start",
         flex: 1,
         flexDirection: "row",
     },
-
     photo: {
         display: "flex",
         alignItems: "stretch",
