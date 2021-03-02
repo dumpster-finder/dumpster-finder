@@ -123,10 +123,6 @@
  *                 emptyingSchedule: "Every Saturday"
  *                 cleanliness: 2
  *                 rating: 2.7
- */
-
-/**
- * @swagger
  * tags:
  *   - name: Dumpsters
  *     description: Dumpster API
@@ -244,43 +240,6 @@ export default function ({ logger, Models }: RouteDependencies) {
         },
     );
 
-    /**
-     * TODO decide if this can be removed or not
-     * @swagger
-     * /dumpsters/dumpster-types/:id:
-     *   get:
-     *     summary: GET Dumpster by dumpster Type
-     *     tags: [Dumpsters]
-     *     parameters:
-     *       - in: path
-     *         name: id
-     *         schema:
-     *           type: integer
-     *         required: true
-     *         description: Dumpster-Type ID
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/dumpster-types/:id'
-     */
-    router.get(
-        "/dumpsters/dumpster-types/:id",
-        async (req: { params: { id: number } }, res) => {
-            try {
-                /*
-            const dumpsters = await dumpsterDAO.getAllByDumpsterType(id);
-            res.status(200).json(dumpsters);
-
-             */
-            } catch (e) {
-                logger.error("Something went wrong!", e);
-                res.status(500).send("uh?");
-            }
-        },
-    );
 
     /**
      * @swagger
@@ -355,62 +314,6 @@ export default function ({ logger, Models }: RouteDependencies) {
     );
 
     /**
-     * TODO move?
-     * @swagger
-     * /dumpsters/store-types:
-     *   get:
-     *     summary: GET all store-types
-     *     tags: [Dumpsters]
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/store-types'
-     */
-    router.get("/store-types", async (req, res) => {
-        try {
-            /*
-            const dumpsters = await dumpsterDAO.getAllStoreTypes();
-            res.status(200).json(dumpsters);
-
-             */
-        } catch (e) {
-            logger.error("Something went wrong!", e);
-            res.status(500).send("uh?");
-        }
-    });
-    /**
-     * TODO move?
-     * @swagger
-     * /dumpsters/dumpster-types:
-     *   get:
-     *     summary: GET all dumpster-types
-     *     tags: [Dumpsters]
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/dumpster-types'
-     */
-
-    router.get("/dumpster-types", async (req, res) => {
-        try {
-            /*
-            const dumpsters = await dumpsterDAO.getAllDumpsterTypes();
-            res.status(200).json(dumpsters);
-
-             */
-        } catch (e) {
-            logger.error("Something went wrong!", e);
-            res.status(500).send("uh?");
-        }
-    });
-
-    /**
      * @swagger
      * /dumpsters/tags:
      *   post:
@@ -461,7 +364,7 @@ export default function ({ logger, Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/categories:
+     * /dumpsters/{dumpsterID}/categories:
      *   post:
      *     summary: add a new category for a dumpster
      *     tags: [Dumpsters]
@@ -498,7 +401,7 @@ export default function ({ logger, Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/categories/:dumpsterID:
+     * /dumpsters/{dumpsterID}/categories/:
      *   delete:
      *     summary: delete all categories for a Dumpster
      *     tags: [Dumpsters]
@@ -532,9 +435,10 @@ export default function ({ logger, Models }: RouteDependencies) {
             }
         },
     );
+
     /**
      * @swagger
-     * /dumpsters/tags/:dumpsterID:
+     * /dumpsters/{dumpsterID}/tags/:
      *   delete:
      *     summary: delete all tags for a Dumpster
      *     tags: [Dumpsters]
@@ -567,86 +471,9 @@ export default function ({ logger, Models }: RouteDependencies) {
             }
         },
     );
-    /**
-     * @swagger
-     * /categories/:
-     *   get:
-     *     summary: GET all categories
-     *     tags: [Categories]
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/categories'
-     */
-    router.get("/categories", async (req, res) => {
-        try {
-            /*
-            const dumpsters = await dumpsterDAO.getAllCategories();
-            res.status(200).json(dumpsters);
-
-             */
-        } catch (e) {
-            logger.error("Something went wrong!", e);
-            res.status(500).send("uh?");
-        }
-    });
 
     /**
-     * @swagger
-     * /tags/:
-     *   get:
-     *     summary: GET all tags
-     *     tags: [Tags]
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/tags'
-     */
-    router.get("/tags", async (req, res) => {
-        try {
-            /*
-            const dumpsters = await dumpsterDAO.getAllTags();
-            res.status(200).json(dumpsters);
-             */
-        } catch (e) {
-            logger.error("Something went wrong!", e);
-            res.status(500).send("uh?");
-        }
-    });
-
-    /**
-     * @swagger
-     * /tags/standard:
-     *   get:
-     *     summary: GET all standard tags
-     *     tags: [Tags]
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/tags'
-     */
-    router.get("/tags", async (req, res) => {
-        try {
-            /*
-            const dumpsters = await dumpsterDAO.getAllStandardTags();
-            res.status(200).json(dumpsters);
-
-             */
-        } catch (e) {
-            logger.error("Something went wrong!", e);
-            res.status(500).send("uh?");
-        }
-    });
-    /**
+     * TODO move
      * @swagger
      * /tags/:
      *   post:
