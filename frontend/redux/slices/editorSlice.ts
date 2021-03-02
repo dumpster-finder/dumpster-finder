@@ -28,7 +28,7 @@ const templateDumpster: Dumpster = {
 };
 
 export const editorSlice = createSlice({
-    name: "dumpsters",
+    name: "editor",
     initialState: {
         dumpster: templateDumpster,
         status: "empty",

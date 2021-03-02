@@ -1,13 +1,16 @@
 import cors from "cors";
 import example from "./routes/example";
 import dumpsters from "./routes/dumpsters";
-import express, {NextFunction} from "express";
+import express, { NextFunction } from "express";
 import sequelize from "./config/sequelize";
 import swagger from "./routes/swagger";
 import pino from "pino";
 import expressPino from "express-pino-logger";
 import Models from "./models";
-import {ValidationError} from "express-validation";
+import { ValidationError } from "express-validation";
+import categories from "./routes/categories";
+import storeTypes from "./routes/storeTypes";
+import dumpsterTypes from "./routes/dumpsterTypes";
 
 const connectToDatabase = async () => {
     try {
@@ -34,7 +37,7 @@ export const logger = pino({ level: process.env.LOG_LEVEL || "info" });
 
 const dependencies = {
     logger,
-    Models
+    Models,
 };
 
 // Express middleware
@@ -46,8 +49,11 @@ app.use("/spec", swagger());
 
 app.use("/example", example(dependencies));
 
-app.use("/dumpsters", dumpsters(dependencies))
+app.use("/dumpsters", dumpsters(dependencies));
 
+app.use("/categories", categories(dependencies));
+app.use("/store-types", storeTypes(dependencies));
+app.use("/dumpster-types", dumpsterTypes(dependencies));
 
 /**
  * Global error handler
@@ -56,11 +62,12 @@ app.use("/dumpsters", dumpsters(dependencies))
  */
 // @ts-ignore
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.log(err.name);
     if (err.name === "ValidationError" && err instanceof ValidationError) {
-        logger.error(err.details, "Validation failed");
+        logger.error(err.details, `Validation failed in ${req.url}`);
+    } else {
+        logger.error(err, `Something went wrong in ${req.url}`);
     }
     next(err);
-})
+});
 
 export default app;

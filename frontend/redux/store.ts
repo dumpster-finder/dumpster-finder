@@ -15,6 +15,7 @@ import {
     REGISTER,
 } from "redux-persist";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import constantsReducer from "./slices/constantsSlice";
 
 /**
  * Our marvellous, almighty Store of global data
@@ -27,6 +28,7 @@ const store = configureStore({
         },
         combineReducers({
             dumpsters: dumpsterReducer,
+            constants: constantsReducer,
             config: configReducer,
             editor: editorReducer,
         }),

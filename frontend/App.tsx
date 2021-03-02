@@ -21,6 +21,7 @@ import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import {FontAwesomePack} from "./constants/FontAwesome";
+import {fetchAllConstants} from "./redux/slices/constantsSlice";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
@@ -35,6 +36,7 @@ const InnerApp = () => {
         // TODO prevent this necessity (had to clear out old data)
         store.dispatch(setDumpsters([]));
         store.dispatch(fetchNearbyDumpsters({position, radius}));
+        store.dispatch(fetchAllConstants());
         if (firstTime) {
             store.dispatch(setDarkMode(externalColorScheme === "dark"));
             // unset firstTime only AFTER the intro page has been shown!

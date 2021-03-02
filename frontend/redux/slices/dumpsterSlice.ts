@@ -24,7 +24,6 @@ export const fetchNearbyDumpsters = createAsyncThunk(
     "dumpsters/fetchNearbyDumpsters",
     async ({ position, radius }: { position: Position; radius: number }) => {
         // the error is handled outside of this thunk
-
         return await DumpsterService.getNearbyDumpsters(position, radius);
     },
 );
@@ -110,15 +109,8 @@ export const {
 
 export default dumpsterSlice.reducer;
 
-export const allDumpstersSelector = (state: RootState) => {
-    const res = [];
-    const dumpsters = state.dumpsters.dumpsters;
-    for (const key in dumpsters) {
-        if (dumpsters[key])
-            res.push(dumpsters[key]);
-    }
-    return res;
-};
+export const allDumpstersSelector = ({ dumpsters: { dumpsters } }: RootState) =>
+    Object.values(dumpsters).filter(Boolean);
 
 export const dumpsterSelectorByID = (dumpsterID: number) => (state: RootState) =>
     state.dumpsters.dumpsters[dumpsterID];

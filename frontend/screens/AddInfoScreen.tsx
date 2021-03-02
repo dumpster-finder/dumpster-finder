@@ -32,15 +32,17 @@ export default function AddInfoScreen({
     } else {
         return (
             <Layout style={styles.container}>
-                <DumpsterEditor dumpster={dumpster} onSave={handleSave} />
+                <DumpsterEditor mode="create" dumpster={dumpster} onSave={handleSave} />
             </Layout>
         );
     }
 
     async function handleSave(dumpster: Omit<Dumpster, "rating">) {
         try {
+            // Strip the dumpster of ID
+            const { dumpsterID, ...restDumpster } = dumpster;
             // Post the dumpster, receive the actual dumpster object from the backend
-            const postedDumpster = await DumpsterService.addDumpster(dumpster);
+            const postedDumpster = await DumpsterService.addDumpster(restDumpster);
             // Add this dumpster to the list of dumpsters!
             dispatch(addDumpster(postedDumpster));
             // Then reset the editor's state
@@ -57,7 +59,5 @@ export default function AddInfoScreen({
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
     },
 });
