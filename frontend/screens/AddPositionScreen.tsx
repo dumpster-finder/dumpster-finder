@@ -21,7 +21,6 @@ export default function AddPositionScreen({
             <PositionSetter
                 initialPosition={currentPosition}
                 onSubmit={position => {
-                    // TODO set the created dumpster's position
                     dispatch(setEditorPosition(position));
                     navigation.navigate("AddInfoScreen", {
                         screen: "AddInfoScreen",
