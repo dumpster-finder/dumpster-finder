@@ -45,6 +45,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\frontend\components\PhotoDisplay.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\frontend\components\Rating.tsx">
           <value>
             <Attribute>

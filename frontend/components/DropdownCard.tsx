@@ -1,7 +1,7 @@
 import * as React from "react";
-import {Card, IndexPath, Select, SelectItem, Text} from "@ui-kitten/components";
-import {StyleSheet, View} from "react-native";
-import {ArrowDownIcon, ArrowRightIcon, ArrowUpIcon} from "./Icons";
+import { Card, Text } from "@ui-kitten/components";
+import { StyleSheet, View } from "react-native";
+import { ArrowDownIcon, ArrowUpIcon } from "./Icons";
 
 export default function DropdownCard({
     value,
@@ -31,21 +31,8 @@ export default function DropdownCard({
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    scrollView: {
-        width: "100%",
-    },
     row: {
         flex: 1,
         flexDirection: "row",
-    },
-    rowBorder: {
-        flex: 1,
-        flexDirection: "row",
-        width: "95%",
     },
 });
