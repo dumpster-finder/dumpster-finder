@@ -99,6 +99,10 @@ export const ArrowDownIcon = (props: IconProps) => (
     <BaseIcon {...props} name="arrow-ios-downward" />
 );
 
+export const ArrowUpIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="arrow-ios-upward" />
+);
+
 export const RateUpIcon = (props: IconProps) => (
     <BaseIcon {...props} name="arrow-upward" />
 );

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Card, IndexPath, Select, SelectItem, Text} from "@ui-kitten/components";
 import {StyleSheet, View} from "react-native";
-import {ArrowDownIcon, ArrowRightIcon} from "./Icons";
+import {ArrowDownIcon, ArrowRightIcon, ArrowUpIcon} from "./Icons";
 
 export default function DropdownCard({
     value,
@@ -20,9 +20,9 @@ export default function DropdownCard({
                 </View>
                 <View style={{ width: "50%", alignItems: "flex-end" }}>
                     {value ? (
-                        <ArrowDownIcon size="medium" />
+                        <ArrowUpIcon size="medium" />
                     ) : (
-                        <ArrowRightIcon size="medium" />
+                        <ArrowDownIcon size="medium" />
                     )}
                 </View>
             </View>
