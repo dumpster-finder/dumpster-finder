@@ -3,6 +3,8 @@ import { Card, Text } from "@ui-kitten/components";
 import { Image, StyleSheet, View } from "react-native";
 import Dumpster from "../models/Dumpster";
 import { StarIcon, LockIcon } from "./Icons";
+import {useSelector} from "react-redux";
+import {positionSelector} from "../redux/slices/configSlice";
 
 export default function ListCards({
     dumpster,
@@ -11,6 +13,7 @@ export default function ListCards({
     dumpster: Dumpster;
     onPress: () => void;
 }) {
+    const currentPosition = useSelector(positionSelector);
     const pic =
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
     return (
@@ -87,13 +90,12 @@ export default function ListCards({
     );
 
     function setDistance() {
-        const here = [63.41974342191292, 10.402676756914719];
         const earthRadiusKm = 6371;
 
-        const dLat = ((here[0] - dumpster.position.latitude) * Math.PI) / 180;
-        const dLon = ((here[1] - dumpster.position.longitude) * Math.PI) / 180;
+        const dLat = ((currentPosition.latitude - dumpster.position.latitude) * Math.PI) / 180;
+        const dLon = ((currentPosition.longitude - dumpster.position.longitude) * Math.PI) / 180;
 
-        const lat1 = (here[0] * Math.PI) / 180;
+        const lat1 = (currentPosition.latitude * Math.PI) / 180;
         const lat2 = (dumpster.position.latitude * Math.PI) / 180;
 
         const a =
