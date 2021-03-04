@@ -3,8 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
 import MapScreen from "../screens/MapScreen";
 import ListScreen from "../screens/ListScreen";
 import InfoScreen from "../screens/InfoScreen";
@@ -25,16 +23,23 @@ import ContentScreen from "../screens/ContentScreen";
 import EditContentScreen from "../screens/EditContentScreen";
 import EditDumpsterScreen from "../screens/EditDumpsterScreen";
 import SetPositionScreen from "../screens/SetPositionScreen";
+import { useTheme } from "@ui-kitten/components";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-    const colorScheme = useColorScheme();
+    const theme = useTheme();
 
     return (
         <BottomTab.Navigator
             initialRouteName="MapTab"
-            tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+            tabBarOptions={{
+                activeTintColor: theme["color-primary-hover"],
+                activeBackgroundColor: theme["background-basic-color-2"],
+                inactiveTintColor: theme["text-hint-color"],
+                inactiveBackgroundColor: theme["background-basic-color-1"],
+            }}
+        >
             <BottomTab.Screen
                 name="MapTab"
                 component={MapTabNavigator}
