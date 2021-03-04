@@ -45,7 +45,7 @@ export default function DetailsScreen({
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
     ];
     const text =
-        "This is some dummy text about information on the dumpster. I don't know the specifics yet";
+        "This is some dummy text with information about the dumpster. I don't know the specifics yet ¯\\_(ツ)_/¯";
 
     if (categories.length > categoryPrLine) {
         const turns = categories.length / categoryPrLine;
@@ -128,7 +128,7 @@ export default function DetailsScreen({
                             {dumpster.positiveStoreViewOnDiving ? (
                                 <PositiveIcon size="medium" />
                             ) : dumpster.positiveStoreViewOnDiving === null ? (
-                                <TrashIcon size="medium" />
+                                <PositiveIcon size="medium" /> // TODO decide what icon to have here...
                             ) : (
                                 <NegativeIcon size="medium" />
                             )}
@@ -136,10 +136,11 @@ export default function DetailsScreen({
                                 Store's view on dumpster diving:{" "}
                                 {dumpster.positiveStoreViewOnDiving ? (
                                     <Text>Positive</Text>
-                                ) : !dumpster.positiveStoreViewOnDiving ? (
-                                    <Text>Negative</Text>
+                                ) : dumpster.positiveStoreViewOnDiving ===
+                                  null ? (
+                                    <Text>Neutral</Text>
                                 ) : (
-                                    <Text>Unknown</Text>
+                                    <Text>Negative</Text>
                                 )}
                             </Text>
                         </View>
