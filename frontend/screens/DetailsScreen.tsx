@@ -45,7 +45,7 @@ export default function DetailsScreen({
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
     ];
     const text =
-        "This is some dummy text about information on the dumpster. I don't know the specifics yet";
+        "This is some dummy text with information about the dumpster. I don't know the specifics yet ¯\\_(ツ)_/¯";
 
     if (categories.length > categoryPrLine) {
         const turns = categories.length / categoryPrLine;
@@ -72,9 +72,6 @@ export default function DetailsScreen({
                         <View style={{ width: "10%" }} />
                         <View style={{ width: "80%", alignItems: "center" }}>
                             <Text category="h4">{dumpster.name}</Text>
-                        </View>
-                        <View style={{ width: "10%" }}>
-                            <Burgermenu onSelect={menuSelect} />
                         </View>
                     </View>
 
@@ -125,15 +122,22 @@ export default function DetailsScreen({
                             </Text>
                         </View>
                         <View style={styles.infoRow}>
-                            <PositiveIcon size="medium" />
+                            {dumpster.positiveStoreViewOnDiving ? (
+                                <PositiveIcon size="medium" />
+                            ) : dumpster.positiveStoreViewOnDiving === null ? (
+                                <PositiveIcon size="medium" /> // TODO decide what icon to have here...
+                            ) : (
+                                <NegativeIcon size="medium" />
+                            )}
                             <Text style={styles.infoText}>
                                 Store's view on dumpster diving:{" "}
                                 {dumpster.positiveStoreViewOnDiving ? (
                                     <Text>Positive</Text>
-                                ) : !dumpster.positiveStoreViewOnDiving ? (
-                                    <Text>Negative</Text>
+                                ) : dumpster.positiveStoreViewOnDiving ===
+                                  null ? (
+                                    <Text>Neutral</Text>
                                 ) : (
-                                    <Text>Unknown</Text>
+                                    <Text>Negative</Text>
                                 )}
                             </Text>
                         </View>
@@ -158,7 +162,6 @@ export default function DetailsScreen({
                                                     100 / categoryPrLine + "%",
                                                 alignItems: "center",
                                                 paddingBottom: 5,
-
                                             }}
                                         >
                                             <Text>{category}</Text>
@@ -176,7 +179,8 @@ export default function DetailsScreen({
                                             width: 100 / categoryPrLine + "%",
                                             alignItems: "center",
                                             paddingBottom: 5,
-                                            borderRadius: 10, borderWidth: 10
+                                            borderRadius: 10,
+                                            borderWidth: 10,
                                         }}
                                     >
                                         <Text>{category}</Text>

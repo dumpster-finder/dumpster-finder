@@ -3,8 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
 import MapScreen from "../screens/MapScreen";
 import ListScreen from "../screens/ListScreen";
 import InfoScreen from "../screens/InfoScreen";
@@ -25,16 +23,26 @@ import ContentScreen from "../screens/ContentScreen";
 import EditContentScreen from "../screens/EditContentScreen";
 import EditDumpsterScreen from "../screens/EditDumpsterScreen";
 import SetPositionScreen from "../screens/SetPositionScreen";
+import { Layout, useTheme } from "@ui-kitten/components";
+import Burgermenu from "../components/Burgermenu";
+import { View } from "react-native";
+import DetailsMenu from "../components/DetailsMenu";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-    const colorScheme = useColorScheme();
+    const theme = useTheme();
 
     return (
         <BottomTab.Navigator
             initialRouteName="MapTab"
-            tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+            tabBarOptions={{
+                activeTintColor: theme["color-primary-hover"],
+                activeBackgroundColor: theme["background-basic-color-2"],
+                inactiveTintColor: theme["text-hint-color"],
+                inactiveBackgroundColor: theme["background-basic-color-1"],
+            }}
+        >
             <BottomTab.Screen
                 name="MapTab"
                 component={MapTabNavigator}
@@ -90,9 +98,17 @@ function TabBarIcon(props: { name: string; color: string }) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const MapTabStack = createStackNavigator<MapTabParamList>();
 
+const createStandardOptions = (theme: Record<string, string>) => ({
+    headerTintColor: theme["text-basic-color"],
+    headerStyle: {
+        backgroundColor: theme["background-basic-color-1"],
+    },
+});
+
 function MapTabNavigator() {
+    const theme = useTheme();
     return (
-        <MapTabStack.Navigator>
+        <MapTabStack.Navigator screenOptions={createStandardOptions(theme)}>
             <MapTabStack.Screen
                 name="MapTabScreen"
                 component={MapScreen}
@@ -141,8 +157,9 @@ function MapTabNavigator() {
 const ListTabStack = createStackNavigator<ListTabParamList>();
 
 function ListTabNavigator() {
+    const theme = useTheme();
     return (
-        <ListTabStack.Navigator>
+        <ListTabStack.Navigator screenOptions={createStandardOptions(theme)}>
             <ListTabStack.Screen
                 name="ListTabScreen"
                 component={ListScreen}
@@ -161,7 +178,10 @@ function ListTabNavigator() {
             <ListTabStack.Screen
                 name="DetailsScreen"
                 component={DetailsScreen}
-                options={{ headerTitle: "Details" }}
+                options={{
+                    headerTitle: "Details",
+                    headerRight: DetailsMenu,
+                }}
             />
             <ListTabStack.Screen
                 name="CommentScreen"
@@ -190,8 +210,9 @@ function ListTabNavigator() {
 const InfoTabStack = createStackNavigator<InfoTabParamList>();
 
 function InfoTabNavigator() {
+    const theme = useTheme();
     return (
-        <InfoTabStack.Navigator>
+        <InfoTabStack.Navigator screenOptions={createStandardOptions(theme)}>
             <InfoTabStack.Screen
                 name="InfoTabScreen"
                 component={InfoScreen}
@@ -204,8 +225,11 @@ function InfoTabNavigator() {
 const SettingsTabStack = createStackNavigator<SettingsTabParamList>();
 
 function SettingsTabNavigator() {
+    const theme = useTheme();
     return (
-        <SettingsTabStack.Navigator>
+        <SettingsTabStack.Navigator
+            screenOptions={createStandardOptions(theme)}
+        >
             <SettingsTabStack.Screen
                 name="SettingsTabScreen"
                 component={SettingsScreen}
