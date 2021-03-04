@@ -4,8 +4,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-import { ThemeProvider } from "react-native-elements";
-import { theme } from "./constants/Theme";
 import { Provider, useSelector } from "react-redux";
 import store, { persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
@@ -60,14 +58,8 @@ const InnerApp = () => {
                 {...eva}
                 theme={darkMode ? eva.dark : eva.light}
             >
-                {/* TODO: Remove Elements' ThemeProvider... */}
-                <ThemeProvider
-                    useDark={externalColorScheme === "dark"}
-                    theme={theme}
-                >
-                    <Navigation colorScheme={externalColorScheme} />
-                    <StatusBar />
-                </ThemeProvider>
+                <Navigation colorScheme={externalColorScheme} />
+                <StatusBar />
             </ApplicationProvider>
         </SafeAreaProvider>
     );
