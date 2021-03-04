@@ -23,7 +23,7 @@ import ContentScreen from "../screens/ContentScreen";
 import EditContentScreen from "../screens/EditContentScreen";
 import EditDumpsterScreen from "../screens/EditDumpsterScreen";
 import SetPositionScreen from "../screens/SetPositionScreen";
-import { useTheme } from "@ui-kitten/components";
+import { Layout, useTheme } from "@ui-kitten/components";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -95,9 +95,17 @@ function TabBarIcon(props: { name: string; color: string }) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const MapTabStack = createStackNavigator<MapTabParamList>();
 
+const createStandardOptions = (theme: Record<string, string>) => ({
+    headerTintColor: theme["text-basic-color"],
+    headerStyle: {
+        backgroundColor: theme["background-basic-color-1"],
+    },
+});
+
 function MapTabNavigator() {
+    const theme = useTheme();
     return (
-        <MapTabStack.Navigator>
+        <MapTabStack.Navigator screenOptions={createStandardOptions(theme)}>
             <MapTabStack.Screen
                 name="MapTabScreen"
                 component={MapScreen}
@@ -146,8 +154,9 @@ function MapTabNavigator() {
 const ListTabStack = createStackNavigator<ListTabParamList>();
 
 function ListTabNavigator() {
+    const theme = useTheme();
     return (
-        <ListTabStack.Navigator>
+        <ListTabStack.Navigator screenOptions={createStandardOptions(theme)}>
             <ListTabStack.Screen
                 name="ListTabScreen"
                 component={ListScreen}
@@ -195,8 +204,9 @@ function ListTabNavigator() {
 const InfoTabStack = createStackNavigator<InfoTabParamList>();
 
 function InfoTabNavigator() {
+    const theme = useTheme();
     return (
-        <InfoTabStack.Navigator>
+        <InfoTabStack.Navigator screenOptions={createStandardOptions(theme)}>
             <InfoTabStack.Screen
                 name="InfoTabScreen"
                 component={InfoScreen}
@@ -209,8 +219,11 @@ function InfoTabNavigator() {
 const SettingsTabStack = createStackNavigator<SettingsTabParamList>();
 
 function SettingsTabNavigator() {
+    const theme = useTheme();
     return (
-        <SettingsTabStack.Navigator>
+        <SettingsTabStack.Navigator
+            screenOptions={createStandardOptions(theme)}
+        >
             <SettingsTabStack.Screen
                 name="SettingsTabScreen"
                 component={SettingsScreen}
