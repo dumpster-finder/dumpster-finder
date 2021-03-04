@@ -73,9 +73,6 @@ export default function DetailsScreen({
                         <View style={{ width: "80%", alignItems: "center" }}>
                             <Text category="h4">{dumpster.name}</Text>
                         </View>
-                        <View style={{ width: "10%" }}>
-                            <Burgermenu onSelect={menuSelect} />
-                        </View>
                     </View>
 
                     <View style={{ alignItems: "center" }}>

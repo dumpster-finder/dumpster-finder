@@ -24,6 +24,9 @@ import EditContentScreen from "../screens/EditContentScreen";
 import EditDumpsterScreen from "../screens/EditDumpsterScreen";
 import SetPositionScreen from "../screens/SetPositionScreen";
 import { Layout, useTheme } from "@ui-kitten/components";
+import Burgermenu from "../components/Burgermenu";
+import { View } from "react-native";
+import DetailsMenu from "../components/DetailsMenu";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -175,7 +178,10 @@ function ListTabNavigator() {
             <ListTabStack.Screen
                 name="DetailsScreen"
                 component={DetailsScreen}
-                options={{ headerTitle: "Details" }}
+                options={{
+                    headerTitle: "Details",
+                    headerRight: DetailsMenu,
+                }}
             />
             <ListTabStack.Screen
                 name="CommentScreen"
