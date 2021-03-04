@@ -6,14 +6,12 @@
  */
 import {Router} from "express";
 import {validate} from "express-validation";
-import {postThing} from "../validators/example";
-import ThingDAO from "../daos/example";
-import models from "../models";
+import Models from "../models";
 import {postDumpster} from "../validators/dumpsters";
 
 
 export default function () {
-    const thingDAO = ThingDAO(models);
+    // const thingDAO = ThingDAO(models);
     const router = Router();
     const imagesControl = //Add image Control here
         /**

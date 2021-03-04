@@ -1,5 +1,4 @@
 import cors from "cors";
-import example from "./routes/example";
 import dumpsters from "./routes/dumpsters";
 import express, { NextFunction } from "express";
 import sequelize, { connectToDatabase } from "./config/sequelize";
@@ -35,8 +34,6 @@ app.use(cors());
 app.use(expressPino({ logger }));
 
 app.use("/spec", swagger());
-
-app.use("/example", example(dependencies));
 
 app.use("/dumpsters", dumpsters(dependencies));
 

@@ -89,7 +89,7 @@
  *                     latitude: 63.422407
  *                     longitude: 10.394954
  *                 dumpsterType: "Compressor"
- *                 storeType: "Electronics"
+ *                 storeType: "Electronics Store"
  *                 locked: true
  *                 positiveStoreViewOnDiving: false
  *                 emptyingSchedule: "Every Saturday"
@@ -117,7 +117,7 @@
  *                     latitude: 63.422407
  *                     longitude: 10.394954
  *                 dumpsterType: "Compressor"
- *                 storeType: "Electronics"
+ *                 storeType: "Electronics Store"
  *                 locked: true
  *                 positiveStoreViewOnDiving: false
  *                 emptyingSchedule: "Every Saturday"
@@ -147,7 +147,7 @@ import { PositionParams } from "../types/Position";
 //TODO add validation and models, and DAO for the key ones
 //TODO change storetype and dumpstertype to String primary key and foreign key
 //     (really?)
-export default function ({ logger, Models }: RouteDependencies) {
+export default function({ logger, Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
 
@@ -239,7 +239,6 @@ export default function ({ logger, Models }: RouteDependencies) {
             }
         },
     );
-
 
     /**
      * @swagger
