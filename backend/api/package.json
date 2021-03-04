@@ -6,11 +6,17 @@
   "scripts": {
     "start": "nodemon index.ts | pino-pretty -c -t",
     "test": "jest --detectOpenHandles",
+    "test:ci": "npm test --collect-coverage",
     "docs": "typedoc --out docs *.ts */*.ts"
   },
   "jest": {
     "setupFilesAfterEnv": [
       "<rootDir>/config/testSetup.ts"
+    ],
+    "collectCoverage": true,
+    "coverageReporters": [
+      "text",
+      "html"
     ]
   },
   "dependencies": {

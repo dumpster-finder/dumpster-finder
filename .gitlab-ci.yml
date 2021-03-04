@@ -32,7 +32,23 @@ test_backend:
     - apt-get update && apt-get upgrade -y
     - apt-get install -y mariadb-client
     - npm install
-    - npm test
+    - npm run test:ci
+  artifacts:
+    paths:
+      - backend/api/coverage
+
+pages:
+  stage: deploy
+  script:
+    - mkdir .public
+    - cp -r backend/coverage/* .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public/
+  only:
+    - develop
+    - master
 
 deploy:
   stage: deploy
