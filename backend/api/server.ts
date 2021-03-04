@@ -2,7 +2,7 @@ import cors from "cors";
 import example from "./routes/example";
 import dumpsters from "./routes/dumpsters";
 import express, { NextFunction } from "express";
-import sequelize from "./config/sequelize";
+import sequelize, { connectToDatabase } from "./config/sequelize";
 import swagger from "./routes/swagger";
 import pino from "pino";
 import expressPino from "express-pino-logger";
@@ -11,17 +11,6 @@ import { ValidationError } from "express-validation";
 import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
-
-const connectToDatabase = async () => {
-    try {
-        await sequelize.authenticate();
-        console.log("Database connection established!");
-    } catch (e) {
-        console.error("Could not connect to the database, retrying...", e);
-        // Retry after a few seconds
-        setTimeout(connectToDatabase, 3000);
-    }
-};
 
 (async () => {
     await connectToDatabase();

@@ -5,8 +5,13 @@
   "main": "index.ts",
   "scripts": {
     "start": "nodemon index.ts | pino-pretty -c -t",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "docs": "typedoc --out docs *.ts */*.ts"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/config/testSetup.ts"
+    ]
   },
   "dependencies": {
     "cors": "^2.8.5",

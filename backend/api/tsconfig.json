@@ -6,7 +6,7 @@
         "outDir": "./build",
         "esModuleInterop": true,
         "strict": true,
-        "types": ["@types/jest"],
+        "types": ["@types/jest", "./@types/express-pino-logger"],
         "typeRoots": [ "./@types" ]
     }
 }
