@@ -7,7 +7,7 @@ const categoryDAO = CategoryDAO(Models);
 beforeAll(setupTestData);
 
 describe("getAll", () => {
-    it("should return all categories", async done => {
+    it("should return all categories", async () => {
         const categories = await categoryDAO.getAll();
         expect(categories.length).toBeGreaterThan(0);
         expect(
@@ -19,6 +19,5 @@ describe("getAll", () => {
         expect(
             categories.find(({ name }) => name === "Vegetables"),
         ).not.toBeUndefined();
-        done();
     });
 });
