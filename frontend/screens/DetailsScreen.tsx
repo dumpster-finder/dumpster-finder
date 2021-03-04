@@ -125,7 +125,13 @@ export default function DetailsScreen({
                             </Text>
                         </View>
                         <View style={styles.infoRow}>
-                            <PositiveIcon size="medium" />
+                            {dumpster.positiveStoreViewOnDiving ? (
+                                <PositiveIcon size="medium" />
+                            ) : dumpster.positiveStoreViewOnDiving === null ? (
+                                <TrashIcon size="medium" />
+                            ) : (
+                                <NegativeIcon size="medium" />
+                            )}
                             <Text style={styles.infoText}>
                                 Store's view on dumpster diving:{" "}
                                 {dumpster.positiveStoreViewOnDiving ? (
@@ -158,7 +164,6 @@ export default function DetailsScreen({
                                                     100 / categoryPrLine + "%",
                                                 alignItems: "center",
                                                 paddingBottom: 5,
-
                                             }}
                                         >
                                             <Text>{category}</Text>
@@ -176,7 +181,8 @@ export default function DetailsScreen({
                                             width: 100 / categoryPrLine + "%",
                                             alignItems: "center",
                                             paddingBottom: 5,
-                                            borderRadius: 10, borderWidth: 10
+                                            borderRadius: 10,
+                                            borderWidth: 10,
                                         }}
                                     >
                                         <Text>{category}</Text>
