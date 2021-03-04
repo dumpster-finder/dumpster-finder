@@ -4,7 +4,7 @@ let sequelize: Sequelize;
 
 sequelize = new Sequelize(
     process.env.DB_NAME || "dumpster",
-    process.env.DB_USER || "user",
+    process.env.DB_USER || "root",
     process.env.DB_PASSWORD || "password",
     {
         host: process.env.DB_HOST || "localhost",
@@ -27,7 +27,7 @@ export const connectToDatabase = async (tries = 10) => {
             throw new Error(
                 "Could not connect to the database after 10 tries, aborting.",
             );
-        console.error("Could not connect to the database, retrying...", e);
+        console.log("Could not connect to the database, retrying...", e);
         // Retry after a few seconds
         setTimeout(() => connectToDatabase(tries - 1), 3000);
     }
