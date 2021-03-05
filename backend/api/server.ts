@@ -1,7 +1,7 @@
 import cors from "cors";
 import dumpsters from "./routes/dumpsters";
 import express, { NextFunction } from "express";
-import sequelize, { connectToDatabase } from "./config/sequelize";
+import { connectToDatabase } from "./config/sequelize";
 import swagger from "./routes/swagger";
 import pino from "pino";
 import expressPino from "express-pino-logger";
@@ -10,6 +10,7 @@ import { ValidationError } from "express-validation";
 import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
+import { defaultLoggerOptions } from "./config/pino";
 
 (async () => {
     await connectToDatabase();
@@ -21,7 +22,7 @@ const app = express();
  * Configured Pino logger
  * Please pass it to routes instead of importing this instance
  */
-export const logger = pino({ level: process.env.LOG_LEVEL || "info" });
+export const logger = pino(defaultLoggerOptions);
 
 const dependencies = {
     logger,

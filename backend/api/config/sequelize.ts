@@ -1,8 +1,10 @@
 import { Sequelize } from "sequelize";
+import pino from "pino";
+import { defaultLoggerOptions } from "./pino";
 
-let sequelize: Sequelize;
+const logger = pino(defaultLoggerOptions);
 
-sequelize = new Sequelize(
+const sequelize = new Sequelize(
     process.env.DB_NAME || "dumpster",
     process.env.DB_USER || "root",
     process.env.DB_PASSWORD || "password",
@@ -12,6 +14,8 @@ sequelize = new Sequelize(
         port: process.env.DB_PORT || 3306,
         // @ts-ignore
         dialect: process.env.DB_DIALECT || "mariadb",
+        logging: (sql, timing) =>
+            logger.info(sql, timing ? `Elapsed time: ${timing} ms` : ""),
         define: {
             timestamps: false,
         },
