@@ -4,16 +4,13 @@
  *   - name: Comments
  *     description: Dumpster API
  */
-import {Router} from "express";
-import {validate} from "express-validation";
-import {postThing} from "../validators/example";
-import ThingDAO from "../daos/example";
-import models from "../models";
-import {postDumpster} from "../validators/dumpsters";
+import { Router } from "express";
+import { validate } from "express-validation";
+import Models from "../models";
+import { postDumpster } from "../validators/dumpsters";
 
-
-export default function () {
-    const thingDAO = ThingDAO(models);
+export default function() {
+    // const commentDAO = CommentDAO(Models);
     const router = Router();
     const commentsControl = //Add comment Control here
         /**
@@ -37,15 +34,20 @@ export default function () {
          *             schema:
          *               $ref: '#/components/schemas/comments/:dumpsterID'
          */
-        router.get("/comments/:dumpsterID", async (req: {params: {dumpsterID: number}}, res) => {
-            try {
-                const dumpsters = await commentsControl.getAllForDumpster(dumpsterID);
-                res.status(200).json(dumpsters);
-            } catch (e) {
-                console.error('Something went wrong!', e);
-                res.status(500).send("uh?");
-            }
-        });
+        router.get(
+            "/comments/:dumpsterID",
+            async (req: { params: { dumpsterID: number } }, res) => {
+                try {
+                    const dumpsters = await commentsControl.getAllForDumpster(
+                        dumpsterID,
+                    );
+                    res.status(200).json(dumpsters);
+                } catch (e) {
+                    console.error("Something went wrong!", e);
+                    res.status(500).send("uh?");
+                }
+            },
+        );
     /**
      * @swagger
      * /comments:
@@ -79,7 +81,7 @@ export default function () {
             const dumpsters = await commentsControl.postOne(postDumpster);
             res.status(200).json(dumpsters);
         } catch (e) {
-            console.error('Something went wrong!', e);
+            console.error("Something went wrong!", e);
             res.status(500).send("uh?");
         }
     });
@@ -112,7 +114,7 @@ export default function () {
             const dumpsters = await commentsControl.changeComment(postDumpster);
             res.status(200).json(dumpsters);
         } catch (e) {
-            console.error('Something went wrong!', e);
+            console.error("Something went wrong!", e);
             res.status(500).send("uh?");
         }
     });

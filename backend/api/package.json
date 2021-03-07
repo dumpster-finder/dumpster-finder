@@ -5,8 +5,19 @@
   "main": "index.ts",
   "scripts": {
     "start": "nodemon index.ts | pino-pretty -c -t",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
+    "test:ci": "npm test --collect-coverage",
     "docs": "typedoc --out docs *.ts */*.ts"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/config/testSetup.ts"
+    ],
+    "collectCoverage": true,
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -27,13 +38,16 @@
   "devDependencies": {
     "@types/cors": "^2.8.9",
     "@types/express": "^4.17.11",
+    "@types/jest": "^26.0.20",
     "@types/node": "^14.14.22",
     "@types/pino": "^6.3.5",
     "@types/sequelize": "^4.28.9",
     "@types/swagger-jsdoc": "^6.0.0",
     "@types/swagger-ui-express": "^4.1.2",
+    "jest": "^26.6.3",
     "pino-pretty": "^4.5.0",
     "sqlite3": "^5.0.2",
+    "ts-jest": "^26.5.3",
     "typedoc": "^0.20.24"
   },
   "repository": {
