@@ -25,13 +25,13 @@ const sequelize = new Sequelize(
 export const connectToDatabase = async (tries = 10) => {
     try {
         await sequelize.authenticate();
-        console.log("Database connection established!");
+        logger.info("Database connection established!");
     } catch (e) {
         if (tries <= 0)
             throw new Error(
                 "Could not connect to the database after 10 tries, aborting.",
             );
-        console.log("Could not connect to the database, retrying...", e);
+        logger.info("Could not connect to the database, retrying...", e);
         // Retry after a few seconds
         setTimeout(() => connectToDatabase(tries - 1), 3000);
     }
