@@ -21,8 +21,34 @@ test_frontend:
 
 test_backend:
   stage: test
+  services:
+    - name: mariadb
+  variables:
+    MYSQL_DATABASE: dumpster
+    MYSQL_ROOT_PASSWORD: password
   script:
-    - echo TODO
+    - cd backend/api
+    - printf "DB_HOST=mariadb\nDB_USER=root\nDB_PASSWORD=password\n" > .env
+    - apt-get update && apt-get upgrade -y
+    - apt-get install -y mariadb-client
+    - npm install
+    - npm run test:ci
+  artifacts:
+    paths:
+      - backend/api/coverage
+
+pages:
+  stage: deploy
+  script:
+    - mkdir .public
+    - cp -r backend/api/coverage/lcov-report/* .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public/
+  only:
+    - develop
+    - master
 
 deploy:
   stage: deploy

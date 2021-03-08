@@ -4,8 +4,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-import { ThemeProvider } from "react-native-elements";
-import { theme } from "./constants/Theme";
 import { Provider, useSelector } from "react-redux";
 import store, { persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
@@ -21,12 +19,12 @@ import {
     fetchNearbyDumpsters,
     setDumpsters,
 } from "./redux/slices/dumpsterSlice";
-import { testDumpsters } from "./constants/TestData";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { FontAwesomePack } from "./constants/FontAwesome";
 import { fetchAllConstants } from "./redux/slices/constantsSlice";
+import { FontAwesome5Pack } from "./constants/FontAwesome5";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
@@ -50,19 +48,15 @@ const InnerApp = () => {
 
     return (
         <SafeAreaProvider>
-            <IconRegistry icons={[EvaIconsPack, FontAwesomePack]} />
+            <IconRegistry
+                icons={[EvaIconsPack, FontAwesomePack, FontAwesome5Pack]}
+            />
             <ApplicationProvider
                 {...eva}
                 theme={darkMode ? eva.dark : eva.light}
             >
-                {/* TODO: Remove Elements' ThemeProvider... */}
-                <ThemeProvider
-                    useDark={externalColorScheme === "dark"}
-                    theme={theme}
-                >
-                    <Navigation colorScheme={externalColorScheme} />
-                    <StatusBar />
-                </ThemeProvider>
+                <Navigation colorScheme={externalColorScheme} />
+                <StatusBar />
             </ApplicationProvider>
         </SafeAreaProvider>
     );

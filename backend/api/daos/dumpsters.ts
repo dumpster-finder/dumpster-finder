@@ -169,7 +169,13 @@ export default function ({
                     },
                     { where: { dumpsterID }, transaction: t },
                 );
-                return toDumpster(data);
+
+                return {
+                    ...toDumpster(data),
+                    // Override these values – they should be valid
+                    storeType: dumpster.storeType,
+                    dumpsterType: dumpster.dumpsterType
+                };
             });
         },
 
@@ -235,7 +241,13 @@ export default function ({
                         transaction: t,
                     },
                 );
-                return toDumpster(data);
+
+                return {
+                    ...toDumpster(data),
+                    // Override these values – they should be valid
+                    storeType: dumpster.storeType,
+                    dumpsterType: dumpster.dumpsterType
+                };
             });
         },
     };

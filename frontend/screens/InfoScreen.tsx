@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     scrollView: {
-        width: "100%",
+        width: "auto",
+        marginVertical: "15%",
     },
     row: {
         flex: 1,

@@ -1,23 +1,6 @@
 -- ♪♫ Living in the database ♪♫
 
--- old test things
-DROP TABLE IF EXISTS thangs, things;
-
-CREATE TABLE things (
-    id INT AUTO_INCREMENT,
-    thing VARCHAR(128) NOT NULL,
-    number INT,
-    PRIMARY KEY things(id)
-    );
-
-CREATE TABLE thangs (
-    id INT PRIMARY KEY AUTO_INCREMENT ,
-    name VARCHAR(128) NOT NULL,
-    thingID INT NOT NULL REFERENCES things(id),
-    FOREIGN KEY things(thingID)
-        REFERENCES things (id)
-        ON UPDATE RESTRICT ON DELETE RESTRICT
-);
+-- Enter the danger zone
 SET foreign_key_checks = 0;
 -- DROP 'EM ALL! (╯°□°）╯︵ ┻━┻
 DROP TABLE IF EXISTS
@@ -27,7 +10,9 @@ DROP TABLE IF EXISTS
     Ratings, Comments,
     DumpsterReports,  Dumpsters, DumpsterPositions,
     StoreTypes, DumpsterTypes;
+-- Get back to safe terrain
 SET foreign_key_checks = 1;
+
 -- Dumpster types: Compressor, dumpster, idk
 CREATE TABLE DumpsterTypes (
     dumpsterTypeID INT PRIMARY KEY AUTO_INCREMENT,

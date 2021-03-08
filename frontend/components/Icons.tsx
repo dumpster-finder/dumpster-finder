@@ -5,12 +5,18 @@ import { StyleSheet } from "react-native";
 
 type IconProps = BaseIconProps & {
     faded?: boolean;
-    color?: "red" | "green" | "yellow" | "faded"
+    color?: "red" | "green" | "yellow" | "faded";
     size?: "small" | "medium" | "large";
 };
 
-export const UnthemedIcon = ({ eva, style, size, faded, ...restProps }: IconProps) => {
-    const fill = faded ? eva.style.fadedIcon.color : eva.style.icon.color;
+export const UnthemedIcon = ({
+    eva,
+    style,
+    color,
+    size,
+    ...restProps
+}: IconProps) => {
+    const fill = color ? eva.style[color].color : eva.style.icon.color;
     return (
         <Icon
             {...restProps}
@@ -25,8 +31,17 @@ export const BaseIcon = withStyles(UnthemedIcon, theme => {
         icon: {
             color: theme["text-basic-color"],
         },
-        fadedIcon: {
+        faded: {
             color: theme["text-disabled-color"],
+        },
+        red: {
+            color: theme["color-danger-default"],
+        },
+        green: {
+            color: theme["color-success-active"],
+        },
+        yellow: {
+            color: theme["color-warning-default"],
         },
     };
 });
@@ -36,11 +51,11 @@ export const RefreshIcon = (props: IconProps) => (
 );
 
 export const LockIcon = (props: IconProps) => (
-    <BaseIcon {...props} name="lock" />
+    <BaseIcon {...props} pack="font-awesome" name="lock" />
 );
 
 export const OpenLockIcon = (props: IconProps) => (
-    <BaseIcon {...props} name="unlock" />
+    <BaseIcon {...props} pack="font-awesome" name="unlock" />
 );
 
 export const TrashIcon = (props: IconProps) => (
@@ -48,23 +63,23 @@ export const TrashIcon = (props: IconProps) => (
 );
 
 export const NegativeIcon = (props: IconProps) => (
-    <BaseIcon {...props} name="trash" />
+    <BaseIcon {...props} pack="font-awesome" name="thumbs-down" />
 );
 
 export const PositiveIcon = (props: IconProps) => (
-    <BaseIcon {...props} name="star" />
+    <BaseIcon {...props} pack="font-awesome" name="thumbs-up" />
 );
 
 export const CleanIcon = (props: IconProps) => (
-    <BaseIcon {...props} name="brush" />
+    <BaseIcon {...props} color="green" name="brush" /> // TODO pack="font-awesome-5" name="broom" DOES NOT GET FADED AAAAAA
 );
 
 export const FadedCleanIcon = (props: IconProps) => (
-    <BaseIcon {...props} faded name="brush" />
+    <BaseIcon {...props} color="faded" name="brush" />
 );
 
 export const StarIcon = (props: IconProps) => (
-    <BaseIcon {...props} name="star" />
+    <BaseIcon {...props} color="yellow" name="star" />
 );
 
 export const PlusIcon = (props: IconProps) => (
@@ -111,9 +126,8 @@ export const RateDownIcon = (props: IconProps) => (
     <BaseIcon {...props} name="arrow-downward" />
 );
 
-
 export const BrushIcon = (props: IconProps) => (
-    <BaseIcon {...props} name="brush" />
+    <BaseIcon {...props} color="green" name="brush" />
 );
 
 export const MessageIcon = (props: IconProps) => (
@@ -123,9 +137,6 @@ export const MessageIcon = (props: IconProps) => (
 export const MenuIcon = (props: IconProps) => (
     <BaseIcon {...props} name="menu" />
 );
-
-
-
 
 const styles: Record<string, any> = StyleSheet.create({
     small: {
