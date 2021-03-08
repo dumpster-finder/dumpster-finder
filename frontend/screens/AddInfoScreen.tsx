@@ -14,6 +14,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterEditor from "../components/DumpsterEditor";
 import { DumpsterService } from "../services";
 import { StackActions } from "@react-navigation/native";
+import { useState } from "react";
 
 export default function AddInfoScreen({
     navigation,
@@ -22,6 +23,7 @@ export default function AddInfoScreen({
 }) {
     const dispatch = useAppDispatch();
     const dumpster = useSelector(editorDumpsterSelector);
+    const [pending, setPending] = useState(false);
 
     if (dumpster === null) {
         return (
@@ -32,7 +34,12 @@ export default function AddInfoScreen({
     } else {
         return (
             <Layout style={styles.container}>
-                <DumpsterEditor mode="create" dumpster={dumpster} onSave={handleSave} />
+                <DumpsterEditor
+                    mode="create"
+                    dumpster={dumpster}
+                    onSave={handleSave}
+                    pending={pending}
+                />
             </Layout>
         );
     }
@@ -42,7 +49,10 @@ export default function AddInfoScreen({
             // Strip the dumpster of ID
             const { dumpsterID, ...restDumpster } = dumpster;
             // Post the dumpster, receive the actual dumpster object from the backend
-            const postedDumpster = await DumpsterService.addDumpster(restDumpster);
+            setPending(true);
+            const postedDumpster = await DumpsterService.addDumpster(
+                restDumpster,
+            );
             // Add this dumpster to the list of dumpsters!
             dispatch(addDumpster(postedDumpster));
             // Then reset the editor's state
@@ -52,6 +62,7 @@ export default function AddInfoScreen({
         } catch (e) {
             // TODO Replace with better error handling
             console.error("Could not add this dumpster:", e);
+            setPending(false);
         }
     }
 }

@@ -4,21 +4,32 @@ import { Button, IndexPath, Input, Text } from "@ui-kitten/components";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Dropdown from "./Dropdown";
 import GroupSelect from "./GroupSelect";
-import { LockIcon, PositiveIcon, TrashIcon } from "./Icons";
+import {
+    LockIcon,
+    PendingIcon,
+    PositiveIcon,
+    SaveIcon,
+    TrashIcon,
+} from "./Icons";
 import ButtonGroupDisplay from "./ButtonGroupDisplay";
 import Rating from "./Rating";
 import { useState } from "react";
-import {useSelector} from "react-redux";
-import {dumpsterTypesSelector, storeTypesSelector} from "../redux/slices/constantsSlice";
+import { useSelector } from "react-redux";
+import {
+    dumpsterTypesSelector,
+    storeTypesSelector,
+} from "../redux/slices/constantsSlice";
 
 export default function DumpsterEditor({
     dumpster,
     onSave,
     mode,
+    pending,
 }: {
     dumpster: Omit<Dumpster, "rating">;
     onSave: (newDumpster: Omit<Dumpster, "rating">) => void;
     mode: "edit" | "create";
+    pending?: boolean;
 }) {
     const categoryData: Record<string, string[]> = {
         Food: ["Meat", "Fruit"],
@@ -47,7 +58,7 @@ export default function DumpsterEditor({
     const [emptyingSchedule, setEmptyingSchedule] = useState(
         dumpster.emptyingSchedule,
     );
-    const [cleanliness, setCleanliness] = useState(dumpster.cleanliness-1);
+    const [cleanliness, setCleanliness] = useState(dumpster.cleanliness - 1);
     const [locked, setLocked] = useState(dumpster.locked);
     const [storeViewIndex, setStoreViewIndex] = useState(
         dumpster.positiveStoreViewOnDiving === null
@@ -127,7 +138,9 @@ export default function DumpsterEditor({
                     value={emptyingSchedule}
                 />
             </View>
-            <Text category="s2" appearance="hint">Cleanliness</Text>
+            <Text category="s2" appearance="hint">
+                Cleanliness
+            </Text>
             <View style={styles.row}>
                 <Rating
                     value={cleanliness}
@@ -139,7 +152,9 @@ export default function DumpsterEditor({
             {/* TODO picture stuff */}
             <Button
                 status="primary"
+                disabled={pending}
                 onPress={handleSubmit}
+                accessoryLeft={pending ? PendingIcon : SaveIcon}
             >
                 {mode === "create" ? "Create dumpster" : "Save dumpster"}
             </Button>
@@ -155,11 +170,11 @@ export default function DumpsterEditor({
             storeType: storeTypes[storeTypeIndex],
             emptyingSchedule,
             cleanliness: cleanliness + 1,
-            positiveStoreViewOnDiving: storeViewIndex === 1 ? null : storeViewIndex === 2,
+            positiveStoreViewOnDiving:
+                storeViewIndex === 1 ? null : storeViewIndex === 2,
             locked,
         });
     }
-
 }
 
 const styles = StyleSheet.create({

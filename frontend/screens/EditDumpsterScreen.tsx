@@ -4,12 +4,16 @@ import { Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import Dumpster from "../models/Dumpster";
 import DumpsterEditor from "../components/DumpsterEditor";
-import {addDumpster, currentDumpsterSelector} from "../redux/slices/dumpsterSlice";
+import {
+    addDumpster,
+    currentDumpsterSelector,
+} from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
-import {DumpsterService} from "../services";
-import {setCurrentDumpster} from "../redux/slices/dumpsterSlice";
-import {resetEditor} from "../redux/slices/editorSlice";
-import {useAppDispatch} from "../redux/store";
+import { DumpsterService } from "../services";
+import { setCurrentDumpster } from "../redux/slices/dumpsterSlice";
+import { resetEditor } from "../redux/slices/editorSlice";
+import { useAppDispatch } from "../redux/store";
+import { useState } from "react";
 
 export default function EditDumpsterScreen({
     navigation,
@@ -18,6 +22,7 @@ export default function EditDumpsterScreen({
 }) {
     const dispatch = useAppDispatch();
     const dumpster = useSelector(currentDumpsterSelector);
+    const [pending, setPending] = useState(false);
 
     if (dumpster === null) {
         return (
@@ -28,15 +33,23 @@ export default function EditDumpsterScreen({
     } else {
         return (
             <Layout style={styles.container}>
-                <DumpsterEditor mode="edit" dumpster={dumpster} onSave={handleSave} />
+                <DumpsterEditor
+                    mode="edit"
+                    dumpster={dumpster}
+                    onSave={handleSave}
+                    pending={pending}
+                />
             </Layout>
         );
     }
 
     async function handleSave(dumpster: Omit<Dumpster, "rating">) {
         try {
+            setPending(true);
             // Update the dumpster
-            const updatedDumpster = await DumpsterService.updateDumpster(dumpster);
+            const updatedDumpster = await DumpsterService.updateDumpster(
+                dumpster,
+            );
             // Add this dumpster to the list of dumpsters!
             dispatch(addDumpster(updatedDumpster));
             dispatch(setCurrentDumpster(updatedDumpster));
@@ -47,6 +60,7 @@ export default function EditDumpsterScreen({
         } catch (e) {
             // TODO Replace with better error handling
             console.error("Could not update this dumpster:", e);
+            setPending(false);
         }
     }
 }

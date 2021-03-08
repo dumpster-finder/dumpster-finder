@@ -50,6 +50,14 @@ export const RefreshIcon = (props: IconProps) => (
     <BaseIcon {...props} name="refresh" />
 );
 
+export const SaveIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="save" />
+);
+
+export const PendingIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="loader-outline" animation="pulse" />
+);
+
 export const LockIcon = (props: IconProps) => (
     <BaseIcon {...props} pack="font-awesome" name="lock" />
 );
