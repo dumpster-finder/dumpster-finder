@@ -3,10 +3,9 @@ import Dumpster from "../models/Dumpster";
 import DropdownCard from "./DropdownCard";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Divider, Text } from "@ui-kitten/components";
+import { Button, Text } from "@ui-kitten/components";
 import {
     BrushIcon,
-    CleanIcon,
     LockIcon,
     NegativeIcon,
     OpenLockIcon,
@@ -14,7 +13,6 @@ import {
     StarIcon,
     TrashIcon,
 } from "./Icons";
-import ButtonGroupDisplay from "./ButtonGroupDisplay";
 
 export default function DumpsterDropdownCard({
     text,
@@ -93,11 +91,11 @@ export default function DumpsterDropdownCard({
                         </Text>
                     </View>
                     <Button
-                        style={{ width: "30%", alignSelf: "center" }}
+                        style={{ width: "50%", alignSelf: "center" }}
                         size={"small"}
                         onPress={() => onReset(dumpster)}
                     >
-                        Reset
+                        Reset to this dumpster
                     </Button>
                 </View>
             )}
