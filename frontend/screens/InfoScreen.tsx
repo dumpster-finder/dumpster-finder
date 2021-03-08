@@ -17,9 +17,6 @@ export default function InfoScreen({
                     <IconExplanation />
                     <Advice />
                 </View>
-                <Button onPress={() => navigation.navigate("IntroScreen")}>
-                    Intro
-                </Button>
             </ScrollView>
         </Layout>
     );

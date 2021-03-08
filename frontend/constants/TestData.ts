@@ -38,3 +38,42 @@ export const testDumpsters: Dumpster[] = [
         dumpsterType: "Compressor",
     },
 ];
+
+export const testRevision: Dumpster[] = [
+    {
+        dumpsterID: 1,
+        name: "Rema Moholt",
+        position: { latitude: 63.412113, longitude: 10.440253 },
+        emptyingSchedule: "Every day",
+        locked: true,
+        positiveStoreViewOnDiving: false,
+        rating: 4.5,
+        cleanliness: 1,
+        storeType: "Food",
+        dumpsterType: "Metal",
+    },
+    {
+        dumpsterID: 1,
+        name: "Rema Moholt",
+        position: { latitude: 63.412113, longitude: 10.440253 },
+        emptyingSchedule: "Mondays",
+        locked: false,
+        positiveStoreViewOnDiving: false,
+        rating: 4.5,
+        cleanliness: 3,
+        storeType: "Food",
+        dumpsterType: "Metal",
+    },
+    {
+        dumpsterID: 1,
+        name: "Rema 1000",
+        position: { latitude: 63.412113, longitude: 10.440253 },
+        emptyingSchedule: "Mondays",
+        locked: false,
+        positiveStoreViewOnDiving: false,
+        rating: 4.5,
+        cleanliness: 3,
+        storeType: "Food",
+        dumpsterType: "Metal",
+    },
+];

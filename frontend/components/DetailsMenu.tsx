@@ -2,7 +2,7 @@ import * as React from "react";
 import Burgermenu from "./Burgermenu";
 import { useNavigation } from "@react-navigation/native";
 
-export default function({  }: { tintColor?: string }) {
+export default function({}: { tintColor?: string }) {
     const navigation = useNavigation();
 
     return (
@@ -24,6 +24,9 @@ export default function({  }: { tintColor?: string }) {
                 break;
             case 1:
                 console.log("Revision");
+                navigation.navigate("RevisionScreen", {
+                    screen: "RevisionScreen",
+                });
                 break;
             case 2:
                 console.log("Edit");
