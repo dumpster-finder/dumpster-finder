@@ -5,7 +5,6 @@ import {
     StackNavigationProp,
 } from "@react-navigation/stack";
 import * as React from "react";
-
 import MapScreen from "../screens/MapScreen";
 import ListScreen from "../screens/ListScreen";
 import InfoScreen from "../screens/InfoScreen";
@@ -31,6 +30,9 @@ import IntroPositionScreen from "../screens/IntroPositionScreen";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { firstTimeSelector } from "../redux/slices/configSlice";
+import { useColorScheme } from "react-native";
+import { useTheme } from "@ui-kitten/components";
+import DetailsMenu from "../components/DetailsMenu";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -41,6 +43,7 @@ export default function BottomTabNavigator({
 }) {
     const colorScheme = useColorScheme();
     const firstTime = useSelector(firstTimeSelector);
+    const theme = useTheme();
 
     useEffect(() => {
         if (firstTime) {
