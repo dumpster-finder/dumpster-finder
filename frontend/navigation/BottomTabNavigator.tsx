@@ -1,6 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+    createStackNavigator,
+    StackNavigationProp,
+} from "@react-navigation/stack";
 import * as React from "react";
 
 import MapScreen from "../screens/MapScreen";
@@ -23,15 +26,27 @@ import ContentScreen from "../screens/ContentScreen";
 import EditContentScreen from "../screens/EditContentScreen";
 import EditDumpsterScreen from "../screens/EditDumpsterScreen";
 import SetPositionScreen from "../screens/SetPositionScreen";
-import { Layout, useTheme } from "@ui-kitten/components";
-import Burgermenu from "../components/Burgermenu";
-import { View } from "react-native";
-import DetailsMenu from "../components/DetailsMenu";
+import IntroScreen from "../screens/IntroScreen";
+import IntroPositionScreen from "../screens/IntroPositionScreen";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { firstTimeSelector } from "../redux/slices/configSlice";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
-export default function BottomTabNavigator() {
-    const theme = useTheme();
+export default function BottomTabNavigator({
+    navigation,
+}: {
+    navigation: StackNavigationProp<any>;
+}) {
+    const colorScheme = useColorScheme();
+    const firstTime = useSelector(firstTimeSelector);
+
+    useEffect(() => {
+        if (firstTime) {
+            navigation.navigate("IntroScreen");
+        }
+    }, []);
 
     return (
         <BottomTab.Navigator

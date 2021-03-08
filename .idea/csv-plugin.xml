@@ -80,6 +80,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\frontend\navigation\index.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\frontend\redux\slices\configSlice.ts">
           <value>
             <Attribute>

@@ -1,42 +1,44 @@
 export type RootStackParamList = {
-  Root: undefined;
-  NotFound: undefined;
+    Root: undefined;
+    IntroScreen: undefined;
+    IntroPositionScreen: undefined;
+    NotFound: undefined;
 };
 
 export type BottomTabParamList = {
-  MapTab: undefined;
-  ListTab: undefined;
-  InfoTab: undefined;
-  SettingsTab: undefined;
+    MapTab: undefined;
+    ListTab: undefined;
+    InfoTab: undefined;
+    SettingsTab: undefined;
 };
 
 export type SettingsTabParamList = {
-  SettingsTabScreen: undefined;
-  SetPositionScreen: undefined;
+    SettingsTabScreen: undefined;
+    SetPositionScreen: undefined;
 };
 
 export type InfoTabParamList = {
-  InfoTabScreen: undefined;
+    InfoTabScreen: undefined;
 };
 
 export type ListTabParamList = {
-  ListTabScreen: undefined;
-  AddPositionScreen: undefined;
-  AddInfoScreen: undefined;
-  DetailsScreen: undefined;
-  CommentScreen: undefined;
-  ContentScreen: undefined;
-  EditContentScreen: undefined;
-  EditDumpsterScreen: undefined;
+    ListTabScreen: undefined;
+    AddPositionScreen: undefined;
+    AddInfoScreen: undefined;
+    DetailsScreen: undefined;
+    CommentScreen: undefined;
+    ContentScreen: undefined;
+    EditContentScreen: undefined;
+    EditDumpsterScreen: undefined;
 };
 
 export type MapTabParamList = {
-  MapTabScreen: undefined;
-  AddPositionScreen: undefined;
-  AddInfoScreen: undefined;
-  DetailsScreen: undefined;
-  CommentScreen: undefined;
-  ContentScreen: undefined;
-  EditContentScreen: undefined;
-  EditDumpsterScreen: undefined;
+    MapTabScreen: undefined;
+    AddPositionScreen: undefined;
+    AddInfoScreen: undefined;
+    DetailsScreen: undefined;
+    CommentScreen: undefined;
+    ContentScreen: undefined;
+    EditContentScreen: undefined;
+    EditDumpsterScreen: undefined;
 };

@@ -43,9 +43,6 @@ const InnerApp = () => {
         if (firstTime) {
             store.dispatch(setDarkMode(externalColorScheme === "dark"));
             // unset firstTime only AFTER the intro page has been shown!
-            // perhaps you could just navigate TO the intro page right here.
-            // navigator.navigate("thatpage") or sth, idk
-            store.dispatch(setFirstTime(false));
         }
     }, []);
 

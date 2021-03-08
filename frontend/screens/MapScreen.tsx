@@ -1,16 +1,22 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import MapView, { UrlTile } from "react-native-maps";
-import useColorScheme from "../hooks/useColorScheme";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterMarker from "../components/DumpsterMarker";
 import { useAppDispatch } from "../redux/store";
-import {allDumpstersSelector, setCurrentDumpster} from "../redux/slices/dumpsterSlice";
+import {
+    allDumpstersSelector,
+    setCurrentDumpster,
+} from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
-import { positionSelector, setPosition } from "../redux/slices/configSlice";
+import {
+    positionSelector,
+    setPosition,
+    firstTimeSelector,
+} from "../redux/slices/configSlice";
 import { useEffect } from "react";
 import SearchHeader from "../components/SearchHeader";
-import {Layout} from "@ui-kitten/components";
+import { Layout } from "@ui-kitten/components";
 
 export default function MapScreen({
     navigation,
@@ -20,6 +26,8 @@ export default function MapScreen({
     const dispatch = useAppDispatch();
     const position = useSelector(positionSelector);
     const dumpsters = useSelector(allDumpstersSelector);
+    const first = useSelector(firstTimeSelector);
+    console.log(first);
 
     useEffect(() => {
         // this is here for testing purposes
@@ -34,11 +42,13 @@ export default function MapScreen({
 
     return (
         <Layout style={styles.container}>
-            <SearchHeader onPressPlus={() => {
-                navigation.navigate("AddPositionScreen", {
-                    screen: "AddPositionScreen",
-                });
-            }}/>
+            <SearchHeader
+                onPressPlus={() => {
+                    navigation.navigate("AddPositionScreen", {
+                        screen: "AddPositionScreen",
+                    });
+                }}
+            />
             <MapView
                 provider={null}
                 initialRegion={{
@@ -56,7 +66,8 @@ export default function MapScreen({
                     left: 0,
                     right: 0,
                     bottom: 0,
-                }}>
+                }}
+            >
                 {dumpsters.map(dumpster => (
                     <DumpsterMarker
                         key={dumpster.dumpsterID}
