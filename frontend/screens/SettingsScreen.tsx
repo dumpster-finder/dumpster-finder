@@ -20,6 +20,7 @@ import {
     setNickname,
     setRadius,
     setLanguage,
+    setFirstTime,
 } from "../redux/slices/configSlice";
 import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
@@ -32,14 +33,17 @@ export default function SettingsScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
-}) {const languages = ["English", "Norwegian", "German", "French", "Spanish"];
+}) {
+    const languages = ["English", "Norwegian", "German", "French", "Spanish"];
     const distances = ["2", "5", "10", "25", "50"];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
     const nickname = useSelector(nicknameSelector);
     const language = useSelector(languageSelector);
     const diameter = Math.round(useSelector(radiusSelector) / 1000);
-    const [newLanguage, setNewLanguage] = useState(language ? languages.indexOf(language) : 0)
+    const [newLanguage, setNewLanguage] = useState(
+        language ? languages.indexOf(language) : 0,
+    );
     const [showNick, setShowNick] = useState(false);
     const [showDist, setShowDist] = useState(false);
     const [showLanguage, setShowLanguage] = useState(false);
@@ -52,8 +56,8 @@ export default function SettingsScreen({
         dispatch(setRadius(1000));
     }
 
-    if(!language){
-        dispatch(setLanguage("English"))
+    if (!language) {
+        dispatch(setLanguage("English"));
     }
 
     return (
@@ -105,7 +109,7 @@ export default function SettingsScreen({
                     onClick={newValue => setShowDist(newValue)}
                 />
                 {showDist && (
-                    <View style={{padding: 10, alignItems: "center"}}>
+                    <View style={{ padding: 10, alignItems: "center" }}>
                         <ButtonGroupDisplay
                             value={radiusDistance}
                             values={distances}
@@ -121,10 +125,13 @@ export default function SettingsScreen({
                 />
                 {showLanguage && (
                     <RadioGroup
-                        style={{padding: 10}}
+                        style={{ padding: 10 }}
                         selectedIndex={newLanguage}
-                        onChange={index => setNewLang(index)}>
-                        {languages.map((value, index) => <Radio key={index}>{value}</Radio>)}
+                        onChange={index => setNewLang(index)}
+                    >
+                        {languages.map((value, index) => (
+                            <Radio key={index}>{value}</Radio>
+                        ))}
                     </RadioGroup>
                 )}
 
@@ -143,6 +150,9 @@ export default function SettingsScreen({
                         </View>
                     </View>
                 </Card>
+                <Button onPress={() => dispatch(setFirstTime(true))}>
+                    Reset
+                </Button>
             </ScrollView>
         </Layout>
     );
@@ -178,6 +188,6 @@ const styles = StyleSheet.create({
     },
 
     dropdownView: {
-        padding: 10
-    }
+        padding: 10,
+    },
 });

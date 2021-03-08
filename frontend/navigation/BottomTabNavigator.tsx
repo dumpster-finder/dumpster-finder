@@ -1,6 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+    createStackNavigator,
+    StackNavigationProp,
+} from "@react-navigation/stack";
 import * as React from "react";
 
 import Colors from "../constants/Colors";
@@ -25,16 +28,33 @@ import ContentScreen from "../screens/ContentScreen";
 import EditContentScreen from "../screens/EditContentScreen";
 import EditDumpsterScreen from "../screens/EditDumpsterScreen";
 import SetPositionScreen from "../screens/SetPositionScreen";
+import IntroScreen from "../screens/IntroScreen";
+import IntroPositionScreen from "../screens/IntroPositionScreen";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { firstTimeSelector } from "../redux/slices/configSlice";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator({
+    navigation,
+}: {
+    navigation: StackNavigationProp<any>;
+}) {
     const colorScheme = useColorScheme();
+    const firstTime = useSelector(firstTimeSelector);
+
+    useEffect(() => {
+        if (firstTime) {
+            navigation.navigate("IntroScreen");
+        }
+    }, []);
 
     return (
         <BottomTab.Navigator
             initialRouteName="MapTab"
-            tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+            tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+        >
             <BottomTab.Screen
                 name="MapTab"
                 component={MapTabNavigator}

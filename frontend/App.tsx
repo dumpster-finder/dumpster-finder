@@ -11,17 +11,22 @@ import store, { persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import {
     darkModeSelector,
-    firstTimeSelector, positionSelector, radiusSelector,
+    firstTimeSelector,
+    positionSelector,
+    radiusSelector,
     setDarkMode,
     setFirstTime,
 } from "./redux/slices/configSlice";
-import {fetchNearbyDumpsters, setDumpsters} from "./redux/slices/dumpsterSlice";
+import {
+    fetchNearbyDumpsters,
+    setDumpsters,
+} from "./redux/slices/dumpsterSlice";
 import { testDumpsters } from "./constants/TestData";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
-import {FontAwesomePack} from "./constants/FontAwesome";
-import {fetchAllConstants} from "./redux/slices/constantsSlice";
+import { FontAwesomePack } from "./constants/FontAwesome";
+import { fetchAllConstants } from "./redux/slices/constantsSlice";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
@@ -35,14 +40,11 @@ const InnerApp = () => {
     useEffect(() => {
         // TODO prevent this necessity (had to clear out old data)
         store.dispatch(setDumpsters([]));
-        store.dispatch(fetchNearbyDumpsters({position, radius}));
+        store.dispatch(fetchNearbyDumpsters({ position, radius }));
         store.dispatch(fetchAllConstants());
         if (firstTime) {
             store.dispatch(setDarkMode(externalColorScheme === "dark"));
             // unset firstTime only AFTER the intro page has been shown!
-            // perhaps you could just navigate TO the intro page right here.
-            // navigator.navigate("thatpage") or sth, idk
-            store.dispatch(setFirstTime(false));
         }
     }, []);
 
