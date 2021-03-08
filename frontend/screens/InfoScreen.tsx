@@ -12,8 +12,11 @@ export default function InfoScreen({
 }) {
     return (
         <Layout style={styles.container}>
-            <ScrollView style={styles.scrollView}>
-                <View style={{ padding: 10 }}>
+            <ScrollView
+                style={styles.scrollView}
+                contentContainerStyle={styles.innerContainer}
+            >
+                <View style={{ paddingHorizontal: 10 }}>
                     <IconExplanation />
                     <Advice />
                 </View>
@@ -33,6 +36,8 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         width: "auto",
+    },
+    innerContainer: {
         marginVertical: "15%",
     },
     row: {
