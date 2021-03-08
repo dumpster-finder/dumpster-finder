@@ -2,7 +2,7 @@ import { MyModels } from "../models";
 import { literal } from "sequelize";
 import Dumpster from "../types/Dumpster";
 import { DumpsterAttributes } from "../models/dumpsters";
-import {PositionParams} from "../types/Position";
+import { PositionParams } from "../types/Position";
 
 const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     dumpsterID: dumpster.dumpsterID,
@@ -71,11 +71,7 @@ export default function ({
          * @param radius
          * @return The dumpsters that fit the query
          */
-        getAll: ({
-            latitude,
-            longitude,
-            radius,
-        }: PositionParams) =>
+        getAll: ({ latitude, longitude, radius }: PositionParams) =>
             Dumpsters.findAll({
                 attributes: dumpsterAttributes,
                 where: literal(
@@ -152,8 +148,6 @@ export default function ({
                     {
                         dumpsterID,
                         ...dumpster,
-                        positiveStoreViewOnDiving:
-                            dumpster.positiveStoreViewOnDiving || null,
                         dumpsterTypeID,
                         storeTypeID,
                         userID: "temp",
@@ -174,7 +168,7 @@ export default function ({
                     ...toDumpster(data),
                     // Override these values – they should be valid
                     storeType: dumpster.storeType,
-                    dumpsterType: dumpster.dumpsterType
+                    dumpsterType: dumpster.dumpsterType,
                 };
             });
         },
@@ -218,8 +212,6 @@ export default function ({
                 const data = await Dumpsters.create(
                     {
                         ...dumpster,
-                        positiveStoreViewOnDiving:
-                            dumpster.positiveStoreViewOnDiving || null,
                         dumpsterTypeID,
                         storeTypeID,
                         userID: "temp",
@@ -246,7 +238,7 @@ export default function ({
                     ...toDumpster(data),
                     // Override these values – they should be valid
                     storeType: dumpster.storeType,
-                    dumpsterType: dumpster.dumpsterType
+                    dumpsterType: dumpster.dumpsterType,
                 };
             });
         },

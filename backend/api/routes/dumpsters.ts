@@ -147,7 +147,7 @@ import { PositionParams } from "../types/Position";
 //TODO add validation and models, and DAO for the key ones
 //TODO change storetype and dumpstertype to String primary key and foreign key
 //     (really?)
-export default function({ logger, Models }: RouteDependencies) {
+export default function ({ logger, Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
 
