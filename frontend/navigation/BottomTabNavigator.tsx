@@ -31,6 +31,7 @@ import { useSelector } from "react-redux";
 import { firstTimeSelector } from "../redux/slices/configSlice";
 import { useTheme } from "@ui-kitten/components";
 import DetailsMenu from "../components/DetailsMenu";
+import RevisionScreen from "../screens/RevisionScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -165,6 +166,11 @@ function MapTabNavigator() {
                 component={EditDumpsterScreen}
                 options={{ headerTitle: "Edit dumpster" }}
             />
+            <ListTabStack.Screen
+                name="RevisionScreen"
+                component={RevisionScreen}
+                options={{ headerTitle: "Revision history" }}
+            />
         </MapTabStack.Navigator>
     );
 }
@@ -214,6 +220,11 @@ function ListTabNavigator() {
                 name="EditDumpsterScreen"
                 component={EditDumpsterScreen}
                 options={{ headerTitle: "Edit dumpster" }}
+            />
+            <ListTabStack.Screen
+                name="RevisionScreen"
+                component={RevisionScreen}
+                options={{ headerTitle: "Revision" }}
             />
         </ListTabStack.Navigator>
     );

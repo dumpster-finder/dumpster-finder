@@ -88,7 +88,7 @@ export default function DetailsScreen({
                             <View style={styles.threeRowStart}>
                                 <StarIcon size="medium" />
                                 <Text style={styles.infoText}>
-                                    Rating: {dumpster.rating}
+                                    Rating: {dumpster.rating.toFixed(1)}
                                 </Text>
                             </View>
                             <View style={styles.threeRowCenter}>

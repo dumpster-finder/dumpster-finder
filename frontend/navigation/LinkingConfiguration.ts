@@ -16,6 +16,7 @@ export default {
                             ContentScreen: "contents",
                             EditContentScreen: "EditCont",
                             EditDumpsterScreen: "EditDumpster",
+                            RevisionScreen: "Revision",
                         },
                     },
                     ListTab: {
@@ -28,6 +29,7 @@ export default {
                             ContentScreen: "contents",
                             EditContentScreen: "EditCont",
                             EditDumpsterScreen: "EditDumpster",
+                            RevisionScreen: "Revision",
                         },
                     },
                     InfoTab: {
