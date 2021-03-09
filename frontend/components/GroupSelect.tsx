@@ -1,8 +1,6 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import {
     IndexPath,
-    Layout,
     Select,
     SelectGroup,
     SelectItem,
@@ -19,9 +17,6 @@ export default function GroupSelect({
     values: Record<string, string[]>;
     onSelect: (newValue: Array<IndexPath>) => void;
 }) {
-
-
-
     const [multiSelectedIndex, setMultiSelectedIndex] = React.useState([
         new IndexPath(0, 0),
         new IndexPath(1, 1),
@@ -37,7 +32,6 @@ export default function GroupSelect({
     return (
         <Select
             label={label}
-            style={styles.select}
             multiSelect={true}
             value={groupDisplayValues.join(", ")}
             placeholder="Choose..."
@@ -56,15 +50,3 @@ export default function GroupSelect({
         </Select>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        height: 192,
-    },
-    select: {
-        flex: 1,
-        margin: 2,
-    },
-});

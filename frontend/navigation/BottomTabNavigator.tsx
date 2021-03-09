@@ -26,11 +26,9 @@ import EditContentScreen from "../screens/EditContentScreen";
 import EditDumpsterScreen from "../screens/EditDumpsterScreen";
 import SetPositionScreen from "../screens/SetPositionScreen";
 import IntroScreen from "../screens/IntroScreen";
-import IntroPositionScreen from "../screens/IntroPositionScreen";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { firstTimeSelector } from "../redux/slices/configSlice";
-import { useColorScheme } from "react-native";
 import { useTheme } from "@ui-kitten/components";
 import DetailsMenu from "../components/DetailsMenu";
 
@@ -41,7 +39,6 @@ export default function BottomTabNavigator({
 }: {
     navigation: StackNavigationProp<any>;
 }) {
-    const colorScheme = useColorScheme();
     const firstTime = useSelector(firstTimeSelector);
     const theme = useTheme();
 
@@ -145,7 +142,7 @@ function MapTabNavigator() {
             <ListTabStack.Screen
                 name="DetailsScreen"
                 component={DetailsScreen}
-                options={{ headerTitle: "Details" }}
+                options={{ headerTitle: "Details", headerRight: DetailsMenu }}
             />
             <ListTabStack.Screen
                 name="CommentScreen"
@@ -196,10 +193,7 @@ function ListTabNavigator() {
             <ListTabStack.Screen
                 name="DetailsScreen"
                 component={DetailsScreen}
-                options={{
-                    headerTitle: "Details",
-                    headerRight: DetailsMenu,
-                }}
+                options={{ headerTitle: "Details", headerRight: DetailsMenu }}
             />
             <ListTabStack.Screen
                 name="CommentScreen"

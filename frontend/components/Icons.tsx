@@ -46,6 +46,22 @@ export const BaseIcon = withStyles(UnthemedIcon, theme => {
     };
 });
 
+/* These icons should be styled exclusively by the Kitten component they're put inside */
+
+export const SaveButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="save" />
+);
+
+export const PendingButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="loader-outline" animation="pulse" />
+);
+
+export const TrashInputIcon = (props: IconProps) => (
+    <Icon {...props} name="trash" />
+);
+
+/* These should not */
+
 export const RefreshIcon = (props: IconProps) => (
     <BaseIcon {...props} name="refresh" />
 );
