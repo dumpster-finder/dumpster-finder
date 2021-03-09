@@ -1,10 +1,13 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { DumpsterCategoryAttributes, DumpsterCategoryCreationAttributes } from "./DumpsterCategories";
+import {
+    DumpsterCategoryAttributes,
+    DumpsterCategoryCreationAttributes,
+} from "./DumpsterCategories";
 import { TagAttributes, TagCreationAttributes } from "./Tags";
-import {Photos} from "./Photos";
+import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
 
 export interface CategoryAttributes {
-    categoryID : number;
+    categoryID: number;
     name: string;
 }
 
@@ -43,14 +46,25 @@ export function init(sequelize: Sequelize) {
 // The type is not defined yet, so use a substitute
 export function associate({
     DumpsterCategories,
+    Dumpsters,
     Tags,
 }: {
-    DumpsterCategories: ModelStatic<Model<DumpsterCategoryAttributes, DumpsterCategoryCreationAttributes>>;
+    DumpsterCategories: ModelStatic<
+        Model<DumpsterCategoryAttributes, DumpsterCategoryCreationAttributes>
+    >;
+    Dumpsters: ModelStatic<
+        Model<DumpsterAttributes, DumpsterCreationAttributes>
+    >;
     Tags: ModelStatic<Model<TagAttributes, TagCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
-    Categories.hasMany(Tags, { foreignKey: "dumpsterTypeID"});
-    Categories.hasMany(DumpsterCategories, { foreignKey: "dumpsterTypeID"});
+    Categories.hasMany(Tags, { foreignKey: "dumpsterTypeID" });
+    // Categories.hasMany(DumpsterCategories, { foreignKey: "dumpsterTypeID" });
+    Categories.belongsToMany(Dumpsters, {
+        // @ts-ignore TODO this is just dumb. typeof Model should be f-ing valid. god.
+        through: DumpsterCategories,
+        foreignKey: "categoryID",
+    });
 }

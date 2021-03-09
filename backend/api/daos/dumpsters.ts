@@ -23,6 +23,8 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     emptyingSchedule: dumpster.emptyingSchedule,
     // @ts-ignore
     rating: dumpster.dataValues.rating || 2.5, // Default to average
+    // @ts-ignore
+    categories: dumpster.Categories && dumpster.Categories.map(c => c.name),
 });
 
 // The type is (string | ProjectionAlias)[], but I cannot find the definition of ProjectionAlias
@@ -57,6 +59,7 @@ const dumpsterAttributes: (string | any)[] = [
 export default function ({
     DumpsterPositions,
     Dumpsters,
+    Categories,
     DumpsterTypes,
     StoreTypes,
     sequelize,
@@ -74,6 +77,12 @@ export default function ({
         getAll: ({ latitude, longitude, radius }: PositionParams) =>
             Dumpsters.findAll({
                 attributes: dumpsterAttributes,
+                include: [
+                    {
+                        // @ts-ignore
+                        model: Categories,
+                    },
+                ],
                 where: literal(
                     "Dumpsters.revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)",
                 ),

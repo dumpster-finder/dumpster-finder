@@ -1,8 +1,14 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { DumpsterTypeAttributes, DumpsterTypeCreationAttributes } from "./dumpsterTypes";
+import {
+    DumpsterTypeAttributes,
+    DumpsterTypeCreationAttributes,
+} from "./dumpsterTypes";
 import { StoreTypeAttributes, StoreTypeCreationAttributes } from "./storeTypes";
-import { DumpsterPositionAttributes, DumpsterPositionCreationAttributes } from "./DumpsterPositions";
-
+import {
+    DumpsterPositionAttributes,
+    DumpsterPositionCreationAttributes,
+} from "./DumpsterPositions";
+import { Categories } from "./Categories";
 
 export interface DumpsterAttributes {
     revisionID: number;
@@ -21,7 +27,10 @@ export interface DumpsterAttributes {
 }
 
 export interface DumpsterCreationAttributes
-    extends Optional<DumpsterAttributes, "revisionID" | "dateAdded" | "dateUpdated"> {}
+    extends Optional<
+        DumpsterAttributes,
+        "revisionID" | "dateAdded" | "dateUpdated"
+    > {}
 
 class Dumpsters
     extends Model<DumpsterAttributes, DumpsterCreationAttributes>
@@ -54,7 +63,7 @@ export function init(sequelize: Sequelize) {
                 type: DataTypes.INTEGER.UNSIGNED,
             },
             position: {
-                type: DataTypes.GEOMETRY('POINT'),
+                type: DataTypes.GEOMETRY("POINT"),
                 allowNull: false,
             },
             name: {
@@ -65,12 +74,12 @@ export function init(sequelize: Sequelize) {
             dateAdded: {
                 type: DataTypes.DATE,
                 allowNull: false,
-                defaultValue: Sequelize.fn('now'),
+                defaultValue: Sequelize.fn("now"),
             },
             dateUpdated: {
                 type: DataTypes.DATE,
                 allowNull: false,
-                defaultValue: Sequelize.fn('now'),
+                defaultValue: Sequelize.fn("now"),
             },
             dumpsterTypeID: {
                 type: DataTypes.INTEGER.UNSIGNED,
@@ -113,21 +122,28 @@ export function init(sequelize: Sequelize) {
 export function associate({
     DumpsterTypes,
     StoreTypes,
-                              DumpsterCategories,
-                              DumpsterPositions,
-
+    DumpsterCategories,
+    DumpsterPositions,
 }: {
-    DumpsterTypes: ModelStatic<Model<DumpsterTypeAttributes, DumpsterTypeCreationAttributes>>;
-    StoreTypes: ModelStatic<Model<StoreTypeAttributes, StoreTypeCreationAttributes>>;
-    DumpsterPositions: ModelStatic<Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>>;
+    DumpsterTypes: ModelStatic<
+        Model<DumpsterTypeAttributes, DumpsterTypeCreationAttributes>
+    >;
+    StoreTypes: ModelStatic<
+        Model<StoreTypeAttributes, StoreTypeCreationAttributes>
+    >;
+    DumpsterPositions: ModelStatic<
+        Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>
+    >;
     DumpsterCategories: ModelStatic<Model<any, any>>;
 }) {
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
-    Dumpsters.hasMany(DumpsterPositions, { foreignKey: "revisionID"});
-    Dumpsters.hasMany(DumpsterCategories, { foreignKey: "revisionID"});
-    Dumpsters.hasMany(DumpsterPositions, { foreignKey: "revisionID"});
-
-
+    Dumpsters.hasMany(DumpsterPositions, { foreignKey: "revisionID" });
+    Dumpsters.belongsToMany(Categories, {
+        // @ts-ignore
+        through: DumpsterCategories,
+        foreignKey: "revisionID",
+    });
+    Dumpsters.hasMany(DumpsterPositions, { foreignKey: "revisionID" });
 }

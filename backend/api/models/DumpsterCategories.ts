@@ -1,8 +1,6 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
 import { CategoryAttributes, CategoryCreationAttributes } from "./Categories";
-import { DumpsterPositionAttributes, DumpsterPositionCreationAttributes } from "./DumpsterPositions";
-
 
 export interface DumpsterCategoryAttributes {
     dumpsterID: number;
@@ -15,7 +13,10 @@ export interface DumpsterCategoryCreationAttributes
     extends Optional<DumpsterCategoryAttributes, "dumpsterID"> {}
 
 export class DumpsterCategories
-    extends Model<DumpsterCategoryAttributes, DumpsterCategoryCreationAttributes>
+    extends Model<
+        DumpsterCategoryAttributes,
+        DumpsterCategoryCreationAttributes
+    >
     implements DumpsterCategoryAttributes {
     public dumpsterID!: number;
     public revisionID!: number;
@@ -45,8 +46,8 @@ export function init(sequelize: Sequelize) {
             dateAdded: {
                 type: DataTypes.DATE,
                 allowNull: false,
-                defaultValue: Sequelize.fn('now'),
-            }
+                defaultValue: Sequelize.fn("now"),
+            },
         },
         {
             sequelize,
@@ -58,13 +59,19 @@ export function init(sequelize: Sequelize) {
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              Dumpsters,
     Categories,
-    DumpsterPositions,
+    DumpsterCategories,
+    Dumpsters,
 }: {
-    Dumpsters: ModelStatic<Model<DumpsterAttributes, DumpsterCreationAttributes>>;
-    DumpsterPositions: ModelStatic<Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>>;
-    Categories: ModelStatic<Model<CategoryAttributes, CategoryCreationAttributes>>;
+    Dumpsters: ModelStatic<
+        Model<DumpsterAttributes, DumpsterCreationAttributes>
+    >;
+    DumpsterCategories: ModelStatic<
+        Model<DumpsterCategoryAttributes, DumpsterCategoryCreationAttributes>
+    >;
+    Categories: ModelStatic<
+        Model<CategoryAttributes, CategoryCreationAttributes>
+    >;
 }) {
     // do associations like
     // Thing.hasMany()
