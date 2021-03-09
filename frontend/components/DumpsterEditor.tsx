@@ -6,10 +6,10 @@ import Dropdown from "./Dropdown";
 import GroupSelect from "./GroupSelect";
 import {
     LockIcon,
-    PendingIcon,
+    PendingButtonIcon,
     PositiveIcon,
-    SaveIcon,
-    TrashIcon,
+    SaveButtonIcon,
+    TrashInputIcon,
 } from "./Icons";
 import ButtonGroupDisplay from "./ButtonGroupDisplay";
 import Rating from "./Rating";
@@ -79,18 +79,21 @@ export default function DumpsterEditor({
             contentContainerStyle={styles.container}
         >
             <Input
+                style={styles.inputField}
                 label="Store name"
                 placeholder="e.g. Tesco in East London"
                 onChangeText={text => setName(text)}
                 value={name}
             />
-            <View style={styles.row}>
+            <View style={styles.inputField}>
                 <Dropdown
                     value={dumpsterTypeIndex}
                     label="Dumpster type"
                     values={dumpsterTypes}
                     onSelect={setDumpsterTypeIndex}
                 />
+            </View>
+            <View style={styles.inputField}>
                 <Dropdown
                     value={storeTypeIndex}
                     label="Store type"
@@ -98,7 +101,7 @@ export default function DumpsterEditor({
                     onSelect={setStoreTypeIndex}
                 />
             </View>
-            <View style={styles.row}>
+            <View style={styles.inputField}>
                 <GroupSelect
                     sValue={multiSelectedIndex}
                     label="Categories"
@@ -106,6 +109,17 @@ export default function DumpsterEditor({
                     onSelect={setMultiSelectedIndex}
                 />
             </View>
+
+            <View style={styles.inputField}>
+                <Input
+                    accessoryLeft={TrashInputIcon}
+                    label="Emptying schedule"
+                    placeholder="e.g. First Monday in the month"
+                    onChangeText={text => setEmptyingSchedule(text)}
+                    value={emptyingSchedule}
+                />
+            </View>
+
             <View style={styles.row}>
                 <ButtonGroupDisplay
                     value={storeViewIndex}
@@ -126,18 +140,6 @@ export default function DumpsterEditor({
                 />
             </View>
 
-            <View style={styles.row}>
-                <View style={styles.icon}>
-                    <TrashIcon size="medium" />
-                </View>
-                <Input
-                    style={styles.nextToIcon}
-                    label="Emptying schedule"
-                    placeholder="e.g. First Monday in the month"
-                    onChangeText={text => setEmptyingSchedule(text)}
-                    value={emptyingSchedule}
-                />
-            </View>
             <Text category="s2" appearance="hint">
                 Cleanliness
             </Text>
@@ -154,7 +156,7 @@ export default function DumpsterEditor({
                 status="primary"
                 disabled={pending}
                 onPress={handleSubmit}
-                accessoryLeft={pending ? PendingIcon : SaveIcon}
+                accessoryLeft={pending ? PendingButtonIcon : SaveButtonIcon}
             >
                 {mode === "create" ? "Create dumpster" : "Save dumpster"}
             </Button>
@@ -179,7 +181,7 @@ export default function DumpsterEditor({
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: "10%",
+        paddingHorizontal: "5%",
         paddingVertical: 12,
     },
     fullWidth: {
@@ -193,6 +195,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flex: 1,
         flexDirection: "row",
+    },
+    inputField: {
+        width: "100%",
+        paddingVertical: 4,
     },
     nextToIcon: {
         width: "90%",
