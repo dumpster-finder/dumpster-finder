@@ -10,7 +10,7 @@ export interface DumpsterCategoryAttributes {
 }
 
 export interface DumpsterCategoryCreationAttributes
-    extends Optional<DumpsterCategoryAttributes, "dumpsterID"> {}
+    extends Optional<DumpsterCategoryAttributes, "dumpsterID" | "dateAdded"> {}
 
 export class DumpsterCategories
     extends Model<
@@ -60,19 +60,17 @@ export function init(sequelize: Sequelize) {
 // The type is not defined yet, so use a substitute
 export function associate({
     Categories,
-    DumpsterCategories,
     Dumpsters,
 }: {
     Dumpsters: ModelStatic<
         Model<DumpsterAttributes, DumpsterCreationAttributes>
     >;
-    DumpsterCategories: ModelStatic<
-        Model<DumpsterCategoryAttributes, DumpsterCategoryCreationAttributes>
-    >;
     Categories: ModelStatic<
         Model<CategoryAttributes, CategoryCreationAttributes>
     >;
 }) {
+    // @ts-ignore
+    DumpsterCategories.belongsTo(Categories, { foreignKey: "categoryID" });
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object

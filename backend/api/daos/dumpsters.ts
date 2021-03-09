@@ -23,8 +23,9 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     emptyingSchedule: dumpster.emptyingSchedule,
     // @ts-ignore
     rating: dumpster.dataValues.rating || 2.5, // Default to average
-    // @ts-ignore
-    categories: dumpster.Categories && dumpster.Categories.map(c => c.name),
+    // @ts-ignore TODO make a decision: is this how it should be done?
+    categories: dumpster.categories && dumpster.categories.map(c => c.name),
+    info: dumpster.info,
 });
 
 // The type is (string | ProjectionAlias)[], but I cannot find the definition of ProjectionAlias
@@ -36,6 +37,7 @@ const dumpsterAttributes: (string | any)[] = [
     "positiveStoreViewOnDiving",
     "emptyingSchedule",
     "cleanliness",
+    "info",
     [
         literal(
             "(SELECT t.name FROM DumpsterTypes as t WHERE t.dumpsterTypeID = Dumpsters.dumpsterTypeID)",
@@ -59,6 +61,7 @@ const dumpsterAttributes: (string | any)[] = [
 export default function ({
     DumpsterPositions,
     Dumpsters,
+    DumpsterCategories,
     Categories,
     DumpsterTypes,
     StoreTypes,
@@ -81,6 +84,7 @@ export default function ({
                     {
                         // @ts-ignore
                         model: Categories,
+                        as: "categories",
                     },
                 ],
                 where: literal(
@@ -99,15 +103,19 @@ export default function ({
         getOne: (dumpsterID: number) =>
             Dumpsters.findOne({
                 attributes: dumpsterAttributes,
+                include: [
+                    {
+                        // @ts-ignore
+                        model: Categories,
+                        as: "categories",
+                    },
+                ],
                 where: literal(
                     `dumpsterID = ${sequelize.escape(
                         dumpsterID,
                     )} AND revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)`,
                 ),
             }).then(dumpster => dumpster && toDumpster(dumpster)),
-
-        getAllByDumpsterType: (id: number) =>
-            Dumpsters.findAll({ where: { dumpsterTypeID: id } }),
 
         /**
          * Add a dumpster to the database table.
@@ -165,12 +173,29 @@ export default function ({
                     { transaction: t },
                 );
 
+                // @ts-ignore
+                const revisionID = data.dataValues.revisionID;
+
                 await DumpsterPositions.update(
                     {
-                        // @ts-ignore
-                        revisionID: data.dataValues.revisionID,
+                        revisionID,
                     },
                     { where: { dumpsterID }, transaction: t },
+                );
+
+                // And add the categories!
+                await DumpsterCategories.bulkCreate(
+                    // @ts-ignore
+                    dumpster.categories.map(name => ({
+                        categoryID: literal(
+                            `(SELECT c.categoryID FROM Categories AS c WHERE c.name = ${sequelize.escape(
+                                name,
+                            )})`,
+                        ),
+                        dumpsterID: dumpsterID,
+                        revisionID,
+                    })),
+                    { transaction: t },
                 );
 
                 return {
@@ -178,6 +203,7 @@ export default function ({
                     // Override these values – they should be valid
                     storeType: dumpster.storeType,
                     dumpsterType: dumpster.dumpsterType,
+                    categories: dumpster.categories,
                 };
             });
         },
@@ -221,6 +247,12 @@ export default function ({
                 const data = await Dumpsters.create(
                     {
                         ...dumpster,
+                        // @ts-ignore TODO this is dumb
+                        categories: undefined,
+                        // categories: dumpster.categories.map(c => ({
+                        //     @ts-ignore
+                        // name: c.name,
+                        // })),
                         dumpsterTypeID,
                         storeTypeID,
                         userID: "temp",
@@ -228,14 +260,25 @@ export default function ({
                         //      for now I'd say it SHOULD NOT
                         //      (especially since this implementation will break the link to the DumpsterPosition)
                     },
-                    { transaction: t },
+                    {
+                        // include: [
+                        //     {
+                        //         @ts-ignore
+                        // model: Categories,
+                        // as: "categories",
+                        // },
+                        // ],
+                        transaction: t,
+                    },
                 );
+
+                // @ts-ignore
+                const revisionID = data.dataValues.revisionID;
 
                 // Then update the active revisionID
                 await DumpsterPositions.update(
                     {
-                        // @ts-ignore
-                        revisionID: data.dataValues.revisionID,
+                        revisionID,
                     },
                     {
                         where: { dumpsterID: dumpster.dumpsterID },
@@ -243,11 +286,27 @@ export default function ({
                     },
                 );
 
+                // And update the categories!
+                await DumpsterCategories.bulkCreate(
+                    // @ts-ignore
+                    dumpster.categories.map(name => ({
+                        categoryID: literal(
+                            `(SELECT c.categoryID FROM Categories AS c WHERE c.name = ${sequelize.escape(
+                                name,
+                            )})`,
+                        ),
+                        dumpsterID: dumpster.dumpsterID,
+                        revisionID,
+                    })),
+                    { transaction: t },
+                );
+
                 return {
                     ...toDumpster(data),
                     // Override these values – they should be valid
                     storeType: dumpster.storeType,
                     dumpsterType: dumpster.dumpsterType,
+                    categories: dumpster.categories,
                 };
             });
         },

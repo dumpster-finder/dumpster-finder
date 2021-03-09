@@ -50,9 +50,10 @@ CREATE TABLE Dumpsters (
     -- Attributes:
     locked BOOLEAN NOT NULL,
     positiveStoreViewOnDiving BOOLEAN, -- NULL if unknown (triple boolean hell)
-    emptyingSchedule VARCHAR(128), -- should this be nullable?
+    emptyingSchedule VARCHAR(128) NOT NULL, -- should this be nullable?
     cleanliness TINYINT UNSIGNED NOT NULL,
     userID VARCHAR(256),
+    info TEXT NOT NULL,
 
     -- Position index!
     SPATIAL INDEX (position),

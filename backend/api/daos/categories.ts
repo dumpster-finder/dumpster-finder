@@ -1,10 +1,12 @@
 import { MyModels } from "../models";
 import { CategoryAttributes } from "../models/Categories";
+import { literal } from "sequelize";
 
 export default function ({
     Categories,
     Dumpsters,
     DumpsterPositions,
+    DumpsterCategories,
     sequelize,
 }: MyModels) {
     return {
@@ -35,6 +37,31 @@ export default function ({
 
                 return data.map(
                     (category: CategoryAttributes) => category.name,
+                );
+            });
+        },
+
+        updatePerDumpster: async (dumpsterID: number, categories: string[]) => {
+            return await sequelize.transaction(async t => {
+                const revisionID = (
+                    await DumpsterPositions.findOne({
+                        where: { dumpsterID },
+                        transaction: t,
+                    })
+                )?.revisionID;
+                return await DumpsterCategories.bulkCreate(
+                    // @ts-ignore
+                    categories.map(name => ({
+                        categoryID: literal(
+                            `(SELECT c.categoryID FROM Categories AS c WHERE c.name = ${sequelize.escape(
+                                name,
+                            )})`,
+                        ),
+                        dumpsterID,
+                        revisionID,
+                        name,
+                    })),
+                    { transaction: t },
                 );
             });
         },

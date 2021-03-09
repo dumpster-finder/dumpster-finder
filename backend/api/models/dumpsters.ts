@@ -21,9 +21,10 @@ export interface DumpsterAttributes {
     storeTypeID: number;
     locked: boolean;
     positiveStoreViewOnDiving: boolean | null;
-    emptyingSchedule: string | null;
+    emptyingSchedule: string;
     cleanliness: number;
     userID: string | null;
+    info: string;
 }
 
 export interface DumpsterCreationAttributes
@@ -45,9 +46,10 @@ class Dumpsters
     storeTypeID!: number;
     locked!: boolean;
     positiveStoreViewOnDiving!: boolean | null;
-    emptyingSchedule!: string | null;
+    emptyingSchedule!: string;
     cleanliness!: number;
     userID!: string | null;
+    info!: string;
 }
 
 // Inject Sequelize
@@ -107,14 +109,15 @@ export function init(sequelize: Sequelize) {
             userID: {
                 type: DataTypes.STRING,
             },
+            info: {
+                type: DataTypes.TEXT,
+            },
         },
         {
             sequelize,
             tableName: "Dumpsters",
         },
     );
-    // do associations like
-    // Thing.hasMany()
     return Dumpsters;
 }
 
@@ -141,9 +144,9 @@ export function associate({
     // using the supplied Models object
     Dumpsters.hasMany(DumpsterPositions, { foreignKey: "revisionID" });
     Dumpsters.belongsToMany(Categories, {
+        as: "categories",
         // @ts-ignore
         through: DumpsterCategories,
         foreignKey: "revisionID",
     });
-    Dumpsters.hasMany(DumpsterPositions, { foreignKey: "revisionID" });
 }

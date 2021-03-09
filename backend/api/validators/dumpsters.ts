@@ -25,10 +25,12 @@ const baseDumpster = Joi.object().keys({
     name: Joi.string().required(),
     dumpsterType: Joi.string().required(),
     storeType: Joi.string().required(),
+    categories: Joi.array().has(Joi.string()),
     locked: Joi.boolean().required(),
     positiveStoreViewOnDiving: Joi.boolean().allow(null),
     emptyingSchedule: Joi.string().required(),
     cleanliness: Joi.number().min(1).max(5).required(),
+    info: Joi.string(),
 });
 
 const dumpsterIDParam = Joi.object({

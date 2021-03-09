@@ -60,8 +60,11 @@ export function associate({
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
-    Categories.hasMany(Tags, { foreignKey: "dumpsterTypeID" });
-    // Categories.hasMany(DumpsterCategories, { foreignKey: "dumpsterTypeID" });
+    // Categories.hasMany(Tags, { foreignKey: "dumpsterTypeID" });
+    Categories.hasMany(DumpsterCategories, {
+        as: "dumpsterCategories",
+        foreignKey: "categoryID",
+    });
     Categories.belongsToMany(Dumpsters, {
         // @ts-ignore TODO this is just dumb. typeof Model should be f-ing valid. god.
         through: DumpsterCategories,
