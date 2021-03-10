@@ -9,6 +9,7 @@ export default function PhotoDisplay({ photoList }: { photoList: string[] }) {
     return (
         <View style={styles.view}>
             <Button
+                style={{ width: "15%" }}
                 appearance="ghost"
                 accessoryLeft={ArrowLeftIcon}
                 onPress={() => backArrow()}
@@ -21,6 +22,7 @@ export default function PhotoDisplay({ photoList }: { photoList: string[] }) {
                 }}
             />
             <Button
+                style={{ width: "15%" }}
                 appearance="ghost"
                 accessoryLeft={ArrowRightIcon}
                 onPress={() => forwardArrow()}

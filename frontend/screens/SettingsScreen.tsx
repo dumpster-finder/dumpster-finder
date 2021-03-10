@@ -85,20 +85,21 @@ export default function SettingsScreen({
                     onClick={newValue => setShowNick(newValue)}
                 />
                 {showNick && (
-                    <View style={styles.rowBorder}>
+                    <View style={styles.columnBorder}>
                         <Input
-                            style={{ width: "70%" }}
+                            style={{ width: "90%" }}
                             size="large"
                             placeholder={"Nickname"}
                             value={nicknameFieldText}
                             onChangeText={s => setNicknameFieldText(s)}
                         />
                         <Button
+                            style={{ width: "50%", marginTop: 5 }}
                             onPress={() =>
                                 dispatch(setNickname(nicknameFieldText))
                             }
                         >
-                            Set nickname
+                            Save nickname
                         </Button>
                     </View>
                 )}
@@ -109,7 +110,7 @@ export default function SettingsScreen({
                     onClick={newValue => setShowDist(newValue)}
                 />
                 {showDist && (
-                    <View style={{ padding: 10, alignItems: "center" }}>
+                    <View style={{ width: "98%", alignItems: "center" }}>
                         <ButtonGroupDisplay
                             value={radiusDistance}
                             values={distances}
@@ -184,7 +185,14 @@ const styles = StyleSheet.create({
     rowBorder: {
         flex: 1,
         flexDirection: "row",
-        width: "95%",
+        width: "98%",
+    },
+    columnBorder: {
+        flex: 1,
+        flexDirection: "column",
+        width: "98%",
+        alignItems: "center",
+        marginVertical: 5,
     },
 
     dropdownView: {

@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     tab: {
         width: "100%",
         height: "90%",
+        paddingVertical: "10%",
     },
     infoDisplay: {
         paddingVertical: 100,

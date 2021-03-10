@@ -36,20 +36,20 @@ export default function DumpsterDropdownCard({
                     <View style={styles.infoRow}>
                         <Text>Dumpster type: {dumpster.dumpsterType}</Text>
                     </View>
-                    <View style={styles.infoRow}>
-                        <View style={styles.threeRowStart}>
+                    <View style={styles.box}>
+                        <View style={styles.boxRow}>
                             <StarIcon size="small" />
                             <Text style={styles.infoText}>
                                 Rating: {dumpster.rating.toFixed(1)}
                             </Text>
                         </View>
-                        <View style={styles.threeRowCenter}>
+                        <View style={styles.boxRow}>
                             <BrushIcon size="small" />
                             <Text style={styles.infoText}>
                                 Cleanliness: {dumpster.cleanliness}
                             </Text>
                         </View>
-                        <View style={styles.threeRowEnd}>
+                        <View style={styles.boxRow}>
                             {dumpster.locked ? (
                                 <>
                                     <LockIcon size="small" />
@@ -152,5 +152,16 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         paddingVertical: 5,
+    },
+    box: {
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        paddingHorizontal: 5,
+    },
+    boxRow: {
+        flexDirection: "row",
+        paddingHorizontal: 5,
     },
 });
