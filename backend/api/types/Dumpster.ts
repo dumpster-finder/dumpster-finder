@@ -11,6 +11,7 @@ export default interface Dumpster {
     rating: number;
     dumpsterType: string;
     storeType: string;
+    // TODO reconsider!
     categories: string[];
     info: string;
 }

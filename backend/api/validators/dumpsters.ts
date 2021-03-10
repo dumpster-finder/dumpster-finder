@@ -15,7 +15,7 @@ export const locationParams = {
     query: Joi.object({
         latitude,
         longitude,
-        radius: Joi.number(),
+        radius: Joi.number().optional(),
     }),
 };
 
@@ -25,12 +25,13 @@ const baseDumpster = Joi.object().keys({
     name: Joi.string().required(),
     dumpsterType: Joi.string().required(),
     storeType: Joi.string().required(),
-    categories: Joi.array().has(Joi.string()),
+    // TODO this is just a temporary solution
+    categories: Joi.array().has(Joi.string()).optional(),
     locked: Joi.boolean().required(),
-    positiveStoreViewOnDiving: Joi.boolean().allow(null),
+    positiveStoreViewOnDiving: Joi.boolean().allow(null).required(),
     emptyingSchedule: Joi.string().required(),
     cleanliness: Joi.number().min(1).max(5).required(),
-    info: Joi.string(),
+    info: Joi.string().required(),
 });
 
 const dumpsterIDParam = Joi.object({

@@ -183,20 +183,22 @@ export default function ({
                     { where: { dumpsterID }, transaction: t },
                 );
 
-                // And add the categories!
-                await DumpsterCategories.bulkCreate(
-                    // @ts-ignore
-                    dumpster.categories.map(name => ({
-                        categoryID: literal(
-                            `(SELECT c.categoryID FROM Categories AS c WHERE c.name = ${sequelize.escape(
-                                name,
-                            )})`,
-                        ),
-                        dumpsterID: dumpsterID,
-                        revisionID,
-                    })),
-                    { transaction: t },
-                );
+                if (dumpster.categories) {
+                    // And add the categories!
+                    await DumpsterCategories.bulkCreate(
+                        // @ts-ignore
+                        dumpster.categories.map(name => ({
+                            categoryID: literal(
+                                `(SELECT c.categoryID FROM Categories AS c WHERE c.name = ${sequelize.escape(
+                                    name,
+                                )})`,
+                            ),
+                            dumpsterID: dumpsterID,
+                            revisionID,
+                        })),
+                        { transaction: t },
+                    );
+                }
 
                 return {
                     ...toDumpster(data),
@@ -249,10 +251,6 @@ export default function ({
                         ...dumpster,
                         // @ts-ignore TODO this is dumb
                         categories: undefined,
-                        // categories: dumpster.categories.map(c => ({
-                        //     @ts-ignore
-                        // name: c.name,
-                        // })),
                         dumpsterTypeID,
                         storeTypeID,
                         userID: "temp",
@@ -261,13 +259,6 @@ export default function ({
                         //      (especially since this implementation will break the link to the DumpsterPosition)
                     },
                     {
-                        // include: [
-                        //     {
-                        //         @ts-ignore
-                        // model: Categories,
-                        // as: "categories",
-                        // },
-                        // ],
                         transaction: t,
                     },
                 );
@@ -286,20 +277,22 @@ export default function ({
                     },
                 );
 
-                // And update the categories!
-                await DumpsterCategories.bulkCreate(
-                    // @ts-ignore
-                    dumpster.categories.map(name => ({
-                        categoryID: literal(
-                            `(SELECT c.categoryID FROM Categories AS c WHERE c.name = ${sequelize.escape(
-                                name,
-                            )})`,
-                        ),
-                        dumpsterID: dumpster.dumpsterID,
-                        revisionID,
-                    })),
-                    { transaction: t },
-                );
+                if (dumpster.categories) {
+                    // And update the categories!
+                    await DumpsterCategories.bulkCreate(
+                        // @ts-ignore
+                        dumpster.categories.map(name => ({
+                            categoryID: literal(
+                                `(SELECT c.categoryID FROM Categories AS c WHERE c.name = ${sequelize.escape(
+                                    name,
+                                )})`,
+                            ),
+                            dumpsterID: dumpster.dumpsterID,
+                            revisionID,
+                        })),
+                        { transaction: t },
+                    );
+                }
 
                 return {
                     ...toDumpster(data),
