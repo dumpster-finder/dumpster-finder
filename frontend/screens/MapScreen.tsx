@@ -26,8 +26,6 @@ export default function MapScreen({
     const dispatch = useAppDispatch();
     const position = useSelector(positionSelector);
     const dumpsters = useSelector(allDumpstersSelector);
-    const first = useSelector(firstTimeSelector);
-    console.log(first);
 
     useEffect(() => {
         // this is here for testing purposes
