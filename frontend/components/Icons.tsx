@@ -106,8 +106,8 @@ export const FilterIcon = (props: IconProps) => (
     <BaseIcon {...props} name="funnel" />
 );
 
-export const SearchIcon = (props: IconProps) => (
-    <BaseIcon {...props} name="search" />
+export const SearchInputIcon = (props: IconProps) => (
+    <Icon {...props} name="search" />
 );
 
 export const FlagIcon = (props: IconProps) => (

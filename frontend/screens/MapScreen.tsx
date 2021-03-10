@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
-import MapView, { UrlTile } from "react-native-maps";
+import MapView, { Region, UrlTile } from "react-native-maps";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterMarker from "../components/DumpsterMarker";
 import { useAppDispatch } from "../redux/store";
@@ -9,12 +9,8 @@ import {
     setCurrentDumpster,
 } from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
-import {
-    positionSelector,
-    setPosition,
-    firstTimeSelector,
-} from "../redux/slices/configSlice";
-import { useEffect } from "react";
+import { positionSelector } from "../redux/slices/configSlice";
+import { useEffect, useState } from "react";
 import SearchHeader from "../components/SearchHeader";
 import { Layout } from "@ui-kitten/components";
 
@@ -25,20 +21,17 @@ export default function MapScreen({
 }) {
     const dispatch = useAppDispatch();
     const position = useSelector(positionSelector);
+    const [region, setRegion] = useState<Region>({
+        longitude: 0,
+        latitude: 0,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    });
     const dumpsters = useSelector(allDumpstersSelector);
-    const first = useSelector(firstTimeSelector);
-    console.log(first);
 
     useEffect(() => {
-        // this is here for testing purposes
-        // (since the initialState originally had position (0, 0))
-        dispatch(
-            setPosition({
-                latitude: 63.41775,
-                longitude: 10.404344,
-            }),
-        );
-    }, []);
+        setRegion({ ...region, ...position });
+    }, [position]);
 
     return (
         <Layout style={styles.container}>
@@ -56,6 +49,8 @@ export default function MapScreen({
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
+                region={region}
+                onRegionChangeComplete={setRegion}
                 style={{
                     flex: 9,
                     width: "100%",

@@ -31,11 +31,18 @@ export default class DumpsterTypeService {
             .then(({ data: { features } }: { data: { features: APIType[] } }) =>
                 features.map(
                     ({
-                        properties: { name, city },
+                        properties: { name, city, state, country },
                         geometry: {
-                            coordinates: [latitude, longitude],
+                            coordinates: [longitude, latitude],
                         },
-                    }) => ({ name, city, position: { latitude, longitude } }),
+                    }) =>
+                        new Place({
+                            name,
+                            city,
+                            state,
+                            country,
+                            position: { latitude, longitude },
+                        }),
                 ),
             );
     }
