@@ -9,7 +9,10 @@ import {
     setCurrentDumpster,
 } from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
-import { positionSelector } from "../redux/slices/configSlice";
+import {
+    firstTimeSelector,
+    positionSelector,
+} from "../redux/slices/configSlice";
 import { useEffect, useState } from "react";
 import SearchHeader from "../components/SearchHeader";
 import { Layout } from "@ui-kitten/components";
@@ -21,16 +24,16 @@ export default function MapScreen({
 }) {
     const dispatch = useAppDispatch();
     const position = useSelector(positionSelector);
+    const firstTime = useSelector(firstTimeSelector);
     const [region, setRegion] = useState<Region>({
-        longitude: 0,
-        latitude: 0,
+        ...position,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     });
     const dumpsters = useSelector(allDumpstersSelector);
 
     useEffect(() => {
-        setRegion({ ...region, ...position });
+        if (!firstTime) setRegion({ ...region, ...position });
     }, [position]);
 
     return (
@@ -50,7 +53,11 @@ export default function MapScreen({
                     longitudeDelta: 0.0421,
                 }}
                 region={region}
-                onRegionChangeComplete={setRegion}
+                onRegionChangeComplete={
+                    r =>
+                        firstTime ||
+                        setRegion(r) /* the check prevents looping */
+                }
                 style={{
                     flex: 9,
                     width: "100%",

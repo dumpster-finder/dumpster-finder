@@ -46,7 +46,6 @@ export default {
                 },
             },
             IntroScreen: "intro",
-            IntroPositionScreen: "introPos",
             NotFound: "*",
         },
     },
