@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import { PlusIcon, FilterIcon, SearchIcon, RefreshIcon } from "./Icons";
-import { Autocomplete, AutocompleteItem, Button } from "@ui-kitten/components";
+import { Autocomplete, Button } from "@ui-kitten/components";
 import { useState } from "react";
 import { fetchNearbyDumpsters } from "../redux/slices/dumpsterSlice";
 import { useAppDispatch } from "../redux/store";
@@ -21,33 +21,28 @@ export default function SearchHeader({
     return (
         <View
             style={{
-                flex: 1,
+                display: "flex",
+                width: "100%",
                 flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "space-evenly",
+                paddingVertical: 5,
             }}
         >
             <Button
-                style={{ width: "10%", margin: 2 }}
                 appearance="ghost"
-                status="danger"
+                size={"medium"}
                 accessoryLeft={PlusIcon}
                 onPress={onPressPlus}
             />
-            <View style={{ width: "70%" }}>
-                <Autocomplete
-                    style={{ width: "100%" }}
-                    placeholder="Place your Text"
-                    accessoryLeft={SearchIcon}
-                    onChangeText={text => setText(text)}
-                    value={text}
-                />
-            </View>
-
+            <Autocomplete
+                placeholder="Place your Text"
+                accessoryLeft={SearchIcon}
+                onChangeText={text => setText(text)}
+                value={text}
+            />
             <Button
-                style={{ width: "10%", margin: 2 }}
                 appearance="ghost"
-                status="danger"
+                size={"medium"}
                 onPress={() => {
                     // TODO remove when tested
                     dispatch(fetchNearbyDumpsters({ position, radius }));
@@ -55,9 +50,8 @@ export default function SearchHeader({
                 accessoryLeft={RefreshIcon}
             />
             <Button
-                style={{ width: "10%", margin: 2 }}
                 appearance="ghost"
-                status="danger"
+                size={"medium"}
                 accessoryLeft={FilterIcon}
             />
         </View>

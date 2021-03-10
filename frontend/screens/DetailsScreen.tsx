@@ -122,7 +122,7 @@ export default function DetailsScreen({
                                 <Text style={styles.infoText}>
                                     Store's view on dumpster diving:{" "}
                                 </Text>
-                                <Text>Negative</Text>
+                                <Text>Neutral</Text>
                             </>
                         ) : (
                             <>
