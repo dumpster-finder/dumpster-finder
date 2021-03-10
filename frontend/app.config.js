@@ -35,6 +35,6 @@ export default {
         favicon: "./assets/images/favicon.png",
     },
     extra: {
-        apiURL: process.env.API_URL
-    }
+        apiURL: process.env.API_URL,
+    },
 };

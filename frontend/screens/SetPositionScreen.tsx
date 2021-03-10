@@ -90,10 +90,8 @@ export default function SetPositionScreen({
     }
 
     async function search(text: string) {
-        console.log("Searching...");
         try {
             setSuggestions(await PlaceService.search(text));
-            console.log("Found some suggestions");
         } catch (e) {
             console.error(e, "Failed to fetch search results");
         }
