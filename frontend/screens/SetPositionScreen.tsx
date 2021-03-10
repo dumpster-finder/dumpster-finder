@@ -17,7 +17,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Text } from "@ui-kitten/components";
 import _ from "lodash";
 import { PlaceService } from "../services";
-import { SearchInputIcon } from "../components/Icons";
+import { SaveButtonIcon, SearchInputIcon } from "../components/Icons";
 
 export default function SetPositionScreen({
     navigation,
@@ -27,7 +27,12 @@ export default function SetPositionScreen({
     const dispatch = useAppDispatch();
     const currentPosition = useSelector(positionSelector);
 
-    const [suggestions, setSuggestions] = useState<Place[]>([]);
+    const [suggestions, setSuggestions] = useState<Place[]>([
+        new Place({
+            position: { latitude: 0, longitude: 0 },
+            name: "", // just to get Kitten to work, an element has to be present in the autocomplete list
+        }),
+    ]);
     const [query, setQuery] = useState("");
     const [place, setPlace] = useState<Place | null>(null);
 
@@ -49,7 +54,6 @@ export default function SetPositionScreen({
                 size="large"
                 onChangeText={handleChange}
                 onSelect={i => setPlace(suggestions[i])}
-                enablesReturnKeyAutomatically
                 style={{ width: "80%" }}
                 accessoryLeft={SearchInputIcon}
             >
@@ -61,15 +65,17 @@ export default function SetPositionScreen({
                     />
                 ))}
             </Autocomplete>
-            <Text>{place ? place.toString() : "nah"}</Text>
+            <Text>{place ? place.toString() : "No position set"}</Text>
             <Text>
                 {place
-                    ? `(${place.position.latitude} ${place.position.longitude})`
-                    : "nah"}
+                    ? `(${place.position.latitude.toFixed(
+                          2,
+                      )}, ${place.position.longitude.toFixed(2)})`
+                    : ""}
             </Text>
             <Button
                 status="primary"
-                accessoryLeft={props => <Icon name="star" {...props} />}
+                accessoryLeft={SaveButtonIcon}
                 onPress={handleSubmit}
                 disabled={!place}
             >
@@ -87,7 +93,7 @@ export default function SetPositionScreen({
         console.log("Searching...");
         try {
             setSuggestions(await PlaceService.search(text));
-            console.log("Found", suggestions.length, "suggestions");
+            console.log("Found some suggestions");
         } catch (e) {
             console.error(e, "Failed to fetch search results");
         }

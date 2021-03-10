@@ -60,6 +60,10 @@ export const TrashInputIcon = (props: IconProps) => (
     <Icon {...props} name="trash" />
 );
 
+export const SearchInputIcon = (props: IconProps) => (
+    <Icon {...props} name="search" />
+);
+
 /* These should not */
 
 export const RefreshIcon = (props: IconProps) => (
@@ -104,10 +108,6 @@ export const PlusIcon = (props: IconProps) => (
 
 export const FilterIcon = (props: IconProps) => (
     <BaseIcon {...props} name="funnel" />
-);
-
-export const SearchInputIcon = (props: IconProps) => (
-    <Icon {...props} name="search" />
 );
 
 export const FlagIcon = (props: IconProps) => (
