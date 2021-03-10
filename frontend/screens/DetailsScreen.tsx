@@ -175,6 +175,7 @@ export default function DetailsScreen({
                             <View style={styles.tagRow}>
                                 {categories.map((category, index) => (
                                     <View
+                                        key={index}
                                         style={{
                                             width: 100 / categoryPrLine + "%",
                                             alignItems: "center",

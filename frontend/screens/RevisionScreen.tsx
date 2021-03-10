@@ -20,6 +20,7 @@ export default function RevisionScreen() {
                 <ScrollView style={styles.scrollView}>
                     {testRevision.map((value, index) => (
                         <DumpsterDropdownCard
+                            key={index}
                             text={dates[index]}
                             dumpster={value}
                             onReset={reset}
