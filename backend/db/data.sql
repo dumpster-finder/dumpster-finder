@@ -27,18 +27,21 @@ INSERT INTO DumpsterPositions(dumpsterID, position, revisionID)
 VALUES
     (1, Point(63.411402, 10.434084), NULL),
     (2, Point(63.434678, 10.412455), NULL),
-    (3, Point(63.412113, 10.440253), NULL);
+    (3, Point(63.412113, 10.440253), NULL),
+    (4, Point(0, 0), NULL);
 
 INSERT INTO Dumpsters(dumpsterID, position, name, dumpsterTypeID, storeTypeID, locked, cleanliness, emptyingSchedule, info)
 VALUES
     (1, Point(63.411402, 10.434084), 'Tore\'s store', 1, 1, FALSE, 5, 'First Tuesday in the month', 'Nothing to be said.'),
     (2, Point(63.434678, 10.412455), 'Jon\'s store', 1, 2, FALSE, 5, 'Every day', 'Just your regular, sleepy dumpster.'),
     (3, Point(12, 14), 'Helenes (wrong) dumpster', 2, 2, FALSE, 5, 'No day', 'If this shows up, something is *very* wrong.'),
-    (3, Point(63.412113, 10.440253), 'Helen\'s store', 2, 2, TRUE, 5, 'Mondays', 'This is the correct revision. Phew.');
+    (3, Point(63.412113, 10.440253), 'Helen\'s store', 2, 2, TRUE, 5, 'Mondays', 'This is the correct revision. Phew.'),
+    (4, Point(0, 0), 'Far away store', 2, 1, FALSE, 1, 'Never', 'Is too far away to matter'); -- adjust ID if needed
 
 UPDATE DumpsterPositions SET revisionID = 1 WHERE dumpsterID = 1;
 UPDATE DumpsterPositions SET revisionID = 2 WHERE dumpsterID = 2;
 UPDATE DumpsterPositions SET revisionID = 4 WHERE dumpsterID = 3;
+UPDATE DumpsterPositions SET revisionID = 5 WHERE dumpsterID = 4;
 
 INSERT INTO DumpsterCategories(dumpsterID, revisionID, categoryID)
 VALUES
