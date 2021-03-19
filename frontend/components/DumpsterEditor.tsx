@@ -67,10 +67,11 @@ export default function DumpsterEditor({
             ? 0
             : 2,
     );
-    const [multiSelectedIndex, setMultiSelectedIndex] = React.useState([
+    const [categoryIndex, setCategoryIndex] = useState([
         new IndexPath(0, 0),
         new IndexPath(1, 1),
     ]);
+    const [info, setInfo] = useState(dumpster.info);
 
     return (
         <ScrollView
@@ -103,10 +104,10 @@ export default function DumpsterEditor({
             </View>
             <View style={styles.inputField}>
                 <GroupSelect
-                    sValue={multiSelectedIndex}
+                    sValue={categoryIndex}
                     label="Categories"
                     values={categoryData}
-                    onSelect={setMultiSelectedIndex}
+                    onSelect={setCategoryIndex}
                 />
             </View>
 
@@ -151,6 +152,22 @@ export default function DumpsterEditor({
                 />
             </View>
 
+            <View style={styles.inputField}>
+                <Input
+                    label="Extra info"
+                    placeholder="(anything that doesn't fit elsewhere)"
+                    multiline
+                    size="large"
+                    textStyle={{
+                        minHeight: 64,
+                        /* Yes, kitten is so shitty that you have to *state* that the text should start at the top...*/
+                        textAlignVertical: "top",
+                    }}
+                    onChangeText={setInfo}
+                    value={info}
+                />
+            </View>
+
             {/* TODO picture stuff */}
             <Button
                 status="primary"
@@ -175,6 +192,7 @@ export default function DumpsterEditor({
             positiveStoreViewOnDiving:
                 storeViewIndex === 1 ? null : storeViewIndex === 2,
             locked,
+            info,
         });
     }
 }

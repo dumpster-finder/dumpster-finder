@@ -25,6 +25,7 @@ const templateDumpster: Dumpster = {
     positiveStoreViewOnDiving: null,
     locked: false,
     rating: 2.5,
+    info: "",
 };
 
 export const editorSlice = createSlice({
@@ -34,7 +35,7 @@ export const editorSlice = createSlice({
         status: "empty",
     } as SliceState,
     reducers: {
-        resetEditor: (state) => {
+        resetEditor: state => {
             state.dumpster = templateDumpster;
             state.status = "empty";
         },
@@ -49,10 +50,16 @@ export const editorSlice = createSlice({
     },
 });
 
-export const { resetEditor, setEditorDumpster, setEditorPosition } = editorSlice.actions;
+export const {
+    resetEditor,
+    setEditorDumpster,
+    setEditorPosition,
+} = editorSlice.actions;
 
 export default editorSlice.reducer;
 
 export const editorStatusSelector = (state: RootState) => state.editor.status;
-export const editorDumpsterSelector = (state: RootState) => state.editor.dumpster;
-export const editorPositionSelector = (state: RootState) => state.editor.dumpster.position;
+export const editorDumpsterSelector = (state: RootState) =>
+    state.editor.dumpster;
+export const editorPositionSelector = (state: RootState) =>
+    state.editor.dumpster.position;

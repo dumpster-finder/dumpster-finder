@@ -83,6 +83,12 @@
  *                     type: integer
  *                     minimum: 1
  *                     maximum: 5
+ *                 info:
+ *                     type: string
+ *                 categories:
+ *                     type: array
+ *                     items:
+ *                        type: string
  *             example:
  *                 name: "Some Store"
  *                 position:
@@ -90,10 +96,12 @@
  *                     longitude: 10.394954
  *                 dumpsterType: "Compressor"
  *                 storeType: "Electronics Store"
+ *                 categories: ["Batteries"]
  *                 locked: true
  *                 positiveStoreViewOnDiving: false
  *                 emptyingSchedule: "Every Saturday"
  *                 cleanliness: 2
+ *                 info: "This dumpster can pack a lot of circuits"
  *
  *         Dumpster:
  *             allOf:
@@ -118,10 +126,12 @@
  *                     longitude: 10.394954
  *                 dumpsterType: "Compressor"
  *                 storeType: "Electronics Store"
+ *                 categories: ["Batteries"]
  *                 locked: true
  *                 positiveStoreViewOnDiving: false
  *                 emptyingSchedule: "Every Saturday"
  *                 cleanliness: 2
+ *                 info: "This dumpster can pack a lot of circuits"
  *                 rating: 2.7
  * tags:
  *   - name: Dumpsters
@@ -135,6 +145,7 @@
 import { Request, Router } from "express";
 import { validate } from "express-validation";
 import DumpsterDAO from "../daos/dumpsters";
+import CategoryDAo from "../daos/categories";
 import {
     getDumpster,
     locationParams,
@@ -150,6 +161,7 @@ import { PositionParams } from "../types/Position";
 export default function ({ logger, Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
+    const categoryDAO = CategoryDAo(Models);
 
     /**
      * @swagger
@@ -358,6 +370,74 @@ export default function ({ logger, Models }: RouteDependencies) {
         } catch (e) {
             logger.error("Something went wrong!", e);
             res.status(500).send("uh?");
+        }
+    });
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/categories:
+     *   get:
+     *     summary: Get all categories for a dumpster
+     *     tags: [Categories]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     responses:
+     *       "200":
+     *         description: the greeting
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/dumpsters/categories'
+     */
+    router.get("/:dumpsterID(\\d+)/categories", async (req, res, next) => {
+        try {
+            const categories = await categoryDAO.getByDumpster(
+                parseInt(req.params.dumpsterID),
+            );
+            res.status(200).json(categories);
+        } catch (e) {
+            next(e);
+        }
+    });
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/categories:
+     *   put:
+     *     summary: Get all categories for a dumpster
+     *     tags: [Categories]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     requestBody:
+     *          content:
+     *              application/json:
+     *                 schema:
+     *                   type: array
+     *                   item: string
+     *                   example: ["Dairy", "Meat"]
+     *     responses:
+     *       "204":
+     *         description: Success
+     */
+    router.put("/:dumpsterID(\\d+)/categories", async (req, res, next) => {
+        try {
+            const result = await categoryDAO.updatePerDumpster(
+                parseInt(req.params.dumpsterID),
+                req.body,
+            );
+            res.status(204).json(result);
+        } catch (e) {
+            next(e);
         }
     });
 
