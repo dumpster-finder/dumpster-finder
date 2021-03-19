@@ -5,16 +5,18 @@ import { useState } from "react";
 import ButtonGroupDisplay from "../components/ButtonGroupDisplay";
 import Advice from "../components/Advice";
 import IconExplanation from "../components/IconExplanation";
-import { useSelector } from "react-redux";
-import { positionSelector } from "../redux/slices/configSlice";
+import { setFirstTime, setPosition } from "../redux/slices/configSlice";
 import { useAppDispatch } from "../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
+import LocationSearcher from "../components/LocationSearcher";
+import { StackActions } from "@react-navigation/native";
 
 export default function IntroScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const dispatch = useAppDispatch();
     const buttons = ["1", "2", "3"];
     const [selectedIndex, setSelectedIndex] = useState(0);
     return (
@@ -47,17 +49,14 @@ export default function IntroScreen({
                         </View>
                     </ScrollView>
                 </Layout>
-                <Layout style={styles.positionButton}>
-                    <Button
-                        style={{ width: "50%" }}
-                        onPress={() =>
-                            navigation.navigate("IntroPositionScreen", {
-                                screen: "IntroPositionScreen",
-                            })
-                        }
-                    >
-                        Set position
-                    </Button>
+                <Layout style={styles.positionSetting}>
+                    <LocationSearcher
+                        onSubmit={place => {
+                            dispatch(setPosition(place.position));
+                            dispatch(setFirstTime(false));
+                            navigation.dispatch(StackActions.popToTop);
+                        }}
+                    />
                 </Layout>
             </ViewPager>
             <Layout style={styles.container}>
@@ -79,6 +78,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     tab: {
+        paddingTop: "10%",
         width: "100%",
         height: "90%",
         paddingVertical: "10%",
@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
         paddingVertical: 100,
         alignItems: "center",
     },
-    positionButton: {
-        width: "100%",
-        minHeight: "90%",
-        justifyContent: "center",
+    positionSetting: {
+        flexDirection: "column",
         alignItems: "center",
+        justifyContent: "flex-end",
+        paddingTop: "10%",
     },
 });

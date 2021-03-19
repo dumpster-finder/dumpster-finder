@@ -13,7 +13,6 @@ import {
     positionSelector,
     radiusSelector,
     setDarkMode,
-    setFirstTime,
 } from "./redux/slices/configSlice";
 import {
     fetchNearbyDumpsters,
@@ -56,7 +55,12 @@ const InnerApp = () => {
                 theme={darkMode ? eva.dark : eva.light}
             >
                 <Navigation colorScheme={externalColorScheme} />
-                <StatusBar />
+                <StatusBar
+                    translucent={
+                        false /* Letting it be true creates issues with Kitten popovers */
+                    }
+                    style="light"
+                />
             </ApplicationProvider>
         </SafeAreaProvider>
     );
