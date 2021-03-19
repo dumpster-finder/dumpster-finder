@@ -3,13 +3,14 @@ import DumpsterServiceClass from "./DumpsterService";
 import DumpsterTypeServiceClass from "./DumpsterTypeService";
 import StoreTypeServiceClass from "./StoreTypeService";
 import CategoryServiceClass from "./CategoryService";
+import PlaceServiceClass from "./PlaceService";
 import Constants from "expo-constants";
 
 // Create one single instance of Axios
 const axiosInstance = axios.create({
     baseURL: Constants.manifest.extra.apiURL || "http://localhost:3000/",
-    timeout: 1000
-})
+    timeout: 1000,
+});
 
 console.log(`Server address is ${axiosInstance.defaults.baseURL}`);
 
@@ -18,12 +19,13 @@ const DumpsterService = new DumpsterServiceClass(axiosInstance);
 const DumpsterTypeService = new DumpsterTypeServiceClass(axiosInstance);
 const StoreTypeService = new StoreTypeServiceClass(axiosInstance);
 const CategoryService = new CategoryServiceClass(axiosInstance);
+const PlaceService = new PlaceServiceClass(axiosInstance);
 
 // and export them
 export {
     DumpsterService,
     DumpsterTypeService,
     StoreTypeService,
-    CategoryService
-}
-
+    CategoryService,
+    PlaceService,
+};
