@@ -31,6 +31,7 @@ export default function MapScreen({
         longitudeDelta: 0.0421,
     });
     const dumpsters = useSelector(allDumpstersSelector);
+    const first = useSelector(firstTimeSelector);
 
     useEffect(() => {
         if (!firstTime) setRegion({ ...region, ...position });

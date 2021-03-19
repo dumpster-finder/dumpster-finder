@@ -1,25 +1,19 @@
 import * as React from "react";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
-import { Button, Layout, Text, Card, Divider } from "@ui-kitten/components";
+import { Button, Layout, Text, Divider } from "@ui-kitten/components";
 import {
-    ArrowLeftIcon,
-    ArrowRightIcon,
     TrashIcon,
     StarIcon,
     NegativeIcon,
     PositiveIcon,
     LockIcon,
-    MessageIcon,
-    MenuIcon,
     OpenLockIcon,
     BrushIcon,
 } from "../components/Icons";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
-import { useState } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
-import Burgermenu from "../components/Burgermenu";
 import PhotoDisplay from "../components/PhotoDisplay";
 
 export default function DetailsScreen({
@@ -79,77 +73,83 @@ export default function DetailsScreen({
                         <Text category="h6">{dumpster.storeType}</Text>
                     </View>
 
-                    <View style={{ height: 100 }}>
+                    <View style={{ height: 150, marginVertical: 5 }}>
                         <PhotoDisplay photoList={photos} />
                     </View>
 
-                    <View style={styles.infoView}>
-                        <View style={styles.infoRow}>
-                            <View style={styles.threeRowStart}>
-                                <StarIcon size="medium" />
-                                <Text style={styles.infoText}>
-                                    Rating: {dumpster.rating.toFixed(1)}
-                                </Text>
-                            </View>
-                            <View style={styles.threeRowCenter}>
-                                <BrushIcon size="medium" />
-                                <Text style={styles.infoText}>
-                                    Cleanliness: {dumpster.cleanliness}
-                                </Text>
-                            </View>
-                            <View style={styles.threeRowEnd}>
-                                {dumpster.locked ? (
-                                    <>
-                                        <LockIcon size="medium" />
-                                        <Text style={styles.infoText}>
-                                            Locked
-                                        </Text>
-                                    </>
-                                ) : (
-                                    <>
-                                        <OpenLockIcon size="medium" />
-                                        <Text style={styles.infoText}>
-                                            Unlocked
-                                        </Text>
-                                    </>
-                                )}
-                            </View>
-                        </View>
-                        <View style={styles.infoRow}>
-                            <TrashIcon size="medium" />
+                    <View style={styles.box}>
+                        <View style={styles.boxRow}>
+                            <StarIcon size="small" />
                             <Text style={styles.infoText}>
-                                Emptying schedule: {dumpster.emptyingSchedule}
+                                Rating: {dumpster.rating.toFixed(1)}
                             </Text>
                         </View>
-                        <View style={styles.infoRow}>
-                            {dumpster.positiveStoreViewOnDiving ? (
-                                <PositiveIcon size="medium" />
-                            ) : dumpster.positiveStoreViewOnDiving === null ? (
-                                <PositiveIcon size="medium" /> // TODO decide what icon to have here...
+                        <View style={styles.boxRow}>
+                            <BrushIcon size="small" />
+                            <Text style={styles.infoText}>
+                                Cleanliness: {dumpster.cleanliness}
+                            </Text>
+                        </View>
+                        <View style={styles.boxRow}>
+                            {dumpster.locked ? (
+                                <>
+                                    <LockIcon size="small" />
+                                    <Text style={styles.infoText}>Locked</Text>
+                                </>
                             ) : (
-                                <NegativeIcon size="medium" />
+                                <>
+                                    <OpenLockIcon size="small" />
+                                    <Text style={styles.infoText}>
+                                        Unlocked
+                                    </Text>
+                                </>
                             )}
-                            <Text style={styles.infoText}>
-                                Store's view on dumpster diving:{" "}
-                                {dumpster.positiveStoreViewOnDiving ? (
-                                    <Text>Positive</Text>
-                                ) : dumpster.positiveStoreViewOnDiving ===
-                                  null ? (
-                                    <Text>Neutral</Text>
-                                ) : (
-                                    <Text>Negative</Text>
-                                )}
-                            </Text>
-                        </View>
-                        <View style={styles.infoRow}>
-                            <Text>Dumpster type: {dumpster.dumpsterType}</Text>
-                        </View>
-                        <View style={styles.infoBox}>
-                            <Divider />
-                            <Text style={{ paddingVertical: 2 }}>{text}</Text>
-                            <Divider />
                         </View>
                     </View>
+
+                    <View style={styles.infoRow}>
+                        {dumpster.positiveStoreViewOnDiving ? (
+                            <>
+                                <PositiveIcon size="small" />
+                                <Text style={styles.infoText}>
+                                    Store's view on dumpster diving:{" "}
+                                </Text>
+                                <Text>Positive</Text>
+                            </>
+                        ) : dumpster.positiveStoreViewOnDiving === null ? (
+                            <>
+                                <PositiveIcon size="small" />
+                                <Text style={styles.infoText}>
+                                    Store's view on dumpster diving:{" "}
+                                </Text>
+                                <Text>Neutral</Text>
+                            </>
+                        ) : (
+                            <>
+                                <NegativeIcon size="small" />
+                                <Text style={styles.infoText}>
+                                    Store's view on dumpster diving:{" "}
+                                </Text>
+                                <Text>Negative</Text>
+                            </>
+                        )}
+                    </View>
+                    <View style={styles.infoRow}>
+                        <TrashIcon size="small" />
+                        <Text style={styles.infoText}>
+                            Emptying schedule: {dumpster.emptyingSchedule}
+                        </Text>
+                    </View>
+
+                    <View style={styles.infoRow}>
+                        <Text>Dumpster type: {dumpster.dumpsterType}</Text>
+                    </View>
+                    <View style={styles.infoBox}>
+                        <Divider />
+                        <Text style={{ paddingVertical: 2 }}>{text}</Text>
+                        <Divider />
+                    </View>
+
                     <Text style={{ alignSelf: "center" }}>Categories:</Text>
                     {categories.length > categoryPrLine ? (
                         <View style={styles.column}>
@@ -175,6 +175,7 @@ export default function DetailsScreen({
                             <View style={styles.tagRow}>
                                 {categories.map((category, index) => (
                                     <View
+                                        key={index}
                                         style={{
                                             width: 100 / categoryPrLine + "%",
                                             alignItems: "center",
@@ -192,7 +193,7 @@ export default function DetailsScreen({
                     <View style={styles.row}>
                         <View style={styles.buttons}>
                             <Button
-                                style={{ width: "70%" }}
+                                style={{ width: "80%" }}
                                 size={"small"}
                                 onPress={() =>
                                     navigation.navigate("ContentScreen", {
@@ -205,7 +206,7 @@ export default function DetailsScreen({
                         </View>
                         <View style={styles.buttons}>
                             <Button
-                                style={{ width: "70%" }}
+                                style={{ width: "80%" }}
                                 size={"small"}
                                 onPress={() =>
                                     navigation.navigate("CommentScreen", {
@@ -222,39 +223,19 @@ export default function DetailsScreen({
                     <View style={styles.row}>
                         <View style={{ width: "10%" }} />
                         <View style={{ width: "80%" }}>
-                            <AirbnbRating size={20} showRating={false} />
+                            <AirbnbRating
+                                size={20}
+                                showRating={false}
+                                defaultRating={0}
+                            />
                         </View>
                     </View>
                 </ScrollView>
             </Layout>
         );
     }
-
-    function menuSelect(menuIndex: number) {
-        switch (menuIndex) {
-            case 0:
-                console.log("flag");
-                break;
-            case 1:
-                console.log("Revision");
-                break;
-            case 2:
-                console.log("Edit");
-                navigation.navigate("EditDumpsterScreen", {
-                    screen: "EditDumpsterScreen",
-                });
-                break;
-            case 3:
-                navigation.navigate("EditContentScreen", {
-                    screen: "EditContentScreen",
-                });
-                break;
-            default:
-                console.log(menuIndex);
-                break;
-        }
-    }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -278,36 +259,16 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         padding: 5,
     },
-    threeRowStart: {
-        flex: 1,
-        flexDirection: "row",
-        width: "33.3%",
-        justifyContent: "flex-start",
-    },
-
-    threeRowCenter: {
-        flex: 1,
-        flexDirection: "row",
-        width: "33.3%",
-        justifyContent: "center",
-    },
-    threeRowEnd: {
-        flex: 1,
-        flexDirection: "row",
-        width: "33.3%",
-        justifyContent: "flex-end",
-    },
-    infoView: {
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-    },
     infoRow: {
-        flex: 1,
+        display: "flex",
         flexDirection: "row",
         paddingVertical: 5,
+        marginHorizontal: 5,
+        flexWrap: "wrap",
     },
     infoText: {
         paddingLeft: 5,
+        flexWrap: "wrap",
     },
     infoBox: {
         paddingVertical: 5,
@@ -318,49 +279,16 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
     },
-
-    fullWidth: {
-        width: "100%",
-        minHeight: "100%",
-        flex: 1,
-        flexDirection: "column",
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: "bold",
-        width: "80%",
-    },
-    photoRow: {
-        width: "100%",
-        height: "30%",
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "flex-start",
-    },
-    listing: {
-        width: "100%",
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "flex-start",
-    },
-
-    sideIcons: {
-        width: "15%",
-    },
-    photo: {
+    box: {
         display: "flex",
-        alignItems: "stretch",
-        width: "70%",
-        height: "100%",
+        flexWrap: "wrap",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        paddingHorizontal: 5,
     },
-    tagLayout: {
-        backgroundColor: "lightgray",
-        marginVertical: 2,
-        marginHorizontal: 5,
-        borderRadius: 10,
-        paddingVertical: 3,
+
+    boxRow: {
+        flexDirection: "row",
         paddingHorizontal: 5,
     },
 });

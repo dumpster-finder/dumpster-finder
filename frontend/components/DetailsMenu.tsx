@@ -23,13 +23,11 @@ export default function({}: { tintColor?: string }) {
                 console.log("flag");
                 break;
             case 1:
-                console.log("Revision");
                 navigation.navigate("RevisionScreen", {
                     screen: "RevisionScreen",
                 });
                 break;
             case 2:
-                console.log("Edit");
                 navigation.navigate("EditDumpsterScreen", {
                     screen: "EditDumpsterScreen",
                 });

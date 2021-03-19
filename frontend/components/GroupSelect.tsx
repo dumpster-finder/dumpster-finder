@@ -40,10 +40,10 @@ export default function GroupSelect({
             }
             selectedIndex={multiSelectedIndex}
         >
-            {Object.keys(values).map(value => (
-                <SelectGroup title={value}>
-                    {values[value].map(data => (
-                        <SelectItem title={data} />
+            {Object.keys(values).map((value, index) => (
+                <SelectGroup title={value} key={index}>
+                    {values[value].map((data, i) => (
+                        <SelectItem title={data} key={i} />
                     ))}
                 </SelectGroup>
             ))}

@@ -44,7 +44,7 @@ export const testRevision: Dumpster[] = [
         dumpsterID: 1,
         name: "Rema Moholt",
         position: { latitude: 63.412113, longitude: 10.440253 },
-        emptyingSchedule: "Every day",
+        emptyingSchedule: "Every day are the best days for diving",
         locked: true,
         positiveStoreViewOnDiving: false,
         rating: 4.5,

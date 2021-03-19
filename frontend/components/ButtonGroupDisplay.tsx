@@ -18,13 +18,47 @@ export default function ButtonGroupDisplay({
     onSelect: (newValue: number) => void;
 }) {
     const width = 100 / values.length;
-    return (
-        <View style={styles.container}>
-            {label &&
-                (icon ? (
-                    <View style={styles.labelRow}>
-                        <View style={styles.spacer} />
-                        {/* TODO align this better */}
+    if (!(icon || label)) {
+        return (
+            <View style={styles.containerFull}>
+                <View style={styles.row}>
+                    {icon && (
+                        <View style={styles.icon}>
+                            {React.createElement(icon, { size: "medium" })}
+                        </View>
+                    )}
+                    <ButtonGroup appearance="outline" status="basic">
+                        {values.map((name, i) => (
+                            <Button
+                                key={i}
+                                style={{ width: width + "%" }}
+                                onPress={() => onSelect(i)}
+                                appearance={value === i ? "filled" : "outline"}
+                            >
+                                {name}
+                            </Button>
+                        ))}
+                    </ButtonGroup>
+                </View>
+            </View>
+        );
+    } else {
+        return (
+            <View style={styles.container}>
+                {label &&
+                    (icon ? (
+                        <View style={styles.labelRow}>
+                            <View style={styles.spacer} />
+                            {/* TODO align this better */}
+                            <Text
+                                style={styles.label}
+                                category="s2"
+                                appearance="hint"
+                            >
+                                {label}
+                            </Text>
+                        </View>
+                    ) : (
                         <Text
                             style={styles.label}
                             category="s2"
@@ -32,38 +66,39 @@ export default function ButtonGroupDisplay({
                         >
                             {label}
                         </Text>
-                    </View>
-                ) : (
-                    <Text style={styles.label} category="s2" appearance="hint">
-                        {label}
-                    </Text>
-                ))}
-            <View style={styles.row}>
-                {icon && (
-                    <View style={styles.icon}>
-                        {React.createElement(icon, { size: "medium" })}
-                    </View>
-                )}
-                <ButtonGroup appearance="outline" status="basic">
-                    {values.map((name, i) => (
-                        <Button
-                            key={i}
-                            style={{ width: width + "%" }}
-                            onPress={() => onSelect(i)}
-                            appearance={value === i ? "filled" : "outline"}
-                        >
-                            {name}
-                        </Button>
                     ))}
-                </ButtonGroup>
+                <View style={styles.row}>
+                    {icon && (
+                        <View style={styles.icon}>
+                            {React.createElement(icon, { size: "medium" })}
+                        </View>
+                    )}
+                    <ButtonGroup appearance="outline" status="basic">
+                        {values.map((name, i) => (
+                            <Button
+                                key={i}
+                                style={{ width: width + "%" }}
+                                onPress={() => onSelect(i)}
+                                appearance={value === i ? "filled" : "outline"}
+                            >
+                                {name}
+                            </Button>
+                        ))}
+                    </ButtonGroup>
+                </View>
             </View>
-        </View>
-    );
+        );
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         width: "90%",
+        flexDirection: "column",
+        marginVertical: 4,
+    },
+    containerFull: {
+        width: "100%",
         flexDirection: "column",
         marginVertical: 4,
     },
