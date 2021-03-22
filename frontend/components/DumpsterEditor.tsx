@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import {
     dumpsterTypesSelector,
     storeTypesSelector,
+    categoriesSelector,
 } from "../redux/slices/constantsSlice";
 import { CategoryService } from "../services";
 
@@ -49,7 +50,7 @@ export default function DumpsterEditor({
     ];
     const lock = ["Locked", "Unlocked"];
     const view = ["Negative", "Neutral", "Positive"];
-    const categories = ["Meat", "Bread", "Vegetables"];
+    const categories: string[] = useSelector(categoriesSelector);
 
     const [name, setName] = useState(dumpster.name);
     const [dumpsterTypeIndex, setDumpsterTypeIndex] = useState(
