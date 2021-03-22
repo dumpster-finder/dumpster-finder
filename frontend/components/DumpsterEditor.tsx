@@ -4,6 +4,7 @@ import { Button, IndexPath, Input, Text } from "@ui-kitten/components";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Dropdown from "./Dropdown";
 import GroupSelect from "./GroupSelect";
+import SingleMultiSelect from "./SingleMultiSelect";
 import {
     LockIcon,
     PendingButtonIcon,
@@ -19,6 +20,7 @@ import {
     dumpsterTypesSelector,
     storeTypesSelector,
 } from "../redux/slices/constantsSlice";
+import { CategoryService } from "../services";
 
 export default function DumpsterEditor({
     dumpster,
@@ -47,6 +49,7 @@ export default function DumpsterEditor({
     ];
     const lock = ["Locked", "Unlocked"];
     const view = ["Negative", "Neutral", "Positive"];
+    const categories = ["Meat", "Bread", "Vegetables"];
 
     const [name, setName] = useState(dumpster.name);
     const [dumpsterTypeIndex, setDumpsterTypeIndex] = useState(
@@ -70,6 +73,10 @@ export default function DumpsterEditor({
     const [categoryIndex, setCategoryIndex] = useState([
         new IndexPath(0, 0),
         new IndexPath(1, 1),
+    ]);
+
+    const [singleCategoryIndex, SetSingleCategoryIndex] = useState([
+        new IndexPath(0),
     ]);
     const [info, setInfo] = useState(dumpster.info);
 
@@ -102,12 +109,21 @@ export default function DumpsterEditor({
                     onSelect={setStoreTypeIndex}
                 />
             </View>
-            <View style={styles.inputField}>
+            {/* <View style={styles.inputField}>
                 <GroupSelect
                     sValue={categoryIndex}
                     label="Categories"
                     values={categoryData}
                     onSelect={setCategoryIndex}
+                />
+            </View>*/}
+
+            <View style={styles.inputField}>
+                <SingleMultiSelect
+                    sValue={singleCategoryIndex}
+                    label="Categories"
+                    values={categories}
+                    onSelect={SetSingleCategoryIndex}
                 />
             </View>
 

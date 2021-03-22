@@ -73,6 +73,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\frontend\components\SingleSelect.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\frontend\components\dropdown.tsx">
           <value>
             <Attribute>
