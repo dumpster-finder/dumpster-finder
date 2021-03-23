@@ -36,5 +36,6 @@ export default {
     },
     extra: {
         apiURL: process.env.API_URL,
+        debug: Boolean(process.env.DEBUG) || false,
     },
 };

@@ -1,15 +1,10 @@
 import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Button, Layout } from "@ui-kitten/components";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { Layout } from "@ui-kitten/components";
 import IconExplanation from "../components/IconExplanation";
 import Advice from "../components/Advice";
 
-export default function InfoScreen({
-    navigation,
-}: {
-    navigation: StackNavigationProp<any>;
-}) {
+export default function InfoScreen() {
     return (
         <Layout style={styles.container}>
             <ScrollView

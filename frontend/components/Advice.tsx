@@ -4,22 +4,18 @@ import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 export default function Advice() {
-    const { t, i18n } = useTranslation();
+    // Specify the namespace when you get the t function
+    const { t } = useTranslation("advice");
     return (
         <View>
-            {/*@ts-ignore*/}
-            <Text category={"h5"}>{t("common:advice.title")} </Text>
+            {/* Then you don't need to specify it all the time here */}
+            <Text category={"h5"}>{t("title")!} </Text>
             <View style={{ paddingVertical: 10 }}>
-                {/*@ts-ignore*/}
-                <Text style={styles.text}>{t("common:advice.nr1")}</Text>
-                {/*@ts-ignore*/}
-                <Text style={styles.text}>{t("common:advice.nr2")}</Text>
-                {/*@ts-ignore*/}
-                <Text style={styles.text}>{t("common:advice.nr3")}</Text>
-                {/*@ts-ignore*/}
-                <Text style={styles.text}>{t("common:advice.nr4")}</Text>
-                {/*@ts-ignore*/}
-                <Text style={styles.text}>{t("common:advice.nr5")}</Text>
+                <Text style={styles.text}>{t("nr1")!}</Text>
+                <Text style={styles.text}>{t("nr2")!}</Text>
+                <Text style={styles.text}>{t("nr3")!}</Text>
+                <Text style={styles.text}>{t("nr4")!}</Text>
+                <Text style={styles.text}>{t("nr5")!}</Text>
             </View>
         </View>
     );
