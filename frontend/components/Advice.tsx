@@ -1,23 +1,25 @@
 import * as React from "react";
 import { Text } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 export default function Advice() {
+    const { t, i18n } = useTranslation();
     return (
         <View>
-            <Text category={"h5"}>Dumpster diving advice: </Text>
+            {/*@ts-ignore*/}
+            <Text category={"h5"}>{t("common:advice.title")} </Text>
             <View style={{ paddingVertical: 10 }}>
-                <Text style={styles.text}>
-                    1. Don’t go diving in locked dumpsters
-                </Text>
-                <Text style={styles.text}>
-                    2. Don’t go in dumpsters marked private
-                </Text>
-                <Text style={styles.text}>
-                    3. Don’t go dumpster diving alone
-                </Text>
-                <Text style={styles.text}>4. Dress accordingly</Text>
-                <Text style={styles.text}>5. Clean up after yourself</Text>
+                {/*@ts-ignore*/}
+                <Text style={styles.text}>{t("common:advice.nr1")}</Text>
+                {/*@ts-ignore*/}
+                <Text style={styles.text}>{t("common:advice.nr2")}</Text>
+                {/*@ts-ignore*/}
+                <Text style={styles.text}>{t("common:advice.nr3")}</Text>
+                {/*@ts-ignore*/}
+                <Text style={styles.text}>{t("common:advice.nr4")}</Text>
+                {/*@ts-ignore*/}
+                <Text style={styles.text}>{t("common:advice.nr5")}</Text>
             </View>
         </View>
     );

@@ -13,6 +13,8 @@ import {
     positionSelector,
     radiusSelector,
     setDarkMode,
+    languageSelector,
+    setLanguage,
 } from "./redux/slices/configSlice";
 import {
     fetchNearbyDumpsters,
@@ -24,6 +26,7 @@ import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { FontAwesomePack } from "./constants/FontAwesome";
 import { fetchAllConstants } from "./redux/slices/constantsSlice";
 import { FontAwesome5Pack } from "./constants/FontAwesome5";
+import "./i18n";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
