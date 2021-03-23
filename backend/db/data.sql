@@ -51,14 +51,14 @@ VALUES
     (7, 79, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where the deliveries are'),
     (7, 7, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where goods are delivered');
 
-INSERT INTO Comments(commentID, dumpsterID, nickname, comment, rating)
+INSERT INTO Comments(commentID, dumpsterID, nickname, comment, rating, date)
 VALUES
-    (1, 1, 'Tore på sporet', 'Found some great pastries.', 5),
-    (2, 1, 'TrashBin', 'Would anyone join for a dive here?', 6),
-    (3, 1, 'Trash panda', 'Please leave some for others as well', 2),
-    (4, 2, 'Trash panda', 'Mostly food here, but some other stuff as well', 0),
-    (5, 3, 'Diver', 'I never find anything here', 3),
-    (6, 5, 'TheDive', 'This dumpster is locked. Remember that breaking locks is illegal', 3);
+    (1, 1, 'Tore pa sporet', 'Found some great pastries.', 5, '2021-02-22 12:50:05'),
+    (2, 1, 'TrashBin', 'Would anyone join for a dive here?', 6, '2021-02-28 15:40:45'),
+    (3, 1, 'Trash panda', 'Please leave some for others as well', 2, '2021-03-01 22:34:49'),
+    (4, 2, 'Trash panda', 'Mostly food here, but some other stuff as well', 0, '2021-01-02 23:32:23'),
+    (5, 3, 'Diver', 'I never find anything here', 3, '2021-01-15 14:36:45'),
+    (6, 5, 'TheDive', 'This dumpster is locked. Remember that breaking locks is illegal', 3, '2021-01-17 13:36:34');
 
 UPDATE DumpsterPositions SET revisionID = 1 WHERE dumpsterID = 1;
 UPDATE DumpsterPositions SET revisionID = 2 WHERE dumpsterID = 2;
