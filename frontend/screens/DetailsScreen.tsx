@@ -153,8 +153,8 @@ export default function DetailsScreen({
                     <Text style={{ alignSelf: "center" }}>Categories:</Text>
                     {categories.length > categoryPrLine ? (
                         <View style={styles.column}>
-                            {categoryArrays.map(array => (
-                                <View style={styles.tagRow}>
+                            {categoryArrays.map((array, index) => (
+                                <View style={styles.tagRow} key={index}>
                                     {array.map((category, index) => (
                                         <View
                                             style={{
