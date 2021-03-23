@@ -157,6 +157,7 @@ export default function DetailsScreen({
                                 <View style={styles.tagRow} key={index}>
                                     {array.map((category, index) => (
                                         <View
+                                            key={index}
                                             style={{
                                                 width:
                                                     100 / categoryPrLine + "%",
