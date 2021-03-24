@@ -154,6 +154,10 @@ export const MenuIcon = (props: IconProps) => (
     <BaseIcon {...props} name="menu" />
 );
 
+export const SearchIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="search" />
+);
+
 const styles: Record<string, any> = StyleSheet.create({
     small: {
         width: 16,
