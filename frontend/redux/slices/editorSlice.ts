@@ -20,6 +20,7 @@ const templateDumpster: Dumpster = {
     },
     dumpsterType: "",
     storeType: "",
+    categories: [],
     emptyingSchedule: "",
     cleanliness: 3,
     positiveStoreViewOnDiving: null,

@@ -12,6 +12,8 @@ export const testDumpsters: Dumpster[] = [
         cleanliness: 76,
         storeType: "Food",
         dumpsterType: "Metal",
+        categories: ["Dairy", "Meat"],
+        info: "I dunno",
     },
     {
         dumpsterID: 2,
@@ -24,6 +26,8 @@ export const testDumpsters: Dumpster[] = [
         cleanliness: 14,
         storeType: "Electronics",
         dumpsterType: "Plastic",
+        categories: ["Dairy", "Meat"],
+        info: "I dunno",
     },
     {
         dumpsterID: 3,
@@ -36,6 +40,8 @@ export const testDumpsters: Dumpster[] = [
         cleanliness: 74,
         storeType: "Beds",
         dumpsterType: "Compressor",
+        categories: ["Dairy", "Meat"],
+        info: "I dunno",
     },
 ];
 
@@ -51,6 +57,8 @@ export const testRevision: Dumpster[] = [
         cleanliness: 1,
         storeType: "Food",
         dumpsterType: "Metal",
+        categories: ["Dairy", "Meat"],
+        info: "I dunno",
     },
     {
         dumpsterID: 1,
@@ -63,6 +71,8 @@ export const testRevision: Dumpster[] = [
         cleanliness: 3,
         storeType: "Food",
         dumpsterType: "Metal",
+        categories: ["Dairy", "Meat"],
+        info: "I dunno",
     },
     {
         dumpsterID: 1,
@@ -75,5 +85,7 @@ export const testRevision: Dumpster[] = [
         cleanliness: 3,
         storeType: "Food",
         dumpsterType: "Metal",
+        categories: ["Dairy", "Meat"],
+        info: "I dunno",
     },
 ];

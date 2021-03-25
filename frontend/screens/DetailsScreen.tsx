@@ -22,43 +22,34 @@ export default function DetailsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const dumpster = useSelector(currentDumpsterSelector);
-    const categories = [
-        "Food",
-        "milk",
-        "juice",
-        "Fruit",
-        "Tears",
-        "Fear",
-        "ZZZ",
-    ];
     const categoryArrays = [];
-    const categoryPrLine = 4;
+    const categoryPrLine = 4; // TODO this is not the way (adjust by screen size, yo...)
     const photos = [
         "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
         "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
     ];
-    const text =
-        "This is some dummy text with information about the dumpster. I don't know the specifics yet ¯\\_(ツ)_/¯";
 
-    if (categories.length > categoryPrLine) {
-        const turns = categories.length / categoryPrLine;
-        for (let i = 0; i < turns; i++) {
-            const newArray = categories.slice(
-                i * categoryPrLine,
-                categoryPrLine * (i + 1),
-            );
-            categoryArrays.push(newArray);
-        }
-    }
-
-    if (dumpster === null) {
+    if (!dumpster) {
         return (
             <View style={styles.container}>
-                <Text>CRY</Text>
+                <Text category="h1">Something went wrong</Text>
             </View>
         );
     } else {
+        const { categories } = dumpster;
+
+        if (categories.length > categoryPrLine) {
+            const turns = categories.length / categoryPrLine;
+            for (let i = 0; i < turns; i++) {
+                const newArray = categories.slice(
+                    i * categoryPrLine,
+                    categoryPrLine * (i + 1),
+                );
+                categoryArrays.push(newArray);
+            }
+        }
+
         return (
             <Layout style={styles.container}>
                 <ScrollView style={styles.scrollView}>
@@ -73,6 +64,7 @@ export default function DetailsScreen({
                         <Text category="h6">{dumpster.storeType}</Text>
                     </View>
 
+                    {/*TODO this might end badly on really small screens!*/}
                     <View style={{ height: 150, marginVertical: 5 }}>
                         <PhotoDisplay photoList={photos} />
                     </View>
@@ -146,27 +138,32 @@ export default function DetailsScreen({
                     </View>
                     <View style={styles.infoBox}>
                         <Divider />
-                        <Text style={{ paddingVertical: 2 }}>{text}</Text>
+                        <Text style={{ paddingVertical: 2 }}>
+                            {dumpster.info}
+                        </Text>
                         <Divider />
                     </View>
 
                     <Text style={{ alignSelf: "center" }}>Categories:</Text>
-                    {categories.length > categoryPrLine ? (
+                    {categories.length > categoryPrLine ? ( // TODO this should be its own component...
                         <View style={styles.column}>
                             {categoryArrays.map((array, index) => (
                                 <View style={styles.tagRow} key={index}>
                                     {array.map((category, index) => (
-                                        <View
+                                        <Layout
+                                            level="3"
                                             key={index}
-                                            style={{
-                                                width:
-                                                    100 / categoryPrLine + "%",
-                                                alignItems: "center",
-                                                paddingBottom: 5,
-                                            }}
+                                            style={[
+                                                styles.tagBox,
+                                                {
+                                                    width:
+                                                        100 / categoryPrLine +
+                                                        "%",
+                                                },
+                                            ]}
                                         >
                                             <Text>{category}</Text>
-                                        </View>
+                                        </Layout>
                                     ))}
                                 </View>
                             ))}
@@ -175,18 +172,19 @@ export default function DetailsScreen({
                         <View style={styles.column}>
                             <View style={styles.tagRow}>
                                 {categories.map((category, index) => (
-                                    <View
+                                    <Layout
+                                        level="3"
                                         key={index}
-                                        style={{
-                                            width: 100 / categoryPrLine + "%",
-                                            alignItems: "center",
-                                            paddingBottom: 5,
-                                            borderRadius: 10,
-                                            borderWidth: 10,
-                                        }}
+                                        style={[
+                                            styles.tagBox,
+                                            {
+                                                width:
+                                                    100 / categoryPrLine + "%",
+                                            },
+                                        ]}
                                     >
                                         <Text>{category}</Text>
-                                    </View>
+                                    </Layout>
                                 ))}
                             </View>
                         </View>
@@ -195,11 +193,9 @@ export default function DetailsScreen({
                         <View style={styles.buttons}>
                             <Button
                                 style={{ width: "80%" }}
-                                size={"small"}
+                                size="small"
                                 onPress={() =>
-                                    navigation.navigate("ContentScreen", {
-                                        screen: "ContentScreen",
-                                    })
+                                    navigation.navigate("ContentScreen")
                                 }
                             >
                                 See content
@@ -208,11 +204,9 @@ export default function DetailsScreen({
                         <View style={styles.buttons}>
                             <Button
                                 style={{ width: "80%" }}
-                                size={"small"}
+                                size="small"
                                 onPress={() =>
-                                    navigation.navigate("CommentScreen", {
-                                        screen: "CommentScreen",
-                                    })
+                                    navigation.navigate("CommentScreen")
                                 }
                             >
                                 See comments
@@ -291,5 +285,12 @@ const styles = StyleSheet.create({
     boxRow: {
         flexDirection: "row",
         paddingHorizontal: 5,
+    },
+    tagBox: {
+        alignItems: "center",
+        paddingBottom: 5,
+        paddingTop: 3,
+        borderRadius: 10,
+        marginHorizontal: 5,
     },
 });
