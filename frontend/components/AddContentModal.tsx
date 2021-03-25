@@ -24,7 +24,7 @@ export default function AddContentModal({
             onBackdropPress={() => setVisible(false)}
         >
             <Card style={{ alignItems: "center" }}>
-                <Text>Add content</Text>
+                <Text category={"h5"}>Add content</Text>
                 <Divider />
                 <Input style={styles.input} label={"Product"} />
 
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
     },
     input: {
+        paddingTop: 5,
         maxWidth: "80%",
         minWidth: "80%",
     },

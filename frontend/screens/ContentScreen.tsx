@@ -76,7 +76,9 @@ export default function ContentScreen() {
                 >
                     <Text category={"h4"}>{dumpster.name}</Text>
                     <Text category={"h6"}>{dumpster.storeType}</Text>
-                    <Button onPress={() => setVisibleAdd(true)}>ADD</Button>
+                    <Button onPress={() => setVisibleAdd(true)}>
+                        Add content
+                    </Button>
                 </View>
                 <ScrollView style={styles.scrollView}>
                     {list.map((value, i) => (
