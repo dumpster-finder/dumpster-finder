@@ -17,38 +17,44 @@ describe("getAll", () => {
         const dumpsters = await dumpsterDAO.getAll(params);
         expect(dumpsters.length).toBeGreaterThan(0);
         expect(
-            dumpsters.find(({ name }) => name === "Tore's store"),
+            dumpsters.find(({ name }) => name === "Bunnpris Moholt"),
         ).not.toBeUndefined();
         expect(
-            dumpsters.find(({ name }) => name === "Helen's store"),
+            dumpsters.find(({ name }) => name === "Trondheim Torg"),
         ).not.toBeUndefined();
         expect(
-            dumpsters.find(({ name }) => name === "Jon's store"),
+            dumpsters.find(({ name }) => name === "Rema 1000 Moholt"),
         ).not.toBeUndefined();
     });
 
     it("should limit the search by position and radius", async () => {
         const dumpsters = await dumpsterDAO.getAll(params);
         expect(
-            dumpsters.find(({ name }) => name === "Far away store"),
+            // Far away
+            dumpsters.find(({ name }) => name === "Elkjøp Stjørdal"),
+        ).toBeUndefined();
+        expect(
+            // About 6 km away
+            dumpsters.find(({ name }) => name === "City Syd Tiller"),
         ).toBeUndefined();
     });
 });
 
 describe("getOne", () => {
     it("should return the correct dumpster", async () => {
-        const dumpster = await dumpsterDAO.getOne(1);
+        const dumpster = await dumpsterDAO.getOne(5);
         expect(dumpster).not.toBeNull();
         if (dumpster) {
-            expect(dumpster.name).toBe("Tore's store");
-            expect(dumpster.emptyingSchedule).toBe(
-                "First Tuesday in the month",
+            expect(dumpster.name).toBe("Bunnpris Moholt");
+            expect(dumpster.info).toBe(
+                "Somewhat dirty. Watch where you touch.",
             );
+            expect(dumpster.emptyingSchedule).toBe("Fridays at 15pm");
             expect(dumpster.locked).toBeFalsy();
-            expect(dumpster.cleanliness).toBe(5);
+            expect(dumpster.cleanliness).toBe(3);
             expect(dumpster.position).toEqual({
-                latitude: 63.411402,
-                longitude: 10.434084,
+                latitude: 63.41293,
+                longitude: 10.431018,
             });
             // TODO check IDs when types are reworked to integers...
             expect(dumpster.storeType).toEqual("Grocery Store");

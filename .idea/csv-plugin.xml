@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="/backend/api/daos/__tests__/dumpsters.spec.ts">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/frontend/constants/Colors.ts">
           <value>
             <Attribute>
@@ -25,11 +32,11 @@
           </value>
         </entry>
         <entry key="$APPLICATION_CONFIG_DIR$/consoles/db/86610a9e-648c-4063-9a6f-e508ad98a862/console.sql">
-            <value>
-                <Attribute>
-                    <option name="separator" value="," />
-                </Attribute>
-            </value>
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
         </entry>
         <entry key="\backend\db\data.sql">
           <value>
