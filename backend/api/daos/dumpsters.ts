@@ -98,8 +98,7 @@ export default function ({
                     },
                 ],
                 where: literal(
-                    // TODO dividing by 10 000 is not a way to solve this. At all.
-                    //      This is a problem of distance on a sphere. We might have to switch db system.
+                    // Select only current revision and limit by distance
                     `Dumpsters.revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)
                      AND SPHERICAL_DISTANCE(ST_GEOMFROMTEXT('POINT(${escape(
                          latitude.toString(),
