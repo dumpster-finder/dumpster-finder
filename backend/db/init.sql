@@ -24,6 +24,10 @@ CREATE TABLE StoreTypes (
     storeTypeID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(24) NOT NULL
 );
+-- Store types: Grocery, electronics, etc.
+CREATE TABLE Users (
+    userID VARCHAR(256) PRIMARY KEY
+    );
 -- Dumpster Positions: Stores dumpster id and position
 -- saves a lot of pain using UUID and revision while maintaining
 -- unique positions for non revised dumpsters
@@ -65,6 +69,9 @@ CREATE TABLE Dumpsters (
         ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT dumpsterFK3 FOREIGN KEY Dumpsters(storeTypeID)
         REFERENCES StoreTypes (storeTypeID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT dumpsterFK4 FOREIGN KEY Dumpsters(userID)
+        REFERENCES Users (userID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
@@ -77,11 +84,15 @@ ALTER TABLE DumpsterPositions ADD FOREIGN KEY (revisionID) references Dumpsters(
 CREATE TABLE DumpsterReports (
     dumpsterReportID INT PRIMARY KEY AUTO_INCREMENT,
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
+    userID VARCHAR(256),
     reason TEXT NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (dumpsterID),
-    FOREIGN KEY DumpsterReports(dumpsterID)
+    CONSTRAINT dumpsterReportFK1 FOREIGN KEY DumpsterReports(dumpsterID)
         REFERENCES DumpsterPositions (dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT dumpsterReportFK2 FOREIGN KEY DumpsterReports(userID)
+        REFERENCES Users (userID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
@@ -95,8 +106,11 @@ CREATE TABLE Ratings (
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (dumpsterID),
     PRIMARY KEY(userID, dumpsterID),
-    FOREIGN KEY Ratings(dumpsterID)
+    CONSTRAINT ratingFK1 FOREIGN KEY Ratings(dumpsterID)
         REFERENCES DumpsterPositions (dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT ratingFK2 FOREIGN KEY Ratings(userID)
+        REFERENCES Users (userID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
@@ -123,8 +137,11 @@ CREATE TABLE Photos (
     userID VARCHAR(256) NOT NULL, -- for deleting the photo if you regret everything
     dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (userID),
-    FOREIGN KEY Photos(dumpsterID)
+    CONSTRAINT photosFK1 FOREIGN KEY Photos(dumpsterID)
         REFERENCES DumpsterPositions (dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT photosFK2 FOREIGN KEY Photos(userID)
+        REFERENCES Users (userID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
@@ -132,11 +149,15 @@ CREATE TABLE Photos (
 CREATE TABLE PhotoReports (
     photoReportID INT PRIMARY KEY AUTO_INCREMENT,
     photoID INT NOT NULL REFERENCES Photos(photoID),
+    userID VARCHAR(256),
     reason TEXT NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (photoID),
-    FOREIGN KEY PhotoReports(photoID)
+    CONSTRAINT photoReportFK1 FOREIGN KEY PhotoReports(photoID)
         REFERENCES Photos (photoID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT photoReportFK2 FOREIGN KEY PhotoReports(userID)
+        REFERENCES Users (userID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 

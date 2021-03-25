@@ -1,12 +1,13 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { DumpsterPositionAttributes, DumpsterPositionCreationAttributes } from "./DumpsterPositions";
 import {PhotoReports} from "./PhotoReports";
+import { UserAttributes, UserCreationAttributes } from "./Users";
 
 export interface PhotoAttributes {
     photoID: number;
     dumpsterID: number;
     url: string;
-    userID: string;
+    userID: string | null;
     dateAdded: string;
 }
 
@@ -19,7 +20,7 @@ export class Photos
     photoID!: number;
     dumpsterID!: number;
     url!: string;
-    userID!: string;
+    userID!: string | null;
     dateAdded!: string;
 }
 
@@ -42,7 +43,6 @@ export function init(sequelize: Sequelize) {
             },
             userID: {
                 type: DataTypes.STRING,
-                allowNull: false,
             },
             dateAdded: {
                 type: DataTypes.DATE,
@@ -61,9 +61,11 @@ export function init(sequelize: Sequelize) {
 // The type is not defined yet, so use a substitute
 export function associate({
                               DumpsterPositions,
-    PhotoReports
+    PhotoReports,
+    Users
 }: {
     DumpsterPositions: ModelStatic<Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>>;
+    Users: ModelStatic<Model<UserAttributes, UserCreationAttributes>>;
     PhotoReports: ModelStatic<Model<any, any>>;
 }) {
     // do associations like

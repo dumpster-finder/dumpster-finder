@@ -1,9 +1,11 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { DumpsterPositionAttributes, DumpsterPositionCreationAttributes } from "./DumpsterPositions";
+import { UserAttributes, UserCreationAttributes } from "./Users";
 
 export interface DumpsterReportAttributes {
     dumpsterReportID: number;
     dumpsterID: number;
+    userID: string | null;
     reason: string;
     date: string;
 }
@@ -14,10 +16,11 @@ export interface DumpsterReportCreationAttributes
 export class DumpsterReports
     extends Model<DumpsterReportAttributes, DumpsterReportCreationAttributes>
     implements DumpsterReportAttributes {
-    dumpsterReportID!: number;
-    dumpsterID!: number;
-    reason!: string;
-    date!: string;
+    public dumpsterReportID!: number;
+    public dumpsterID!: number;
+    public userID!: string | null;
+    public reason!: string;
+    public date!: string;
 }
 
 // Inject Sequelize
@@ -32,6 +35,9 @@ export function init(sequelize: Sequelize) {
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 allowNull: false,
+            },
+            userID: {
+                type: DataTypes.STRING,
             },
             reason: {
                 type: DataTypes.STRING,
@@ -54,8 +60,11 @@ export function init(sequelize: Sequelize) {
 // The type is not defined yet, so use a substitute
 export function associate({
                               DumpsterPositions,
+    Users
                           }: {
     DumpsterPositions: ModelStatic<Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>>;
+    Users: ModelStatic<Model<UserAttributes, UserCreationAttributes>>;
+
 }) {
     // do associations like
     // Thing.hasMany()
