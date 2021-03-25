@@ -25,39 +25,83 @@ VALUES
 
 INSERT INTO DumpsterPositions(dumpsterID, position, revisionID)
 VALUES
-    (1, Point(63.411402, 10.434084), NULL),
-    (2, Point(63.434678, 10.412455), NULL),
-    (3, Point(63.412113, 10.440253), NULL),
-    (4, Point(0, 0), NULL);
+    (1, Point(63.416916, 10.354478), NULL),
+    (2, Point(63.435008, 10.410727), NULL),
+    (3, Point(63.467127, 10.941596), NULL),
+    (4, Point(63.409747, 10.438794), NULL),
+    (5, Point(63.412930, 10.431018), NULL),
+    (6, Point(63.361335, 10.379476), NULL),
+    (7, Point(63.429731, 10.394115), NULL);
 
-INSERT INTO Dumpsters(dumpsterID, position, name, dumpsterTypeID, storeTypeID, locked, cleanliness, emptyingSchedule, info)
+INSERT INTO Dumpsters(dumpsterID, revisionID, position, name, dumpsterTypeID, storeTypeID, locked, positiveStoreViewOnDiving, cleanliness, emptyingSchedule, info)
 VALUES
-    (1, Point(63.411402, 10.434084), 'Tore\'s store', 1, 1, FALSE, 5, 'First Tuesday in the month', 'Nothing to be said.'),
-    (2, Point(63.434678, 10.412455), 'Jon\'s store', 1, 2, FALSE, 5, 'Every day', 'Just your regular, sleepy dumpster.'),
-    (3, Point(12, 14), 'Helenes (wrong) dumpster', 2, 2, FALSE, 5, 'No day', 'If this shows up, something is *very* wrong.'),
-    (3, Point(63.412113, 10.440253), 'Helen\'s store', 2, 2, TRUE, 5, 'Mondays', 'This is the correct revision. Phew.'),
-    (4, Point(0, 0), 'Far away store', 2, 1, FALSE, 1, 'Never', 'Is too far away to matter'); -- adjust ID if needed
+    (1, 45, Point(63.416916, 10.354478), 'Byaasen senter', 3, 5, FALSE, TRUE, 2, 'Don\'t know', 'Nothing to be said.'),
+    (1, 1, Point(63.416916, 10.354478), 'Byåsen senter', 3, 5, FALSE, TRUE, 2, 'Don\'t know', 'Nothing to be said.'),
+    (2, 51, Point(63.435008, 10.410727), 'Månesiden senter', 1, 2, FALSE, TRUE, 4, 'Every other week','Usually a lot of barfed-up goods.'),
+    (2, 2, Point(63.435008, 10.410727), 'Solsiden senter', 1, 2, FALSE, TRUE, 4, 'Every other week','Usually a lot of baked goods.'),
+    (3, 52, Point(63.467127, 10.941596), 'Elkjop Sthørdal', 2, 2, FALSE, 5, TRUE, 'Last friday of the month', 'Mostly broken stuff, but if you are lucky you find good value'),
+    (3, 3, Point(63.467127, 10.941596), 'Elkjøp Stjørdal', 2, 2, FALSE, 5, TRUE, 'Last friday of the month', 'Mostly broken stuff, but if you are lucky you find good value'),
+    (4, 68, Point(63.409747, 10.438794), 'Rema 1000 Loholt', 1, 1, TRUE, TRUE, 5, 'Second Bursday every month', 'Don\'t know if panyone can benter'),
+    (4, 69, Point(63.409747, 10.438794), 'Rema 1000 Loholt', 1, 1, TRUE, TRUE, 5, 'Second Thursday every month', 'Don\'t know if panyone can benter'),
+    (4, 4, Point(63.409747, 10.438794), 'Rema 1000 Moholt', 1, 1, TRUE, FALSE, 5, 'Second Thursday every month', 'Don\'t know if anyone can enter'),
+    (5, 77, Point(63.412930, 10.431018), 'Bunnrips Moholt', 1, 1, TRUE, FALSE, 3, 'Fridays at 15pm', 'A bit dirty. Watch where you touch'),
+    (5, 78, Point(63.412930, 10.431018), 'Bunnpris Moholt', 1, 1, TRUE, FALSE, 3, 'Fridays at 15pm', 'A bit dirty. Watch where you touch'),
+    (5, 5, Point(63.412930, 10.431018), 'Bunnpris Moholt', 1, 1, TRUE, TRUE, 3, 'Fridays at 15pm', 'Somewhat dirty. Watch where you touch'),
+    (6, 6, Point(63.361335, 10.379476), 'City Syd Tiller', 2, 5, FALSE, NULL, 4, 'Mondays at 13pm', 'A bit hard to find. It is hidden under a roof'),
+    (7, 79, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where the deliveries are'),
+    (7, 7, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where goods are delivered');
+
+INSERT INTO Comments(commentID, dumpsterID, nickname, comment, rating, date)
+VALUES
+    (1, 1, 'Tore pa sporet', 'Found some great pastries.', 5, '2021-02-22 12:50:05'),
+    (2, 1, 'TrashBin', 'Would anyone join for a dive here?', 6, '2021-02-28 15:40:45'),
+    (3, 1, 'Trash panda', 'Please leave some for others as well', 2, '2021-03-01 22:34:49'),
+    (4, 2, 'Trash panda', 'Mostly food here, but some other stuff as well', 0, '2021-01-02 23:32:23'),
+    (5, 3, 'Diver', 'I never find anything here', 3, '2021-01-15 14:36:45'),
+    (6, 5, 'TheDive', 'This dumpster is locked. Remember that breaking locks is illegal', 3, '2021-01-17 13:36:34');
 
 UPDATE DumpsterPositions SET revisionID = 1 WHERE dumpsterID = 1;
 UPDATE DumpsterPositions SET revisionID = 2 WHERE dumpsterID = 2;
-UPDATE DumpsterPositions SET revisionID = 4 WHERE dumpsterID = 3;
-UPDATE DumpsterPositions SET revisionID = 5 WHERE dumpsterID = 4;
+UPDATE DumpsterPositions SET revisionID = 3 WHERE dumpsterID = 3;
+UPDATE DumpsterPositions SET revisionID = 4 WHERE dumpsterID = 4;
+UPDATE DumpsterPositions SET revisionID = 5 WHERE dumpsterID = 5;
+UPDATE DumpsterPositions SET revisionID = 6 WHERE dumpsterID = 6;
+UPDATE DumpsterPositions SET revisionID = 7 WHERE dumpsterID = 7;
 
 INSERT INTO DumpsterCategories(dumpsterID, revisionID, categoryID)
 VALUES
     (1, 1, 1),
-    (1, 1, 2),
+    (1, 1, 3),
     (2, 2, 7),
     (3, 3, 2),
-    (3, 4, 3),
-    (3, 4, 4);
+    (3, 3, 5),
+    (4, 4, 1),
+    (4, 4, 4),
+    (5, 5, 7),
+    (5, 5, 1),
+    (6, 6, 3),
+    (6, 6, 1),
+    (7, 7, 6);
+
 
 INSERT INTO Ratings(userID, dumpsterID, rating)
 VALUES
-    ('temp1', 1, 2),
-    ('temp2', 1, 3),
-    ('temp3', 1, 3),
+    ('temp1', 1, 3),
+    ('temp2', 1, 5),
+    ('temp3', 1, 5),
     ('temp4', 1, 4),
-    ('temp5', 1, 2),
-    ('temp6', 1, 2),
-    ('temp7', 1, 2);
+    ('temp1', 2, 5),
+    ('temp2', 2, 3),
+    ('temp3', 2, 3),
+    ('temp1', 3, 2),
+    ('temp2', 3, 3),
+    ('temp1', 4, 3),
+    ('temp2', 4, 4),
+    ('temp3', 4, 2),
+    ('temp4', 4, 1),
+    ('temp5', 4, 2),
+    ('temp1', 5, 1),
+    ('temp1', 6, 4),
+    ('temp5', 7, 2),
+    ('temp6', 7, 3);
+

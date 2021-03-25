@@ -10,7 +10,7 @@ wsl:
 	sudo /etc/init.d/mysql start
 
 tables:
-	./setup.sh
+	cat setup.sh | tr -d '\r' | bash
 
 clean:
 	docker container stop db
