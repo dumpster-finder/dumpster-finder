@@ -2,6 +2,7 @@ import * as React from "react";
 import {
     Button,
     Card,
+    Datepicker,
     Divider,
     Input,
     Modal,
@@ -21,7 +22,7 @@ export default function AddContentModal({
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
     const [unit, setUnit] = useState("");
-    const [expiryDate, setExpiryDate] = useState("");
+    const [expiryDate, setExpiryDate] = useState(new Date());
     return (
         <Modal
             visible={visible}
@@ -57,12 +58,12 @@ export default function AddContentModal({
                         onChangeText={change => setUnit(change)}
                     />
                 </View>
-                <Input
+                <Datepicker
                     style={styles.input}
                     label={"Expires on"}
-                    placeholder={"12-04-21"}
-                    value={expiryDate}
-                    onChangeText={change => setExpiryDate(change)}
+                    placeholder={"Select date..."}
+                    date={expiryDate}
+                    onSelect={change => setExpiryDate(change)}
                 />
                 <View style={styles.row}>
                     <Button style={{ marginHorizontal: 5 }} onPress={add}>
