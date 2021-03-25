@@ -22,8 +22,6 @@ export default function DetailsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const dumpster = useSelector(currentDumpsterSelector);
-    const categoryArrays = [];
-    const categoryPrLine = 4; // TODO this is not the way (adjust by screen size, yo...)
     const photos = [
         "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
         "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
@@ -38,17 +36,6 @@ export default function DetailsScreen({
         );
     } else {
         const { categories } = dumpster;
-
-        if (categories.length > categoryPrLine) {
-            const turns = categories.length / categoryPrLine;
-            for (let i = 0; i < turns; i++) {
-                const newArray = categories.slice(
-                    i * categoryPrLine,
-                    categoryPrLine * (i + 1),
-                );
-                categoryArrays.push(newArray);
-            }
-        }
 
         return (
             <Layout style={styles.container}>
@@ -145,50 +132,14 @@ export default function DetailsScreen({
                     </View>
 
                     <Text style={{ alignSelf: "center" }}>Categories:</Text>
-                    {categories.length > categoryPrLine ? ( // TODO this should be its own component...
-                        <View style={styles.column}>
-                            {categoryArrays.map((array, index) => (
-                                <View style={styles.tagRow} key={index}>
-                                    {array.map((category, index) => (
-                                        <Layout
-                                            level="3"
-                                            key={index}
-                                            style={[
-                                                styles.tagBox,
-                                                {
-                                                    width:
-                                                        100 / categoryPrLine +
-                                                        "%",
-                                                },
-                                            ]}
-                                        >
-                                            <Text>{category}</Text>
-                                        </Layout>
-                                    ))}
-                                </View>
-                            ))}
-                        </View>
-                    ) : (
-                        <View style={styles.column}>
-                            <View style={styles.tagRow}>
-                                {categories.map((category, index) => (
-                                    <Layout
-                                        level="3"
-                                        key={index}
-                                        style={[
-                                            styles.tagBox,
-                                            {
-                                                width:
-                                                    100 / categoryPrLine + "%",
-                                            },
-                                        ]}
-                                    >
-                                        <Text>{category}</Text>
-                                    </Layout>
-                                ))}
-                            </View>
-                        </View>
-                    )}
+                    <View style={styles.tagRow}>
+                        {categories.map((category, index) => (
+                            <Layout level="3" key={index} style={styles.tagBox}>
+                                <Text>{category}</Text>
+                            </Layout>
+                        ))}
+                    </View>
+
                     <View style={styles.row}>
                         <View style={styles.buttons}>
                             <Button
@@ -233,7 +184,6 @@ export default function DetailsScreen({
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -241,18 +191,12 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     row: {
-        flex: 1,
         flexDirection: "row",
     },
     buttons: {
         paddingVertical: 10,
         width: "50%",
         alignItems: "center",
-    },
-    column: {
-        flex: 1,
-        flexDirection: "column",
-        padding: 5,
     },
     infoRow: {
         display: "flex",
@@ -270,9 +214,11 @@ const styles = StyleSheet.create({
     },
     tagRow: {
         width: "100%",
-        flex: 1,
         flexDirection: "row",
         alignItems: "center",
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        flexWrap: "wrap",
     },
     box: {
         display: "flex",
@@ -287,10 +233,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
     },
     tagBox: {
-        alignItems: "center",
         paddingBottom: 5,
         paddingTop: 3,
-        borderRadius: 10,
-        marginHorizontal: 5,
+        paddingHorizontal: 7,
+        borderRadius: 15,
+        marginRight: 3,
+        marginBottom: 4,
     },
 });
