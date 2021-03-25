@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\frontend\components\AddContentModal.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\frontend\components\Burgermenu.tsx">
           <value>
             <Attribute>
@@ -42,6 +49,13 @@
           <value>
             <Attribute>
               <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\frontend\components\EditContentModal.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
@@ -109,6 +123,13 @@
           </value>
         </entry>
         <entry key="\frontend\screens\AddInfoScreen.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\frontend\screens\ContentScreen.tsx">
           <value>
             <Attribute>
               <option name="separator" value="," />

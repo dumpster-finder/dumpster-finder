@@ -8,9 +8,9 @@ import {
     Text,
 } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
-import { ArrowDownIcon, ArrowUpIcon, TrashIcon, XIcon } from "./Icons";
 import Content from "../models/Content";
 import { useState } from "react";
+import { SaveButtonIcon, TrashIcon } from "./Icons";
 
 export default function EditContentModal({
     visible,
@@ -26,48 +26,93 @@ export default function EditContentModal({
     onDelete: () => void;
 }) {
     const [editVal, setEditVal] = useState(selectedContent.amount.toString());
+    const [delVis, setDelVis] = useState(false);
     return (
-        <Modal
-            visible={visible}
-            backdropStyle={styles.backdrop}
-            onBackdropPress={() => setVisible(false)}
-        >
-            <Card
-                disabled={true}
-                style={{
-                    alignItems: "center",
-                }}
+        <View>
+            <Modal
+                visible={visible}
+                backdropStyle={styles.backdrop}
+                onBackdropPress={() => setVisible(false)}
             >
-                <Text category={"h5"} style={{ alignSelf: "center" }}>
-                    {selectedContent.name}
-                </Text>
-                <Divider />
-                <View style={styles.row}>
-                    <Text
-                        category={"h6"}
-                        style={{ alignSelf: "center", paddingHorizontal: 5 }}
-                    >
-                        Amount:
-                    </Text>
-
-                    <Input
-                        style={styles.input}
-                        size={"large"}
-                        value={editVal.toString()}
-                        onChangeText={change => setEditVal(change)}
-                    />
-                </View>
-                <Button onPress={save}>Save changes</Button>
-                <Button
-                    status={"danger"}
-                    style={{ marginVertical: 10 }}
-                    size={"small"}
-                    onPress={del}
+                <Card
+                    disabled={true}
+                    style={{
+                        alignItems: "center",
+                    }}
                 >
-                    Delete
-                </Button>
-            </Card>
-        </Modal>
+                    <Text category={"h5"} style={{ alignSelf: "center" }}>
+                        {selectedContent.name}
+                    </Text>
+                    <Divider />
+
+                    <View style={styles.row}>
+                        <Input
+                            label={"Amount"}
+                            style={styles.input}
+                            size={"large"}
+                            value={editVal.toString()}
+                            onChangeText={change => setEditVal(change)}
+                            keyboardType={"number-pad"}
+                        />
+                        <Text
+                            category={"h6"}
+                            style={{
+                                alignSelf: "center",
+                                paddingHorizontal: 5,
+                            }}
+                        >
+                            {selectedContent.unit}
+                        </Text>
+                    </View>
+
+                    <Text category={"h6"}>
+                        Expires on: {selectedContent.expiryDate}
+                    </Text>
+                    <Button onPress={save} accessoryLeft={SaveButtonIcon}>
+                        Save changes
+                    </Button>
+                    <Button
+                        status={"danger"}
+                        style={{ marginVertical: 10 }}
+                        size={"small"}
+                        onPress={deleteCheck}
+                        accessoryLeft={TrashIcon}
+                    >
+                        Delete
+                    </Button>
+                    <Button onPress={() => setVisible(false)} status={"basic"}>
+                        Cancel
+                    </Button>
+                </Card>
+            </Modal>
+            <Modal visible={delVis} backdropStyle={styles.backdrop}>
+                <Card
+                    disabled={true}
+                    style={{
+                        alignItems: "center",
+                    }}
+                >
+                    <Text>Are you sure?</Text>
+                    <Divider />
+                    <View style={styles.row}>
+                        <Button
+                            style={{ marginHorizontal: 5 }}
+                            onPress={del}
+                            status={"danger"}
+                        >
+                            Yes
+                        </Button>
+                        <Button
+                            style={{ marginHorizontal: 5 }}
+                            onPress={() => setDelVis(false)}
+                            status={"basic"}
+                        >
+                            Cancel
+                        </Button>
+                    </View>
+                </Card>
+            </Modal>
+        </View>
     );
     function save() {
         setVisible(false);
@@ -75,8 +120,15 @@ export default function EditContentModal({
     }
 
     function del() {
+        setDelVis(false);
         setVisible(false);
         onDelete();
+    }
+
+    function deleteCheck() {
+        setDelVis(true);
+
+        console.log(delVis);
     }
 }
 

@@ -19,6 +19,7 @@ import Content from "../models/Content";
 import { useState } from "react";
 import { ArrowUpIcon, ArrowDownIcon, TrashIcon } from "../components/Icons";
 import EditContentModal from "../components/EditContentModal";
+import AddContentModal from "../components/AddContentModal";
 
 export default function ContentScreen() {
     const dumpster = useSelector(currentDumpsterSelector);
@@ -54,7 +55,8 @@ export default function ContentScreen() {
     });
     const list = [aa, ab, aa, ab, aa, ab, aa, ab, aa, ab, aa, ab];
     const [selectedContent, setSelectedContent] = useState(a);
-    const [visible, setVisible] = useState(false);
+    const [visibleEdit, setVisibleEdit] = useState(false);
+    const [visibleAdd, setVisibleAdd] = useState(false);
     if (dumpster === null) {
         return (
             <Layout style={styles.container}>
@@ -74,6 +76,7 @@ export default function ContentScreen() {
                 >
                     <Text category={"h4"}>{dumpster.name}</Text>
                     <Text category={"h6"}>{dumpster.storeType}</Text>
+                    <Button onPress={() => setVisibleAdd(true)}>ADD</Button>
                 </View>
                 <ScrollView style={styles.scrollView}>
                     {list.map((value, i) => (
@@ -82,18 +85,24 @@ export default function ContentScreen() {
                                 content={value}
                                 onPress={() => {
                                     setSelectedContent(value);
-                                    setVisible(true);
+                                    setVisibleEdit(true);
                                 }}
                             />
                         </View>
                     ))}
-                    {visible ? (
+                    {visibleEdit ? (
                         <EditContentModal
-                            visible={visible}
-                            setVisible={setVisible}
+                            visible={visibleEdit}
+                            setVisible={setVisibleEdit}
                             selectedContent={selectedContent}
                             onSave={(newVal: number) => console.log(newVal)}
                             onDelete={() => console.log("me")}
+                        />
+                    ) : null}
+                    {visibleAdd ? (
+                        <AddContentModal
+                            visible={visibleAdd}
+                            setVisible={setVisibleAdd}
                         />
                     ) : null}
                 </ScrollView>
