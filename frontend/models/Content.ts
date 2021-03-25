@@ -5,8 +5,8 @@ class Content {
     amount: number;
     unit: string;
     quality: number;
-    foundDate: string;
-    expiryDate: string;
+    foundDate: Date;
+    expiryDate: Date;
 
     constructor({
         dumpsterID,
@@ -24,8 +24,8 @@ class Content {
         amount: number;
         unit: string;
         quality: number;
-        foundDate: string;
-        expiryDate: string;
+        foundDate: Date;
+        expiryDate: Date;
     }) {
         this.dumpsterID = dumpsterID;
         this.tagID = tagID;
