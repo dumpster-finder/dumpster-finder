@@ -104,7 +104,9 @@ export default function ({
                          latitude.toString(),
                      )} ${escape(
                         longitude.toString(),
-                    )})'), position) <= ${escape(String(radius))}`,
+                    )})'), position) <= ${escape(
+                        String(radius),
+                    )} ORDER BY distance ASC`,
                 ),
             }).then(dumpsters => dumpsters.map(toDumpster)),
 
