@@ -1,7 +1,6 @@
 import { setupTestData } from "../../config/testSetup";
 import Models from "../../models";
 import DumpsterDAO from "../dumpsters";
-import exp from "constants";
 
 const dumpsterDAO = DumpsterDAO(Models);
 

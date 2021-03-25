@@ -31,6 +31,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="$APPLICATION_CONFIG_DIR$/consoles/db/80ea586e-2a82-4588-98ca-27e6324a89e6/console.sql">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="$APPLICATION_CONFIG_DIR$/consoles/db/86610a9e-648c-4063-9a6f-e508ad98a862/console.sql">
           <value>
             <Attribute>

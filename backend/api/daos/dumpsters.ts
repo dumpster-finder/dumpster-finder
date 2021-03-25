@@ -70,7 +70,6 @@ export default function ({
     return {
         /**
          * Fetches all dumpsters in a given radius around a position (lat, long)
-         * TODO narrow down results by distance from point
          *
          * @param latitude
          * @param longitude
@@ -79,7 +78,18 @@ export default function ({
          */
         getAll: ({ latitude, longitude, radius }: PositionParams) =>
             Dumpsters.findAll({
-                attributes: dumpsterAttributes,
+                attributes: [
+                    ...dumpsterAttributes,
+                    [
+                        // Calculate distance here.
+                        literal(
+                            `SPHERICAL_DISTANCE(ST_GEOMFROMTEXT('POINT(${escape(
+                                latitude.toString(),
+                            )} ${escape(longitude.toString())})'), position)`,
+                        ),
+                        "distance",
+                    ],
+                ],
                 include: [
                     {
                         // @ts-ignore
@@ -91,7 +101,11 @@ export default function ({
                     // TODO dividing by 10 000 is not a way to solve this. At all.
                     //      This is a problem of distance on a sphere. We might have to switch db system.
                     `Dumpsters.revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)
-                     AND ST_WITHIN(position, ST_BUFFER(ST_GEOMFROMTEXT('POINT(${escape(String(latitude))} ${escape(String(longitude))})'), ${escape(String(radius/10000))}))`,
+                     AND SPHERICAL_DISTANCE(ST_GEOMFROMTEXT('POINT(${escape(
+                         latitude.toString(),
+                     )} ${escape(
+                        longitude.toString(),
+                    )})'), position) <= ${escape(String(radius))}`,
                 ),
             }).then(dumpsters => dumpsters.map(toDumpster)),
 
