@@ -35,15 +35,19 @@ const InnerApp = () => {
     const radius = useSelector(radiusSelector);
 
     useEffect(() => {
-        // TODO prevent this necessity (had to clear out old data)
-        store.dispatch(setDumpsters([]));
-        store.dispatch(fetchNearbyDumpsters({ position, radius }));
         store.dispatch(fetchAllConstants());
         if (firstTime) {
             store.dispatch(setDarkMode(externalColorScheme === "dark"));
             // unset firstTime only AFTER the intro page has been shown!
         }
     }, []);
+
+    useEffect(() => {
+        // TODO reconsider the 1st part
+        store.dispatch(setDumpsters([]));
+        // Fetch dumpsters each time position or radius changes
+        store.dispatch(fetchNearbyDumpsters({ position, radius }));
+    }, [position, radius]);
 
     return (
         <SafeAreaProvider>
