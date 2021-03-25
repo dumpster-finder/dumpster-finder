@@ -1,4 +1,25 @@
 {
+    "common": {
+        "rating": "Rating:",
+        "cleanliness": "Cleanliness",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
+        "view": "Store's view on dumpster diving:",
+        "negative": "Negative",
+        "neutral": "Neutral",
+        "positive": "Positive",
+        "emptySchedule": "Emptying schedule:",
+        "categories": "Categories",
+        "content": "See content",
+        "comments": "See comments",
+        "setRating": "Rate me:",
+        "storeType": "Store type:",
+        "dumpsterType": "Dumpster type:",
+        "extraInfo": "Extra info",
+
+        "dropdownPlaceholder": "Choose …"
+    },
+
     "advice": {
         "title": "Dumpster diving advice",
         "nr1": "1. Don’t go diving in locked dumpsters",
@@ -35,7 +56,7 @@
         "cleanliness": "Cleanliness",
         "locked": "Locked",
         "unlocked": "Unlocked",
-        "view": "Stores view on dumpster diving:",
+        "view": "Store's view on dumpster diving:",
         "negative": "Negative",
         "neutral": "Neutral",
         "positive": "Positive",
@@ -45,12 +66,12 @@
         "comments": "See comments",
         "setRating": "Rate me:",
         "storeType": "Store type:",
-        "DumpsterType": "DumpsterType:",
-        "Extra": "Extra info"
+        "dumpsterType": "Dumpster type:",
+        "extraInfo": "Extra info"
     },
 
     "menu": {
-        "flag": "Flag dumpster",
+        "flag": "Report dumpster",
         "revision": "Revision history",
         "editDumpster": "Edit dumpster",
         "editContent": "Edit content"
@@ -64,11 +85,46 @@
         "add": "Add comment"
     },
 
-    "edit": {
-        "save": "Save dumpster"
-    },
-
-    "add": {
+    "editor": {
+        "storeName": {
+            "label": "Store name",
+            "placeholder": "e.g. Tesco in East London",
+            "errorEmpty": "Name is required"
+        },
+        "dumpsterType": {
+            "label": "Dumpster type",
+            "errorEmpty": "This field is required"
+        },
+        "storeType": {
+            "label": "Store type",
+            "errorEmpty": "This field is required"
+        },
+        "categories": {
+            "label": "Categories"
+        },
+        "emptyingSchedule": {
+            "label": "Emptying schedule",
+            "placeholder": "e.g. First Monday in the month",
+        },
+        "storeView": {
+            "label": "Store's view on dumpster diving",
+            "negative": "Negative",
+            "neutral": "Neutral",
+            "positive": "Positive"
+        },
+        "locked": {
+            "label": "Dumpster state",
+            "locked": "Locked",
+            "unlocked": "Open"
+        },
+        "cleanliness": {
+            "label": "Cleanliness"
+        },
+        "extraInfo": {
+            "label": "Notes",
+            "placeholder": "(additional information that doesn't fit elsewhere)"
+        },
+        "save": "Save dumpster",
         "create": "Create dumpster"
     },
 
@@ -83,8 +139,6 @@
         "pos": "e.g. Paris",
         "comment": "Comment",
         "choose": "Choose..",
-        "storeName": "e.g. Tesco in East London",
-        "emptySchedule": "e.g. First Monday in the month",
         "extraInfo": "Other information"
     },
 
@@ -104,19 +158,27 @@
     },
 
     "storeType": {
-        "grocery": "Grocery store",
-        "electronics": "Electronics store",
-        "bakery": "Bakery",
-        "furniture": "Furniture store",
-        "miscellaneous": "Miscellaneous"
+        "Grocery Store": "Grocery store",
+        "Electronics Store": "Electronics store",
+        "Bakery": "Bakery",
+        "Furniture Store": "Furniture store",
+        "Miscellaneous": "Miscellaneous"
     },
+
     "categories": {
-        "dairy": "Dairy",
-        "batteries": "Batteries",
-        "vegetables": "Vegetables",
-        "meat": "Meat",
-        "tools": "Tools",
-        "pastries": "pastries",
-        "seafood": "Seafood"
+        "Dairy": "Dairy",
+        "Batteries": "Batteries",
+        "Vegetables": "Vegetables",
+        "Meat": "Meat",
+        "Tools": "Tools",
+        "Pastries": "Pastries",
+        "Seafood": "Seafood",
+        "Unknown": "Unknown"
+    },
+
+    "storeView": {
+        "negative": "Negative",
+        "neutral": "Neutral",
+        "positive": "Positive"
     }
 }

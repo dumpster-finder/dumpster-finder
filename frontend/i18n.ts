@@ -6,7 +6,7 @@ import Constants from "expo-constants";
 
 (async () => {
     await i18n.use(initReactI18next).init({
-        fallbackLng: "no",
+        fallbackLng: "en",
         // Makes it possible to avoid writing common: in front
         fallbackNS: "common",
         debug: Constants.manifest.extra.debug,

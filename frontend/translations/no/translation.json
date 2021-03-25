@@ -1,4 +1,23 @@
 {
+    "common": {
+        "rating": "Vurdering",
+        "cleanliness": "Renhet",
+        "locked": "Låst",
+        "unlocked": "Åpen",
+        "view": "Butikkens syn på søppeldykkere",
+        "negative": "Negativt",
+        "neutral": "Nøytralt",
+        "positive": "Positivt",
+        "emptyingSchedule": "Tømmeplan",
+        "categories": "Kategorier",
+        "content": "Se innhold",
+        "comments": "Se kommentarer",
+        "storeType": "Butikktype",
+        "dumpsterType": "Type søppelkasse",
+        "extraInfo": "Ekstra info",
+
+        "dropdownPlaceholder": "Velg noe …"
+    },
     "advice": {
         "title": "Dumpster diving råd:",
         "nr1": "1. Ikke gå i låste søppelkasser",
@@ -30,20 +49,20 @@
     "details": {
         "rating": "Vurdering:",
         "cleanliness": "Renhet",
-        "locked": "Åpen",
-        "unlocked": "Låst",
+        "locked": "Låst",
+        "unlocked": "Åpen",
         "view": "Butikkens syn på søppeldykkere:",
         "negative": "Negativ",
         "neutral": "Nøytral",
         "positive": "Positiv",
-        "emptySchedule": "Tømmeplan:",
+        "emptyingSchedule": "Tømmeplan:",
         "categories": "Kategorier",
         "content": "Se innhold",
         "comments": "Se kommentarer",
         "setRating": "Vurder meg:",
         "storeType": "Butikktype:",
-        "DumpsterType": "Type søppelkasse:",
-        "Extra": "Ekstra info"
+        "dumpsterType": "Type søppelkasse:",
+        "extraInfo": "Ekstra info"
     },
 
     "menu": {
@@ -63,12 +82,47 @@
         "yourPos": "Din posisjon"
     },
 
-    "edit": {
-        "save": "Lagre søppelkasse"
-    },
-
-    "add": {
-        "create": "Lag dumpster"
+    "editor": {
+        "storeName": {
+            "label": "Butikknavn",
+            "placeholder": "f.eks. Rema 1000 Aker brygge",
+            "errorEmpty": "Dumpsteren trenger et navn"
+        },
+        "dumpsterType": {
+            "label": "Type søppelkasse",
+            "errorEmpty": "Dumpstertype må oppgis"
+        },
+        "storeType": {
+            "label": "Butikktype",
+            "errorEmpty": "Butikktype må oppgis"
+        },
+        "categories": {
+            "label": "Kategorier"
+        },
+        "emptyingSchedule": {
+            "label": "Tømmeplan",
+            "placeholder": "f.eks Første mandag i måneden"
+        },
+        "storeView": {
+            "label": "Butikkens syn på søppeldykkere",
+            "negative": "Negativt",
+            "neutral": "Nøytralt",
+            "positive": "Positivt"
+        },
+        "locked": {
+            "label": "Dumpsterens tilstand",
+            "locked": "Locked",
+            "unlocked": "Open"
+        },
+        "cleanliness": {
+            "label": "Renhet"
+        },
+        "extraInfo": {
+            "label": "Annen info",
+            "placeholder": "(ekstra info som ikke passer inn andre steder)"
+        },
+        "save": "Lagre dumpster",
+        "create": "Opprett dumpster"
     },
 
     "position": {
@@ -81,15 +135,12 @@
         "pos": "f.eks. Paris",
         "comment": "Comment",
         "choose": "Choose..",
-        "storeName": "f.eks. Rema 1000 Aker brygge",
-        "emptySchedule": "f.eks Første mandag i måneden",
-        "extraInfo": "Annen info"
     },
 
     "cleanliness": {
         "pristine": "Nydelig",
         "clean": "Ren",
-        "average": "Normalt",
+        "average": "Normal",
         "dirty": "Skitten",
         "filthy": "Forferdelig"
     },
@@ -102,19 +153,20 @@
     },
 
     "storeType": {
-        "grocery": "Matbutikk",
-        "electronics": "Elektronikk",
-        "bakery": "Bakeri",
-        "furniture": "Møbelbutikk",
-        "miscellaneous": "Blandet"
+        "Grocery": "Matbutikk",
+        "Electronics": "Elektronikk",
+        "Bakery": "Bakeri",
+        "Furniture": "Møbelbutikk",
+        "Miscellaneous": "Blandet"
     },
     "categories": {
-        "dairy": "Meieriprodukter",
-        "batteries": "Batterier",
-        "vegetables": "Grønnsaker",
-        "meat": "Kjøtt",
-        "tools": "Verktøy",
-        "pastries": "Bakevarer",
-        "seafood": "Sjømat"
+        "Dairy": "Meieriprodukter",
+        "Batteries": "Batterier",
+        "Vegetables": "Grønnsaker",
+        "Meat": "Kjøtt",
+        "Tools": "Verktøy",
+        "Pastries": "Bakevarer",
+        "Seafood": "Sjømat",
+        "unknown": "Ukjent"
     }
 }
