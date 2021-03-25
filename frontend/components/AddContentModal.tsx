@@ -9,6 +9,7 @@ import {
 } from "@ui-kitten/components";
 import Content from "../models/Content";
 import { StyleSheet, View } from "react-native";
+import { useState } from "react";
 
 export default function AddContentModal({
     visible,
@@ -17,6 +18,10 @@ export default function AddContentModal({
     visible: boolean;
     setVisible: (newVisible: boolean) => void;
 }) {
+    const [name, setName] = useState("");
+    const [amount, setAmount] = useState("");
+    const [unit, setUnit] = useState("");
+    const [expiryDate, setExpiryDate] = useState("");
     return (
         <Modal
             visible={visible}
@@ -26,24 +31,39 @@ export default function AddContentModal({
             <Card style={{ alignItems: "center" }}>
                 <Text category={"h5"}>Add content</Text>
                 <Divider />
-                <Input style={styles.input} label={"Product"} />
+                <Input
+                    style={styles.input}
+                    label={"Product"}
+                    placeholder={"Product name"}
+                    value={name}
+                    onChangeText={change => setName(change)}
+                />
 
                 <View style={styles.row}>
                     <Input
-                        style={{ maxWidth: "40%", minWidth: "40%" }}
+                        style={styles.smallInput}
                         label={"Amount"}
                         keyboardType={"number-pad"}
+                        placeholder={"0"}
+                        value={amount}
+                        onChangeText={change => setAmount(change)}
                     />
                     <View style={{ width: "9%" }} />
                     <Input
-                        style={{
-                            maxWidth: "40%",
-                            minWidth: "40%",
-                        }}
+                        style={styles.smallInput}
                         label={"Unit"}
+                        placeholder={"Unit"}
+                        value={unit}
+                        onChangeText={change => setUnit(change)}
                     />
                 </View>
-                <Input style={styles.input} label={"Expires on"} />
+                <Input
+                    style={styles.input}
+                    label={"Expires on"}
+                    placeholder={"12-04-21"}
+                    value={expiryDate}
+                    onChangeText={change => setExpiryDate(change)}
+                />
                 <View style={styles.row}>
                     <Button style={{ marginHorizontal: 5 }} onPress={add}>
                         Add
@@ -79,5 +99,9 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         maxWidth: "80%",
         minWidth: "80%",
+    },
+    smallInput: {
+        maxWidth: "40%",
+        minWidth: "40%",
     },
 });
