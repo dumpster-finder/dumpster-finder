@@ -1,24 +1,32 @@
 class Comments {
-    comment: string;
-    date: string;
+    commentID: number;
+    dumpsterID: number;
     nickname: string;
+    comment: string;
     rating: number;
+    date: string;
 
     constructor({
-        comment,
-        date,
+        commentID,
+        dumpsterID,
         nickname,
+        comment,
         rating,
+        date,
     }: {
-        comment: string;
-        date: string;
+        commentID: number;
+        dumpsterID: number;
         nickname: string;
+        comment: string;
         rating: number;
+        date: string;
     }) {
-        this.comment = comment;
-        this.date = date;
+        this.commentID = commentID;
+        this.dumpsterID = dumpsterID;
         this.nickname = nickname;
+        this.comment = comment;
         this.rating = rating;
+        this.date = date;
     }
 }
 
