@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS
     DumpsterCategories, Categories,
     Ratings, Comments,
     DumpsterReports,  Dumpsters, DumpsterPositions,
-    StoreTypes, DumpsterTypes;
+    Users, StoreTypes, DumpsterTypes;
 -- Get back to safe terrain
 SET foreign_key_checks = 1;
 

@@ -83,6 +83,15 @@ VALUES
     (6, 6, 1),
     (7, 7, 6);
 
+INSERT INTO Users(userID)
+VALUES
+    ('temp1'),
+    ('temp2'),
+    ('temp3'),
+    ('temp4'),
+    ('temp5'),
+    ('temp6');
+
 
 INSERT INTO Ratings(userID, dumpsterID, rating)
 VALUES
