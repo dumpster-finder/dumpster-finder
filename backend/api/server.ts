@@ -38,7 +38,8 @@ app.use(expressPino({ logger }));
 app.use("/spec", swagger());
 
 app.use("/dumpsters", dumpsters(dependencies));
-app.use("/comments", comments(dependencies));
+app.use("/dumpsters/:dumpsterID(\\d+)/comments", comments(dependencies));
+
 app.use("/categories", categories(dependencies));
 app.use("/store-types", storeTypes(dependencies));
 app.use("/dumpster-types", dumpsterTypes(dependencies));
