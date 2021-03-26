@@ -9,7 +9,9 @@ ENV MYSQL_DATABASE dumpster
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update
+# A little restrictive here (see https://serverfault.com/a/839563)
+RUN apt-get --yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 RUN apt-get install -y locales
 RUN locale-gen en_US.UTF-8
 
