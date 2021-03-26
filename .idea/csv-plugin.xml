@@ -24,7 +24,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\frontend\components\AddContentModal.tsx">
+        <entry key="\backend\api\daos\dumpsters.ts">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -32,6 +32,13 @@
           </value>
         </entry>
         <entry key="\backend\db\data.sql">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\frontend\components\AddContentModal.tsx">
           <value>
             <Attribute>
               <option name="separator" value="," />
