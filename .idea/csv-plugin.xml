@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\backend\db\data.sql">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\frontend\components\Burgermenu.tsx">
           <value>
             <Attribute>
