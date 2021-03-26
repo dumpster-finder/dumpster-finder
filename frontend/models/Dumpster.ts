@@ -11,6 +11,7 @@ class Dumpster {
     rating: number;
     dumpsterType: string;
     storeType: string;
+    categories: string[];
     info: string;
 
     constructor({
@@ -24,6 +25,7 @@ class Dumpster {
         rating,
         dumpsterType,
         storeType,
+        categories,
         info,
     }: {
         dumpsterID: number;
@@ -36,6 +38,7 @@ class Dumpster {
         rating: number;
         dumpsterType: string;
         storeType: string;
+        categories: string[];
         info: string;
     }) {
         this.dumpsterID = dumpsterID;
@@ -48,6 +51,7 @@ class Dumpster {
         this.rating = rating;
         this.dumpsterType = dumpsterType;
         this.storeType = storeType;
+        this.categories = categories;
         this.info = info;
     }
 }

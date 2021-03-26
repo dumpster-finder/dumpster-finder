@@ -70,7 +70,6 @@ export default function ({
     return {
         /**
          * Fetches all dumpsters in a given radius around a position (lat, long)
-         * TODO narrow down results by distance from point
          *
          * @param latitude
          * @param longitude
@@ -79,7 +78,18 @@ export default function ({
          */
         getAll: ({ latitude, longitude, radius }: PositionParams) =>
             Dumpsters.findAll({
-                attributes: dumpsterAttributes,
+                attributes: [
+                    ...dumpsterAttributes,
+                    [
+                        // Calculate distance here.
+                        literal(
+                            `SPHERICAL_DISTANCE(ST_GEOMFROMTEXT('POINT(${escape(
+                                latitude.toString(),
+                            )} ${escape(longitude.toString())})'), position)`,
+                        ),
+                        "distance",
+                    ],
+                ],
                 include: [
                     {
                         // @ts-ignore
@@ -88,7 +98,15 @@ export default function ({
                     },
                 ],
                 where: literal(
-                    "Dumpsters.revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)",
+                    // Select only current revision and limit by distance
+                    `Dumpsters.revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)
+                     AND SPHERICAL_DISTANCE(ST_GEOMFROMTEXT('POINT(${escape(
+                         latitude.toString(),
+                     )} ${escape(
+                        longitude.toString(),
+                    )})'), position) <= ${escape(
+                        String(radius),
+                    )} ORDER BY distance ASC`,
                 ),
             }).then(dumpsters => dumpsters.map(toDumpster)),
 

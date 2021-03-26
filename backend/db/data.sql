@@ -46,7 +46,7 @@ VALUES
     (4, 4, Point(63.409747, 10.438794), 'Rema 1000 Moholt', 1, 1, TRUE, FALSE, 5, 'Second Thursday every month', 'Don\'t know if anyone can enter'),
     (5, 77, Point(63.412930, 10.431018), 'Bunnrips Moholt', 1, 1, TRUE, FALSE, 3, 'Fridays at 15pm', 'A bit dirty. Watch where you touch'),
     (5, 78, Point(63.412930, 10.431018), 'Bunnpris Moholt', 1, 1, TRUE, FALSE, 3, 'Fridays at 15pm', 'A bit dirty. Watch where you touch'),
-    (5, 5, Point(63.412930, 10.431018), 'Bunnpris Moholt', 1, 1, TRUE, TRUE, 3, 'Fridays at 15pm', 'Somewhat dirty. Watch where you touch'),
+    (5, 5, Point(63.412930, 10.431018), 'Bunnpris Moholt', 1, 1, FALSE, TRUE, 3, 'Fridays at 15pm', 'Somewhat dirty. Watch where you touch.'),
     (6, 6, Point(63.361335, 10.379476), 'City Syd Tiller', 2, 5, FALSE, NULL, 4, 'Mondays at 13pm', 'A bit hard to find. It is hidden under a roof'),
     (7, 79, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where the deliveries are'),
     (7, 7, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where goods are delivered');

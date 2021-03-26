@@ -22,43 +22,21 @@ export default function DetailsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const dumpster = useSelector(currentDumpsterSelector);
-    const categories = [
-        "Food",
-        "milk",
-        "juice",
-        "Fruit",
-        "Tears",
-        "Fear",
-        "ZZZ",
-    ];
-    const categoryArrays = [];
-    const categoryPrLine = 4;
     const photos = [
         "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
         "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
     ];
-    const text =
-        "This is some dummy text with information about the dumpster. I don't know the specifics yet ¯\\_(ツ)_/¯";
 
-    if (categories.length > categoryPrLine) {
-        const turns = categories.length / categoryPrLine;
-        for (let i = 0; i < turns; i++) {
-            const newArray = categories.slice(
-                i * categoryPrLine,
-                categoryPrLine * (i + 1),
-            );
-            categoryArrays.push(newArray);
-        }
-    }
-
-    if (dumpster === null) {
+    if (!dumpster) {
         return (
             <View style={styles.container}>
-                <Text>CRY</Text>
+                <Text category="h1">Something went wrong</Text>
             </View>
         );
     } else {
+        const { categories } = dumpster;
+
         return (
             <Layout style={styles.container}>
                 <ScrollView style={styles.scrollView}>
@@ -73,6 +51,7 @@ export default function DetailsScreen({
                         <Text category="h6">{dumpster.storeType}</Text>
                     </View>
 
+                    {/*TODO this might end badly on really small screens!*/}
                     <View style={{ height: 150, marginVertical: 5 }}>
                         <PhotoDisplay photoList={photos} />
                     </View>
@@ -146,60 +125,28 @@ export default function DetailsScreen({
                     </View>
                     <View style={styles.infoBox}>
                         <Divider />
-                        <Text style={{ paddingVertical: 2 }}>{text}</Text>
+                        <Text style={{ paddingVertical: 2 }}>
+                            {dumpster.info}
+                        </Text>
                         <Divider />
                     </View>
 
                     <Text style={{ alignSelf: "center" }}>Categories:</Text>
-                    {categories.length > categoryPrLine ? (
-                        <View style={styles.column}>
-                            {categoryArrays.map((array, index) => (
-                                <View style={styles.tagRow} key={index}>
-                                    {array.map((category, index) => (
-                                        <View
-                                            key={index}
-                                            style={{
-                                                width:
-                                                    100 / categoryPrLine + "%",
-                                                alignItems: "center",
-                                                paddingBottom: 5,
-                                            }}
-                                        >
-                                            <Text>{category}</Text>
-                                        </View>
-                                    ))}
-                                </View>
-                            ))}
-                        </View>
-                    ) : (
-                        <View style={styles.column}>
-                            <View style={styles.tagRow}>
-                                {categories.map((category, index) => (
-                                    <View
-                                        key={index}
-                                        style={{
-                                            width: 100 / categoryPrLine + "%",
-                                            alignItems: "center",
-                                            paddingBottom: 5,
-                                            borderRadius: 10,
-                                            borderWidth: 10,
-                                        }}
-                                    >
-                                        <Text>{category}</Text>
-                                    </View>
-                                ))}
-                            </View>
-                        </View>
-                    )}
+                    <View style={styles.tagRow}>
+                        {categories.map((category, index) => (
+                            <Layout level="3" key={index} style={styles.tagBox}>
+                                <Text>{category}</Text>
+                            </Layout>
+                        ))}
+                    </View>
+
                     <View style={styles.row}>
                         <View style={styles.buttons}>
                             <Button
                                 style={{ width: "80%" }}
-                                size={"small"}
+                                size="small"
                                 onPress={() =>
-                                    navigation.navigate("ContentScreen", {
-                                        screen: "ContentScreen",
-                                    })
+                                    navigation.navigate("ContentScreen")
                                 }
                             >
                                 See content
@@ -208,11 +155,9 @@ export default function DetailsScreen({
                         <View style={styles.buttons}>
                             <Button
                                 style={{ width: "80%" }}
-                                size={"small"}
+                                size="small"
                                 onPress={() =>
-                                    navigation.navigate("CommentScreen", {
-                                        screen: "CommentScreen",
-                                    })
+                                    navigation.navigate("CommentScreen")
                                 }
                             >
                                 See comments
@@ -239,7 +184,6 @@ export default function DetailsScreen({
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -247,18 +191,12 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     row: {
-        flex: 1,
         flexDirection: "row",
     },
     buttons: {
         paddingVertical: 10,
         width: "50%",
         alignItems: "center",
-    },
-    column: {
-        flex: 1,
-        flexDirection: "column",
-        padding: 5,
     },
     infoRow: {
         display: "flex",
@@ -276,9 +214,11 @@ const styles = StyleSheet.create({
     },
     tagRow: {
         width: "100%",
-        flex: 1,
         flexDirection: "row",
         alignItems: "center",
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        flexWrap: "wrap",
     },
     box: {
         display: "flex",
@@ -291,5 +231,13 @@ const styles = StyleSheet.create({
     boxRow: {
         flexDirection: "row",
         paddingHorizontal: 5,
+    },
+    tagBox: {
+        paddingBottom: 5,
+        paddingTop: 3,
+        paddingHorizontal: 7,
+        borderRadius: 15,
+        marginRight: 3,
+        marginBottom: 4,
     },
 });

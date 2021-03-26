@@ -41,8 +41,8 @@ export default function DumpsterEditor({
     //     Electronics: ["TV", "IPhone"],
     //     beds: ["zzz"],
     // };
-    const dumpsterTypes: string[] = useSelector(dumpsterTypesSelector);
-    const storeTypes: string[] = useSelector(storeTypesSelector);
+    const dumpsterTypes = useSelector(dumpsterTypesSelector);
+    const storeTypes = useSelector(storeTypesSelector);
     const cleanlinessRange = [
         "Filthy",
         "Dirty",
@@ -50,7 +50,7 @@ export default function DumpsterEditor({
         "Clean",
         "Pristine",
     ];
-    const categories: string[] = useSelector(categoriesSelector);
+    const categories = useSelector(categoriesSelector);
 
     const [name, setName] = useState(dumpster.name);
     const [dumpsterTypeIndex, setDumpsterTypeIndex] = useState(
@@ -76,9 +76,9 @@ export default function DumpsterEditor({
     //     new IndexPath(1, 1),
     // ]);
 
-    const [singleCategoryIndex, SetSingleCategoryIndex] = useState([
-        new IndexPath(0),
-    ]);
+    const [singleCategoryIndex, SetSingleCategoryIndex] = useState(
+        dumpster.categories.map(c => new IndexPath(categories.indexOf(c))),
+    );
     const [info, setInfo] = useState(dumpster.info);
 
     return (
@@ -208,6 +208,7 @@ export default function DumpsterEditor({
             position: dumpster.position,
             dumpsterType: dumpsterTypes[dumpsterTypeIndex],
             storeType: storeTypes[storeTypeIndex],
+            categories: singleCategoryIndex.map(i => categories[i.row]),
             emptyingSchedule,
             cleanliness: cleanliness + 1,
             positiveStoreViewOnDiving:
