@@ -9,6 +9,11 @@ import { validate } from "express-validation";
 import { postDumpster } from "../validators/dumpsters";
 import CommentDAO from "../daos/comments";
 import { RouteDependencies } from "../types";
+import {
+    postComment,
+    getComments,
+    updateComment,
+} from "../validators/comments";
 
 export default function({ Models }: RouteDependencies) {
     const commentDAO = CommentDAO(Models);
@@ -60,7 +65,7 @@ export default function({ Models }: RouteDependencies) {
      *                 schema:
      *                      type: object
      *                      properties:
-     *                          dumpsterid:
+     *                          dumpsterID:
      *                              type: integer
      *                          nickname:
      *                              type: string
@@ -76,19 +81,15 @@ export default function({ Models }: RouteDependencies) {
      *             schema:
      *               $ref: '#/components/schemas/comments'
      */
-    router.post(
-        "/",
-        //validate(postDumpster),
-        async (req, res) => {
-            try {
-                const dumpsters = await commentDAO.addOne(req.body);
-                res.status(200).json(dumpsters);
-            } catch (e) {
-                console.error("Something went wrong!", e);
-                res.status(500).send("uh?");
-            }
-        },
-    );
+    router.post("/", validate(postComment), async (req, res) => {
+        try {
+            const dumpsters = await commentDAO.addOne(req.body);
+            res.status(200).json(dumpsters);
+        } catch (e) {
+            console.error("Something went wrong!", e);
+            res.status(500).send("uh?");
+        }
+    });
     /**
      * @swagger
      * /comments/{commentID}:
@@ -122,7 +123,7 @@ export default function({ Models }: RouteDependencies) {
      */
     router.patch(
         "/:commentID",
-        //validate(postDumpster),
+        validate(updateComment),
         async (
             //    req: { params: { commentID: number }; body: { vote: number } },
             req,
