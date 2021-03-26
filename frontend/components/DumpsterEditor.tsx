@@ -22,6 +22,7 @@ import {
     categoriesSelector,
 } from "../redux/slices/constantsSlice";
 import { CategoryService } from "../services";
+import { useTranslation } from "react-i18next";
 
 export default function DumpsterEditor({
     dumpster,
@@ -34,11 +35,12 @@ export default function DumpsterEditor({
     mode: "edit" | "create";
     pending?: boolean;
 }) {
-    const categoryData: Record<string, string[]> = {
-        Food: ["Meat", "Fruit"],
-        Electronics: ["TV", "IPhone"],
-        beds: ["zzz"],
-    };
+    const { t } = useTranslation("editor");
+    // const categoryData: Record<string, string[]> = {
+    //     Food: ["Meat", "Fruit"],
+    //     Electronics: ["TV", "IPhone"],
+    //     beds: ["zzz"],
+    // };
     const dumpsterTypes = useSelector(dumpsterTypesSelector);
     const storeTypes = useSelector(storeTypesSelector);
     const cleanlinessRange = [
@@ -48,8 +50,6 @@ export default function DumpsterEditor({
         "Clean",
         "Pristine",
     ];
-    const lock = ["Locked", "Unlocked"];
-    const view = ["Negative", "Neutral", "Positive"];
     const categories = useSelector(categoriesSelector);
 
     const [name, setName] = useState(dumpster.name);
@@ -71,10 +71,10 @@ export default function DumpsterEditor({
             ? 0
             : 2,
     );
-    const [categoryIndex, setCategoryIndex] = useState([
-        new IndexPath(0, 0),
-        new IndexPath(1, 1),
-    ]);
+    // const [categoryIndex, setCategoryIndex] = useState([
+    //     new IndexPath(0, 0),
+    //     new IndexPath(1, 1),
+    // ]);
 
     const [singleCategoryIndex, SetSingleCategoryIndex] = useState(
         dumpster.categories.map(c => new IndexPath(categories.indexOf(c))),
@@ -89,15 +89,15 @@ export default function DumpsterEditor({
         >
             <Input
                 style={styles.inputField}
-                label="Store name"
-                placeholder="e.g. Tesco in East London"
+                label={t("storeName.label")!}
+                placeholder={t("storeName.placeholder")}
                 onChangeText={text => setName(text)}
                 value={name}
             />
             <View style={styles.inputField}>
                 <Dropdown
                     value={dumpsterTypeIndex}
-                    label="Dumpster type"
+                    label={t("dumpsterType.label")}
                     values={dumpsterTypes}
                     onSelect={setDumpsterTypeIndex}
                 />
@@ -105,8 +105,8 @@ export default function DumpsterEditor({
             <View style={styles.inputField}>
                 <Dropdown
                     value={storeTypeIndex}
-                    label="Store type"
-                    values={storeTypes}
+                    label={t("storeType.label")}
+                    values={storeTypes.map(s => t(`storeTypes:${s}`))}
                     onSelect={setStoreTypeIndex}
                 />
             </View>
@@ -122,8 +122,8 @@ export default function DumpsterEditor({
             <View style={styles.inputField}>
                 <SingleMultiSelect
                     sValue={singleCategoryIndex}
-                    label="Categories"
-                    values={categories}
+                    label={t("categories.label")}
+                    values={categories.map(c => t(`categories:${c}`))}
                     onSelect={SetSingleCategoryIndex}
                 />
             </View>
@@ -131,8 +131,8 @@ export default function DumpsterEditor({
             <View style={styles.inputField}>
                 <Input
                     accessoryLeft={TrashInputIcon}
-                    label="Emptying schedule"
-                    placeholder="e.g. First Monday in the month"
+                    label={t("emptyingSchedule.label")!}
+                    placeholder={t("emptyingSchedule.placeholder")}
                     onChangeText={text => setEmptyingSchedule(text)}
                     value={emptyingSchedule}
                 />
@@ -141,9 +141,11 @@ export default function DumpsterEditor({
             <View style={styles.row}>
                 <ButtonGroupDisplay
                     value={storeViewIndex}
-                    values={view}
+                    values={["negative", "neutral", "positive"].map(v =>
+                        t(`storeView.${v}`),
+                    )}
                     icon={PositiveIcon}
-                    label="Store's view on dumpster diving"
+                    label={t("storeView.label")}
                     onSelect={setStoreViewIndex}
                 />
             </View>
@@ -151,28 +153,30 @@ export default function DumpsterEditor({
             <View style={styles.row}>
                 <ButtonGroupDisplay
                     value={locked ? 0 : 1}
-                    values={lock}
-                    label="Dumpster state"
+                    values={[t("locked.locked"), t("locked.unlocked")]}
+                    label={t("locked.label")}
                     icon={LockIcon}
                     onSelect={i => setLocked(i === 0)}
                 />
             </View>
 
             <Text category="s2" appearance="hint">
-                Cleanliness
+                {t("cleanliness.label")!}
             </Text>
             <View style={styles.row}>
                 <Rating
                     value={cleanliness}
                     onChange={setCleanliness}
-                    stringList={cleanlinessRange}
+                    stringList={cleanlinessRange.map(c =>
+                        t(`cleanliness:${c.toLowerCase()}`),
+                    )}
                 />
             </View>
 
             <View style={styles.inputField}>
                 <Input
-                    label="Extra info"
-                    placeholder="(anything that doesn't fit elsewhere)"
+                    label={t("extraInfo.label")!}
+                    placeholder={t("extraInfo.placeholder")}
                     multiline
                     size="large"
                     textStyle={{
@@ -192,7 +196,7 @@ export default function DumpsterEditor({
                 onPress={handleSubmit}
                 accessoryLeft={pending ? PendingButtonIcon : SaveButtonIcon}
             >
-                {mode === "create" ? "Create dumpster" : "Save dumpster"}
+                {mode === "create" ? t("create")! : t("save")!}
             </Button>
         </ScrollView>
     );

@@ -171,6 +171,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\frontend\translations\en\translation.json">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\frontend\translations\no\translation.json">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>

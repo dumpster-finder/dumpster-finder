@@ -23,7 +23,7 @@ export const configSlice = createSlice({
         nickname: "Anonymous",
         darkMode: false,
         firstTime: true,
-        language: "Norwegian"
+        language: "no",
     } as SliceState,
     reducers: {
         setNickname: (state, { payload }: { payload: string }) => {
