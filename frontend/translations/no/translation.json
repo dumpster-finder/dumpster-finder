@@ -1,0 +1,172 @@
+{
+    "common": {
+        "rating": "Vurdering",
+        "cleanliness": "Renhet",
+        "locked": "Låst",
+        "unlocked": "Åpen",
+        "view": "Butikkens syn på søppeldykkere",
+        "negative": "Negativt",
+        "neutral": "Nøytralt",
+        "positive": "Positivt",
+        "emptyingSchedule": "Tømmeplan",
+        "categories": "Kategorier",
+        "content": "Se innhold",
+        "comments": "Se kommentarer",
+        "storeType": "Butikktype",
+        "dumpsterType": "Type søppelkasse",
+        "extraInfo": "Ekstra info",
+
+        "dropdownPlaceholder": "Velg noe …"
+    },
+    "advice": {
+        "title": "Dumpster diving råd:",
+        "nr1": "1. Ikke gå i låste søppelkasser",
+        "nr2": "2. Ikke gå i søppelkasser som er markert private",
+        "nr3": "3. Ikke gå alene",
+        "nr4": "4. Kle deg passende",
+        "nr5": "5. Rydd opp etter deg"
+    },
+    "iconDesc": {
+        "title": "Forklaring av ikoner:",
+        "rating": "Vurdering av søppelkassen",
+        "locked": "Er søppeøkassen låst",
+        "emptySchedule": "Tømmeplan for søppelkassen",
+        "view": "Butikkens syn på søppeldykkere"
+    },
+    "settings": {
+        "setPos": "Sett posisjon",
+        "changeNick": "Endre kallenavn",
+        "saveNick": "Lagre kallenavn",
+        "setDist": "Sett avstand (km)",
+        "changeLang": "Endre språk",
+        "darkMode": "Mørkt modus",
+        "en": "Engelsk",
+        "no": "Norsk",
+        "de": "Tysk",
+        "fr": "Fransk",
+        "es": "Spansk"
+    },
+    "details": {
+        "rating": "Vurdering:",
+        "cleanliness": "Renhet",
+        "locked": "Låst",
+        "unlocked": "Åpen",
+        "view": "Butikkens syn på søppeldykkere:",
+        "negative": "Negativ",
+        "neutral": "Nøytral",
+        "positive": "Positiv",
+        "emptyingSchedule": "Tømmeplan:",
+        "categories": "Kategorier",
+        "content": "Se innhold",
+        "comments": "Se kommentarer",
+        "setRating": "Vurder meg:",
+        "storeType": "Butikktype:",
+        "dumpsterType": "Type søppelkasse:",
+        "extraInfo": "Ekstra info"
+    },
+
+    "menu": {
+        "flag": "Flagg søppelkasse",
+        "revision": "Revisjonshistorikk",
+        "editDumpster": "Rediger søppelkasse",
+        "editContent": "Rediger innhold"
+    },
+
+    "revision": {
+        "reset": "Reset to this dumpster"
+    },
+
+    "comment": {
+        "add": "Publiser kommentar",
+        "comment": "Kommentar",
+        "yourPos": "Din posisjon"
+    },
+
+    "editor": {
+        "storeName": {
+            "label": "Butikknavn",
+            "placeholder": "f.eks. Rema 1000 Aker brygge",
+            "errorEmpty": "Dumpsteren trenger et navn"
+        },
+        "dumpsterType": {
+            "label": "Type søppelkasse",
+            "errorEmpty": "Dumpstertype må oppgis"
+        },
+        "storeType": {
+            "label": "Butikktype",
+            "errorEmpty": "Butikktype må oppgis"
+        },
+        "categories": {
+            "label": "Kategorier"
+        },
+        "emptyingSchedule": {
+            "label": "Tømmeplan",
+            "placeholder": "f.eks Første mandag i måneden"
+        },
+        "storeView": {
+            "label": "Butikkens syn på søppeldykkere",
+            "negative": "Negativt",
+            "neutral": "Nøytralt",
+            "positive": "Positivt"
+        },
+        "locked": {
+            "label": "Dumpsterens tilstand",
+            "locked": "Låst",
+            "unlocked": "Åpen"
+        },
+        "cleanliness": {
+            "label": "Renhet"
+        },
+        "extraInfo": {
+            "label": "Annen info",
+            "placeholder": "(ekstra info som ikke passer inn andre steder)"
+        },
+        "save": "Lagre dumpster",
+        "create": "Opprett dumpster"
+    },
+
+    "position": {
+        "save": "Sett posision",
+        "none": "Ingen posisjon valgt"
+    },
+
+    "placeholders": {
+        "search": "Place your text",
+        "pos": "f.eks. Paris",
+        "comment": "Comment",
+        "choose": "Choose..",
+    },
+
+    "cleanliness": {
+        "pristine": "Nydelig",
+        "clean": "Ren",
+        "average": "Normal",
+        "dirty": "Skitten",
+        "filthy": "Forferdelig"
+    },
+
+    "dumpsterType": {
+        "compressor": "Compressor",
+        "Large": "Stor søppelkasse",
+        "small": "Liten søppelkasse",
+        "bin": "Søppeldunk"
+    },
+
+    "storeType": {
+        "Grocery": "Matbutikk",
+        "Electronics": "Elektronikk",
+        "Bakery": "Bakeri",
+        "Furniture": "Møbelbutikk",
+        "Miscellaneous": "Blandet"
+    },
+    "categories": {
+        "Dairy": "Meieriprodukter",
+        "Batteries": "Batterier",
+        "Vegetables": "Grønnsaker",
+        "Meat": "Kjøtt",
+        "Tools": "Verktøy",
+        "Pastries": "Bakevarer",
+        "Seafood": "Sjømat",
+        "unknown": "Ukjent"
+    }
+}
