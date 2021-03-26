@@ -20,6 +20,7 @@ DROP FUNCTION IF EXISTS SPHERICAL_DISTANCE;;
 -- Using a custom function since none exist in MariaDB
 CREATE FUNCTION SPHERICAL_DISTANCE(`pt1` POINT, `pt2` POINT) RETURNS
     DECIMAL(10,2)
+DETERMINISTIC
 BEGIN
     SET @lat1 = ST_X(pt1) * pi()/180;
     SET @long1 = ST_Y(pt1) * pi()/180;
