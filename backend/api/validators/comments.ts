@@ -15,12 +15,14 @@ export const postComment = {
             .required(),
         nickname: Joi.string().required(),
         comment: Joi.string().required(),
-        date: Joi.string().optional(),
     }),
 };
 
 export const updateComment = {
     params: Joi.object({
+        dumpsterID: Joi.string()
+            .pattern(/(\d)+/)
+            .required(),
         commentID: Joi.string()
             .pattern(/(\d)+/)
             .required(),
