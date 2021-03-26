@@ -1,23 +1,21 @@
 import * as React from "react";
 import { Text } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 export default function Advice() {
+    // Specify the namespace when you get the t function
+    const { t } = useTranslation("advice");
     return (
         <View>
-            <Text category={"h5"}>Dumpster diving advice: </Text>
+            {/* Then you don't need to specify it all the time here */}
+            <Text category={"h5"}>{t("title")!} </Text>
             <View style={{ paddingVertical: 10 }}>
-                <Text style={styles.text}>
-                    1. Don’t go diving in locked dumpsters
-                </Text>
-                <Text style={styles.text}>
-                    2. Don’t go in dumpsters marked private
-                </Text>
-                <Text style={styles.text}>
-                    3. Don’t go dumpster diving alone
-                </Text>
-                <Text style={styles.text}>4. Dress accordingly</Text>
-                <Text style={styles.text}>5. Clean up after yourself</Text>
+                <Text style={styles.text}>{t("nr1")!}</Text>
+                <Text style={styles.text}>{t("nr2")!}</Text>
+                <Text style={styles.text}>{t("nr3")!}</Text>
+                <Text style={styles.text}>{t("nr4")!}</Text>
+                <Text style={styles.text}>{t("nr5")!}</Text>
             </View>
         </View>
     );

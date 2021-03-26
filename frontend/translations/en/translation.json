@@ -1,0 +1,184 @@
+{
+    "common": {
+        "rating": "Rating:",
+        "cleanliness": "Cleanliness",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
+        "view": "Store's view on dumpster diving:",
+        "negative": "Negative",
+        "neutral": "Neutral",
+        "positive": "Positive",
+        "emptySchedule": "Emptying schedule:",
+        "categories": "Categories",
+        "content": "See content",
+        "comments": "See comments",
+        "setRating": "Rate me:",
+        "storeType": "Store type:",
+        "dumpsterType": "Dumpster type:",
+        "extraInfo": "Extra info",
+
+        "dropdownPlaceholder": "Choose …"
+    },
+
+    "advice": {
+        "title": "Dumpster diving advice",
+        "nr1": "1. Don’t go diving in locked dumpsters",
+        "nr2": "2. Don’t go in dumpsters marked private",
+        "nr3": "3. Don’t go dumpster diving alone",
+        "nr4": "4. Dress accordingly",
+        "nr5": "5. Clean up after yourself"
+    },
+
+    "iconDesc": {
+        "title": "Icon explanation:",
+        "rating": "Rating for dumpster",
+        "locked": "Is the dumpster locked",
+        "emptySchedule": "Emptying schedule for dumpster",
+        "view": "Stores view on dumpster diving"
+    },
+
+    "settings": {
+        "setPos": "Set position",
+        "changeNick": "Change nickname",
+        "saveNick": "Save nickname",
+        "setDist": "Set distance (km)",
+        "changeLang": "Change language",
+        "darkMode": "Dark mode",
+        "en": "English",
+        "no": "Norwegian",
+        "de": "German",
+        "fr": "French",
+        "es": "Spanish"
+    },
+
+    "details": {
+        "rating": "Rating:",
+        "cleanliness": "Cleanliness",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
+        "view": "Store's view on dumpster diving:",
+        "negative": "Negative",
+        "neutral": "Neutral",
+        "positive": "Positive",
+        "emptySchedule": "Emptying schedule:",
+        "categories": "Categories",
+        "content": "See content",
+        "comments": "See comments",
+        "setRating": "Rate me:",
+        "storeType": "Store type:",
+        "dumpsterType": "Dumpster type:",
+        "extraInfo": "Extra info"
+    },
+
+    "menu": {
+        "flag": "Report dumpster",
+        "revision": "Revision history",
+        "editDumpster": "Edit dumpster",
+        "editContent": "Edit content"
+    },
+
+    "revision": {
+        "reset": "Reset to this dumpster"
+    },
+
+    "comment": {
+        "add": "Add comment"
+    },
+
+    "editor": {
+        "storeName": {
+            "label": "Store name",
+            "placeholder": "e.g. Tesco in East London",
+            "errorEmpty": "Name is required"
+        },
+        "dumpsterType": {
+            "label": "Dumpster type",
+            "errorEmpty": "This field is required"
+        },
+        "storeType": {
+            "label": "Store type",
+            "errorEmpty": "This field is required"
+        },
+        "categories": {
+            "label": "Categories"
+        },
+        "emptyingSchedule": {
+            "label": "Emptying schedule",
+            "placeholder": "e.g. First Monday in the month",
+        },
+        "storeView": {
+            "label": "Store's view on dumpster diving",
+            "negative": "Negative",
+            "neutral": "Neutral",
+            "positive": "Positive"
+        },
+        "locked": {
+            "label": "Dumpster state",
+            "locked": "Locked",
+            "unlocked": "Open"
+        },
+        "cleanliness": {
+            "label": "Cleanliness"
+        },
+        "extraInfo": {
+            "label": "Notes",
+            "placeholder": "(additional information that doesn't fit elsewhere)"
+        },
+        "save": "Save dumpster",
+        "create": "Create dumpster"
+    },
+
+    "position": {
+        "save": "Set location",
+        "none": "No position set",
+        "yourPos": "Your location"
+    },
+
+    "placeholders": {
+        "search": "Place your text",
+        "pos": "e.g. Paris",
+        "comment": "Comment",
+        "choose": "Choose..",
+        "extraInfo": "Other information"
+    },
+
+    "cleanliness": {
+        "pristine": "Pristine",
+        "clean": "Clean",
+        "average": "Average",
+        "dirty": "dirty",
+        "filthy": "filthy"
+    },
+
+    "dumpsterType": {
+        "compressor": "Compressor",
+        "Large": "Large container",
+        "small": "Small container",
+        "bin": "Trash bin"
+    },
+
+    "storeType": {
+        "Grocery Store": "Grocery store",
+        "Electronics Store": "Electronics store",
+        "Bakery": "Bakery",
+        "Furniture Store": "Furniture store",
+        "Miscellaneous": "Miscellaneous"
+    },
+
+    "categories": {
+        "Dairy": "Dairy",
+        "Batteries": "Batteries",
+        "Vegetables": "Vegetables",
+        "Meat": "Meat",
+        "Tools": "Tools",
+        "Pastries": "Pastries",
+        "Seafood": "Seafood",
+        "Unknown": "Unknown"
+    },
+
+    "storeView": {
+        "negative": "Negative",
+        "neutral": "Neutral",
+        "positive": "Positive"
+    }
+}

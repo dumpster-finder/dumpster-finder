@@ -35,6 +35,7 @@ export default function SettingsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const languages = ["English", "Norwegian", "German", "French", "Spanish"];
+    const languageCodes = ["en", "no", "de", "fr", "sp"];
     const distances = ["2", "5", "10", "25", "50"];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
@@ -165,7 +166,7 @@ export default function SettingsScreen({
 
     function setNewLang(i: number) {
         setNewLanguage(i);
-        dispatch(setLanguage(languages[i]));
+        dispatch(setLanguage(languageCodes[i]));
     }
 }
 
