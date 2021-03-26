@@ -44,9 +44,13 @@ export default function ({ Models }: RouteDependencies) {
      *               items:
      *                 $ref: '#/components/schemas/StoreType'
      */
-    router.get("/", standardLimiter, async (req, res) => {
-        const storeTypes = await storeTypeDAO.getAll();
-        res.status(200).json(storeTypes);
+    router.get("/", standardLimiter, async (req, res, next) => {
+        try {
+            const storeTypes = await storeTypeDAO.getAll();
+            res.status(200).json(storeTypes);
+        } catch (e) {
+            next(e);
+        }
     });
 
     return router;

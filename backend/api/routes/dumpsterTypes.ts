@@ -44,9 +44,13 @@ export default function ({ Models }: RouteDependencies) {
      *               items:
      *                 $ref: '#/components/schemas/DumpsterType'
      */
-    router.get("/", standardLimiter, async (req, res) => {
-        const dumpsterTypes = await dumpsterTypeDAO.getAll();
-        res.status(200).json(dumpsterTypes);
+    router.get("/", standardLimiter, async (req, res, next) => {
+        try {
+            const dumpsterTypes = await dumpsterTypeDAO.getAll();
+            res.status(200).json(dumpsterTypes);
+        } catch (e) {
+            next(e);
+        }
     });
 
     return router;

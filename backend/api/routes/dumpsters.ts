@@ -136,16 +136,11 @@
  * tags:
  *   - name: Dumpsters
  *     description: Dumpster API
- *   - name: Categories
- *     description: categories API
- *   - name: Tags
- *     description: Dumpster API
  */
 
 import { Request, Router } from "express";
 import { validate } from "express-validation";
 import DumpsterDAO from "../daos/dumpsters";
-import CategoryDAo from "../daos/categories";
 import {
     getDumpster,
     locationParams,
@@ -162,7 +157,6 @@ import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
 export default function ({ logger, Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
-    const categoryDAO = CategoryDAo(Models);
 
     /**
      * @swagger
@@ -198,7 +192,6 @@ export default function ({ logger, Models }: RouteDependencies) {
                 const dumpsters = await dumpsterDAO.getAll(req.query);
                 res.status(200).json(dumpsters);
             } catch (e) {
-                logger.error(e, "Something went wrong!");
                 next(e);
             }
         },
@@ -249,7 +242,6 @@ export default function ({ logger, Models }: RouteDependencies) {
                     });
                 }
             } catch (e) {
-                logger.error(e, "Something went wrong!");
                 next(e);
             }
         },
@@ -283,7 +275,6 @@ export default function ({ logger, Models }: RouteDependencies) {
                 const result = await dumpsterDAO.addOne(req.body);
                 res.status(201).json(result);
             } catch (e) {
-                logger.error(e, "Something went wrong!");
                 next(e); // Pass to Express error handler
             }
         },
@@ -327,287 +318,7 @@ export default function ({ logger, Models }: RouteDependencies) {
                 });
                 res.status(200).json(result);
             } catch (e) {
-                logger.error(e, "Something went wrong!");
                 next(e);
-            }
-        },
-    );
-
-    // TODO clean up down here
-
-    /**
-     * @swagger
-     * /dumpsters/tags:
-     *   post:
-     *     summary: add a new tag for a dumpster
-     *     tags: [Dumpsters]
-     *     requestBody:
-     *          content:
-     *              application/json:
-     *                 schema:
-     *                      type: object
-     *                      properties:
-     *                          dumpsterid:
-     *                              type: integer
-     *                          tagid:
-     *                              type: integer
-     *                          amount:
-     *                              type: string
-     *                          unit:
-     *                              type: integer
-     *                          quality:
-     *                              type: integer
-     *                          foundDate:
-     *                              type: string
-     *                              format: date
-     *                          expiryDate:
-     *                              type: string
-     *                              format: date
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/tags'
-     */
-    router.post("/tags", validate(postDumpster), async (req, res) => {
-        try {
-            /*
-            const dumpsters = await dumpsterDAO.postOneTag(postDumpster);
-            res.status(200).json(dumpsters);
-
-             */
-        } catch (e) {
-            logger.error("Something went wrong!", e);
-            res.status(500).send("uh?");
-        }
-    });
-
-    /**
-     * @swagger
-     * /dumpsters/{dumpsterID}/categories:
-     *   get:
-     *     summary: Get all categories for a dumpster
-     *     tags: [Categories]
-     *     parameters:
-     *       - in: path
-     *         name: dumpsterID
-     *         schema:
-     *           type: integer
-     *         required: true
-     *         description: Dumpster ID
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/categories'
-     */
-    router.get(
-        "/:dumpsterID(\\d+)/categories",
-        standardLimiter,
-        async (req, res, next) => {
-            try {
-                const categories = await categoryDAO.getByDumpster(
-                    parseInt(req.params.dumpsterID),
-                );
-                res.status(200).json(categories);
-            } catch (e) {
-                next(e);
-            }
-        },
-    );
-
-    /**
-     * @swagger
-     * /dumpsters/{dumpsterID}/categories:
-     *   put:
-     *     summary: Get all categories for a dumpster
-     *     tags: [Categories]
-     *     parameters:
-     *       - in: path
-     *         name: dumpsterID
-     *         schema:
-     *           type: integer
-     *         required: true
-     *         description: Dumpster ID
-     *     requestBody:
-     *          content:
-     *              application/json:
-     *                 schema:
-     *                   type: array
-     *                   item: string
-     *                   example: ["Dairy", "Meat"]
-     *     responses:
-     *       "204":
-     *         description: Success
-     */
-    router.put(
-        "/:dumpsterID(\\d+)/categories",
-        updateLimiter,
-        async (req, res, next) => {
-            try {
-                const result = await categoryDAO.updatePerDumpster(
-                    parseInt(req.params.dumpsterID),
-                    req.body,
-                );
-                res.status(204).json(result);
-            } catch (e) {
-                next(e);
-            }
-        },
-    );
-
-    /**
-     * @swagger
-     * /dumpsters/{dumpsterID}/categories:
-     *   post:
-     *     summary: add a new category for a dumpster
-     *     tags: [Dumpsters]
-     *     requestBody:
-     *          content:
-     *              application/json:
-     *                 schema:
-     *                      type: object
-     *                      properties:
-     *                          dumpsterid:
-     *                              type: integer
-     *                          categoryid:
-     *                              type: integer
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/categories'
-     */
-    router.post("/categories", validate(postDumpster), async (req, res) => {
-        try {
-            /*
-            const dumpsters = await dumpsterDAO.postOneCategory(postDumpster);
-            res.status(200).json(dumpsters);
-
-             */
-        } catch (e) {
-            logger.error("Something went wrong!", e);
-            res.status(500).send("uh?");
-        }
-    });
-
-    /**
-     * @swagger
-     * /dumpsters/{dumpsterID}/categories/:
-     *   delete:
-     *     summary: delete all categories for a Dumpster
-     *     tags: [Dumpsters]
-     *     parameters:
-     *       - in: path
-     *         name: dumpsterID
-     *         schema:
-     *           type: integer
-     *         required: true
-     *         description: Dumpster ID
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/categories/:dumpsterID'
-     */
-    router.delete(
-        "/dumpsters/categories/:dumpsterID",
-        async (req: { params: { dumpsterID: number } }, res) => {
-            try {
-                /*
-            const dumpsters = await dumpsterDAO.deleteAllCategoriesForDumpster(dumpsterID);
-            res.status(200).json(dumpsters);
-
-             */
-            } catch (e) {
-                logger.error("Something went wrong!", e);
-                res.status(500).send("uh?");
-            }
-        },
-    );
-
-    /**
-     * @swagger
-     * /dumpsters/{dumpsterID}/tags/:
-     *   delete:
-     *     summary: delete all tags for a Dumpster
-     *     tags: [Dumpsters]
-     *     parameters:
-     *       - in: path
-     *         name: dumpsterID
-     *         schema:
-     *           type: integer
-     *         required: true
-     *         description: Dumpster ID
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/tags/:dumpsterID'
-     */
-    router.delete(
-        "/dumpsters/tags/:dumpsterID",
-        async (req: { params: { dumpsterID: number } }, res) => {
-            try {
-                /*
-            const dumpsters = await dumpsterDAO.deleteAllTagsForDumpster(dumpsterID);
-            res.status(200).json(dumpsters);
-            */
-            } catch (e) {
-                logger.error("Something went wrong!", e);
-                res.status(500).send("uh?");
-            }
-        },
-    );
-
-    /**
-     * TODO move
-     * @swagger
-     * /tags/:
-     *   post:
-     *     summary: add a new tag
-     *     tags: [Tags]
-     *     requestBody:
-     *          content:
-     *              application/json:
-     *                 schema:
-     *                      type: object
-     *                      properties:
-     *                          categoryid:
-     *                              type: integer
-     *                          name:
-     *                              type: string
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/categories'
-     */
-    router.post(
-        "/dumpsters/categories",
-        validate(postDumpster),
-        async (req, res) => {
-            try {
-                /*
-            const dumpsters = await dumpsterDAO.postOneCategory(postDumpster);
-            res.status(200).json(dumpsters);
-
-             */
-            } catch (e) {
-                logger.error("Something went wrong!", e);
-                res.status(500).send("uh?");
             }
         },
     );
