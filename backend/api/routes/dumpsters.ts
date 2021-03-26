@@ -154,6 +154,7 @@ import {
 } from "../validators/dumpsters";
 import { RouteDependencies } from "../types";
 import { PositionParams } from "../types/Position";
+import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
 
 //TODO add validation and models, and DAO for the key ones
 //TODO change storetype and dumpstertype to String primary key and foreign key
@@ -190,6 +191,7 @@ export default function ({ logger, Models }: RouteDependencies) {
      */
     router.get(
         "/",
+        standardLimiter,
         validate(locationParams),
         async (req: Request & { query: PositionParams }, res, next) => {
             try {
@@ -231,6 +233,7 @@ export default function ({ logger, Models }: RouteDependencies) {
      */
     router.get(
         "/:dumpsterID(\\d+)",
+        standardLimiter,
         validate(getDumpster),
         async (req, res, next) => {
             try {
@@ -271,15 +274,20 @@ export default function ({ logger, Models }: RouteDependencies) {
      *             schema:
      *               $ref: '#/components/schemas/Dumpster'
      */
-    router.post("/", validate(postDumpster), async (req, res, next) => {
-        try {
-            const result = await dumpsterDAO.addOne(req.body);
-            res.status(201).json(result);
-        } catch (e) {
-            logger.error(e, "Something went wrong!");
-            next(e); // Pass to Express error handler
-        }
-    });
+    router.post(
+        "/",
+        updateLimiter,
+        validate(postDumpster),
+        async (req, res, next) => {
+            try {
+                const result = await dumpsterDAO.addOne(req.body);
+                res.status(201).json(result);
+            } catch (e) {
+                logger.error(e, "Something went wrong!");
+                next(e); // Pass to Express error handler
+            }
+        },
+    );
 
     /**
      * @swagger
@@ -309,6 +317,7 @@ export default function ({ logger, Models }: RouteDependencies) {
      */
     router.put(
         "/:dumpsterID(\\d+)",
+        updateLimiter,
         validate(putDumpster),
         async (req, res, next) => {
             try {
@@ -323,6 +332,8 @@ export default function ({ logger, Models }: RouteDependencies) {
             }
         },
     );
+
+    // TODO clean up down here
 
     /**
      * @swagger
@@ -394,16 +405,20 @@ export default function ({ logger, Models }: RouteDependencies) {
      *             schema:
      *               $ref: '#/components/schemas/dumpsters/categories'
      */
-    router.get("/:dumpsterID(\\d+)/categories", async (req, res, next) => {
-        try {
-            const categories = await categoryDAO.getByDumpster(
-                parseInt(req.params.dumpsterID),
-            );
-            res.status(200).json(categories);
-        } catch (e) {
-            next(e);
-        }
-    });
+    router.get(
+        "/:dumpsterID(\\d+)/categories",
+        standardLimiter,
+        async (req, res, next) => {
+            try {
+                const categories = await categoryDAO.getByDumpster(
+                    parseInt(req.params.dumpsterID),
+                );
+                res.status(200).json(categories);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
 
     /**
      * @swagger
@@ -429,17 +444,21 @@ export default function ({ logger, Models }: RouteDependencies) {
      *       "204":
      *         description: Success
      */
-    router.put("/:dumpsterID(\\d+)/categories", async (req, res, next) => {
-        try {
-            const result = await categoryDAO.updatePerDumpster(
-                parseInt(req.params.dumpsterID),
-                req.body,
-            );
-            res.status(204).json(result);
-        } catch (e) {
-            next(e);
-        }
-    });
+    router.put(
+        "/:dumpsterID(\\d+)/categories",
+        updateLimiter,
+        async (req, res, next) => {
+            try {
+                const result = await categoryDAO.updatePerDumpster(
+                    parseInt(req.params.dumpsterID),
+                    req.body,
+                );
+                res.status(204).json(result);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
 
     /**
      * @swagger

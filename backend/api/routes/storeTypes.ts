@@ -22,6 +22,7 @@
 import { RouteDependencies } from "../types";
 import { Router } from "express";
 import StoreTypeDAO from "../daos/storeTypes";
+import { standardLimiter } from "../middleware/rateLimiter";
 
 export default function ({ Models }: RouteDependencies) {
     const router = Router();
@@ -43,7 +44,7 @@ export default function ({ Models }: RouteDependencies) {
      *               items:
      *                 $ref: '#/components/schemas/StoreType'
      */
-    router.get("/", async (req, res) => {
+    router.get("/", standardLimiter, async (req, res) => {
         const storeTypes = await storeTypeDAO.getAll();
         res.status(200).json(storeTypes);
     });
