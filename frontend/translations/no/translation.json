@@ -111,8 +111,8 @@
         },
         "locked": {
             "label": "Dumpsterens tilstand",
-            "locked": "Locked",
-            "unlocked": "Open"
+            "locked": "Låst",
+            "unlocked": "Åpen"
         },
         "cleanliness": {
             "label": "Renhet"

@@ -153,7 +153,7 @@ export default function DumpsterEditor({
             <View style={styles.row}>
                 <ButtonGroupDisplay
                     value={locked ? 0 : 1}
-                    values={[t("locked.unlocked"), t("locked.locked")]}
+                    values={[t("locked.locked"), t("locked.unlocked")]}
                     label={t("locked.label")}
                     icon={LockIcon}
                     onSelect={i => setLocked(i === 0)}
