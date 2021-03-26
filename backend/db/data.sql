@@ -85,6 +85,7 @@ VALUES
 
 INSERT INTO Users(userID)
 VALUES
+    ('temp'),
     ('temp1'),
     ('temp2'),
     ('temp3'),
