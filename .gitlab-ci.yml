@@ -3,7 +3,6 @@ image: node:latest
 include:
   # For detecting secret keys and the like that are accidentally committed
   - template: Security/Secret-Detection.gitlab-ci.yml
-  - template: Security/Dependency-Scanning.gitlab-ci.yml
 
 stages:
   - build
