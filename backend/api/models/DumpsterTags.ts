@@ -1,5 +1,8 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
-import { DumpsterPositionAttributes, DumpsterPositionCreationAttributes } from "./DumpsterPositions";
+import {
+    DumpsterPositionAttributes,
+    DumpsterPositionCreationAttributes,
+} from "./DumpsterPositions";
 import { TagAttributes, TagCreationAttributes } from "./Tags";
 
 export interface DumpsterTagAttributes {
@@ -49,12 +52,11 @@ export function init(sequelize: Sequelize) {
             },
             quality: {
                 type: DataTypes.TINYINT.UNSIGNED,
-
             },
             foundDate: {
                 type: DataTypes.DATE,
                 allowNull: false,
-                defaultValue: Sequelize.fn('now'),
+                defaultValue: Sequelize.fn("now"),
             },
             expiryDate: {
                 type: DataTypes.DATE,
@@ -70,13 +72,14 @@ export function init(sequelize: Sequelize) {
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              DumpsterPositions,
-    Tags
+    DumpsterPositions,
+    Tags,
 }: {
-    DumpsterPositions: ModelStatic<Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>>;
+    DumpsterPositions: ModelStatic<
+        Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>
+    >;
     Tags: ModelStatic<Model<TagAttributes, TagCreationAttributes>>;
 }) {
-    // do associations like
-    // Thing.hasMany()
-    // using the supplied Models object
+    // DumpsterTags.belongsTo(DumpsterPositions, { foreignKey: "dumpsterID" });
+    DumpsterTags.belongsTo(Tags, { as: "tag", foreignKey: "tagID" });
 }

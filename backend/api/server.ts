@@ -11,6 +11,7 @@ import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
 import { defaultLoggerOptions } from "./config/pino";
+import contents from "./routes/contents";
 
 (async () => {
     await connectToDatabase();
@@ -41,6 +42,8 @@ app.use("/dumpsters", dumpsters(dependencies));
 app.use("/categories", categories(dependencies));
 app.use("/store-types", storeTypes(dependencies));
 app.use("/dumpster-types", dumpsterTypes(dependencies));
+
+app.use("/dumpsters/:dumpsterID(\\d+)/contents", contents(dependencies));
 
 /**
  * Global error handler

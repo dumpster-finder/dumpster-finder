@@ -105,3 +105,13 @@ VALUES
     ('temp5', 7, 2),
     ('temp6', 7, 3);
 
+INSERT INTO Tags(tagID, categoryID, name)
+VALUES
+    (1, 1, 'Cheese'),
+    (2, 1, 'Milk');
+
+INSERT INTO DumpsterTags(dumpsterID, tagID, amount, unit, quality, expiryDate)
+VALUES
+    (1, 1, 23, 'pieces', 3, '2023-04-30'),
+    (1, 2, 23, 'liters', 3, '2021-03-30');
+
