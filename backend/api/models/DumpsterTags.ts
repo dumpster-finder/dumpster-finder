@@ -11,8 +11,8 @@ export interface DumpsterTagAttributes {
     amount?: number;
     unit?: string;
     quality?: number;
-    foundDate: string;
-    expiryDate?: string;
+    foundDate: Date;
+    expiryDate?: Date;
 }
 
 export interface DumpsterTagCreationAttributes
@@ -26,8 +26,8 @@ export class DumpsterTags
     amount?: number;
     unit?: string;
     quality?: number;
-    foundDate!: string;
-    expiryDate?: string;
+    foundDate!: Date;
+    expiryDate?: Date;
 }
 
 // Inject Sequelize

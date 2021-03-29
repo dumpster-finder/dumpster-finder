@@ -1,4 +1,23 @@
 import { MyModels } from "../models";
+import { DumpsterTagAttributes } from "../models/DumpsterTags";
+import Content from "../types/Content";
+
+/**
+ * Maps the result of a findAll to an actual Content object.
+ */
+const toContent = ({
+    amount,
+    unit,
+    expiryDate,
+    foundDate,
+    tag,
+}: DumpsterTagAttributes & { tag: { name: string } }): Content => ({
+    name: tag.name,
+    amount,
+    unit,
+    expiryDate,
+    foundDate,
+});
 
 export default function ({ Tags, DumpsterTags, StandardTags }: MyModels) {
     return {
@@ -30,7 +49,7 @@ export default function ({ Tags, DumpsterTags, StandardTags }: MyModels) {
         /**
          * Find the registered contents of a dumpster
          *
-         * @param dumpsterID
+         * @param dumpsterID - ID of the queried dumpster
          */
         getAll: (dumpsterID: number) =>
             DumpsterTags.findAll({
@@ -49,17 +68,9 @@ export default function ({ Tags, DumpsterTags, StandardTags }: MyModels) {
                         as: "tag",
                     },
                 ],
-            }).then((
-                data, // @ts-ignore
-            ) =>
-                data.map(({ amount, unit, expiryDate, foundDate, tag }) => ({
-                    // @ts-ignore
-                    name: tag.dataValues.name,
-                    amount,
-                    unit,
-                    expiryDate,
-                    foundDate,
-                })),
+            }).then(data =>
+                // @ts-ignore
+                data.map(toContent),
             ),
 
         addOne: (dumpsterID: number) => null,
