@@ -5,8 +5,9 @@
  */
 export default interface Content {
     name: string;
-    amount?: number;
-    unit?: string;
-    expiryDate?: Date;
+    amount?: number | null; // | null because that's what Sequelize gives.
+    unit?: string | null;
+    quality?: number | null;
+    expiryDate?: Date | null;
     foundDate: Date;
 }

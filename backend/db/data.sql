@@ -108,14 +108,17 @@ VALUES
 INSERT INTO Tags(tagID, categoryID, name)
 VALUES
     (1, 1, 'Cheese'),
-    (2, 1, 'Milk');
+    (2, 1, 'Milk'),
+    (3, 3, 'Squash'),
+    (4, 3, 'Potatoes');
 
 INSERT INTO StandardTags(tagID)
 VALUES
-    (1), (2);
+    (1), (2), (4);
 
-INSERT INTO DumpsterTags(dumpsterID, tagID, amount, unit, quality, expiryDate)
+INSERT INTO DumpsterTags(dumpsterID, tagID, amount, unit, quality, expiryDate, foundDate)
 VALUES
-    (1, 1, 23, 'pieces', 3, '2023-04-30'),
-    (1, 2, 23, 'liters', 3, '2021-03-30');
-
+    (1, 1, 23, 'pieces', 3, '2023-04-30', '2021-02-18'),
+    (1, 2, 23, 'liters', 3, '2021-03-30', '2021-03-20'),
+    (3, 3, 7, NULL, 3, '2021-04-22', '2021-03-17'),
+    (3, 4, 2, 'kilos', 4, '2021-12-12', '2021-03-28');

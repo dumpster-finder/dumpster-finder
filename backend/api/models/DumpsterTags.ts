@@ -8,11 +8,11 @@ import { TagAttributes, TagCreationAttributes } from "./Tags";
 export interface DumpsterTagAttributes {
     dumpsterID: number;
     tagID: number;
-    amount?: number;
-    unit?: string;
-    quality?: number;
+    amount?: number | null;
+    unit?: string | null;
+    quality?: number | null;
     foundDate: Date;
-    expiryDate?: Date;
+    expiryDate?: Date | null;
 }
 
 export interface DumpsterTagCreationAttributes
@@ -23,11 +23,11 @@ export class DumpsterTags
     implements DumpsterTagAttributes {
     dumpsterID!: number;
     tagID!: number;
-    amount?: number;
-    unit?: string;
-    quality?: number;
+    amount?: number | null;
+    unit?: string | null;
+    quality?: number | null;
     foundDate!: Date;
-    expiryDate?: Date;
+    expiryDate?: Date | null;
 }
 
 // Inject Sequelize

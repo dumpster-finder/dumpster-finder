@@ -199,7 +199,7 @@ CREATE TABLE DumpsterTags (
     tagID INT NOT NULL REFERENCES Tags(tagID),
 
     -- Composite amount:
-    amount INT,
+    amount FLOAT,
     unit VARCHAR(12),
 
     -- Quality rating:
@@ -210,7 +210,7 @@ CREATE TABLE DumpsterTags (
     expiryDate TIMESTAMP,
     INDEX (foundDate),
     INDEX (expiryDate),
-    -- TODO add primary key!
+    CONSTRAINT dumpsterTagsPK PRIMARY KEY DumpsterTags(dumpsterID, tagID, foundDate),
     CONSTRAINT dumpsterTagsFK1 FOREIGN KEY DumpsterTags(dumpsterID)
         REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,

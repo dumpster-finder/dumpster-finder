@@ -13,6 +13,10 @@
  *           type: number
  *         unit:
  *           type: string
+ *         quality:
+ *           type: integer
+ *           min: 1
+ *           max: 5
  *         expiryDate:
  *           type: string
  *           format: date
@@ -20,7 +24,8 @@
  *         name: "Milk"
  *         amount: 23
  *         unit: "liters"
- *         expiryDate: "2021-03-30"
+ *         quality: 3
+ *         expiryDate: "2021-03-30Z"
  *     Content:
  *       allOf:
  *         - $ref: '#/components/schemas/PostContent'
@@ -33,8 +38,9 @@
  *         name: "Milk"
  *         amount: 23
  *         unit: "liters"
- *         expiryDate: "2021-03-30"
- *         foundDate: "2021-03-30"
+ *         quality: 3
+ *         expiryDate: "2021-03-30Z"
+ *         foundDate: "2021-03-20Z"
  *
  * tags:
  *   - name: Contents
@@ -127,7 +133,52 @@ export default function ({ Models }: RouteDependencies) {
                     req.params.dumpsterID,
                     req.body,
                 );
-                res.status(200).json(result);
+                res.status(201).json(result);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/contents/:
+     *   put:
+     *     summary: Update a content entry
+     *     tags: [Contents]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     requestBody:
+     *       content:
+     *         application/json:
+     *           schema:
+     *             $ref: '#/components/schemas/Content'
+     *     responses:
+     *       "200":
+     *         description: The resulting content entry
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Content'
+     */
+    router.put(
+        "/",
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
+            try {
+                const result = await contentDAO.updateOne(
+                    req.params.dumpsterID,
+                    req.body,
+                );
+                res.status(201).json(result);
             } catch (e) {
                 next(e);
             }

@@ -6,6 +6,7 @@ const contentAttributes = [
     "dumpsterID",
     "amount",
     "unit",
+    "quality",
     "expiryDate",
     "foundDate",
     // avoiding DumpsterPositionDumpsterID, the unspeakable horror
@@ -17,6 +18,7 @@ const contentAttributes = [
 const toContent = ({
     amount,
     unit,
+    quality,
     expiryDate,
     foundDate,
     tag,
@@ -24,6 +26,7 @@ const toContent = ({
     name: tag.name,
     amount,
     unit,
+    quality,
     expiryDate,
     foundDate,
 });
@@ -33,11 +36,12 @@ const toContent = ({
  */
 const createResultToContent = (
     name: string,
-    { amount, unit, expiryDate, foundDate }: DumpsterTagAttributes,
+    { amount, unit, quality, expiryDate, foundDate }: DumpsterTagAttributes,
 ): Content => ({
     name,
     amount,
     unit,
+    quality,
     expiryDate,
     foundDate,
 });
@@ -46,6 +50,7 @@ export default function ({
     Tags,
     DumpsterTags,
     StandardTags,
+    DumpsterPositions,
     sequelize,
 }: MyModels) {
     return {
@@ -79,20 +84,31 @@ export default function ({
          *
          * @param dumpsterID - ID of the queried dumpster
          */
-        getAll: (dumpsterID: number) =>
-            DumpsterTags.findAll({
-                where: { dumpsterID },
-                attributes: contentAttributes,
-                include: [
-                    {
-                        model: Tags,
-                        as: "tag",
-                    },
-                ],
-            }).then(data =>
-                // @ts-ignore
-                data.map(toContent),
-            ),
+        getAll: async (dumpsterID: number) => {
+            return await sequelize.transaction(async t => {
+                const dumpsterPosition = await DumpsterPositions.findOne({
+                    where: { dumpsterID },
+                    transaction: t,
+                });
+                if (!dumpsterPosition) throw new Error("No such dumpster!");
+
+                return await DumpsterTags.findAll({
+                    where: { dumpsterID },
+                    attributes: contentAttributes,
+                    include: [
+                        {
+                            model: Tags,
+                            as: "tag",
+                        },
+                    ],
+                    order: [["foundDate", "DESC"]],
+                    transaction: t,
+                }).then(data =>
+                    // @ts-ignore
+                    data.map(toContent),
+                );
+            });
+        },
 
         addOne: async (
             dumpsterID: number,
@@ -147,6 +163,36 @@ export default function ({
             });
         },
 
-        updateOne: (dumpsterID: number) => null,
+        updateOne: async (dumpsterID: number, content: Content) => {
+            const { name, foundDate, ...editableAttributes } = content;
+            return await sequelize.transaction(async t => {
+                const match = await Tags.findOne({
+                    where: { name },
+                    transaction: t,
+                });
+
+                if (match) {
+                    const { tagID } = match;
+                    const eh = await DumpsterTags.update(editableAttributes, {
+                        where: { dumpsterID, tagID, foundDate },
+                        transaction: t,
+                    });
+                    console.log(eh);
+                    const result = await DumpsterTags.findOne({
+                        attributes: contentAttributes,
+                        where: { dumpsterID, tagID, foundDate },
+                        transaction: t,
+                    });
+                    if (result) return createResultToContent(name, result);
+                    // TODO add specific error types, that'd make this a ton easier
+                    else
+                        throw new Error(
+                            "Couldn't find a content entry with this data",
+                        );
+                } else {
+                    throw new Error("No such content type");
+                }
+            });
+        },
     };
 }

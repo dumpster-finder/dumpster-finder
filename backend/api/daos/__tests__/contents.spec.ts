@@ -12,6 +12,7 @@ describe("getStandardContentTypes()", () => {
         const names = types.map(t => t.name);
         expect(names).toContain("Milk");
         expect(names).toContain("Cheese");
+        expect(names).toContain("Potatoes");
     });
 
     it("should return correctly formatted objects", async () => {
@@ -32,16 +33,19 @@ describe("getAll()", () => {
         expect(contents.map(({ foundDate, ...rest }) => ({ ...rest }))).toEqual(
             [
                 {
-                    name: "Cheese",
-                    amount: 23,
-                    unit: "pieces",
-                    expiryDate: new Date("2023-04-30"),
-                },
-                {
+                    // Most recently found first
                     name: "Milk",
                     amount: 23,
                     unit: "liters",
+                    quality: 3,
                     expiryDate: new Date("2021-03-30"),
+                },
+                {
+                    name: "Cheese",
+                    amount: 23,
+                    unit: "pieces",
+                    quality: 3,
+                    expiryDate: new Date("2023-04-30"),
                 },
             ],
         );
@@ -58,11 +62,11 @@ describe("addOne()", () => {
         const content = {
             name: "Milk",
             amount: 23,
-            unit: "liters",
+            unit: "liters", // omitting quality
             expiryDate: new Date("2021-08-26"),
         };
         const { foundDate, ...result } = await contentDAO.addOne(2, content);
-        expect(result).toEqual(content);
+        expect(result).toEqual({ quality: null, ...content }); // Sequelize only sends null, not undefined, back
         expect(foundDate).toBeInstanceOf(Date);
     });
 
@@ -70,12 +74,40 @@ describe("addOne()", () => {
         const name = "Avocado";
         await contentDAO.addOne(2, {
             name,
-            amount: 2,
+            amount: 2, // omitting unit
+            quality: 4,
             expiryDate: new Date("2021-04-01"),
         });
         const match = await Models.Tags.findOne({ where: { name } });
         expect(match).not.toBeNull();
         expect(match?.name).toBe(name);
         expect(match?.tagID).toBeGreaterThan(2);
+    });
+});
+
+describe("updateOne()", () => {
+    it("should update content entry", async () => {
+        const content = {
+            name: "Potatoes",
+            amount: 1.5,
+            unit: "kilos",
+            quality: 3,
+            expiryDate: new Date("2021-08-26"),
+            foundDate: new Date("2021-03-28"),
+        };
+        const result = await contentDAO.updateOne(3, content);
+        expect(result).toEqual(content);
+    });
+
+    it("should refrain from modifying data that is not given", async () => {
+        const content = {
+            name: "Squash",
+            amount: 5, // not specifying quality
+            expiryDate: new Date("2021-08-26"),
+            foundDate: new Date("2021-03-17"),
+        };
+        const result = await contentDAO.updateOne(3, content);
+        // Here, quality should be unchanged
+        expect(result).toEqual({ quality: 3, unit: null, ...content });
     });
 });
