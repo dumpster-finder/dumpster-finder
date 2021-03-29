@@ -49,32 +49,18 @@ export default function ({ Tags, DumpsterTags, StandardTags }: MyModels) {
                         as: "tag",
                     },
                 ],
-            })
-                .then(d => {
-                    console.log(d);
+            }).then((
+                data, // @ts-ignore
+            ) =>
+                data.map(({ amount, unit, expiryDate, foundDate, tag }) => ({
                     // @ts-ignore
-                    console.log(d[0].tag);
-                    return d;
-                })
-                .then(data =>
-                    data.map(
-                        ({
-                            amount,
-                            unit,
-                            expiryDate,
-                            foundDate,
-                            // @ts-ignore
-                            tag,
-                        }) => ({
-                            // @ts-ignore
-                            name: tag.dataValues.name,
-                            amount,
-                            unit,
-                            expiryDate,
-                            foundDate,
-                        }),
-                    ),
-                ),
+                    name: tag.dataValues.name,
+                    amount,
+                    unit,
+                    expiryDate,
+                    foundDate,
+                })),
+            ),
 
         addOne: (dumpsterID: number) => null,
         updateOne: (dumpsterID: number) => null,

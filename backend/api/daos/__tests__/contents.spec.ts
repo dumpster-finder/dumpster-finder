@@ -23,3 +23,32 @@ describe("getStandardContentTypes()", () => {
         });
     });
 });
+
+describe("getAll()", () => {
+    it("should find the contents of a dumpster", async () => {
+        const contents = await contentDAO.getAll(1);
+        // Exclude foundDate from check since that varies by time of initialization
+        // TODO perhaps write explicit dates there?
+        expect(contents.map(({ foundDate, ...rest }) => ({ ...rest }))).toEqual(
+            [
+                {
+                    name: "Cheese",
+                    amount: 23,
+                    unit: "pieces",
+                    expiryDate: new Date("2023-04-30"),
+                },
+                {
+                    name: "Milk",
+                    amount: 23,
+                    unit: "liters",
+                    expiryDate: new Date("2021-03-30"),
+                },
+            ],
+        );
+        contents.forEach(c => expect(c).toHaveProperty("foundDate"));
+    });
+
+    it("should fail if the dumpster does not exist", async () => {
+        await expect(contentDAO.getAll(387)).rejects.not.toBeUndefined();
+    });
+});
