@@ -16,7 +16,7 @@ export interface DumpsterTagAttributes {
 }
 
 export interface DumpsterTagCreationAttributes
-    extends Optional<DumpsterTagAttributes, "dumpsterID"> {}
+    extends Optional<DumpsterTagAttributes, "dumpsterID" | "foundDate"> {}
 
 export class DumpsterTags
     extends Model<DumpsterTagAttributes, DumpsterTagCreationAttributes>

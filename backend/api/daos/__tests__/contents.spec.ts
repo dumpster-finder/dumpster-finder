@@ -52,3 +52,30 @@ describe("getAll()", () => {
         await expect(contentDAO.getAll(387)).rejects.not.toBeUndefined();
     });
 });
+
+describe("addOne()", () => {
+    it("should add valid content successfully", async () => {
+        const content = {
+            name: "Milk",
+            amount: 23,
+            unit: "liters",
+            expiryDate: new Date("2021-08-26"),
+        };
+        const { foundDate, ...result } = await contentDAO.addOne(2, content);
+        expect(result).toEqual(content);
+        expect(foundDate).toBeInstanceOf(Date);
+    });
+
+    it("should add a new content type if it does not exist", async () => {
+        const name = "Avocado";
+        await contentDAO.addOne(2, {
+            name,
+            amount: 2,
+            expiryDate: new Date("2021-04-01"),
+        });
+        const match = await Models.Tags.findOne({ where: { name } });
+        expect(match).not.toBeNull();
+        expect(match?.name).toBe(name);
+        expect(match?.tagID).toBeGreaterThan(2);
+    });
+});

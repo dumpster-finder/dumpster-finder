@@ -89,5 +89,50 @@ export default function ({ Models }: RouteDependencies) {
         },
     );
 
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/contents/:
+     *   post:
+     *     summary: Add content to a dumpster
+     *     tags: [Contents]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     requestBody:
+     *       content:
+     *         application/json:
+     *           schema:
+     *             $ref: '#/components/schemas/PostContent'
+     *     responses:
+     *       "200":
+     *         description: The resulting content entry
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Content'
+     */
+    router.post(
+        "/",
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
+            try {
+                const result = await contentDAO.addOne(
+                    req.params.dumpsterID,
+                    req.body,
+                );
+                res.status(200).json(result);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
+
     return router;
 }
