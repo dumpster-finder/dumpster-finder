@@ -12,6 +12,7 @@ import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
 import { defaultLoggerOptions } from "./config/pino";
 import contents from "./routes/contents";
+import contentTypes from "./routes/contentTypes";
 
 (async () => {
     await connectToDatabase();
@@ -40,6 +41,7 @@ app.use("/spec", swagger());
 app.use("/dumpsters", dumpsters(dependencies));
 
 app.use("/categories", categories(dependencies));
+app.use("/content-types", contentTypes(dependencies));
 app.use("/store-types", storeTypes(dependencies));
 app.use("/dumpster-types", dumpsterTypes(dependencies));
 

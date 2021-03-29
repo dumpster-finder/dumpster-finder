@@ -110,6 +110,10 @@ VALUES
     (1, 1, 'Cheese'),
     (2, 1, 'Milk');
 
+INSERT INTO StandardTags(tagID)
+VALUES
+    (1), (2);
+
 INSERT INTO DumpsterTags(dumpsterID, tagID, amount, unit, quality, expiryDate)
 VALUES
     (1, 1, 23, 'pieces', 3, '2023-04-30'),
