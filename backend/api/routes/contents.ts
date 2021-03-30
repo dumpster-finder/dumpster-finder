@@ -51,6 +51,7 @@ import { Request, Router } from "express";
 import { validate } from "express-validation";
 import { RouteDependencies } from "../types";
 import ContentDAO from "../daos/contents";
+import { getContent, postContent, putContent } from "../validators/contents";
 
 export default function ({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
@@ -81,6 +82,7 @@ export default function ({ Models }: RouteDependencies) {
      */
     router.get(
         "/",
+        validate(getContent),
         async (
             req: Request & { params: { dumpsterID: number } },
             res,
@@ -123,6 +125,7 @@ export default function ({ Models }: RouteDependencies) {
      */
     router.post(
         "/",
+        validate(postContent),
         async (
             req: Request & { params: { dumpsterID: number } },
             res,
@@ -168,6 +171,7 @@ export default function ({ Models }: RouteDependencies) {
      */
     router.put(
         "/",
+        validate(putContent),
         async (
             req: Request & { params: { dumpsterID: number } },
             res,
