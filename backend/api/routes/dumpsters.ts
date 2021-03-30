@@ -150,6 +150,7 @@ import {
 import { RouteDependencies } from "../types";
 import { PositionParams } from "../types/Position";
 import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
+import { NotFoundError } from "../types/errors";
 
 //TODO add validation and models, and DAO for the key ones
 //TODO change storetype and dumpstertype to String primary key and foreign key
@@ -236,10 +237,8 @@ export default function ({ logger, Models }: RouteDependencies) {
                 if (dumpster) {
                     res.status(200).json(dumpster);
                 } else {
-                    res.status(404).json({
-                        statusCode: 404,
-                        message: "Dumpster not found",
-                    });
+                    // TODO consider moving this down into the DAO
+                    throw new NotFoundError("Dumpster not found");
                 }
             } catch (e) {
                 next(e);
