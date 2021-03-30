@@ -39,16 +39,15 @@
  *                 longitude: 10.394954
  *
  *         LocationParams:
- *             type: object
- *             required:
- *                 - position
- *                 - radius
- *             properties:
- *                 position:
- *                     $ref: '#/components/schemas/Position'
- *                 radius:
- *                     type: number
- *                     description: Radius around the given position
+ *             allOf:
+ *                 - $ref: '#/components/schemas/Position'
+ *                 - type: object
+ *                   required:
+ *                       - position
+ *                   properties:
+ *                       radius:
+ *                           type: number
+ *                           description: Radius around the given position
  *             example:
  *                 latitude: 63.422407
  *                 longitude: 10.394954
