@@ -39,3 +39,16 @@ export class InvalidKeyError extends APIError {
         this.name = "InvalidKeyError";
     }
 }
+
+/**
+ * Error tied to the 422 status code,
+ * for use when you don't know exactly what went wrong,
+ * but you *do* know that it's probably the client's fault
+ * (thus, the API is unable to process this particular request)
+ */
+export class UnknownError extends APIError {
+    constructor(message: string) {
+        super(message, 422);
+        this.name = "UnknownError";
+    }
+}

@@ -1,6 +1,7 @@
 import { MyModels } from "../models";
 import { DumpsterTagAttributes } from "../models/DumpsterTags";
 import Content from "../types/Content";
+import { NotFoundError, UnknownError } from "../types/errors";
 
 const contentAttributes = [
     "dumpsterID",
@@ -90,7 +91,8 @@ export default function ({
                     where: { dumpsterID },
                     transaction: t,
                 });
-                if (!dumpsterPosition) throw new Error("No such dumpster!");
+                if (!dumpsterPosition)
+                    throw new NotFoundError("No such dumpster");
 
                 return await DumpsterTags.findAll({
                     where: { dumpsterID },
@@ -159,7 +161,10 @@ export default function ({
                     transaction: t,
                 });
                 if (result) return createResultToContent(name, result);
-                else throw new Error("No content was created, wth?");
+                else
+                    throw new UnknownError(
+                        "Content was not created (for unknown reasons)",
+                    );
             });
         },
 
@@ -186,11 +191,11 @@ export default function ({
                     if (result) return createResultToContent(name, result);
                     // TODO add specific error types, that'd make this a ton easier
                     else
-                        throw new Error(
+                        throw new NotFoundError(
                             "Couldn't find a content entry with this data",
                         );
                 } else {
-                    throw new Error("No such content type");
+                    throw new NotFoundError("No such content type");
                 }
             });
         },
