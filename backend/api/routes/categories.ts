@@ -22,6 +22,7 @@
 import { RouteDependencies } from "../types";
 import { Router } from "express";
 import CategoryDAO from "../daos/categories";
+import { standardLimiter } from "../middleware/rateLimiter";
 
 export default function ({ Models }: RouteDependencies) {
     const router = Router();
@@ -43,9 +44,13 @@ export default function ({ Models }: RouteDependencies) {
      *               items:
      *                 $ref: '#/components/schemas/Category'
      */
-    router.get("/", async (req, res) => {
-        const categories = await categoryDAO.getAll();
-        res.status(200).json(categories);
+    router.get("/", standardLimiter, async (req, res, next) => {
+        try {
+            const categories = await categoryDAO.getAll();
+            res.status(200).json(categories);
+        } catch (e) {
+            next(e);
+        }
     });
 
     return router;
