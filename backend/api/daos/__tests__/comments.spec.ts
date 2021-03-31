@@ -4,14 +4,6 @@ import CommentDAO from "../comments";
 import { Comments } from "../../models/Comments";
 
 const commentDAO = CommentDAO(Models);
-const newComment = new Comments({
-    commentID: 7,
-    dumpsterID: 1,
-    nickname: "FreeFood",
-    comment: "I love free food",
-    rating: 0,
-    date: "2021-03-31",
-});
 
 beforeAll(setupTestData);
 
@@ -25,16 +17,13 @@ describe("getAllForDumpster", () => {
 describe("addOne", () => {
     it("should add a comment to a dumpster", async () => {
         const commentBefore = await commentDAO.getAllForDumpster(1);
-        const comment = await commentDAO.addOne(
-            new Comments({
-                commentID: 7,
-                dumpsterID: 1,
-                nickname: "FreeFood",
-                comment: "I love free food",
-                rating: 0,
-                date: "2021-03-31",
-            }),
-        );
+        const comment = await commentDAO.addOne({
+            dumpsterID: 1,
+            nickname: "FreeFood",
+            comment: "I love free food",
+            rating: 0,
+            date: "2021-03-31",
+        });
         const commentAfter = await commentDAO.getAllForDumpster(1);
         expect(comment).not.toBe(undefined);
         expect(commentAfter.length).toBe(commentBefore.length + 1);
