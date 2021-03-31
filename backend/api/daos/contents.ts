@@ -199,5 +199,31 @@ export default function ({
                 }
             });
         },
+
+        /**
+         * Removes a content entry
+         * @param dumpsterID - ID of the dumpster the content was found in
+         * @param name       - content type, for identification
+         * @param foundDate  - date found, for identification
+         */
+        removeOne: async (
+            dumpsterID: number,
+            { name, foundDate }: Pick<Content, "name" | "foundDate">,
+        ) => {
+            return await sequelize.transaction(async t => {
+                const match = await Tags.findOne({
+                    where: { name },
+                    transaction: t,
+                });
+                if (!match) throw new NotFoundError("No such content type");
+                return await DumpsterTags.destroy({
+                    where: {
+                        dumpsterID,
+                        tagID: match.tagID,
+                        foundDate,
+                    },
+                });
+            });
+        },
     };
 }

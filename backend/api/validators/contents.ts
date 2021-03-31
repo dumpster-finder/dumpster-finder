@@ -35,3 +35,11 @@ export const putContent = {
         foundDate: Joi.date().required(),
     }),
 };
+
+export const deleteContent = {
+    params: Joi.object({
+        dumpsterID: Joi.string().pattern(/\d+/).required(),
+        contentType: Joi.string().required(),
+        foundDate: Joi.string().required(),
+    }),
+};

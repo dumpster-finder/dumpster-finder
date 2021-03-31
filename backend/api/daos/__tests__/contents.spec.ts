@@ -1,6 +1,7 @@
 import { setupTestData } from "../../config/testSetup";
 import Models from "../../models";
 import ContentDAO from "../contents";
+import _ from "lodash";
 
 const contentDAO = ContentDAO(Models);
 
@@ -109,5 +110,35 @@ describe("updateOne()", () => {
         const result = await contentDAO.updateOne(3, content);
         // Here, quality should be unchanged
         expect(result).toEqual({ quality: 3, unit: null, ...content });
+    });
+});
+
+describe("removeOne()", () => {
+    it("should delete only one content entry", async () => {
+        const identifier = {
+            name: "Potatoes",
+            foundDate: new Date("2021-03-20"),
+        };
+        // Remove it
+        const result = await contentDAO.removeOne(7, identifier);
+        // Make sure only one is found
+        expect(result).toEqual(1);
+    });
+
+    it("should delete content in the correct dumpster", async () => {
+        const identifier = {
+            name: "Milk chocolate",
+            foundDate: new Date("2021-02-28"),
+        };
+        // Remove it
+        const result = await contentDAO.removeOne(6, identifier);
+        expect(result).toEqual(1);
+        // See if you can find this piece of content in the db anymore
+        const possibleLeftovers = await contentDAO.getAll(6);
+        expect(
+            possibleLeftovers.find(({ name, foundDate }) =>
+                _.isEqual({ name, foundDate }, identifier),
+            ),
+        ).toBeUndefined();
     });
 });

@@ -51,7 +51,14 @@ import { Request, Router } from "express";
 import { validate } from "express-validation";
 import { RouteDependencies } from "../types";
 import ContentDAO from "../daos/contents";
-import { getContent, postContent, putContent } from "../validators/contents";
+import {
+    deleteContent,
+    getContent,
+    postContent,
+    putContent,
+} from "../validators/contents";
+import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
+import { APIError } from "../types/errors";
 
 export default function ({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
@@ -82,6 +89,7 @@ export default function ({ Models }: RouteDependencies) {
      */
     router.get(
         "/",
+        standardLimiter,
         validate(getContent),
         async (
             req: Request & { params: { dumpsterID: number } },
@@ -125,6 +133,7 @@ export default function ({ Models }: RouteDependencies) {
      */
     router.post(
         "/",
+        updateLimiter,
         validate(postContent),
         async (
             req: Request & { params: { dumpsterID: number } },
@@ -171,6 +180,7 @@ export default function ({ Models }: RouteDependencies) {
      */
     router.put(
         "/",
+        updateLimiter,
         validate(putContent),
         async (
             req: Request & { params: { dumpsterID: number } },
@@ -183,6 +193,71 @@ export default function ({ Models }: RouteDependencies) {
                     req.body,
                 );
                 res.status(201).json(result);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/contents/{contentType}-{foundDate}:
+     *   delete:
+     *     summary: Delete a content entry
+     *     tags: [Contents]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *       - in: path
+     *         name: contentType
+     *         schema:
+     *           type: string
+     *         required: true
+     *         description: Content type
+     *       - in: path
+     *         name: foundDate
+     *         schema:
+     *           type: string
+     *           format: date
+     *         required: true
+     *         description: Found date
+     *     responses:
+     *       "204":
+     *         description: Successful removal
+     */
+    router.delete(
+        "/:contentType-:foundDate",
+        updateLimiter,
+        validate(deleteContent),
+        async (
+            req: Request & {
+                params: {
+                    dumpsterID: number;
+                    contentType: string;
+                    foundDate: Date;
+                };
+            },
+            res,
+            next,
+        ) => {
+            try {
+                const result = await contentDAO.removeOne(
+                    req.params.dumpsterID,
+                    {
+                        name: req.params.contentType,
+                        foundDate: req.params.foundDate,
+                    },
+                );
+                if (result !== 1)
+                    throw new APIError(
+                        "More than one content entry deleted",
+                        500,
+                    );
+                res.status(204).send();
             } catch (e) {
                 next(e);
             }
