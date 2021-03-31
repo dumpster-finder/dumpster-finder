@@ -25,7 +25,16 @@ describe("getAllForDumpster", () => {
 describe("addOne", () => {
     it("should add a comment to a dumpster", async () => {
         const commentBefore = await commentDAO.getAllForDumpster(1);
-        const comment = await commentDAO.addOne(newComment);
+        const comment = await commentDAO.addOne(
+            new Comments({
+                commentID: 7,
+                dumpsterID: 1,
+                nickname: "FreeFood",
+                comment: "I love free food",
+                rating: 0,
+                date: "2021-03-31",
+            }),
+        );
         const commentAfter = await commentDAO.getAllForDumpster(1);
         expect(comment).not.toBe(undefined);
         expect(commentAfter.length).toBe(commentBefore.length + 1);
