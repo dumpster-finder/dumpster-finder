@@ -86,7 +86,8 @@
         "storeName": {
             "label": "Butikknavn",
             "placeholder": "f.eks. Rema 1000 Aker brygge",
-            "errorEmpty": "Dumpsteren trenger et navn"
+            "errorEmpty": "Dumpsteren trenger et navn",
+            "errorLong": "Navnet kan ikke være lengre enn 64 tegn"
         },
         "dumpsterType": {
             "label": "Type søppelkasse",
@@ -101,7 +102,8 @@
         },
         "emptyingSchedule": {
             "label": "Tømmeplan",
-            "placeholder": "f.eks Første mandag i måneden"
+            "placeholder": "f.eks Første mandag i måneden",
+            "errorLong": "Tømmeplanen kan ikke være lengre enn 128 tegn"
         },
         "storeView": {
             "label": "Butikkens syn på søppeldykkere",
@@ -119,7 +121,8 @@
         },
         "extraInfo": {
             "label": "Annen info",
-            "placeholder": "(ekstra info som ikke passer inn andre steder)"
+            "placeholder": "Ekstra info som ikke passer inn andre steder",
+            "errorLong": "Her er det ikke plass til mer enn 500 tegn"
         },
         "save": "Lagre dumpster",
         "create": "Opprett dumpster"
