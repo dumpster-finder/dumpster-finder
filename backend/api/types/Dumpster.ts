@@ -18,4 +18,5 @@ export default interface Dumpster {
 
 export interface DumpsterRevision extends Omit<Dumpster, "rating"> {
     dateUpdated: Date;
+    revisionID: number;
 }

@@ -39,6 +39,7 @@ const toRevision = (dumpster: DumpsterAttributes): DumpsterRevision => {
     return {
         ...returnable,
         dateUpdated: dumpster.dateUpdated,
+        revisionID: dumpster.revisionID,
     };
 };
 

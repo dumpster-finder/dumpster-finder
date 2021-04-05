@@ -44,7 +44,7 @@ const baseDumpsterProps = [
 
 const dumpsterProps = [...baseDumpsterProps, "rating"];
 
-const revisionProps = [...baseDumpsterProps, "dateUpdated"];
+const revisionProps = [...baseDumpsterProps, "dateUpdated", "revisionID"];
 
 describe("getAll", () => {
     it("should return a list of known dumpsters", async () => {
