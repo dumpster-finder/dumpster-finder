@@ -44,7 +44,12 @@ const baseDumpsterProps = [
 
 const dumpsterProps = [...baseDumpsterProps, "rating"];
 
-const revisionProps = [...baseDumpsterProps, "dateUpdated", "revisionID"];
+const revisionProps = [
+    ...baseDumpsterProps,
+    "dateUpdated",
+    "revisionID",
+    "isActive",
+];
 
 describe("getAll", () => {
     it("should return a list of known dumpsters", async () => {
@@ -138,12 +143,18 @@ describe("getRevisions", () => {
             revisionProps.forEach(p => expect(r).toHaveProperty(p)),
         );
     });
+
+    it("should indicate that only *one* revision is active at a time", async () => {
+        const revisions = await dumpsterDAO.getRevisions(4);
+        const activeRevisions = revisions.filter(r => r.isActive);
+        expect(activeRevisions).toHaveLength(1);
+        expect(activeRevisions[0].revisionID).toBe(4);
+    });
 });
 
 describe("setCurrentRevision", () => {
     it("should revert to an actual revision of that dumpster", async () => {
-        const res = await dumpsterDAO.setCurrentRevision(7, 79);
-        console.log(res);
+        const res = await dumpsterDAO.setActiveRevision(7, 79);
         const dp = await Models.DumpsterPositions.findOne({
             where: {
                 dumpsterID: 7,
@@ -156,13 +167,13 @@ describe("setCurrentRevision", () => {
 
     it("should not revert to a revision of a different dumpster", async () => {
         await expect(
-            dumpsterDAO.setCurrentRevision(1, 2),
+            dumpsterDAO.setActiveRevision(1, 2),
         ).rejects.not.toBeUndefined();
     });
 
     it("should not revert to a revision that does not exist", async () => {
         await expect(
-            dumpsterDAO.setCurrentRevision(2, 2325325325),
+            dumpsterDAO.setActiveRevision(2, 2325325325),
         ).rejects.not.toBeUndefined();
     });
 });

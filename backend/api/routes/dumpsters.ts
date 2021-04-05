@@ -148,10 +148,13 @@
  *                 - type: object
  *                   required:
  *                     - dateUpdated
+ *                     - isActive
  *                   properties:
  *                     dateUpdated:
  *                       type: string
  *                       format: date
+ *                     isActive:
+ *                       type: boolean
  *             example:
  *                 dumpsterID: 42
  *                 revisionID: 354
@@ -168,6 +171,7 @@
  *                 cleanliness: 2
  *                 info: "This dumpster can pack a lot of circuits"
  *                 dateUpdated: "2021-01-30"
+ *                 isActive: true
  *
  * tags:
  *   - name: Dumpsters
@@ -441,7 +445,7 @@ export default function ({ Models }: RouteDependencies) {
             next,
         ) => {
             try {
-                await dumpsterDAO.setCurrentRevision(
+                await dumpsterDAO.setActiveRevision(
                     req.params.dumpsterID,
                     req.body.revisionID,
                 );

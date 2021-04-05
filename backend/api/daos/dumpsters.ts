@@ -37,9 +37,11 @@ const toRevision = (dumpster: DumpsterAttributes): DumpsterRevision => {
     // Exclude rating (it defaults to 2.5)
     const { rating, ...returnable } = toDumpster(dumpster);
     return {
+        revisionID: dumpster.revisionID,
         ...returnable,
         dateUpdated: dumpster.dateUpdated,
-        revisionID: dumpster.revisionID,
+        // @ts-ignore
+        isActive: Boolean(dumpster.dataValues.isActive),
     };
 };
 
@@ -250,6 +252,13 @@ export default function ({
                         dumpsterAttributes.length - 1,
                     ),
                     "dateUpdated",
+                    "revisionID",
+                    [
+                        literal(
+                            "(Dumpsters.revisionID = (SELECT dp.revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID))",
+                        ),
+                        "isActive",
+                    ],
                 ],
                 include: [
                     {
@@ -271,7 +280,7 @@ export default function ({
          * @param dumpsterID - ID of the dumpster you'd like to update
          * @param revisionID - Revision to revert to
          */
-        setCurrentRevision: async (dumpsterID: number, revisionID: number) => {
+        setActiveRevision: async (dumpsterID: number, revisionID: number) => {
             return sequelize.transaction(async t => {
                 // Check that the pair of revision and dumpster ID is valid
                 const match = await Dumpsters.findOne({
