@@ -15,3 +15,7 @@ export default interface Dumpster {
     categories: string[];
     info: string;
 }
+
+export interface DumpsterRevision extends Omit<Dumpster, "rating"> {
+    dateUpdated: Date;
+}

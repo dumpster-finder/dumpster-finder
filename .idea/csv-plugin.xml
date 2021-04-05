@@ -10,6 +10,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/backend/api/daos/dumpsters.ts">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/backend/api/server.ts">
           <value>
             <Attribute>
