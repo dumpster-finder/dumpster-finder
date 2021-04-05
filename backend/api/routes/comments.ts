@@ -1,106 +1,170 @@
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     PostComment:
+ *       type: object
+ *       required:
+ *         - dumpsterID
+ *         - nickname
+ *         - comment
+ *         - date
+ *       properties:
+ *         dumpsterID:
+ *           type: integer
+ *         nickname:
+ *           type: string
+ *         comment:
+ *           type: string
+ *       example:
+ *         dumpsterID: 1
+ *         nickname: "internet troll"
+ *         comment: "roflmao imma be helpful now hahaha"
+ *     Comment:
+ *       allOf:
+ *         - type: object
+ *           required:
+ *             - commentID
+ *           properties:
+ *             commentID:
+ *               type: integer
+ *         - $ref: '#/components/schemas/PostComment'
+ *         - type: object
+ *           required:
+ *             - rating
+ *           properties:
+ *             rating:
+ *               type: integer
+ *             date:
+ *               oneOf:
+ *                 - type: string
+ *                   format: date
+ *                 - type: string
+ *                   format: date-time
+ *       example:
+ *         commentID: 22
+ *         dumpsterID: 1
+ *         nickname: "internet troll"
+ *         comment: "roflmao imma be helpful now hahaha"
+ *         date: "2020-02-02"
  * tags:
  *   - name: Comments
- *     description: Dumpster API
+ *     description: Comments API
  */
+
 import { Router } from "express";
 import { validate } from "express-validation";
-import Models from "../models";
-import { postDumpster } from "../validators/dumpsters";
+import CommentDAO from "../daos/comments";
+import { RouteDependencies } from "../types";
+import {
+    postComment,
+    getComments,
+    updateComment,
+} from "../validators/comments";
 
-export default function() {
-    // const commentDAO = CommentDAO(Models);
-    const router = Router();
-    const commentsControl = //Add comment Control here
-        /**
-         * @swagger
-         * /comments/:dumpsterID:
-         *   get:
-         *     summary: GET comments for dumpster
-         *     tags: [Comments]
-         *     parameters:
-         *       - in: path
-         *         name: dumpsterID
-         *         schema:
-         *           type: integer
-         *         required: true
-         *         description: Dumpster ID
-         *     responses:
-         *       "200":
-         *         description: the greeting
-         *         content:
-         *           application/json:
-         *             schema:
-         *               $ref: '#/components/schemas/comments/:dumpsterID'
-         */
-        router.get(
-            "/comments/:dumpsterID",
-            async (req: { params: { dumpsterID: number } }, res) => {
-                try {
-                    const dumpsters = await commentsControl.getAllForDumpster(
-                        dumpsterID,
-                    );
-                    res.status(200).json(dumpsters);
-                } catch (e) {
-                    console.error("Something went wrong!", e);
-                    res.status(500).send("uh?");
-                }
-            },
-        );
+export default function({ Models }: RouteDependencies) {
+    const commentDAO = CommentDAO(Models);
+    const router = Router({ mergeParams: true });
+
     /**
      * @swagger
-     * /comments:
+     * /dumpsters/{dumpsterID}/comments:
+     *   get:
+     *     summary: GET comments for dumpster
+     *     tags: [Comments]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     responses:
+     *       "200":
+     *         description: the greeting
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Comment'
+     */
+    router.get(
+        "/",
+        async (req: { params: { dumpsterID: number } }, res, next) => {
+            try {
+                const dumpsters = await commentDAO.getAllForDumpster(
+                    req.params.dumpsterID,
+                );
+                res.status(200).json(dumpsters);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/comments:
      *   post:
      *     summary: add a new comment for a dumpster
      *     tags: [Comments]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
      *     requestBody:
      *          content:
      *              application/json:
      *                 schema:
-     *                      type: object
-     *                      properties:
-     *                          dumpsterid:
-     *                              type: integer
-     *                          nickname:
-     *                              type: string
-     *                          comment:
-     *                              type: string
-     *                          date:
-     *                              type: string
+     *                   $ref: '#components/schemas/PostComment'
      *     responses:
      *       "200":
      *         description: the greeting
      *         content:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/comments'
+     *               $ref: '#/components/schemas/Comment'
      */
-    router.post("/comments", validate(postDumpster), async (req, res) => {
+    router.post("/", validate(postComment), async (req, res, next) => {
         try {
-            const dumpsters = await commentsControl.postOne(postDumpster);
-            res.status(200).json(dumpsters);
+            const result = await commentDAO.addOne(req.body);
+            res.status(201).json(result);
         } catch (e) {
-            console.error("Something went wrong!", e);
-            res.status(500).send("uh?");
+            next(e);
         }
     });
+
     /**
      * @swagger
-     * /comments:
+     * /dumpsters/{dumpsterID}/comments/{commentID}:
      *   patch:
      *     summary: rate a comment
      *     tags: [Comments]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *       - in: path
+     *         name: commentID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Comment ID
      *     requestBody:
      *          content:
      *              application/json:
      *                 schema:
      *                      type: object
      *                      properties:
-     *                          dumpsterid:
+     *                          vote:
      *                              type: integer
-     *                          nickname:
-     *                              type: string
+     *                      example:
+     *                          vote: 1
      *     responses:
      *       "200":
      *         description: the greeting
@@ -109,15 +173,28 @@ export default function() {
      *             schema:
      *               $ref: '#/components/schemas/comments'
      */
-    router.patch("/comments", validate(postDumpster), async (req, res) => {
-        try {
-            const dumpsters = await commentsControl.changeComment(postDumpster);
-            res.status(200).json(dumpsters);
-        } catch (e) {
-            console.error("Something went wrong!", e);
-            res.status(500).send("uh?");
-        }
-    });
+    router.patch(
+        "/:commentID",
+        validate(updateComment),
+        async (
+            //    req: { params: { commentID: number }; body: { vote: number } },
+            req,
+            res,
+            next,
+        ) => {
+            try {
+                const result = await commentDAO.updateOne(
+                    //@ts-ignore
+                    req.params.commentID,
+                    req.body.vote,
+                );
+                res.status(200).json(result);
+                console.log(req.params);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
 
     return router;
 }

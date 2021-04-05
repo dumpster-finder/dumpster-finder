@@ -11,6 +11,7 @@ import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
 import { defaultLoggerOptions } from "./config/pino";
+import comments from "./routes/comments";
 
 (async () => {
     await connectToDatabase();
@@ -37,6 +38,7 @@ app.use(expressPino({ logger }));
 app.use("/spec", swagger());
 
 app.use("/dumpsters", dumpsters(dependencies));
+app.use("/dumpsters/:dumpsterID(\\d+)/comments", comments(dependencies));
 
 app.use("/categories", categories(dependencies));
 app.use("/store-types", storeTypes(dependencies));
