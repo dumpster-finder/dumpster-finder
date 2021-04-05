@@ -77,10 +77,10 @@ export default function DumpsterEditor({
                     // However, in this case, the validation is very much related to the way the editor works.
                     // (idk if that's a valid argument, though)
                     name: Yup.string().max(64).required(),
-                    dumpsterType: Yup.number().integer().positive(),
-                    storeType: Yup.number().integer().positive(),
+                    dumpsterType: Yup.number().integer().min(0),
+                    storeType: Yup.number().integer().min(0),
                     categories: Yup.array()
-                        .of(Yup.number().integer().positive())
+                        .of(Yup.number().integer().min(0))
                         .strict()
                         .required(),
                     emptyingSchedule: Yup.string().max(128),
@@ -101,6 +101,7 @@ export default function DumpsterEditor({
                     handleSubmit,
                     values,
                     errors,
+                    isValid,
                 }) => (
                     <>
                         <Input
@@ -252,7 +253,7 @@ export default function DumpsterEditor({
                         {/* TODO picture stuff */}
                         <Button
                             status="primary"
-                            disabled={pending}
+                            disabled={pending || !isValid}
                             onPress={() => handleSubmit()}
                             accessoryLeft={
                                 pending ? PendingButtonIcon : SaveButtonIcon
