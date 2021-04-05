@@ -9,7 +9,7 @@ The database server is *not* exposed to the public.
 To build the images and start docker-compose deattached:
 
 ```sh
-docker-compose up --build -d # in this folder
+make it start # in this folder
 # or
 systemctl --user start dumpster # if the service is installed
 ```
@@ -23,7 +23,7 @@ make tables
 To stop and clean up the containers:
 
 ```sh
-docker-compose down # in this folder
+make it stop # in this folder
 # or
 systemctl --user stop dumpster # if the service is installed
 ```
@@ -31,7 +31,7 @@ systemctl --user stop dumpster # if the service is installed
 To restart the containers if something went slightly wrong:
 
 ```sh
-docker-compose restart # in this folder
+make it restart # in this folder
 # or
 systemctl --user restart dumpster # if the service is installed
 ```
@@ -81,7 +81,7 @@ ssh dumpster@$SERVER_IP sed -i "s/DB_HOST=localhost/DB_HOST=db/" \
 Copy over the `systemd` unit, reload the daemon and start the service:
 
 ```shell
-scp .config/systemd/user/dumpster.service \
+scp backend/dumpster.service \
     "dumpster@$SERVER_IP:.config/systemd/user/"
 ssh dumpster@$SERVER_IP systemctl daemon-reload
 ssh dumpster@$SERVER_IP systemctl --user start dumpster

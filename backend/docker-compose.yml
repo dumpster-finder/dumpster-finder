@@ -4,16 +4,17 @@ services:
   db:
     build: ./db/
     environment:
-      MYSQL_ROOT_PASSWORD: thecakeisalive
-      MYSQL_DATABASE: dumpster
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_NAME}"
     expose:
-      - "3306"
+      - "${DB_PORT}"
     volumes:
       - "dumpsterdb:/var/lib/mysql/"
   api:
     build: ./api/
     ports:
-      - "3000:3000"
+      - "${API_PORT}:${API_PORT}"
 
 volumes:
   dumpsterdb:
