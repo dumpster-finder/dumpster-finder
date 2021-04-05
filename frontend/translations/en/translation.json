@@ -149,8 +149,8 @@
         "pristine": "Pristine",
         "clean": "Clean",
         "average": "Average",
-        "dirty": "dirty",
-        "filthy": "filthy"
+        "dirty": "Dirty",
+        "filthy": "Filthy"
     },
 
     "dumpsterType": {
