@@ -1,4 +1,4 @@
-import {Router} from "express";
+import { Router } from "express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 
@@ -24,7 +24,10 @@ export default function () {
             servers: [
                 {
                     // This depends on what host the server is deployed to
-                    url: `http://${process.env.API_HOST}:${process.env.API_PORT}/`,
+                    url:
+                        process.env.HTTPS === "true"
+                            ? `https://${process.env.DOMAIN_NAME}/api/` // TODO make these alternatives agree a little more
+                            : `http://${process.env.API_HOST}:${process.env.API_PORT}/api/`, // (CORS issues caused the split)
                 },
             ],
         },
