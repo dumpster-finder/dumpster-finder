@@ -40,7 +40,7 @@
  *         unit: "liters"
  *         quality: 3
  *         expiryDate: "2021-03-30Z"
- *         foundDate: "2021-03-20Z"
+ *         foundDate: "2021-03-19T23:00:00.000Z"
  *
  * tags:
  *   - name: Contents
@@ -154,7 +154,7 @@ export default function ({ Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/{dumpsterID}/contents/:
+     * /dumpsters/{dumpsterID}/contents/{contentType}-{foundDate}:
      *   put:
      *     summary: Update a content entry
      *     tags: [Contents]
@@ -165,6 +165,19 @@ export default function ({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: path
+     *         name: contentType
+     *         schema:
+     *           type: string
+     *         required: true
+     *         description: Content type
+     *       - in: path
+     *         name: foundDate
+     *         schema:
+     *           type: string
+     *           format: date
+     *         required: true
+     *         description: Found date
      *     requestBody:
      *       content:
      *         application/json:
@@ -179,11 +192,15 @@ export default function ({ Models }: RouteDependencies) {
      *               $ref: '#/components/schemas/Content'
      */
     router.put(
-        "/",
+        "/:contentType-:foundDate",
         updateLimiter,
         validate(putContent),
         async (
-            req: Request & { params: { dumpsterID: number } },
+            req: Request & { params: {
+                    dumpsterID: number;
+                    contentType: string;
+                    foundDate: Date;
+                } },
             res,
             next,
         ) => {
@@ -252,9 +269,14 @@ export default function ({ Models }: RouteDependencies) {
                         foundDate: req.params.foundDate,
                     },
                 );
-                if (result !== 1)
+                if (result > 1)
                     throw new APIError(
                         "More than one content entry deleted",
+                        500,
+                    );
+                if (result < 1)
+                    throw new APIError(
+                        "no such entry exists",
                         500,
                     );
                 res.status(204).send();

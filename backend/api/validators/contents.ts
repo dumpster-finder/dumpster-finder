@@ -25,7 +25,11 @@ export const postContent = {
  * An updated content entry has a found date
  */
 export const putContent = {
-    params: dumpsterIDParam,
+    params: Joi.object({
+        dumpsterID: Joi.string().pattern(/\d+/).required(),
+        contentType: Joi.string().required(),
+        foundDate: Joi.date().required(),
+    }),
     body: Joi.object({
         name: Joi.string().required(),
         amount: Joi.number().allow(null).optional(),
@@ -40,6 +44,6 @@ export const deleteContent = {
     params: Joi.object({
         dumpsterID: Joi.string().pattern(/\d+/).required(),
         contentType: Joi.string().required(),
-        foundDate: Joi.string().required(),
+        foundDate: Joi.date().required(),
     }),
 };
