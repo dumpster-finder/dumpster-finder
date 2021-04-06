@@ -53,7 +53,9 @@ export default function CommentScreen() {
                     value={comment}
                     onChangeText={nextValue => setComment(nextValue)}
                 />
-                <Button onPress={addComment}>Add comment</Button>
+                <Button onPress={addComment} disabled={!comment}>
+                    Add comment
+                </Button>
                 {commentList.map((value, index) => (
                     <CommentCard comment={value} key={index} />
                 ))}

@@ -89,7 +89,8 @@
         "storeName": {
             "label": "Store name",
             "placeholder": "e.g. Tesco in East London",
-            "errorEmpty": "Name is required"
+            "errorEmpty": "Name is required",
+            "errorLong": "Name can be no longer than 64 characters"
         },
         "dumpsterType": {
             "label": "Dumpster type",
@@ -105,6 +106,7 @@
         "emptyingSchedule": {
             "label": "Emptying schedule",
             "placeholder": "e.g. First Monday in the month",
+            "errorLong": "This schedule cannot be longer than 128 characters"
         },
         "storeView": {
             "label": "Store's view on dumpster diving",
@@ -122,7 +124,8 @@
         },
         "extraInfo": {
             "label": "Notes",
-            "placeholder": "(additional information that doesn't fit elsewhere)"
+            "placeholder": "Additional information that doesn't fit elsewhere",
+            "errorLong": "This cannot be longer than 500 characters"
         },
         "save": "Save dumpster",
         "create": "Create dumpster"
@@ -146,8 +149,8 @@
         "pristine": "Pristine",
         "clean": "Clean",
         "average": "Average",
-        "dirty": "dirty",
-        "filthy": "filthy"
+        "dirty": "Dirty",
+        "filthy": "Filthy"
     },
 
     "dumpsterType": {
