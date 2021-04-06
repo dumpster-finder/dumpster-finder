@@ -1,4 +1,4 @@
-.PHONY: all tables local-tables it start stop logs api-logs db-logs
+.PHONY: all tables local-tables upload
 
 all: compose
 
@@ -10,20 +10,9 @@ local-tables:
 	    --password=thecakeisalive \
 	    dumpster < db/init.sql
 
-it start:
-	docker-compose --env-file api/.env up -d --build
-
-it restart:
-	docker-compose --env-file api/.env restart
-
-it stop:
-	docker-compose --env-file api/.env down
-
-logs:
-	docker-compose --env-file api/.env logs
-
-api-logs:
-	docker-compose --env-file api/.env logs api
-
-db-logs:
-	docker-compose --env-file api/.env logs db
+upload:
+	rsync --archive \
+        --exclude='.git' \
+        --exclude='node_modules' \
+        --exclude='.env' \
+        ./ "dumpster@${SERVER_IP}:dumpster"

@@ -9,7 +9,7 @@ The database server is *not* exposed to the public.
 To build the images and start docker-compose deattached:
 
 ```sh
-make it start # in this folder
+docker-compose up -d --build # in this folder
 # or
 systemctl --user start dumpster # if the service is installed
 ```
@@ -23,7 +23,7 @@ make tables
 To stop and clean up the containers:
 
 ```sh
-make it stop # in this folder
+docker-compose down # in this folder
 # or
 systemctl --user stop dumpster # if the service is installed
 ```
@@ -31,7 +31,7 @@ systemctl --user stop dumpster # if the service is installed
 To restart the containers if something went slightly wrong:
 
 ```sh
-make it restart # in this folder
+docker-compose restart # in this folder
 # or
 systemctl --user restart dumpster # if the service is installed
 ```
@@ -69,13 +69,14 @@ rsync --archive
       backend/ "dumpster@$SERVER_IP:dumpster"
 ```
 
-Copy your .env file and make a few changes:
+Copy your .env file and make a few changes, then make a dynamic link to it:
 
 ```shell
 scp backend/api/.env "dumpster@$SERVER_IP:dumpster/api"
 ssh dumpster@$SERVER_IP sed -i "s/DB_HOST=localhost/DB_HOST=db/" \
                                "s/API_HOST=localhost/API_HOST=<your server's IP>/" \
                                dumpster/api/.env
+ssh dumpster@$SERVER_IP ln -s dumpster/api/.env dumpster/.env
 ```
 
 Copy over the `systemd` unit, reload the daemon and start the service:
@@ -99,7 +100,7 @@ We also installed `fail2ban` with a basic configuration (in `/etc/fail2ban/jail.
 ```ini
 [DEFAULT]
 ; a rather strict penalty
-bantime = 1d 
+bantime = 1d
 
 [sshd]
 enabled = true

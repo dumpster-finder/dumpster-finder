@@ -9,8 +9,8 @@ RemainAfterExit=true
 
 ; Start in dumpster directory, run docker-compose
 WorkingDirectory=/home/dumpster/dumpster
-ExecStart=/usr/bin/docker-compose --env-file=api/.env up -d --build
-ExecStop=/usr/bin/docker-compose --env-file=api/.env down
+ExecStart=/usr/bin/docker-compose up -d --build
+ExecStop=/usr/bin/docker-compose down
 Environment=NODE_ENV=production
 
 [Install]
