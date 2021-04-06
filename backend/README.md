@@ -133,3 +133,13 @@ Specific changes to the SSH config:
 > ClientAliveInterval 300
 > ClientAliveCountMax 3
 ```
+
+## SSL certificates
+
+(blah blah blah TODO)
+
+Add an entry in your crontab (with `crontab -e`):
+```cron
+0 6 * * * PROJECT_PATH=/home/user/dumpster-finder /home/user/dumpster-finder/renew_certs.sh >> /home/user/cron.log 2>&1
+```
+(the `PROJECT_PATH` is required to let the script navigate into the correct folder)
