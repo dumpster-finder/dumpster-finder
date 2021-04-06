@@ -3,44 +3,28 @@ import { ScrollView, StyleSheet } from "react-native";
 import { Button, Input, Layout, Text } from "@ui-kitten/components";
 import Comments from "../models/Comment";
 import CommentCard from "../components/CommentCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
+import { CommentService } from "../services";
+import { ratedCommentsSelector } from "../redux/slices/configSlice";
+import RatedComment from "../models/RatedComment";
 
 export default function CommentScreen() {
-    const a = new Comments({
-        commentID: 1,
-        dumpsterID: 1,
-        comment: "This was great",
-        date: "02.03.2021",
-        nickname: "Bunde",
-        rating: 13,
-    });
-    const b = new Comments({
-        commentID: 1,
-        dumpsterID: 1,
-        comment: "It was empty",
-        date: "03.03.2021",
-        nickname: "Tore på sporet",
-        rating: 5,
-    });
-    const c = new Comments({
-        commentID: 1,
-        dumpsterID: 1,
-        comment: "Found some wine",
-        date: "03.02.2021",
-        nickname: "Jon",
-        rating: 13,
-    });
-    const d = new Comments({
-        commentID: 1,
-        dumpsterID: 1,
-        comment: "Fight me",
-        date: "04.03.2021",
-        nickname: "Me",
-        rating: 13,
-    });
-    const myNick = "Anonym";
+    const ratedComments = useSelector(ratedCommentsSelector);
 
-    const [commentList, setCommentList] = useState([a, b, c]);
+    const myNick = "Anonym";
+    const [commentList, setCommentList] = useState<Comments[]>([]);
+    const [pending, setPending] = useState(false);
+    const dumpster = useSelector(currentDumpsterSelector);
+
+    useEffect(() => {
+        if (dumpster)
+            CommentService.getAllForDumpster(dumpster.dumpsterID).then(data =>
+                setCommentList(data),
+            );
+    }, []);
+
     const [comment, setComment] = useState("");
     return (
         <Layout style={styles.container}>
@@ -53,32 +37,42 @@ export default function CommentScreen() {
                     value={comment}
                     onChangeText={nextValue => setComment(nextValue)}
                 />
-                <Button onPress={addComment}>Add comment</Button>
-                {commentList.map((value, index) => (
-                    <CommentCard comment={value} key={index} />
+                <Button onPress={handleSave}>Add comment</Button>
+                {commentList.map(value => (
+                    <CommentCard
+                        comment={value}
+                        key={value.commentID}
+                        voted={ratedComments[value.commentID]}
+                    />
                 ))}
             </ScrollView>
         </Layout>
     );
 
-    function addComment() {
-        if (comment !== "") {
-            setComment("");
-            const today = new Date();
-            const dd = String(today.getDate()).padStart(2, "0");
-            const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-            const yyyy = today.getFullYear();
-            const date = dd + "/" + mm + "/" + yyyy;
-            const newComment = new Comments({
-                commentID: 1,
-                dumpsterID: 1,
-                comment: comment,
-                date: date,
+    function voted() {
+        return 0;
+    }
+
+    async function handleSave() {
+        if (comment !== "" && dumpster) {
+            const newComment: Omit<
+                Comments,
+                "commentID" | "date" | "rating"
+            > = {
+                dumpsterID: dumpster.dumpsterID,
                 nickname: myNick,
-                rating: 0,
-            });
-            commentList.push(newComment);
-            setCommentList(commentList);
+                comment: comment,
+            };
+            try {
+                setPending(true);
+                const postedComment = await CommentService.addOne(newComment);
+                console.log(postedComment);
+                setCommentList(oldArray => [...oldArray, postedComment]);
+            } catch (e) {
+                // TODO Replace with better error handling
+                console.error("Could not add this comment:", e);
+                setPending(false);
+            }
         }
     }
 }

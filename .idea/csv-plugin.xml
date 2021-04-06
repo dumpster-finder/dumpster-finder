@@ -171,6 +171,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\frontend\services\StoreTypeService.ts">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\frontend\services\index.ts">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>

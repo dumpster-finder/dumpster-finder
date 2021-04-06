@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Position from "../../models/Position";
 import { RootState } from "../store";
+import RatedComment from "../../models/RatedComment";
 
 interface SliceState {
     position: Position;
@@ -9,6 +10,7 @@ interface SliceState {
     darkMode: boolean;
     firstTime: boolean;
     language: string;
+    ratedComments: Record<string, number>;
     // other settings to come, stay tuned!
 }
 
@@ -23,7 +25,8 @@ export const configSlice = createSlice({
         nickname: "Anonymous",
         darkMode: false,
         firstTime: true,
-        language: "Norwegian"
+        language: "Norwegian",
+        ratedComments: {},
     } as SliceState,
     reducers: {
         setNickname: (state, { payload }: { payload: string }) => {
@@ -43,6 +46,17 @@ export const configSlice = createSlice({
         },
         setLanguage: (state, { payload }: { payload: string }) => {
             state.language = payload;
+        },
+        setRatedComments: (
+            { ratedComments },
+            { payload }: { payload: RatedComment },
+        ) => {
+            console.log(payload);
+            console.log(ratedComments);
+            ratedComments[payload.commentID] = payload.rated;
+        },
+        resetRatedComments: state => {
+            state.ratedComments = {};
         },
     },
 });
@@ -98,6 +112,17 @@ export const {
      * @param payload Language in string
      */
     setLanguage,
+
+    /**
+     * Set vote registered on comment
+     *
+     * Usage: dispatch(setRatedComment("[NOE HER]"));
+     *
+     * @param payload [NOE HER]
+     */
+    setRatedComments,
+
+    resetRatedComments,
 } = configSlice.actions;
 
 export const nicknameSelector = (state: RootState) => state.config.nickname;
@@ -106,4 +131,6 @@ export const radiusSelector = (state: RootState) => state.config.radius;
 export const darkModeSelector = (state: RootState) => state.config.darkMode;
 export const firstTimeSelector = (state: RootState) => state.config.firstTime;
 export const languageSelector = (state: RootState) => state.config.language;
+export const ratedCommentsSelector = (state: RootState) =>
+    state.config.ratedComments;
 export default configSlice.reducer;

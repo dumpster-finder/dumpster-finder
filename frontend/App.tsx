@@ -13,6 +13,7 @@ import {
     positionSelector,
     radiusSelector,
     setDarkMode,
+    resetRatedComments,
 } from "./redux/slices/configSlice";
 import {
     fetchNearbyDumpsters,
@@ -35,6 +36,7 @@ const InnerApp = () => {
     const radius = useSelector(radiusSelector);
 
     useEffect(() => {
+        store.dispatch(resetRatedComments());
         // TODO prevent this necessity (had to clear out old data)
         store.dispatch(setDumpsters([]));
         store.dispatch(fetchNearbyDumpsters({ position, radius }));
