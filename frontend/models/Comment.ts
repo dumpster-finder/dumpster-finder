@@ -1,10 +1,19 @@
-class Comments {
+export interface RawComment {
     commentID: number;
     dumpsterID: number;
     nickname: string;
     comment: string;
     rating: number;
     date: string;
+}
+
+class Comments {
+    commentID: number;
+    dumpsterID: number;
+    nickname: string;
+    comment: string;
+    rating: number;
+    date: Date;
 
     constructor({
         commentID,
@@ -13,20 +22,13 @@ class Comments {
         comment,
         rating,
         date,
-    }: {
-        commentID: number;
-        dumpsterID: number;
-        nickname: string;
-        comment: string;
-        rating: number;
-        date: string;
-    }) {
+    }: RawComment) {
         this.commentID = commentID;
         this.dumpsterID = dumpsterID;
         this.nickname = nickname;
         this.comment = comment;
         this.rating = rating;
-        this.date = date;
+        this.date = new Date(date);
     }
 }
 

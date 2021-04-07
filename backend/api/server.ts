@@ -9,6 +9,7 @@ import Models from "./models";
 import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
+import comments from "./routes/comments";
 import { defaultLoggerOptions } from "./config/pino";
 import errorHandler from "./middleware/errorHandler";
 
@@ -38,6 +39,7 @@ app.use(expressPino({ logger }));
 //      (not a big thing though)
 
 app.use("/api/dumpsters", dumpsters(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/comments", comments(dependencies));
 
 app.use("/api/categories", categories(dependencies));
 app.use("/api/store-types", storeTypes(dependencies));

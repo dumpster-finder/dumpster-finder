@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
-import { PlusIcon, FilterIcon, SearchIcon, RefreshIcon } from "./Icons";
+import { PlusIcon, FilterIcon, SearchInputIcon, RefreshIcon } from "./Icons";
 import { Autocomplete, Button } from "@ui-kitten/components";
 import { useState } from "react";
 import { fetchNearbyDumpsters } from "../redux/slices/dumpsterSlice";
@@ -36,7 +36,7 @@ export default function SearchHeader({
             />
             <Autocomplete
                 placeholder="Place your Text"
-                accessoryLeft={SearchIcon}
+                accessoryLeft={SearchInputIcon}
                 onChangeText={text => setText(text)}
                 value={text}
             />

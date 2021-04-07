@@ -66,7 +66,21 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\backend\api\daos\dumpsters.ts">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\backend\db\data.sql">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\frontend\components\AddContentModal.tsx">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -91,6 +105,13 @@
           <value>
             <Attribute>
               <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\frontend\components\EditContentModal.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
@@ -164,6 +185,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\frontend\screens\ContentScreen.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\frontend\screens\DetailsScreen.tsx">
           <value>
             <Attribute>
@@ -182,6 +210,20 @@
           <value>
             <Attribute>
               <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\frontend\services\StoreTypeService.ts">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\frontend\services\index.ts">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
             </Attribute>
           </value>
         </entry>
