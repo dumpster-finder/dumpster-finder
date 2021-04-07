@@ -132,9 +132,52 @@
  *                 cleanliness: 2
  *                 info: "This dumpster can pack a lot of circuits"
  *                 rating: 2.7
+ *
+ *         DumpsterRevision:
+ *             allOf:
+ *                 - type: object
+ *                   required:
+ *                     - dumpsterID
+ *                     - revisionID
+ *                   properties:
+ *                     dumpsterID:
+ *                       type: integer
+ *                     revisionID:
+ *                       type: integer
+ *                 - $ref: '#/components/schemas/PostDumpster'
+ *                 - type: object
+ *                   required:
+ *                     - dateUpdated
+ *                     - isActive
+ *                   properties:
+ *                     dateUpdated:
+ *                       type: string
+ *                       format: date
+ *                     isActive:
+ *                       type: boolean
+ *             example:
+ *                 dumpsterID: 42
+ *                 revisionID: 354
+ *                 name: "Some Store"
+ *                 position:
+ *                     latitude: 63.422407
+ *                     longitude: 10.394954
+ *                 dumpsterType: "Compressor"
+ *                 storeType: "Electronics Store"
+ *                 categories: ["Batteries"]
+ *                 locked: true
+ *                 positiveStoreViewOnDiving: false
+ *                 emptyingSchedule: "Every Saturday"
+ *                 cleanliness: 2
+ *                 info: "This dumpster can pack a lot of circuits"
+ *                 dateUpdated: "2021-01-30"
+ *                 isActive: true
+ *
  * tags:
  *   - name: Dumpsters
  *     description: Dumpster API
+ *   - name: Revisions
+ *     description: Dumpster revision API
  */
 
 import { Request, Router } from "express";
@@ -143,6 +186,7 @@ import DumpsterDAO from "../daos/dumpsters";
 import {
     getDumpster,
     locationParams,
+    patchRevision,
     postDumpster,
     putDumpster,
 } from "../validators/dumpsters";
@@ -154,7 +198,7 @@ import { NotFoundError } from "../types/errors";
 //TODO add validation and models, and DAO for the key ones
 //TODO change storetype and dumpstertype to String primary key and foreign key
 //     (really?)
-export default function ({ logger, Models }: RouteDependencies) {
+export default function ({ Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
 
@@ -315,6 +359,97 @@ export default function ({ logger, Models }: RouteDependencies) {
                     ...req.body,
                 });
                 res.status(200).json(result);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/revisions:
+     *   get:
+     *     summary: GET all revisions of a dumpster
+     *     tags: [Revisions]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     responses:
+     *       "200":
+     *         description: An array of dumpster revisions
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                   $ref: '#/components/schemas/DumpsterRevision'
+     */
+    router.get(
+        "/:dumpsterID(\\d+)/revisions",
+        standardLimiter,
+        validate(getDumpster),
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
+            try {
+                const revision = await dumpsterDAO.getRevisions(
+                    req.params.dumpsterID,
+                );
+                res.status(200).json(revision);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/revisions:
+     *   patch:
+     *     summary: Revert to an earlier revision
+     *     tags: [Revisions]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     requestBody:
+     *          content:
+     *              application/json:
+     *                 schema:
+     *                   type: object
+     *                   required:
+     *                     - revisionID
+     *                   properties:
+     *                     revisionID:
+     *                       type: integer
+     *     responses:
+     *       "204":
+     *         description: Successfully reverted
+     */
+    router.patch(
+        "/:dumpsterID(\\d+)/revisions",
+        updateLimiter,
+        validate(patchRevision),
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
+            try {
+                await dumpsterDAO.setActiveRevision(
+                    req.params.dumpsterID,
+                    req.body.revisionID,
+                );
+                res.status(204).send();
             } catch (e) {
                 next(e);
             }

@@ -1,6 +1,6 @@
 import { MyModels } from "../models";
 import { literal, Transaction } from "sequelize";
-import Dumpster from "../types/Dumpster";
+import Dumpster, { DumpsterRevision } from "../types/Dumpster";
 import { DumpsterAttributes } from "../models/dumpsters";
 import Position, { GeoJSONPoint, PositionParams } from "../types/Position";
 import { ConflictError, InvalidKeyError } from "../types/errors";
@@ -32,6 +32,18 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     categories: dumpster.categories && dumpster.categories.map(c => c.name),
     info: dumpster.info,
 });
+
+const toRevision = (dumpster: DumpsterAttributes): DumpsterRevision => {
+    // Exclude rating (it defaults to 2.5)
+    const { rating, ...returnable } = toDumpster(dumpster);
+    return {
+        revisionID: dumpster.revisionID,
+        ...returnable,
+        dateUpdated: dumpster.dateUpdated,
+        // @ts-ignore
+        isActive: Boolean(dumpster.dataValues.isActive),
+    };
+};
 
 const translateToGeoJSONPoint = (position: Position): GeoJSONPoint => ({
     type: "Point",
@@ -224,6 +236,79 @@ export default function ({
                     )} AND revisionID = (SELECT revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID)`,
                 ),
             }).then(dumpster => dumpster && toDumpster(dumpster)),
+
+        /**
+         * Get a dumpster's full revision history
+         * TODO pagination...
+         *
+         * @param dumpsterID
+         * @return a list of revisions
+         */
+        getRevisions: (dumpsterID: number) =>
+            Dumpsters.findAll({
+                attributes: [
+                    ...dumpsterAttributes.slice(
+                        0,
+                        dumpsterAttributes.length - 1,
+                    ),
+                    "dateUpdated",
+                    "revisionID",
+                    [
+                        literal(
+                            "(Dumpsters.revisionID = (SELECT dp.revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID))",
+                        ),
+                        "isActive",
+                    ],
+                ],
+                include: [
+                    {
+                        // @ts-ignore
+                        model: Categories,
+                        as: "categories",
+                    },
+                ],
+                where: {
+                    dumpsterID,
+                },
+                order: [["dateUpdated", "DESC"]],
+            }).then(data => data.map(toRevision)),
+
+        /**
+         * Change a dumpster's active revision
+         * (used to revert to a previous edit in case of mischievous activity)
+         *
+         * @param dumpsterID - ID of the dumpster you'd like to update
+         * @param revisionID - Revision to revert to
+         */
+        setActiveRevision: async (dumpsterID: number, revisionID: number) => {
+            return sequelize.transaction(async t => {
+                // Check that the pair of revision and dumpster ID is valid
+                const match = await Dumpsters.findOne({
+                    where: {
+                        dumpsterID,
+                        revisionID,
+                    },
+                    transaction: t,
+                });
+
+                if (!match)
+                    throw new InvalidKeyError(
+                        "There is no revision with this ID for this dumpster",
+                    );
+
+                return await DumpsterPositions.update(
+                    {
+                        revisionID,
+                    },
+                    {
+                        where: {
+                            dumpsterID,
+                        },
+                        transaction: t,
+                    },
+                );
+            });
+        },
 
         /**
          * Add a dumpster to the database table.
