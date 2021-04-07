@@ -7,16 +7,18 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { CommentService } from "../services";
-import { ratedCommentsSelector } from "../redux/slices/configSlice";
-import RatedComment from "../models/RatedComment";
+import {
+    nicknameSelector,
+    ratedCommentsSelector,
+} from "../redux/slices/configSlice";
 
 export default function CommentScreen() {
     const ratedComments = useSelector(ratedCommentsSelector);
 
-    const myNick = "Anonym";
     const [commentList, setCommentList] = useState<Comments[]>([]);
     const [pending, setPending] = useState(false);
     const dumpster = useSelector(currentDumpsterSelector);
+    const nickname = useSelector(nicknameSelector);
 
     useEffect(() => {
         if (dumpster)
@@ -29,7 +31,7 @@ export default function CommentScreen() {
     return (
         <Layout style={styles.container}>
             <ScrollView style={styles.scrollView}>
-                <Text>{myNick}</Text>
+                <Text>{nickname}</Text>
                 <Input
                     multiline={true}
                     textStyle={{ minHeight: 64 }}
@@ -37,7 +39,9 @@ export default function CommentScreen() {
                     value={comment}
                     onChangeText={nextValue => setComment(nextValue)}
                 />
-                <Button onPress={handleSave}>Add comment</Button>
+                <Button disabled={pending} onPress={handleSave}>
+                    Add comment
+                </Button>
                 {commentList.map(value => (
                     <CommentCard
                         comment={value}
@@ -49,10 +53,6 @@ export default function CommentScreen() {
         </Layout>
     );
 
-    function voted() {
-        return 0;
-    }
-
     async function handleSave() {
         if (comment !== "" && dumpster) {
             const newComment: Omit<
@@ -60,14 +60,17 @@ export default function CommentScreen() {
                 "commentID" | "date" | "rating"
             > = {
                 dumpsterID: dumpster.dumpsterID,
-                nickname: myNick,
+                nickname: nickname,
                 comment: comment,
             };
             try {
                 setPending(true);
-                const postedComment = await CommentService.addOne(newComment);
-                console.log(postedComment);
-                setCommentList(oldArray => [...oldArray, postedComment]);
+                await CommentService.addOne(newComment)
+                    .then(data =>
+                        setCommentList(oldArray => [...oldArray, data]),
+                    )
+                    .then(() => setPending(false))
+                    .then(() => setComment(""));
             } catch (e) {
                 // TODO Replace with better error handling
                 console.error("Could not add this comment:", e);

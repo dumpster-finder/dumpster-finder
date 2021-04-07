@@ -36,6 +36,7 @@ const InnerApp = () => {
     const radius = useSelector(radiusSelector);
 
     useEffect(() => {
+        // TODO Tore said we had to do something here but I was to tiered to remember what
         store.dispatch(resetRatedComments());
         // TODO prevent this necessity (had to clear out old data)
         store.dispatch(setDumpsters([]));
