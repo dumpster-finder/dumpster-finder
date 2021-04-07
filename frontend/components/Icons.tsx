@@ -52,8 +52,16 @@ export const SaveButtonIcon = (props: IconProps) => (
     <Icon {...props} name="save" />
 );
 
+export const CommentButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="message-square" />
+);
+
 export const PendingButtonIcon = (props: IconProps) => (
     <Icon {...props} name="loader-outline" animation="pulse" />
+);
+
+export const DeleteButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="trash" />
 );
 
 export const TrashInputIcon = (props: IconProps) => (

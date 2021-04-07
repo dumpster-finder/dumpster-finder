@@ -9,6 +9,7 @@ import Models from "./models";
 import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
+import comments from "./routes/comments";
 import { defaultLoggerOptions } from "./config/pino";
 import contents from "./routes/contents";
 import contentTypes from "./routes/contentTypes";
@@ -36,17 +37,20 @@ app.use(express.json());
 app.use(cors());
 app.use(expressPino({ logger }));
 
-app.use("/spec", swagger());
+// TODO find a better way to prepend /api to all routes...
+//      (not a big thing though)
 
-app.use("/dumpsters", dumpsters(dependencies));
+app.use("/api/dumpsters", dumpsters(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/comments", comments(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/contents", contents(dependencies));
 
-app.use("/categories", categories(dependencies));
-app.use("/content-types", contentTypes(dependencies));
-app.use("/store-types", storeTypes(dependencies));
-app.use("/dumpster-types", dumpsterTypes(dependencies));
+app.use("/api/categories", categories(dependencies));
+app.use("/api/content-types", contentTypes(dependencies));
+app.use("/api/store-types", storeTypes(dependencies));
+app.use("/api/dumpster-types", dumpsterTypes(dependencies));
 
-// (TODO move up when comment API is merged)
-app.use("/dumpsters/:dumpsterID(\\d+)/contents", contents(dependencies));
+// Mount Swagger docs at /api
+app.use("/api", swagger());
 
 // Finally, use the error handler!
 app.use(errorHandler(logger));

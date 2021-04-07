@@ -126,7 +126,7 @@ CREATE TABLE Comments (
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     nickname VARCHAR(24) NOT NULL,
     comment TEXT NOT NULL,
-    rating TINYINT UNSIGNED NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
+    rating INTEGER NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (date),
     FOREIGN KEY Comments(dumpsterID)

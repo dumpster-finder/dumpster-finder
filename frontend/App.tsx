@@ -13,6 +13,7 @@ import {
     positionSelector,
     radiusSelector,
     setDarkMode,
+    resetRatedComments,
     languageSelector,
 } from "./redux/slices/configSlice";
 import {
@@ -38,6 +39,8 @@ const InnerApp = () => {
     const language = useSelector(languageSelector);
 
     useEffect(() => {
+        // TODO Tore said we had to do something here but I was to tiered to remember what
+        store.dispatch(resetRatedComments());
         store.dispatch(fetchAllConstants());
         if (firstTime) {
             store.dispatch(setDarkMode(externalColorScheme === "dark"));
