@@ -138,6 +138,15 @@ Specific changes to the SSH config:
 
 (blah blah blah TODO)
 
+Create a Diffie-Hellman key:
+
+```sh
+mkdir dhparam
+openssl dhparam -out dhparam/dhparam-2048.pem 2048
+```
+
+(blah blah)
+
 Add an entry in your crontab (with `crontab -e`):
 ```cron
 0 6 * * * PROJECT_PATH=/home/user/dumpster-finder /home/user/dumpster-finder/renew_certs.sh >> /home/user/cron.log 2>&1

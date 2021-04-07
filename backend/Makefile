@@ -15,4 +15,5 @@ upload:
         --exclude='.git' \
         --exclude='node_modules' \
         --exclude='.env' \
+        --exclude='dhparam' \
         ./ "dumpster@${SERVER_IP}:dumpster"
