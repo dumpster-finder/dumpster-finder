@@ -9,7 +9,7 @@ The database server is *not* exposed to the public.
 To build the images and start docker-compose deattached:
 
 ```sh
-docker-compose up --build -d # in this folder
+docker-compose up -d --build # in this folder
 # or
 systemctl --user start dumpster # if the service is installed
 ```
@@ -69,19 +69,20 @@ rsync --archive
       backend/ "dumpster@$SERVER_IP:dumpster"
 ```
 
-Copy your .env file and make a few changes:
+Copy your .env file and make a few changes, then make a dynamic link to it:
 
 ```shell
 scp backend/api/.env "dumpster@$SERVER_IP:dumpster/api"
 ssh dumpster@$SERVER_IP sed -i "s/DB_HOST=localhost/DB_HOST=db/" \
                                "s/API_HOST=localhost/API_HOST=<your server's IP>/" \
                                dumpster/api/.env
+ssh dumpster@$SERVER_IP ln -s dumpster/api/.env dumpster/.env
 ```
 
 Copy over the `systemd` unit, reload the daemon and start the service:
 
 ```shell
-scp .config/systemd/user/dumpster.service \
+scp backend/dumpster.service \
     "dumpster@$SERVER_IP:.config/systemd/user/"
 ssh dumpster@$SERVER_IP systemctl daemon-reload
 ssh dumpster@$SERVER_IP systemctl --user start dumpster
@@ -99,7 +100,7 @@ We also installed `fail2ban` with a basic configuration (in `/etc/fail2ban/jail.
 ```ini
 [DEFAULT]
 ; a rather strict penalty
-bantime = 1d 
+bantime = 1d
 
 [sshd]
 enabled = true
@@ -132,3 +133,13 @@ Specific changes to the SSH config:
 > ClientAliveInterval 300
 > ClientAliveCountMax 3
 ```
+
+## SSL certificates
+
+(blah blah blah TODO)
+
+Add an entry in your crontab (with `crontab -e`):
+```cron
+0 6 * * * PROJECT_PATH=/home/user/dumpster-finder /home/user/dumpster-finder/renew_certs.sh >> /home/user/cron.log 2>&1
+```
+(the `PROJECT_PATH` is required to let the script navigate into the correct folder)
