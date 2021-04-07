@@ -5,6 +5,7 @@ import {
     SelectItem,
     SelectProps,
 } from "@ui-kitten/components";
+import { useTranslation } from "react-i18next";
 
 export default function Dropdown({
     value,
@@ -22,16 +23,19 @@ export default function Dropdown({
     values: string[];
     onSelect: (newValue: number) => void;
 } & Omit<SelectProps, "onSelect">) {
+    const { t } = useTranslation();
     return (
         <Select
             label={label}
             status={status || "basic"}
             selectedIndex={new IndexPath(value)}
             placeholder={
-                placeholder || "Choose..." /* TODO make the placeholder work*/
+                placeholder ||
+                t("dropdownPlaceholder")! /* TODO make the placeholder work*/
             }
-            value={values[value] || placeholder || "Choose..."}
+            value={values[value] || placeholder || t("dropdownPlaceholder")!}
             onSelect={valueChange}
+            caption={caption || ""}
             {...restProps}
         >
             {values.map((type, i) => (

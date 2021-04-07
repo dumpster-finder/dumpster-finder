@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "@ui-kitten/components";
 import Content from "../models/Content";
-import { Card, Divider } from "@ui-kitten/components";
+import { Card } from "@ui-kitten/components";
 
 export default function ContentCard({
     content,
@@ -52,7 +52,7 @@ export default function ContentCard({
                         width: "30%",
                     }}
                 >
-                    {content.expiryDate === "" ? (
+                    {content.expiryDate ? (
                         <></>
                     ) : (
                         <View style={styles.column}>
@@ -61,7 +61,7 @@ export default function ContentCard({
                         </View>
                     )}
 
-                    {content.foundDate === "" ? (
+                    {content.foundDate ? (
                         <></>
                     ) : (
                         <View style={styles.column}>

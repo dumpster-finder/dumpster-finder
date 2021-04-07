@@ -11,6 +11,7 @@ import {
     nicknameSelector,
     ratedCommentsSelector,
 } from "../redux/slices/configSlice";
+import { CommentButtonIcon, PendingButtonIcon } from "../components/Icons";
 
 export default function CommentScreen() {
     const ratedComments = useSelector(ratedCommentsSelector);
@@ -22,24 +23,31 @@ export default function CommentScreen() {
 
     useEffect(() => {
         if (dumpster)
-            CommentService.getAllForDumpster(dumpster.dumpsterID).then(data =>
-                setCommentList(data),
-            );
+            CommentService.getAllForDumpster(dumpster.dumpsterID)
+                .then(data => setCommentList(data))
+                .catch(e => console.error("Could not fetch comments", e));
     }, []);
 
     const [comment, setComment] = useState("");
     return (
         <Layout style={styles.container}>
             <ScrollView style={styles.scrollView}>
-                <Text>{nickname}</Text>
+                <Text style={{ marginVertical: 4 }}>{nickname}</Text>
                 <Input
                     multiline={true}
-                    textStyle={{ minHeight: 64 }}
+                    size="large"
+                    textStyle={{ minHeight: 64, textAlignVertical: "top" }}
                     placeholder="Comment"
                     value={comment}
                     onChangeText={nextValue => setComment(nextValue)}
                 />
-                <Button disabled={pending} onPress={handleSave}>
+                <Button
+                    disabled={pending}
+                    accessoryLeft={
+                        pending ? PendingButtonIcon : CommentButtonIcon
+                    }
+                    onPress={handleSave}
+                >
                     Add comment
                 </Button>
                 {commentList.map(value => (

@@ -8,3 +8,8 @@ export interface PositionParams {
     longitude: number;
     radius: number;
 }
+
+export interface GeoJSONPoint {
+    type: "Point";
+    coordinates: [number, number];
+}

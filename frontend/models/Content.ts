@@ -1,3 +1,14 @@
+export interface RawContent {
+    dumpsterID: number;
+    tagID: number;
+    name: string;
+    amount: number;
+    unit: string;
+    quality: number;
+    foundDate: string;
+    expiryDate: string;
+}
+
 class Content {
     dumpsterID: number;
     tagID: number;
@@ -17,24 +28,15 @@ class Content {
         quality,
         foundDate,
         expiryDate,
-    }: {
-        dumpsterID: number;
-        tagID: number;
-        name: string;
-        amount: number;
-        unit: string;
-        quality: number;
-        foundDate: Date;
-        expiryDate: Date;
-    }) {
+    }: RawContent) {
         this.dumpsterID = dumpsterID;
         this.tagID = tagID;
         this.name = name;
         this.amount = amount;
         this.unit = unit;
         this.quality = quality;
-        this.foundDate = foundDate;
-        this.expiryDate = expiryDate;
+        this.foundDate = new Date(foundDate);
+        this.expiryDate = new Date(expiryDate);
     }
 }
 

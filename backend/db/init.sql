@@ -13,6 +13,26 @@ DROP TABLE IF EXISTS
 -- Get back to safe terrain
 SET foreign_key_checks = 1;
 
+DELIMITER ;;
+DROP FUNCTION IF EXISTS SPHERICAL_DISTANCE;;
+-- Calculate spherical distance using the Haversine formula
+-- Based on https://stackoverflow.com/a/56669074, but modified for correctness
+-- Using a custom function since none exist in MariaDB
+CREATE FUNCTION SPHERICAL_DISTANCE(`pt1` POINT, `pt2` POINT) RETURNS
+    DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    SET @lat1 = ST_X(pt1) * pi()/180;
+    SET @long1 = ST_Y(pt1) * pi()/180;
+    SET @lat2 = ST_X(pt2) * pi()/180;
+    SET @long2 = ST_Y(pt2) * pi()/180;
+    RETURN 12742000 * ASIN(SQRT(
+            POWER(SIN((@lat2 - @lat1)/2), 2)
+            + COS(@lat1) * COS(@lat2) * POWER(SIN((@long1 - @long2)/2), 2)
+    ));
+END;;
+DELIMITER ;
+
 -- Dumpster types: Compressor, dumpster, idk
 CREATE TABLE DumpsterTypes (
     dumpsterTypeID INT PRIMARY KEY AUTO_INCREMENT,

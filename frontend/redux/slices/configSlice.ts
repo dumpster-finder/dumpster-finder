@@ -25,7 +25,7 @@ export const configSlice = createSlice({
         nickname: "Anonymous",
         darkMode: false,
         firstTime: true,
-        language: "Norwegian",
+        language: "no",
         ratedComments: {},
     } as SliceState,
     reducers: {

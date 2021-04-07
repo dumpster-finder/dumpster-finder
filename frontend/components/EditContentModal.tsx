@@ -10,7 +10,7 @@ import {
 import { StyleSheet, View } from "react-native";
 import Content from "../models/Content";
 import { useState } from "react";
-import { SaveButtonIcon, TrashIcon } from "./Icons";
+import { DeleteButtonIcon, SaveButtonIcon } from "./Icons";
 
 export default function EditContentModal({
     visible,
@@ -76,7 +76,7 @@ export default function EditContentModal({
                         style={{ marginVertical: 10 }}
                         size={"small"}
                         onPress={deleteCheck}
-                        accessoryLeft={TrashIcon}
+                        accessoryLeft={DeleteButtonIcon}
                     >
                         Delete
                     </Button>

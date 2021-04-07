@@ -1,23 +1,11 @@
 import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import {
-    Button,
-    Card,
-    Divider,
-    Input,
-    Layout,
-    Modal,
-    Text,
-} from "@ui-kitten/components";
+import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import {
-    currentDumpsterSelector,
-    setCurrentDumpster,
-} from "../redux/slices/dumpsterSlice";
+import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import ContentCard from "../components/ContentCard";
 import Content from "../models/Content";
 import { useState } from "react";
-import { ArrowUpIcon, ArrowDownIcon, TrashIcon } from "../components/Icons";
 import EditContentModal from "../components/EditContentModal";
 import AddContentModal from "../components/AddContentModal";
 
