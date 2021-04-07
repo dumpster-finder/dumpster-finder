@@ -11,6 +11,7 @@ import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
 import { defaultLoggerOptions } from "./config/pino";
+import {readWordsFromFile} from "./utils/IdGeneration";
 
 (async () => {
     await connectToDatabase();
@@ -23,6 +24,8 @@ const app = express();
  * Please pass it to routes instead of importing this instance
  */
 export const logger = pino(defaultLoggerOptions);
+
+export const wordList = readWordsFromFile();
 
 const dependencies = {
     logger,

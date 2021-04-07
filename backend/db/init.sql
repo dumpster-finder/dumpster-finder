@@ -46,7 +46,9 @@ CREATE TABLE StoreTypes (
 );
 -- Store types: Grocery, electronics, etc.
 CREATE TABLE Users (
-    userID VARCHAR(256) PRIMARY KEY
+    userID VARCHAR(256) PRIMARY KEY,
+    userName VARCHAR(256) UNIQUE NOT NULL,
+    salt VARCHAR(256) NOT NULL
     );
 -- Dumpster Positions: Stores dumpster id and position
 -- saves a lot of pain using UUID and revision while maintaining
