@@ -40,7 +40,7 @@
  *         unit: "liters"
  *         quality: 3
  *         expiryDate: "2021-03-30Z"
- *         foundDate: "2021-03-19T23:00:00.000Z"
+ *         foundDate: "2021-03-20T00:00:00.000Z"
  *
  * tags:
  *   - name: Contents
@@ -58,7 +58,7 @@ import {
     putContent,
 } from "../validators/contents";
 import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
-import { APIError } from "../types/errors";
+import { APIError, NotFoundError, UnknownError } from "../types/errors";
 
 export default function ({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
@@ -196,15 +196,26 @@ export default function ({ Models }: RouteDependencies) {
         updateLimiter,
         validate(putContent),
         async (
-            req: Request & { params: {
+            req: Request & {
+                params: {
                     dumpsterID: number;
                     contentType: string;
                     foundDate: Date;
-                } },
+                };
+            },
             res,
             next,
         ) => {
             try {
+                if (
+                    req.params.contentType !== req.body.name ||
+                    new Date(req.params.foundDate).getTime() !==
+                        new Date(req.body.foundDate).getTime()
+                ) {
+                    throw new UnknownError(
+                        "Request parameters and body do not have the same values, aborting",
+                    );
+                }
                 const result = await contentDAO.updateOne(
                     req.params.dumpsterID,
                     req.body,
@@ -275,10 +286,7 @@ export default function ({ Models }: RouteDependencies) {
                         500,
                     );
                 if (result < 1)
-                    throw new APIError(
-                        "no such entry exists",
-                        500,
-                    );
+                    throw new NotFoundError("No such content entry exists");
                 res.status(204).send();
             } catch (e) {
                 next(e);
