@@ -8,9 +8,9 @@ import {
     Modal,
     Text,
 } from "@ui-kitten/components";
-import Content from "../models/Content";
 import { StyleSheet, View } from "react-native";
-import { useState } from "react";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 export default function AddContentModal({
     visible,
@@ -19,70 +19,125 @@ export default function AddContentModal({
     visible: boolean;
     setVisible: (newVisible: boolean) => void;
 }) {
-    const [name, setName] = useState("");
-    const [amount, setAmount] = useState("");
-    const [unit, setUnit] = useState("");
-    const [expiryDate, setExpiryDate] = useState(new Date());
     return (
         <Modal
             visible={visible}
             backdropStyle={styles.backdrop}
             onBackdropPress={() => setVisible(false)}
         >
-            <Card style={{ alignItems: "center" }}>
-                <Text category={"h5"}>Add content</Text>
-                <Divider />
-                <Input
-                    style={styles.input}
-                    label={"Product"}
-                    placeholder={"Product name"}
-                    value={name}
-                    onChangeText={change => setName(change)}
-                />
+            <Formik
+                initialValues={{
+                    name: "",
+                    amount: "",
+                    unit: "",
+                    expiryDate: null,
+                }}
+                validationSchema={Yup.object().shape({
+                    name: Yup.string().required(),
+                    amount: Yup.number(),
+                    unit: Yup.string(),
+                    expiryDate: Yup.date().nullable(),
+                })}
+                onSubmit={add}
+            >
+                {({
+                    handleChange,
+                    setFieldValue,
+                    handleSubmit,
+                    values,
+                    errors,
+                }) => (
+                    <Card style={{ alignItems: "center" }}>
+                        <Text category={"h5"}>Add content</Text>
+                        <Divider />
+                        <Input
+                            style={styles.input}
+                            label={"Product"}
+                            placeholder={"Product name"}
+                            value={values.name}
+                            onChangeText={handleChange("name")}
+                            status={errors.name && "danger"}
+                            caption={errors.name}
+                        />
 
-                <View style={styles.row}>
-                    <Input
-                        style={styles.smallInput}
-                        label={"Amount"}
-                        keyboardType={"number-pad"}
-                        placeholder={"0"}
-                        value={amount}
-                        onChangeText={change => setAmount(change)}
-                    />
-                    <View style={{ width: "9%" }} />
-                    <Input
-                        style={styles.smallInput}
-                        label={"Unit"}
-                        placeholder={"Unit"}
-                        value={unit}
-                        onChangeText={change => setUnit(change)}
-                    />
-                </View>
-                <Datepicker
-                    style={styles.input}
-                    label={"Expires on"}
-                    placeholder={"Select date..."}
-                    date={expiryDate}
-                    onSelect={change => setExpiryDate(change)}
-                />
-                <View style={styles.row}>
-                    <Button style={{ marginHorizontal: 5 }} onPress={add}>
-                        Add
-                    </Button>
-                    <Button
-                        style={{ marginHorizontal: 5 }}
-                        status={"basic"}
-                        onPress={() => setVisible(false)}
-                    >
-                        Cancel
-                    </Button>
-                </View>
-            </Card>
+                        <View style={styles.row}>
+                            <Input
+                                style={styles.smallInput}
+                                label={"Amount"}
+                                keyboardType={"number-pad"}
+                                placeholder={"0"}
+                                value={values.amount}
+                                onChangeText={handleChange("amount")}
+                                status={errors.amount && "danger"}
+                                caption={errors.amount}
+                            />
+                            <View style={{ width: "9%" }} />
+                            <Input
+                                style={styles.smallInput}
+                                label={"Unit"}
+                                placeholder={"Unit"}
+                                value={values.unit}
+                                onChangeText={handleChange("unit")}
+                                status={errors.unit && "danger"}
+                                caption={errors.unit}
+                            />
+                        </View>
+                        <Datepicker
+                            style={styles.input}
+                            label={"Expires on"}
+                            placeholder={"Select date..."}
+                            date={values.expiryDate}
+                            onSelect={change =>
+                                setFieldValue("expiryDate", change)
+                            }
+                            status={errors.expiryDate && "danger"}
+                            // caption={errors.expiryDate}
+                        />
+                        <View style={styles.row}>
+                            <Button
+                                style={{ marginHorizontal: 5 }}
+                                onPress={() => {
+                                    console.log(values, errors);
+                                    handleSubmit();
+                                }}
+                            >
+                                Add
+                            </Button>
+                            <Button
+                                style={{ marginHorizontal: 5 }}
+                                status={"basic"}
+                                onPress={() => setVisible(false)}
+                            >
+                                Cancel
+                            </Button>
+                        </View>
+                    </Card>
+                )}
+            </Formik>
         </Modal>
     );
 
-    function add() {
-        console.log("do stuff");
+    function add({
+        name,
+        amount,
+        unit,
+        expiryDate,
+    }: {
+        name: string;
+        amount: string;
+        unit: string;
+        expiryDate: Date | null;
+    }) {
+        const contents = {
+            name,
+            amount: amount || undefined,
+            unit: unit || undefined,
+            expiryDate: expiryDate || undefined,
+        };
+        // TODO servicify
+        console.log(contents);
+        // eventually
+        setVisible(false);
     }
 }
 
