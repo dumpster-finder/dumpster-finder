@@ -40,7 +40,7 @@
  *         unit: "liters"
  *         quality: 3
  *         expiryDate: "2021-03-30Z"
- *         foundDate: "2021-03-20T00:00:00.000Z"
+ *         foundDate: "2021-03-20"
  *
  * tags:
  *   - name: Contents

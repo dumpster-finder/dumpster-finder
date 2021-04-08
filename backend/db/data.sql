@@ -130,7 +130,7 @@ INSERT INTO DumpsterTags
     (dumpsterID, tagID, amount, unit, quality, expiryDate, foundDate)
 VALUES
     (1, 1, 23, 'pieces', 3, '2023-04-30', '2021-02-18'), -- cheese
-    (1, 2, 23, 'liters', 3, '2021-03-30', '2021-03-20'), -- potatoes
+    (1, 2, 23, 'liters', 3, '2021-03-30', '2021-03-20'), -- Milk
     (3, 3,  7,     NULL, 3, '2021-04-22', '2021-03-17'), -- squash
     (3, 4,  2,  'kilos', 4, '2021-12-12', '2021-03-28'), -- potatoes
     (4, 5,  3,  'kilos', 5, '2021-05-03', '2021-03-14'), -- oysters
