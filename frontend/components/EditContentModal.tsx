@@ -10,7 +10,7 @@ import {
 import { StyleSheet, View } from "react-native";
 import Content from "../models/Content";
 import { useState } from "react";
-import { DeleteButtonIcon, SaveButtonIcon } from "./Icons";
+import { DeleteButtonIcon, PendingButtonIcon, SaveButtonIcon } from "./Icons";
 import { formatDate } from "../utils/date";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -19,15 +19,17 @@ import { useTranslation } from "react-i18next";
 export default function EditContentModal({
     visible,
     setVisible,
+    pending,
     selectedContent,
     onSave,
     onDelete,
 }: {
     visible: boolean;
     setVisible: (newVisible: boolean) => void;
+    pending: boolean;
     selectedContent: Content;
-    onSave: (newVal: number) => void;
-    onDelete: () => void;
+    onSave: (content: Content) => void;
+    onDelete: (content: Content) => void;
 }) {
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const { t }: { t: (s: string) => string } = useTranslation(
@@ -42,7 +44,9 @@ export default function EditContentModal({
             >
                 <Formik
                     initialValues={{
-                        amount: selectedContent.amount.toString(),
+                        amount: selectedContent.amount
+                            ? selectedContent.amount.toString()
+                            : "",
                     }}
                     validationSchema={Yup.object().shape({
                         amount: Yup.number(),
@@ -85,7 +89,7 @@ export default function EditContentModal({
                                         paddingHorizontal: 5,
                                     }}
                                 >
-                                    {selectedContent.unit}
+                                    {selectedContent.unit || ""}
                                 </Text>
                             </View>
 
@@ -96,8 +100,11 @@ export default function EditContentModal({
                                 </Text>
                             )}
                             <Button
+                                disabled={pending}
+                                accessoryLeft={
+                                    pending ? PendingButtonIcon : SaveButtonIcon
+                                }
                                 onPress={_ => handleSubmit()}
-                                accessoryLeft={SaveButtonIcon}
                             >
                                 Save changes
                             </Button>
@@ -120,7 +127,10 @@ export default function EditContentModal({
                     )}
                 </Formik>
             </Modal>
-            <Modal visible={deleteModalVisible} backdropStyle={styles.backdrop}>
+            <Modal
+                visible={visible && deleteModalVisible}
+                backdropStyle={styles.backdrop}
+            >
                 <Card
                     disabled={true}
                     style={{
@@ -131,6 +141,10 @@ export default function EditContentModal({
                     <Divider />
                     <View style={styles.row}>
                         <Button
+                            disabled={pending}
+                            accessoryLeft={
+                                pending ? PendingButtonIcon : SaveButtonIcon
+                            }
                             style={{ marginHorizontal: 5 }}
                             onPress={del}
                             status={"danger"}
@@ -149,21 +163,22 @@ export default function EditContentModal({
             </Modal>
         </View>
     );
+
     function save({ amount }: { amount: string }) {
-        setVisible(false);
-        onSave(parseInt(amount));
+        onSave(
+            new Content({
+                ...selectedContent,
+                amount: parseFloat(amount),
+            }),
+        );
     }
 
     function del() {
-        setDeleteModalVisible(false);
-        setVisible(false);
-        onDelete();
+        onDelete(selectedContent);
     }
 
     function deleteCheck() {
         setDeleteModalVisible(true);
-
-        console.log(deleteModalVisible);
     }
 }
 

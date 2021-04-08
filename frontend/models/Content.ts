@@ -1,27 +1,24 @@
 export interface RawContent {
-    dumpsterID: number;
-    tagID: number;
+    // dumpsterID: number;
     name: string;
-    amount: number;
-    unit: string;
-    quality: number;
-    foundDate?: string;
-    expiryDate: string;
+    amount?: number | null;
+    unit?: string | null;
+    quality?: number | null;
+    expiryDate?: string | Date | null;
+    foundDate: string | Date;
 }
 
 class Content {
-    readonly dumpsterID: number;
-    readonly tagID: number;
+    // readonly dumpsterID: number;
     readonly name: string;
-    readonly amount: number;
-    readonly unit: string;
-    readonly quality: number;
-    readonly foundDate?: Date;
-    readonly expiryDate?: Date;
+    readonly amount?: number | null;
+    readonly unit?: string | null;
+    readonly quality?: number | null;
+    readonly expiryDate?: Date | null;
+    readonly foundDate: Date;
 
     constructor({
-        dumpsterID,
-        tagID,
+        // dumpsterID,
         name,
         amount,
         unit,
@@ -29,14 +26,21 @@ class Content {
         foundDate,
         expiryDate,
     }: RawContent) {
-        this.dumpsterID = dumpsterID;
-        this.tagID = tagID;
+        // this.dumpsterID = dumpsterID;
         this.name = name;
         this.amount = amount;
         this.unit = unit;
         this.quality = quality;
-        if (foundDate) this.foundDate = new Date(foundDate);
+        this.foundDate = new Date(foundDate);
         if (expiryDate) this.expiryDate = new Date(expiryDate);
+    }
+
+    equals(other: Content) {
+        return (
+            other === this ||
+            (other.name === this.name &&
+                other.foundDate.getTime() === this.foundDate.getTime())
+        );
     }
 }
 

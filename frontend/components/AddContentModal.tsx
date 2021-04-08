@@ -12,13 +12,20 @@ import { StyleSheet, View } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
+import Content from "../models/Content";
+import { useState } from "react";
+import { PendingButtonIcon, SaveButtonIcon } from "./Icons";
 
 export default function AddContentModal({
     visible,
     setVisible,
+    pending,
+    onAdd,
 }: {
     visible: boolean;
     setVisible: (newVisible: boolean) => void;
+    pending: boolean;
+    onAdd: (content: Pick<Content, "name"> & Partial<Content>) => any;
 }) {
     // temp decalaration that makes TS shut up...
     const { t }: { t: (s: string) => string } = useTranslation(
@@ -110,9 +117,12 @@ export default function AddContentModal({
                         />
                         <View style={[styles.row, styles.marginAbove]}>
                             <Button
+                                disabled={pending}
+                                accessoryLeft={
+                                    pending ? PendingButtonIcon : SaveButtonIcon
+                                }
                                 style={{ marginHorizontal: 5 }}
                                 onPress={() => {
-                                    console.log(values, errors);
                                     handleSubmit();
                                 }}
                             >
@@ -132,7 +142,7 @@ export default function AddContentModal({
         </Modal>
     );
 
-    function add({
+    async function add({
         name,
         amount,
         unit,
@@ -143,16 +153,12 @@ export default function AddContentModal({
         unit: string;
         expiryDate: Date | null;
     }) {
-        const contents = {
+        await onAdd({
             name,
-            amount: amount || undefined,
+            amount: parseFloat(amount) || undefined,
             unit: unit || undefined,
             expiryDate: expiryDate || undefined,
-        };
-        // TODO servicify
-        console.log(contents);
-        // eventually
-        setVisible(false);
+        });
     }
 }
 
