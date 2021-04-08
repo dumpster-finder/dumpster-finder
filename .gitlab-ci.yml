@@ -5,22 +5,34 @@ include:
   - template: Security/Secret-Detection.gitlab-ci.yml
 
 stages:
-  - build
+  - install_deps
   - test
   - deploy
 
-build:
-  stage: build
+install_deps_backend:
+  # Following https://www.addthis.com/blog/2019/05/06/how-to-speed-up-your-gitlab-ci-pipelines-for-node-apps-by-40/
+  # (I *have* thought of this before)
+  stage: install_deps
+  cache:
+    key: $CI_COMMIT_BRANCH-$CI_PROJECT_DIR # branch instead of slug, for reliability
+    paths:
+      - backend/api/node_modules/
   script:
-    - echo TODO
-
-test_frontend:
-  stage: test
-  script:
-    - echo TODO
+    - cd backend/api
+    - npm ci
+  only:
+    changes:
+      - package-lock.json
 
 test_backend:
   stage: test
+  dependencies:
+    - install_deps_backend
+  cache:
+    key: $CI_COMMIT_BRANCH-$CI_PROJECT_DIR
+    paths:
+      - backend/api/node_modules/
+    policy: pull
   services:
     - name: mariadb
   variables:
@@ -31,7 +43,6 @@ test_backend:
     - printf "DB_HOST=mariadb\nDB_USER=root\nDB_PASSWORD=password\n" > .env
     - apt-get update && apt-get upgrade -y
     - apt-get install -y mariadb-client
-    - npm install
     - npm run test:ci
   artifacts:
     paths:
@@ -39,6 +50,7 @@ test_backend:
 
 pages:
   stage: deploy
+  dependencies: [] # Don't fetch cached dependencies!
   script:
     - mkdir .public
     - cp -r backend/api/coverage/lcov-report/* .public
@@ -52,6 +64,7 @@ pages:
 
 deploy:
   stage: deploy
+  dependencies: [] # Don't fetch cached dependencies!
   script:
     # Copy SSH credentials from CI file variables
     - mkdir ~/.ssh
