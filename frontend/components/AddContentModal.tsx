@@ -11,6 +11,7 @@ import {
 import { StyleSheet, View } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useTranslation } from "react-i18next";
 
 export default function AddContentModal({
     visible,
@@ -19,6 +20,11 @@ export default function AddContentModal({
     visible: boolean;
     setVisible: (newVisible: boolean) => void;
 }) {
+    // temp decalaration that makes TS shut up...
+    const { t }: { t: (s: string) => string } = useTranslation(
+        "contentsEditor",
+    );
+
     return (
         <Modal
             visible={visible}
@@ -33,9 +39,9 @@ export default function AddContentModal({
                     expiryDate: null,
                 }}
                 validationSchema={Yup.object().shape({
-                    name: Yup.string().required(),
+                    name: Yup.string().max(24).required(),
                     amount: Yup.number(),
-                    unit: Yup.string(),
+                    unit: Yup.string().max(12),
                     expiryDate: Yup.date().nullable(),
                 })}
                 onSubmit={add}
@@ -48,44 +54,51 @@ export default function AddContentModal({
                     errors,
                 }) => (
                     <Card style={{ alignItems: "center" }}>
-                        <Text category={"h5"}>Add content</Text>
+                        <Text category={"h5"}>{t("addTitle")}</Text>
                         <Divider />
                         <Input
                             style={styles.input}
-                            label={"Product"}
-                            placeholder={"Product name"}
+                            label={t("name.label")}
+                            placeholder={t("name.placeholder")}
                             value={values.name}
                             onChangeText={handleChange("name")}
                             status={errors.name && "danger"}
-                            caption={errors.name}
+                            caption={
+                                errors.name &&
+                                (errors.name.includes("required")
+                                    ? t("name.errorEmpty")
+                                    : t("name.errorLong"))
+                            }
                         />
 
                         <View style={styles.row}>
                             <Input
                                 style={styles.smallInput}
-                                label={"Amount"}
+                                label={t("amount.label")}
                                 keyboardType={"number-pad"}
-                                placeholder={"0"}
+                                placeholder={t("amount.placeholder")}
                                 value={values.amount}
                                 onChangeText={handleChange("amount")}
                                 status={errors.amount && "danger"}
-                                caption={errors.amount}
+                                caption={
+                                    errors.amount && t("amount.errorInvalid")
+                                }
                             />
                             <View style={{ width: "9%" }} />
                             <Input
                                 style={styles.smallInput}
-                                label={"Unit"}
-                                placeholder={"Unit"}
+                                label={t("unit.label")}
+                                placeholder={t("unit.placeholder")}
                                 value={values.unit}
                                 onChangeText={handleChange("unit")}
                                 status={errors.unit && "danger"}
-                                caption={errors.unit}
+                                caption={errors.unit && t("unit.errorLong")}
                             />
                         </View>
                         <Datepicker
                             style={styles.input}
-                            label={"Expires on"}
-                            placeholder={"Select date..."}
+                            label={t("expiryDate.label")}
+                            placeholder={t("expiryDate.placeholder")}
                             date={values.expiryDate}
                             onSelect={change =>
                                 setFieldValue("expiryDate", change)
@@ -101,14 +114,14 @@ export default function AddContentModal({
                                     handleSubmit();
                                 }}
                             >
-                                Add
+                                {t("add")}
                             </Button>
                             <Button
                                 style={{ marginHorizontal: 5 }}
                                 status={"basic"}
                                 onPress={() => setVisible(false)}
                             >
-                                Cancel
+                                {t("cancel")}
                             </Button>
                         </View>
                     </Card>

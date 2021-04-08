@@ -16,7 +16,9 @@
         "dumpsterType": "Type søppelkasse",
         "extraInfo": "Ekstra info",
 
-        "dropdownPlaceholder": "Velg noe …"
+        "dropdownPlaceholder": "Velg noe …",
+
+        "cancel": "Avbryt"
     },
     "advice": {
         "title": "Dumpster diving råd:",
@@ -126,6 +128,34 @@
         },
         "save": "Lagre dumpster",
         "create": "Opprett dumpster"
+    },
+
+    "contentsEditor": {
+        "addTitle": "Nytt innhold",
+        "name": {
+            "label": "Produkt",
+            "placeholder": "Produkt",
+            "errorEmpty": "Innholdet trenger et navn",
+            "errorLong": "Navnet kan ikke være lengre enn 24 tegn"
+        },
+        "amount": {
+            "label": "Mengde",
+            "placeholder": "1",
+            "errorInvalid": "Mengden må være et tall"
+        },
+        "unit": {
+            "label": "Enhet",
+            "placeholder": "liter",
+            "errorLong": "Enheten kan ikke være lengre enn 12 tegn"
+        },
+        "expiryDate": {
+            "label": "Utløpsdato",
+            "placeholder": "Velg dato"
+        },
+        "expiresOn": "Utløper den",
+        "add": "Legg til",
+        "remove": "Fjern innhold",
+        "save": "Lagre innhold"
     },
 
     "position": {

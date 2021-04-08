@@ -14,6 +14,7 @@ import { DeleteButtonIcon, SaveButtonIcon } from "./Icons";
 import { formatDate } from "../utils/date";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useTranslation } from "react-i18next";
 
 export default function EditContentModal({
     visible,
@@ -28,7 +29,10 @@ export default function EditContentModal({
     onSave: (newVal: number) => void;
     onDelete: () => void;
 }) {
-    const [delVis, setDelVis] = useState(false);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+    const { t }: { t: (s: string) => string } = useTranslation(
+        "contentsEditor",
+    );
     return (
         <View>
             <Modal
@@ -63,14 +67,17 @@ export default function EditContentModal({
 
                                 <View style={styles.row}>
                                     <Input
-                                        label={"Amount"}
+                                        label={t("amount.label")}
                                         style={styles.input}
                                         size={"large"}
                                         value={values.amount}
                                         onChangeText={handleChange("amount")}
                                         keyboardType={"number-pad"}
                                         status={errors.amount && "danger"}
-                                        // caption={errors.amount}
+                                        caption={
+                                            errors.amount &&
+                                            t("amount.errorInvalid")
+                                        }
                                     />
                                     <Text
                                         category={"h6"}
@@ -85,7 +92,7 @@ export default function EditContentModal({
 
                                 {selectedContent.expiryDate && (
                                     <Text category={"h6"}>
-                                        Expires on:{" "}
+                                        {t("expiresOn")}{" "}
                                         {formatDate(selectedContent.expiryDate)}
                                     </Text>
                                 )}
@@ -115,7 +122,7 @@ export default function EditContentModal({
                     </Formik>
                 </Card>
             </Modal>
-            <Modal visible={delVis} backdropStyle={styles.backdrop}>
+            <Modal visible={deleteModalVisible} backdropStyle={styles.backdrop}>
                 <Card
                     disabled={true}
                     style={{
@@ -134,7 +141,7 @@ export default function EditContentModal({
                         </Button>
                         <Button
                             style={{ marginHorizontal: 5 }}
-                            onPress={() => setDelVis(false)}
+                            onPress={() => setDeleteModalVisible(false)}
                             status={"basic"}
                         >
                             Cancel
@@ -150,15 +157,15 @@ export default function EditContentModal({
     }
 
     function del() {
-        setDelVis(false);
+        setDeleteModalVisible(false);
         setVisible(false);
         onDelete();
     }
 
     function deleteCheck() {
-        setDelVis(true);
+        setDeleteModalVisible(true);
 
-        console.log(delVis);
+        console.log(deleteModalVisible);
     }
 }
 
