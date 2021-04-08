@@ -12,10 +12,11 @@ import {
     ratedCommentsSelector,
 } from "../redux/slices/configSlice";
 import { CommentButtonIcon, PendingButtonIcon } from "../components/Icons";
+import { useTranslation } from "react-i18next";
 
 export default function CommentScreen() {
     const ratedComments = useSelector(ratedCommentsSelector);
-
+    const { t }: { t: (s: string) => string } = useTranslation("comment");
     const [commentList, setCommentList] = useState<Comments[]>([]);
     const [pending, setPending] = useState(false);
     const dumpster = useSelector(currentDumpsterSelector);
@@ -37,7 +38,7 @@ export default function CommentScreen() {
                     multiline={true}
                     size="large"
                     textStyle={{ minHeight: 64, textAlignVertical: "top" }}
-                    placeholder="Comment"
+                    placeholder={t("comment")}
                     value={comment}
                     onChangeText={nextValue => setComment(nextValue)}
                 />
@@ -48,7 +49,7 @@ export default function CommentScreen() {
                     }
                     onPress={handleSave}
                 >
-                    Add comment
+                    {t("add")}
                 </Button>
                 {commentList.map(value => (
                     <CommentCard

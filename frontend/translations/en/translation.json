@@ -16,8 +16,8 @@
         "storeType": "Store type:",
         "dumpsterType": "Dumpster type:",
         "extraInfo": "Extra info",
-
-        "dropdownPlaceholder": "Choose …"
+        "dropdownPlaceholder": "Choose …",
+        "searchPlaceholder": "Place your text"
     },
 
     "advice": {
@@ -40,6 +40,7 @@
     "settings": {
         "setPos": "Set position",
         "changeNick": "Change nickname",
+        "nick": "Nickname",
         "saveNick": "Save nickname",
         "setDist": "Set distance (km)",
         "changeLang": "Change language",
@@ -82,7 +83,9 @@
     },
 
     "comment": {
-        "add": "Add comment"
+        "add": "Add comment",
+        "comment": "Comment",
+        "yourPos": "Your position"
     },
 
     "editor": {
@@ -183,5 +186,21 @@
         "negative": "Negative",
         "neutral": "Neutral",
         "positive": "Positive"
+    },
+    "content": {
+        "title": "Add content",
+        "product": "Product",
+        "productPlace": "Product name",
+        "amount": "Amount",
+        "unit": "Unit",
+        "expiryDate": "Expires on",
+        "expiryPlace": "Select date ...",
+        "cancel": "Cancel",
+        "add": "Add"
+    },
+
+    "notFound": {
+        "text": "This screen doesn't exist",
+        "back": "Go to home screen!"
     }
 }

@@ -8,9 +8,9 @@ import {
     Modal,
     Text,
 } from "@ui-kitten/components";
-import Content from "../models/Content";
 import { StyleSheet, View } from "react-native";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function AddContentModal({
     visible,
@@ -19,6 +19,8 @@ export default function AddContentModal({
     visible: boolean;
     setVisible: (newVisible: boolean) => void;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("content");
+
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
     const [unit, setUnit] = useState("");
@@ -30,12 +32,12 @@ export default function AddContentModal({
             onBackdropPress={() => setVisible(false)}
         >
             <Card style={{ alignItems: "center" }}>
-                <Text category={"h5"}>Add content</Text>
+                <Text category={"h5"}>{t("title")}</Text>
                 <Divider />
                 <Input
                     style={styles.input}
-                    label={"Product"}
-                    placeholder={"Product name"}
+                    label={t("product")}
+                    placeholder={t("productPlace")}
                     value={name}
                     onChangeText={change => setName(change)}
                 />
@@ -43,7 +45,7 @@ export default function AddContentModal({
                 <View style={styles.row}>
                     <Input
                         style={styles.smallInput}
-                        label={"Amount"}
+                        label={t("amount")}
                         keyboardType={"number-pad"}
                         placeholder={"0"}
                         value={amount}
@@ -52,29 +54,29 @@ export default function AddContentModal({
                     <View style={{ width: "9%" }} />
                     <Input
                         style={styles.smallInput}
-                        label={"Unit"}
-                        placeholder={"Unit"}
+                        label={t("unit")}
+                        placeholder={t("unit")}
                         value={unit}
                         onChangeText={change => setUnit(change)}
                     />
                 </View>
                 <Datepicker
                     style={styles.input}
-                    label={"Expires on"}
-                    placeholder={"Select date..."}
+                    label={t("expiryDate")}
+                    placeholder={t("expiryPlace")}
                     date={expiryDate}
                     onSelect={change => setExpiryDate(change)}
                 />
                 <View style={styles.row}>
                     <Button style={{ marginHorizontal: 5 }} onPress={add}>
-                        Add
+                        {t("add")}
                     </Button>
                     <Button
                         style={{ marginHorizontal: 5 }}
                         status={"basic"}
                         onPress={() => setVisible(false)}
                     >
-                        Cancel
+                        {t("cancel")}
                     </Button>
                 </View>
             </Card>
