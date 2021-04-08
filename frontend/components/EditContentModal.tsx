@@ -65,9 +65,12 @@ export default function EditContentModal({
                         </Text>
                     </View>
 
-                    <Text category={"h6"}>
-                        Expires on: {selectedContent.expiryDate}
-                    </Text>
+                    {selectedContent.expiryDate && (
+                        <Text category={"h6"}>
+                            Expires on:{" "}
+                            {selectedContent.expiryDate.toDateString()}
+                        </Text>
+                    )}
                     <Button onPress={save} accessoryLeft={SaveButtonIcon}>
                         Save changes
                     </Button>

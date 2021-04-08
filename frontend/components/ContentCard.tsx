@@ -30,21 +30,9 @@ export default function ContentCard({
                         flexDirection: "column",
                     }}
                 >
-                    {content.amount === 0 ? (
-                        <></>
-                    ) : (
-                        <Text>Amount: {content.amount}</Text>
-                    )}
-                    {content.unit === "" ? (
-                        <></>
-                    ) : (
-                        <Text>Unit: {content.unit}</Text>
-                    )}
-                    {content.quality === 0 ? (
-                        <></>
-                    ) : (
-                        <Text>Quality: {content.quality}</Text>
-                    )}
+                    {content.amount && <Text>Amount: {content.amount}</Text>}
+                    {content.unit && <Text>Unit: {content.unit}</Text>}
+                    {content.quality && <Text>Quality: {content.quality}</Text>}
                 </View>
 
                 <View
@@ -52,22 +40,18 @@ export default function ContentCard({
                         width: "30%",
                     }}
                 >
-                    {content.expiryDate ? (
-                        <></>
-                    ) : (
+                    {content.expiryDate && (
                         <View style={styles.column}>
                             <Text>Expiration date:</Text>
-                            <Text>{content.expiryDate}</Text>
+                            <Text>{content.expiryDate.toDateString()}</Text>
                         </View>
                     )}
 
-                    {content.foundDate ? (
-                        <></>
-                    ) : (
+                    {content.foundDate && (
                         <View style={styles.column}>
                             <Text>Found date:</Text>
 
-                            <Text>{content.foundDate}</Text>
+                            <Text>{content.foundDate.toDateString()}</Text>
                         </View>
                     )}
                 </View>
