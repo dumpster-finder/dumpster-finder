@@ -17,8 +17,8 @@ export interface DumpsterAttributes {
     dumpsterID: number;
     position: object;
     name: string;
-    dateAdded: string;
-    dateUpdated: string;
+    dateAdded: Date;
+    dateUpdated: Date;
     dumpsterTypeID: number;
     storeTypeID: number;
     locked: boolean;
@@ -42,8 +42,8 @@ class Dumpsters
     dumpsterID!: number;
     position!: object;
     name!: string;
-    dateAdded!: string;
-    dateUpdated!: string;
+    dateAdded!: Date;
+    dateUpdated!: Date;
     dumpsterTypeID!: number;
     storeTypeID!: number;
     locked!: boolean;

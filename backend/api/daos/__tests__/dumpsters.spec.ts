@@ -29,6 +29,28 @@ const invalidDumpster = {
     storeType: "Hahaha",
 };
 
+const baseDumpsterProps = [
+    "name",
+    "position",
+    "emptyingSchedule",
+    "categories",
+    "cleanliness",
+    "dumpsterType",
+    "storeType",
+    "info",
+    "locked",
+    "positiveStoreViewOnDiving",
+];
+
+const dumpsterProps = [...baseDumpsterProps, "rating"];
+
+const revisionProps = [
+    ...baseDumpsterProps,
+    "dateUpdated",
+    "revisionID",
+    "isActive",
+];
+
 describe("getAll", () => {
     it("should return a list of known dumpsters", async () => {
         const dumpsters = await dumpsterDAO.getAll(params);
@@ -54,6 +76,13 @@ describe("getAll", () => {
             // About 6 km away
             dumpsters.find(({ name }) => name === "City Syd Tiller"),
         ).toBeUndefined();
+    });
+
+    it("should return dumpsters with the usual data", async () => {
+        const dumpsters = await dumpsterDAO.getAll(params);
+        dumpsters.forEach(d =>
+            dumpsterProps.forEach(p => expect(d).toHaveProperty(p)),
+        );
     });
 });
 
@@ -82,6 +111,70 @@ describe("getOne", () => {
     it("should return null if the dumpster does not exist", async () => {
         const dumpster = await dumpsterDAO.getOne(56709);
         expect(dumpster).toBeNull();
+    });
+
+    it("should return a dumpster with the usual data", async () => {
+        const dumpster = await dumpsterDAO.getOne(1);
+        dumpsterProps.forEach(p => expect(dumpster).toHaveProperty(p));
+    });
+});
+
+describe("getRevisions", () => {
+    it("should return all revisions", async () => {
+        const revisions = await dumpsterDAO.getRevisions(4);
+        // Check length
+        expect(revisions).toHaveLength(3);
+        // Check changes
+        expect(revisions.map(r => r.name)).toEqual([
+            "Rema 1000 Moholt",
+            "Rema 1000 Loholt",
+            "Rema 1000 Loholt",
+        ]);
+        expect(revisions.map(r => r.emptyingSchedule)).toEqual([
+            "Second Thursday every month",
+            "Second Thursday every month",
+            "Second Bursday every month",
+        ]);
+    });
+
+    it("should return objects with the usual dumpster data", async () => {
+        const revisions = await dumpsterDAO.getRevisions(4);
+        revisions.forEach(r =>
+            revisionProps.forEach(p => expect(r).toHaveProperty(p)),
+        );
+    });
+
+    it("should indicate that only *one* revision is active at a time", async () => {
+        const revisions = await dumpsterDAO.getRevisions(4);
+        const activeRevisions = revisions.filter(r => r.isActive);
+        expect(activeRevisions).toHaveLength(1);
+        expect(activeRevisions[0].revisionID).toBe(4);
+    });
+});
+
+describe("setCurrentRevision", () => {
+    it("should revert to an actual revision of that dumpster", async () => {
+        const res = await dumpsterDAO.setActiveRevision(7, 79);
+        const dp = await Models.DumpsterPositions.findOne({
+            where: {
+                dumpsterID: 7,
+            },
+        });
+        expect(dp).not.toBeNull();
+        // Expect to find what we reverted to
+        expect(dp?.revisionID).toEqual(79);
+    });
+
+    it("should not revert to a revision of a different dumpster", async () => {
+        await expect(
+            dumpsterDAO.setActiveRevision(1, 2),
+        ).rejects.not.toBeUndefined();
+    });
+
+    it("should not revert to a revision that does not exist", async () => {
+        await expect(
+            dumpsterDAO.setActiveRevision(2, 2325325325),
+        ).rejects.not.toBeUndefined();
     });
 });
 

@@ -4,6 +4,7 @@ import DumpsterTypeServiceClass from "./DumpsterTypeService";
 import StoreTypeServiceClass from "./StoreTypeService";
 import CategoryServiceClass from "./CategoryService";
 import PlaceServiceClass from "./PlaceService";
+import CommentServiceClass from "./CommentService";
 import Constants from "expo-constants";
 
 // Create one single instance of Axios
@@ -20,6 +21,7 @@ const DumpsterTypeService = new DumpsterTypeServiceClass(axiosInstance);
 const StoreTypeService = new StoreTypeServiceClass(axiosInstance);
 const CategoryService = new CategoryServiceClass(axiosInstance);
 const PlaceService = new PlaceServiceClass(axiosInstance);
+const CommentService = new CommentServiceClass(axiosInstance);
 
 // and export them
 export {
@@ -28,4 +30,5 @@ export {
     StoreTypeService,
     CategoryService,
     PlaceService,
+    CommentService,
 };

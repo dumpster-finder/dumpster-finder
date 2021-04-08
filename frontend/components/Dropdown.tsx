@@ -35,6 +35,7 @@ export default function Dropdown({
             }
             value={values[value] || placeholder || t("dropdownPlaceholder")!}
             onSelect={valueChange}
+            caption={caption || ""}
             {...restProps}
         >
             {values.map((type, i) => (

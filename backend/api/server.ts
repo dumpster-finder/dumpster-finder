@@ -10,7 +10,11 @@ import { ValidationError } from "express-validation";
 import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
+import comments from "./routes/comments";
 import { defaultLoggerOptions } from "./config/pino";
+import contents from "./routes/contents";
+import contentTypes from "./routes/contentTypes";
+import errorHandler from "./middleware/errorHandler";
 import {readWordsFromFile} from "./utils/IdGeneration";
 
 (async () => {
@@ -24,8 +28,6 @@ const app = express();
  * Please pass it to routes instead of importing this instance
  */
 export const logger = pino(defaultLoggerOptions);
-
-export const wordList = readWordsFromFile();
 
 const dependencies = {
     logger,

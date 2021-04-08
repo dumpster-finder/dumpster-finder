@@ -1,5 +1,18 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { CategoryAttributes, CategoryCreationAttributes } from "./Categories";
+import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
+import {
+    StandardTagAttributes,
+    StandardTagCreationAttributes,
+} from "./StandardTags";
+import {
+    DumpsterTagAttributes,
+    DumpsterTagCreationAttributes,
+} from "./DumpsterTags";
+import {
+    DumpsterPositionAttributes,
+    DumpsterPositionCreationAttributes,
+} from "./DumpsterPositions";
 
 export interface TagAttributes {
     tagID: number;
@@ -34,7 +47,7 @@ export function init(sequelize: Sequelize) {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
-            }
+            },
         },
         {
             sequelize,
@@ -46,17 +59,24 @@ export function init(sequelize: Sequelize) {
 
 // The type is not defined yet, so use a substitute
 export function associate({
-    Categories,
+    DumpsterPositions,
     DumpsterTags,
-    StandardTags
+    StandardTags,
 }: {
-    DumpsterTags: ModelStatic<Model<any, any>>;
-    StandardTags: ModelStatic<Model<any, any>>;
-    Categories: ModelStatic<Model<CategoryAttributes, CategoryCreationAttributes>>;
+    DumpsterPositions: ModelStatic<
+        Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>
+    >;
+    DumpsterTags: ModelStatic<
+        Model<DumpsterTagAttributes, DumpsterTagCreationAttributes>
+    >;
+    StandardTags: ModelStatic<
+        Model<StandardTagAttributes, StandardTagCreationAttributes>
+    >;
 }) {
-    // do associations like
-    // Thing.hasMany()
-    // using the supplied Models object
-    Tags.hasMany(DumpsterTags, { foreignKey: "tagID"});
-    Tags.hasMany(StandardTags, { foreignKey: "tagID"});
+    Tags.hasMany(DumpsterTags, { as: "dumpsterTagss", foreignKey: "tagID" });
+    Tags.belongsToMany(DumpsterPositions, {
+        through: DumpsterTags,
+        foreignKey: "tagID",
+    });
+    Tags.hasMany(StandardTags, { foreignKey: "tagID" });
 }

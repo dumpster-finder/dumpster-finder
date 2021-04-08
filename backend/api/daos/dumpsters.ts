@@ -1,9 +1,14 @@
 import { MyModels } from "../models";
-import { literal } from "sequelize";
-import Dumpster from "../types/Dumpster";
+import { literal, Transaction } from "sequelize";
+import Dumpster, { DumpsterRevision } from "../types/Dumpster";
 import { DumpsterAttributes } from "../models/dumpsters";
-import { PositionParams } from "../types/Position";
+import Position, { GeoJSONPoint, PositionParams } from "../types/Position";
+import { ConflictError, InvalidKeyError } from "../types/errors";
 
+/**
+ * Translates data from a create() or update() call to a valid dumpster
+ * @param dumpster
+ */
 const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     dumpsterID: dumpster.dumpsterID,
     name: dumpster.name,
@@ -23,9 +28,26 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     emptyingSchedule: dumpster.emptyingSchedule,
     // @ts-ignore
     rating: dumpster.dataValues.rating || 2.5, // Default to average
-    // @ts-ignore TODO make a decision: is this how it should be done?
+    // @ts-ignore
     categories: dumpster.categories && dumpster.categories.map(c => c.name),
     info: dumpster.info,
+});
+
+const toRevision = (dumpster: DumpsterAttributes): DumpsterRevision => {
+    // Exclude rating (it defaults to 2.5)
+    const { rating, ...returnable } = toDumpster(dumpster);
+    return {
+        revisionID: dumpster.revisionID,
+        ...returnable,
+        dateUpdated: dumpster.dateUpdated,
+        // @ts-ignore
+        isActive: Boolean(dumpster.dataValues.isActive),
+    };
+};
+
+const translateToGeoJSONPoint = (position: Position): GeoJSONPoint => ({
+    type: "Point",
+    coordinates: [position.latitude, position.longitude],
 });
 
 // The type is (string | ProjectionAlias)[], but I cannot find the definition of ProjectionAlias
@@ -58,6 +80,11 @@ const dumpsterAttributes: (string | any)[] = [
     ],
 ];
 
+/**
+ * Data Access Object for dumpsters
+ *
+ * @param Models - All defined Sequelize models
+ */
 export default function ({
     DumpsterPositions,
     Dumpsters,
@@ -67,6 +94,81 @@ export default function ({
     StoreTypes,
     sequelize,
 }: MyModels) {
+    /**
+     * Common procedures in addOne() and updateOne(),
+     * in one neat & tidy package!
+     */
+    const createDumpsterRevision = async (
+        dumpsterID: number,
+        dumpster: Omit<Dumpster, "dumpsterID" | "rating">,
+        position: GeoJSONPoint,
+        t: Transaction,
+    ) => {
+        // TODO refactor these calls as subqueries
+        //      (really though?)
+        const { dumpsterTypeID } = await DumpsterTypes.findOne({
+            where: { name: dumpster.dumpsterType },
+            transaction: t,
+        }).then(t => {
+            if (!t) throw new InvalidKeyError("No such dumpster type");
+            return t;
+        });
+        const { storeTypeID } = await StoreTypes.findOne({
+            where: { name: dumpster.storeType },
+            transaction: t,
+        }).then(t => {
+            if (!t) throw new InvalidKeyError("No such store type");
+            return t;
+        });
+
+        const data = await Dumpsters.create(
+            {
+                dumpsterID,
+                ...dumpster,
+                dumpsterTypeID,
+                storeTypeID,
+                userID: "temp",
+                position,
+            },
+            { transaction: t },
+        );
+
+        // @ts-ignore
+        const revisionID = data.dataValues.revisionID;
+
+        await DumpsterPositions.update(
+            {
+                revisionID,
+            },
+            { where: { dumpsterID }, transaction: t },
+        );
+
+        if (dumpster.categories) {
+            // And add the categories!
+            await DumpsterCategories.bulkCreate(
+                // @ts-ignore
+                dumpster.categories.map(name => ({
+                    categoryID: literal(
+                        `(SELECT c.categoryID FROM Categories AS c WHERE c.name = ${sequelize.escape(
+                            name,
+                        )})`,
+                    ),
+                    dumpsterID: dumpsterID,
+                    revisionID,
+                })),
+                { transaction: t },
+            );
+        }
+
+        return {
+            ...toDumpster(data),
+            // Override these values – they should be valid
+            storeType: dumpster.storeType,
+            dumpsterType: dumpster.dumpsterType,
+            categories: dumpster.categories,
+        };
+    };
+
     return {
         /**
          * Fetches all dumpsters in a given radius around a position (lat, long)
@@ -136,6 +238,79 @@ export default function ({
             }).then(dumpster => dumpster && toDumpster(dumpster)),
 
         /**
+         * Get a dumpster's full revision history
+         * TODO pagination...
+         *
+         * @param dumpsterID
+         * @return a list of revisions
+         */
+        getRevisions: (dumpsterID: number) =>
+            Dumpsters.findAll({
+                attributes: [
+                    ...dumpsterAttributes.slice(
+                        0,
+                        dumpsterAttributes.length - 1,
+                    ),
+                    "dateUpdated",
+                    "revisionID",
+                    [
+                        literal(
+                            "(Dumpsters.revisionID = (SELECT dp.revisionID FROM DumpsterPositions AS dp WHERE dp.dumpsterID = Dumpsters.dumpsterID))",
+                        ),
+                        "isActive",
+                    ],
+                ],
+                include: [
+                    {
+                        // @ts-ignore
+                        model: Categories,
+                        as: "categories",
+                    },
+                ],
+                where: {
+                    dumpsterID,
+                },
+                order: [["dateUpdated", "DESC"]],
+            }).then(data => data.map(toRevision)),
+
+        /**
+         * Change a dumpster's active revision
+         * (used to revert to a previous edit in case of mischievous activity)
+         *
+         * @param dumpsterID - ID of the dumpster you'd like to update
+         * @param revisionID - Revision to revert to
+         */
+        setActiveRevision: async (dumpsterID: number, revisionID: number) => {
+            return sequelize.transaction(async t => {
+                // Check that the pair of revision and dumpster ID is valid
+                const match = await Dumpsters.findOne({
+                    where: {
+                        dumpsterID,
+                        revisionID,
+                    },
+                    transaction: t,
+                });
+
+                if (!match)
+                    throw new InvalidKeyError(
+                        "There is no revision with this ID for this dumpster",
+                    );
+
+                return await DumpsterPositions.update(
+                    {
+                        revisionID,
+                    },
+                    {
+                        where: {
+                            dumpsterID,
+                        },
+                        transaction: t,
+                    },
+                );
+            });
+        },
+
+        /**
          * Add a dumpster to the database table.
          * When adding, the dumpster does not yet have an ID.
          * A rather complex routine since a revision must be created,
@@ -146,13 +321,7 @@ export default function ({
          */
         addOne: async (dumpster: Omit<Dumpster, "dumpsterID" | "rating">) => {
             // Rewrite position data to GeoJSON format
-            const position = {
-                type: "Point",
-                coordinates: [
-                    dumpster.position.latitude,
-                    dumpster.position.longitude,
-                ],
-            };
+            const position = translateToGeoJSONPoint(dumpster.position);
 
             // Perform transaction
             return await sequelize.transaction(async t => {
@@ -161,70 +330,19 @@ export default function ({
                         position,
                     },
                     { transaction: t },
-                );
-                // @ts-ignore
-                const dumpsterID = dumpsterPosition.dataValues.dumpsterID;
-
-                // TODO refactor these calls as subqueries
-                const dumpsterTypeID = (
-                    await DumpsterTypes.findOne({
-                        where: { name: dumpster.dumpsterType },
-                        transaction: t,
-                    })
-                )?.dumpsterTypeID!;
-                const storeTypeID = (
-                    await StoreTypes.findOne({
-                        where: { name: dumpster.storeType },
-                        transaction: t,
-                    })
-                )?.storeTypeID!;
-
-                const data = await Dumpsters.create(
-                    {
-                        dumpsterID,
-                        ...dumpster,
-                        dumpsterTypeID,
-                        storeTypeID,
-                        userID: "temp",
-                        position,
-                    },
-                    { transaction: t },
-                );
-
-                // @ts-ignore
-                const revisionID = data.dataValues.revisionID;
-
-                await DumpsterPositions.update(
-                    {
-                        revisionID,
-                    },
-                    { where: { dumpsterID }, transaction: t },
-                );
-
-                if (dumpster.categories) {
-                    // And add the categories!
-                    await DumpsterCategories.bulkCreate(
-                        // @ts-ignore
-                        dumpster.categories.map(name => ({
-                            categoryID: literal(
-                                `(SELECT c.categoryID FROM Categories AS c WHERE c.name = ${sequelize.escape(
-                                    name,
-                                )})`,
-                            ),
-                            dumpsterID: dumpsterID,
-                            revisionID,
-                        })),
-                        { transaction: t },
+                ).catch(_ => {
+                    throw new ConflictError(
+                        "A dumpster already exists at this position",
                     );
-                }
+                });
 
-                return {
-                    ...toDumpster(data),
-                    // Override these values – they should be valid
-                    storeType: dumpster.storeType,
-                    dumpsterType: dumpster.dumpsterType,
-                    categories: dumpster.categories,
-                };
+                return await createDumpsterRevision(
+                    // @ts-ignore
+                    dumpsterPosition.dataValues.dumpsterID,
+                    dumpster,
+                    position,
+                    t,
+                );
             });
         },
 
@@ -238,87 +356,16 @@ export default function ({
          * @return The updated data
          */
         updateOne: async (dumpster: Omit<Dumpster, "rating">) => {
-            // Rewrite position data to GeoJSON format
-            const position = {
-                type: "Point",
-                coordinates: [
-                    dumpster.position.latitude,
-                    dumpster.position.longitude,
-                ],
-            };
-
-            // Perform transaction
+            // TODO should position be editable?
+            //      for now I'd say it SHOULD NOT
+            //      (especially since this implementation will break the link to the DumpsterPosition)
             return await sequelize.transaction(async t => {
-                // TODO refactor these calls as subqueries
-                const dumpsterTypeID = (
-                    await DumpsterTypes.findOne({
-                        where: { name: dumpster.dumpsterType },
-                        transaction: t,
-                    })
-                )?.dumpsterTypeID!;
-                const storeTypeID = (
-                    await StoreTypes.findOne({
-                        where: { name: dumpster.storeType },
-                        transaction: t,
-                    })
-                )?.storeTypeID!;
-
-                // Create a new revision of the dumpster
-                const data = await Dumpsters.create(
-                    {
-                        ...dumpster,
-                        // @ts-ignore TODO this is dumb
-                        categories: undefined,
-                        dumpsterTypeID,
-                        storeTypeID,
-                        userID: "temp",
-                        position, // TODO should position be editable?
-                        //      for now I'd say it SHOULD NOT
-                        //      (especially since this implementation will break the link to the DumpsterPosition)
-                    },
-                    {
-                        transaction: t,
-                    },
+                return await createDumpsterRevision(
+                    dumpster.dumpsterID,
+                    dumpster,
+                    translateToGeoJSONPoint(dumpster.position),
+                    t,
                 );
-
-                // @ts-ignore
-                const revisionID = data.dataValues.revisionID;
-
-                // Then update the active revisionID
-                await DumpsterPositions.update(
-                    {
-                        revisionID,
-                    },
-                    {
-                        where: { dumpsterID: dumpster.dumpsterID },
-                        transaction: t,
-                    },
-                );
-
-                if (dumpster.categories) {
-                    // And update the categories!
-                    await DumpsterCategories.bulkCreate(
-                        // @ts-ignore
-                        dumpster.categories.map(name => ({
-                            categoryID: literal(
-                                `(SELECT c.categoryID FROM Categories AS c WHERE c.name = ${sequelize.escape(
-                                    name,
-                                )})`,
-                            ),
-                            dumpsterID: dumpster.dumpsterID,
-                            revisionID,
-                        })),
-                        { transaction: t },
-                    );
-                }
-
-                return {
-                    ...toDumpster(data),
-                    // Override these values – they should be valid
-                    storeType: dumpster.storeType,
-                    dumpsterType: dumpster.dumpsterType,
-                    categories: dumpster.categories,
-                };
             });
         },
     };

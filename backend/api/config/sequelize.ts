@@ -31,7 +31,7 @@ export const connectToDatabase = async (tries = 10) => {
             throw new Error(
                 "Could not connect to the database after 10 tries, aborting.",
             );
-        logger.info("Could not connect to the database, retrying...", e);
+        logger.info(e, "Could not connect to the database, retrying...");
         // Retry after a few seconds
         setTimeout(() => connectToDatabase(tries - 1), 3000);
     }

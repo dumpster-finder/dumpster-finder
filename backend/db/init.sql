@@ -142,7 +142,7 @@ CREATE TABLE Comments (
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     nickname VARCHAR(24) NOT NULL,
     comment TEXT NOT NULL,
-    rating TINYINT UNSIGNED NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
+    rating INTEGER NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (date),
     FOREIGN KEY Comments(dumpsterID)
@@ -222,7 +222,7 @@ CREATE TABLE DumpsterTags (
     tagID INT NOT NULL REFERENCES Tags(tagID),
 
     -- Composite amount:
-    amount INT,
+    amount FLOAT,
     unit VARCHAR(12),
 
     -- Quality rating:
@@ -233,6 +233,7 @@ CREATE TABLE DumpsterTags (
     expiryDate TIMESTAMP,
     INDEX (foundDate),
     INDEX (expiryDate),
+    CONSTRAINT dumpsterTagsPK PRIMARY KEY DumpsterTags(dumpsterID, tagID, foundDate),
     CONSTRAINT dumpsterTagsFK1 FOREIGN KEY DumpsterTags(dumpsterID)
         REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,

@@ -1,16 +1,21 @@
 INSERT INTO Categories(categoryID, name)
 VALUES
     (1, 'Dairy'),
+    -- TODO remove
     (2, 'Batteries'),
     (3, 'Vegetables'),
     (4, 'Meat'),
+    -- TODO reconsider
     (5, 'Tools'),
     (6, 'Pastries'),
-    (7, 'Seafood');
+    (7, 'Seafood'),
+    (8, 'Chocolate'),
+    (9, 'Candy');
 
 INSERT INTO StoreTypes(storeTypeID, name)
 VALUES
     (1, 'Grocery Store'),
+    -- TODO don't forget to remove this!
     (2, 'Electronics Store'),
     (3, 'Bakery'),
     (4, 'Furniture Store'),
@@ -33,23 +38,23 @@ VALUES
     (6, Point(63.361335, 10.379476), NULL),
     (7, Point(63.429731, 10.394115), NULL);
 
-INSERT INTO Dumpsters(dumpsterID, revisionID, position, name, dumpsterTypeID, storeTypeID, locked, positiveStoreViewOnDiving, cleanliness, emptyingSchedule, info)
+INSERT INTO Dumpsters(dumpsterID, revisionID, position, name, dumpsterTypeID, storeTypeID, locked, positiveStoreViewOnDiving, cleanliness, emptyingSchedule, info, dateAdded, dateUpdated)
 VALUES
-    (1, 45, Point(63.416916, 10.354478), 'Byaasen senter', 3, 5, FALSE, TRUE, 2, 'Don\'t know', 'Nothing to be said.'),
-    (1, 1, Point(63.416916, 10.354478), 'Byåsen senter', 3, 5, FALSE, TRUE, 2, 'Don\'t know', 'Nothing to be said.'),
-    (2, 51, Point(63.435008, 10.410727), 'Månesiden senter', 1, 2, FALSE, TRUE, 4, 'Every other week','Usually a lot of barfed-up goods.'),
-    (2, 2, Point(63.435008, 10.410727), 'Solsiden senter', 1, 2, FALSE, TRUE, 4, 'Every other week','Usually a lot of baked goods.'),
-    (3, 52, Point(63.467127, 10.941596), 'Elkjop Sthørdal', 2, 2, FALSE, 5, TRUE, 'Last friday of the month', 'Mostly broken stuff, but if you are lucky you find good value'),
-    (3, 3, Point(63.467127, 10.941596), 'Elkjøp Stjørdal', 2, 2, FALSE, 5, TRUE, 'Last friday of the month', 'Mostly broken stuff, but if you are lucky you find good value'),
-    (4, 68, Point(63.409747, 10.438794), 'Rema 1000 Loholt', 1, 1, TRUE, TRUE, 5, 'Second Bursday every month', 'Don\'t know if panyone can benter'),
-    (4, 69, Point(63.409747, 10.438794), 'Rema 1000 Loholt', 1, 1, TRUE, TRUE, 5, 'Second Thursday every month', 'Don\'t know if panyone can benter'),
-    (4, 4, Point(63.409747, 10.438794), 'Rema 1000 Moholt', 1, 1, TRUE, FALSE, 5, 'Second Thursday every month', 'Don\'t know if anyone can enter'),
-    (5, 77, Point(63.412930, 10.431018), 'Bunnrips Moholt', 1, 1, TRUE, FALSE, 3, 'Fridays at 15pm', 'A bit dirty. Watch where you touch'),
-    (5, 78, Point(63.412930, 10.431018), 'Bunnpris Moholt', 1, 1, TRUE, FALSE, 3, 'Fridays at 15pm', 'A bit dirty. Watch where you touch'),
-    (5, 5, Point(63.412930, 10.431018), 'Bunnpris Moholt', 1, 1, FALSE, TRUE, 3, 'Fridays at 15pm', 'Somewhat dirty. Watch where you touch.'),
-    (6, 6, Point(63.361335, 10.379476), 'City Syd Tiller', 2, 5, FALSE, NULL, 4, 'Mondays at 13pm', 'A bit hard to find. It is hidden under a roof'),
-    (7, 79, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where the deliveries are'),
-    (7, 7, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where goods are delivered');
+    (1, 45, Point(63.416916, 10.354478), 'Byaasen senter', 3, 5, FALSE, TRUE, 2, 'Don\'t know', 'Nothing to be said.', '2020-02-23', '2020-02-23'),
+    (1, 1, Point(63.416916, 10.354478), 'Byåsen senter', 3, 5, FALSE, TRUE, 2, 'Don\'t know', 'Nothing to be said.', '2020-02-23', '2021-03-04'),
+    (2, 51, Point(63.435008, 10.410727), 'Månesiden senter', 1, 2, FALSE, TRUE, 4, 'Every other week','Usually a lot of barfed-up goods.', '2020-11-30', '2020-11-30'),
+    (2, 2, Point(63.435008, 10.410727), 'Solsiden senter', 1, 2, FALSE, TRUE, 4, 'Every other week','Usually a lot of baked goods.', '2020-11-30', '2020-12-24'),
+    (3, 52, Point(63.467127, 10.941596), 'Elkjop Sthørdal', 2, 2, FALSE, 5, TRUE, 'Last friday of the month', 'Mostly broken stuff, but if you are lucky you find good value', '2020-07-14', '2020-07-14'),
+    (3, 3, Point(63.467127, 10.941596), 'Elkjøp Stjørdal', 2, 2, FALSE, 5, TRUE, 'Last friday of the month', 'Mostly broken stuff, but if you are lucky you find good value', '2020-07-14', '2021-02-12'),
+    (4, 68, Point(63.409747, 10.438794), 'Rema 1000 Loholt', 1, 1, TRUE, TRUE, 5, 'Second Bursday every month', 'Don\'t know if panyone can benter', '2020-08-30', '2020-08-30'),
+    (4, 69, Point(63.409747, 10.438794), 'Rema 1000 Loholt', 1, 1, TRUE, TRUE, 5, 'Second Thursday every month', 'Don\'t know if panyone can benter', '2020-08-30', '2020-10-24'),
+    (4, 4, Point(63.409747, 10.438794), 'Rema 1000 Moholt', 1, 1, TRUE, FALSE, 5, 'Second Thursday every month', 'Don\'t know if anyone can enter', '2020-08-30', '2021-04-01'),
+    (5, 77, Point(63.412930, 10.431018), 'Bunnrips Moholt', 1, 1, TRUE, FALSE, 3, 'Fridays at 15pm', 'A bit dirty. Watch where you touch', '2020-06-23', '2020-06-23'),
+    (5, 78, Point(63.412930, 10.431018), 'Bunnpris Moholt', 1, 1, TRUE, FALSE, 3, 'Fridays at 15pm', 'A bit dirty. Watch where you touch', '2020-06-23', '2020-07-04'),
+    (5, 5, Point(63.412930, 10.431018), 'Bunnpris Moholt', 1, 1, FALSE, TRUE, 3, 'Fridays at 15pm', 'Somewhat dirty. Watch where you touch.', '2020-06-23', '2020-02-20'),
+    (6, 6, Point(63.361335, 10.379476), 'City Syd Tiller', 2, 5, FALSE, NULL, 4, 'Mondays at 13pm', 'A bit hard to find. It is hidden under a roof', '2020-10-10', '2020-10-10'),
+    (7, 79, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where the deliveries are', '2020-05-17', '2020-05-17'),
+    (7, 7, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where goods are delivered', '2020-05-17', '2020-06-03');
 
 INSERT INTO Comments(commentID, dumpsterID, nickname, comment, rating, date)
 VALUES
@@ -115,3 +120,33 @@ VALUES
     ('temp5', 7, 2),
     ('temp6', 7, 3);
 
+INSERT INTO Tags(tagID, categoryID, name)
+VALUES
+    (1, 1, 'Cheese'),
+    (2, 1, 'Milk'),
+    (3, 3, 'Squash'),
+    (4, 3, 'Potatoes'),
+    (5, 7, 'Oysters'),
+    (6, 4, 'Steamed ham'),
+    (7, 6, 'Bread'),
+    (8, 8, 'Milk chocolate');
+
+INSERT INTO StandardTags(tagID)
+VALUES
+    (1), (2), (4), (7), (8);
+
+INSERT INTO DumpsterTags
+    (dumpsterID, tagID, amount, unit, quality, expiryDate, foundDate)
+VALUES
+    (1, 1, 23, 'pieces', 3, '2023-04-30', '2021-02-18'), -- cheese
+    (1, 2, 23, 'liters', 3, '2021-03-30', '2021-03-20'), -- Milk
+    (3, 3,  7,     NULL, 3, '2021-04-22', '2021-03-17'), -- squash
+    (3, 4,  2,  'kilos', 4, '2021-12-12', '2021-03-28'), -- potatoes
+    (4, 5,  3,  'kilos', 5, '2021-05-03', '2021-03-14'), -- oysters
+    (4, 8,  3,   'bars', 5, '2021-08-30', '2021-03-17'), -- chocolate
+    (4, 7,  1,   'loaf', 3, '2021-04-11', '2021-03-16'), -- bread
+    (5, 7,  3, 'loaves', 4, '2021-04-02', '2021-03-04'), -- bread
+    (5, 6,  1,     NULL, 4, '2021-04-02', '2021-03-04'), -- steamed ham
+    (6, 8, 20,   'bars', 5, '2022-08-24', '2021-02-28'), -- chocolate
+    (6, 5,  3,  'kilos', 4, '2021-05-21', '2021-02-03'), -- oysters
+    (7, 4,  5,  'kilos', 4, '2021-12-21', '2021-03-20'); -- potatoes

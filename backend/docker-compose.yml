@@ -1,19 +1,86 @@
 version: "3"
 
+# NGINX and Certbot configs are based on this tutorial:
+# https://www.digitalocean.com/community/tutorials/how-to-secure-a-containerized-node-js-application-with-nginx-let-s-encrypt-and-docker-compose
+
 services:
   db:
-    image: mariadb:latest
+    build: ./db/
     environment:
-      MYSQL_ROOT_PASSWORD: thecakeisalive
-      MYSQL_DATABASE: dumpster
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_NAME}"
     expose:
-      - "3306"
+      - "${DB_PORT}"
     volumes:
       - "dumpsterdb:/var/lib/mysql/"
+    networks:
+      - network
+
   api:
     build: ./api/
+    expose:
+      - "${API_PORT}"
+    depends_on:
+      - db
+    networks:
+      - network
+
+  nginx:
+    build:
+      context: ./nginx/
+      args:
+        - DOMAIN_NAME=${DOMAIN_NAME}
+    container_name: nginx
+    restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "80:80"
+      - "443:443"
+    expose:
+      - "80"
+    volumes:
+      - dhparam:/etc/ssl/certs
+      # Shared with certbot container:
+      - web-root:/var/www/html
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - api
+    networks:
+      - network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      # Shared with nginx container:
+      - web-root:/var/www/html
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - api
+    # NB: Add --staging if you're just testing certbot
+    command: "certonly --webroot --webroot-path=/var/www/html --email ${EMAIL} --agree-tos --keep --no-eff-email -d ${DOMAIN_NAME} -d www.${DOMAIN_NAME}"
+    networks:
+      - network
 
 volumes:
   dumpsterdb:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PROJECT_PATH}/nginx/web
+      o: bind
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PROJECT_PATH}/dhparam/
+      o: bind
+
+networks:
+  network:
+    driver: bridge

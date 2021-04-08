@@ -67,6 +67,7 @@ deploy:
             --exclude='.git'
             --exclude='node_modules'
             --exclude='.env'
+            --exclude='dhparam'
             backend/ "dumpster@$SERVER_IP:dumpster"
     # Restart service
     - ssh "dumpster@$SERVER_IP" -- systemctl --user restart dumpster

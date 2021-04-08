@@ -39,16 +39,15 @@
  *                 longitude: 10.394954
  *
  *         LocationParams:
- *             type: object
- *             required:
- *                 - position
- *                 - radius
- *             properties:
- *                 position:
- *                     $ref: '#/components/schemas/Position'
- *                 radius:
- *                     type: number
- *                     description: Radius around the given position
+ *             allOf:
+ *                 - $ref: '#/components/schemas/Position'
+ *                 - type: object
+ *                   required:
+ *                       - position
+ *                   properties:
+ *                       radius:
+ *                           type: number
+ *                           description: Radius around the given position
  *             example:
  *                 latitude: 63.422407
  *                 longitude: 10.394954
@@ -133,35 +132,75 @@
  *                 cleanliness: 2
  *                 info: "This dumpster can pack a lot of circuits"
  *                 rating: 2.7
+ *
+ *         DumpsterRevision:
+ *             allOf:
+ *                 - type: object
+ *                   required:
+ *                     - dumpsterID
+ *                     - revisionID
+ *                   properties:
+ *                     dumpsterID:
+ *                       type: integer
+ *                     revisionID:
+ *                       type: integer
+ *                 - $ref: '#/components/schemas/PostDumpster'
+ *                 - type: object
+ *                   required:
+ *                     - dateUpdated
+ *                     - isActive
+ *                   properties:
+ *                     dateUpdated:
+ *                       type: string
+ *                       format: date
+ *                     isActive:
+ *                       type: boolean
+ *             example:
+ *                 dumpsterID: 42
+ *                 revisionID: 354
+ *                 name: "Some Store"
+ *                 position:
+ *                     latitude: 63.422407
+ *                     longitude: 10.394954
+ *                 dumpsterType: "Compressor"
+ *                 storeType: "Electronics Store"
+ *                 categories: ["Batteries"]
+ *                 locked: true
+ *                 positiveStoreViewOnDiving: false
+ *                 emptyingSchedule: "Every Saturday"
+ *                 cleanliness: 2
+ *                 info: "This dumpster can pack a lot of circuits"
+ *                 dateUpdated: "2021-01-30"
+ *                 isActive: true
+ *
  * tags:
  *   - name: Dumpsters
  *     description: Dumpster API
- *   - name: Categories
- *     description: categories API
- *   - name: Tags
- *     description: Dumpster API
+ *   - name: Revisions
+ *     description: Dumpster revision API
  */
 
 import { Request, Router } from "express";
 import { validate } from "express-validation";
 import DumpsterDAO from "../daos/dumpsters";
-import CategoryDAo from "../daos/categories";
 import {
     getDumpster,
     locationParams,
+    patchRevision,
     postDumpster,
     putDumpster,
 } from "../validators/dumpsters";
 import { RouteDependencies } from "../types";
 import { PositionParams } from "../types/Position";
+import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
+import { NotFoundError } from "../types/errors";
 
 //TODO add validation and models, and DAO for the key ones
 //TODO change storetype and dumpstertype to String primary key and foreign key
 //     (really?)
-export default function ({ logger, Models }: RouteDependencies) {
+export default function ({ Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
-    const categoryDAO = CategoryDAo(Models);
 
     /**
      * @swagger
@@ -190,13 +229,13 @@ export default function ({ logger, Models }: RouteDependencies) {
      */
     router.get(
         "/",
+        standardLimiter,
         validate(locationParams),
         async (req: Request & { query: PositionParams }, res, next) => {
             try {
                 const dumpsters = await dumpsterDAO.getAll(req.query);
                 res.status(200).json(dumpsters);
             } catch (e) {
-                logger.error(e, "Something went wrong!");
                 next(e);
             }
         },
@@ -231,6 +270,7 @@ export default function ({ logger, Models }: RouteDependencies) {
      */
     router.get(
         "/:dumpsterID(\\d+)",
+        standardLimiter,
         validate(getDumpster),
         async (req, res, next) => {
             try {
@@ -240,13 +280,10 @@ export default function ({ logger, Models }: RouteDependencies) {
                 if (dumpster) {
                     res.status(200).json(dumpster);
                 } else {
-                    res.status(404).json({
-                        statusCode: 404,
-                        message: "Dumpster not found",
-                    });
+                    // TODO consider moving this down into the DAO
+                    throw new NotFoundError("Dumpster not found");
                 }
             } catch (e) {
-                logger.error(e, "Something went wrong!");
                 next(e);
             }
         },
@@ -271,15 +308,19 @@ export default function ({ logger, Models }: RouteDependencies) {
      *             schema:
      *               $ref: '#/components/schemas/Dumpster'
      */
-    router.post("/", validate(postDumpster), async (req, res, next) => {
-        try {
-            const result = await dumpsterDAO.addOne(req.body);
-            res.status(201).json(result);
-        } catch (e) {
-            logger.error(e, "Something went wrong!");
-            next(e); // Pass to Express error handler
-        }
-    });
+    router.post(
+        "/",
+        updateLimiter,
+        validate(postDumpster),
+        async (req, res, next) => {
+            try {
+                const result = await dumpsterDAO.addOne(req.body);
+                res.status(201).json(result);
+            } catch (e) {
+                next(e); // Pass to Express error handler
+            }
+        },
+    );
 
     /**
      * @swagger
@@ -309,6 +350,7 @@ export default function ({ logger, Models }: RouteDependencies) {
      */
     router.put(
         "/:dumpsterID(\\d+)",
+        updateLimiter,
         validate(putDumpster),
         async (req, res, next) => {
             try {
@@ -318,7 +360,6 @@ export default function ({ logger, Models }: RouteDependencies) {
                 });
                 res.status(200).json(result);
             } catch (e) {
-                logger.error(e, "Something went wrong!");
                 next(e);
             }
         },
@@ -326,59 +367,10 @@ export default function ({ logger, Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/tags:
-     *   post:
-     *     summary: add a new tag for a dumpster
-     *     tags: [Dumpsters]
-     *     requestBody:
-     *          content:
-     *              application/json:
-     *                 schema:
-     *                      type: object
-     *                      properties:
-     *                          dumpsterid:
-     *                              type: integer
-     *                          tagid:
-     *                              type: integer
-     *                          amount:
-     *                              type: string
-     *                          unit:
-     *                              type: integer
-     *                          quality:
-     *                              type: integer
-     *                          foundDate:
-     *                              type: string
-     *                              format: date
-     *                          expiryDate:
-     *                              type: string
-     *                              format: date
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/tags'
-     */
-    router.post("/tags", validate(postDumpster), async (req, res) => {
-        try {
-            /*
-            const dumpsters = await dumpsterDAO.postOneTag(postDumpster);
-            res.status(200).json(dumpsters);
-
-             */
-        } catch (e) {
-            logger.error("Something went wrong!", e);
-            res.status(500).send("uh?");
-        }
-    });
-
-    /**
-     * @swagger
-     * /dumpsters/{dumpsterID}/categories:
+     * /dumpsters/{dumpsterID}/revisions:
      *   get:
-     *     summary: Get all categories for a dumpster
-     *     tags: [Categories]
+     *     summary: GET all revisions of a dumpster
+     *     tags: [Revisions]
      *     parameters:
      *       - in: path
      *         name: dumpsterID
@@ -388,29 +380,40 @@ export default function ({ logger, Models }: RouteDependencies) {
      *         description: Dumpster ID
      *     responses:
      *       "200":
-     *         description: the greeting
+     *         description: An array of dumpster revisions
      *         content:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/dumpsters/categories'
+     *               type: array
+     *               items:
+     *                   $ref: '#/components/schemas/DumpsterRevision'
      */
-    router.get("/:dumpsterID(\\d+)/categories", async (req, res, next) => {
-        try {
-            const categories = await categoryDAO.getByDumpster(
-                parseInt(req.params.dumpsterID),
-            );
-            res.status(200).json(categories);
-        } catch (e) {
-            next(e);
-        }
-    });
+    router.get(
+        "/:dumpsterID(\\d+)/revisions",
+        standardLimiter,
+        validate(getDumpster),
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
+            try {
+                const revision = await dumpsterDAO.getRevisions(
+                    req.params.dumpsterID,
+                );
+                res.status(200).json(revision);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
 
     /**
      * @swagger
-     * /dumpsters/{dumpsterID}/categories:
-     *   put:
-     *     summary: Get all categories for a dumpster
-     *     tags: [Categories]
+     * /dumpsters/{dumpsterID}/revisions:
+     *   patch:
+     *     summary: Revert to an earlier revision
+     *     tags: [Revisions]
      *     parameters:
      *       - in: path
      *         name: dumpsterID
@@ -422,173 +425,33 @@ export default function ({ logger, Models }: RouteDependencies) {
      *          content:
      *              application/json:
      *                 schema:
-     *                   type: array
-     *                   item: string
-     *                   example: ["Dairy", "Meat"]
+     *                   type: object
+     *                   required:
+     *                     - revisionID
+     *                   properties:
+     *                     revisionID:
+     *                       type: integer
      *     responses:
      *       "204":
-     *         description: Success
+     *         description: Successfully reverted
      */
-    router.put("/:dumpsterID(\\d+)/categories", async (req, res, next) => {
-        try {
-            const result = await categoryDAO.updatePerDumpster(
-                parseInt(req.params.dumpsterID),
-                req.body,
-            );
-            res.status(204).json(result);
-        } catch (e) {
-            next(e);
-        }
-    });
-
-    /**
-     * @swagger
-     * /dumpsters/{dumpsterID}/categories:
-     *   post:
-     *     summary: add a new category for a dumpster
-     *     tags: [Dumpsters]
-     *     requestBody:
-     *          content:
-     *              application/json:
-     *                 schema:
-     *                      type: object
-     *                      properties:
-     *                          dumpsterid:
-     *                              type: integer
-     *                          categoryid:
-     *                              type: integer
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/categories'
-     */
-    router.post("/categories", validate(postDumpster), async (req, res) => {
-        try {
-            /*
-            const dumpsters = await dumpsterDAO.postOneCategory(postDumpster);
-            res.status(200).json(dumpsters);
-
-             */
-        } catch (e) {
-            logger.error("Something went wrong!", e);
-            res.status(500).send("uh?");
-        }
-    });
-
-    /**
-     * @swagger
-     * /dumpsters/{dumpsterID}/categories/:
-     *   delete:
-     *     summary: delete all categories for a Dumpster
-     *     tags: [Dumpsters]
-     *     parameters:
-     *       - in: path
-     *         name: dumpsterID
-     *         schema:
-     *           type: integer
-     *         required: true
-     *         description: Dumpster ID
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/categories/:dumpsterID'
-     */
-    router.delete(
-        "/dumpsters/categories/:dumpsterID",
-        async (req: { params: { dumpsterID: number } }, res) => {
+    router.patch(
+        "/:dumpsterID(\\d+)/revisions",
+        updateLimiter,
+        validate(patchRevision),
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
             try {
-                /*
-            const dumpsters = await dumpsterDAO.deleteAllCategoriesForDumpster(dumpsterID);
-            res.status(200).json(dumpsters);
-
-             */
+                await dumpsterDAO.setActiveRevision(
+                    req.params.dumpsterID,
+                    req.body.revisionID,
+                );
+                res.status(204).send();
             } catch (e) {
-                logger.error("Something went wrong!", e);
-                res.status(500).send("uh?");
-            }
-        },
-    );
-
-    /**
-     * @swagger
-     * /dumpsters/{dumpsterID}/tags/:
-     *   delete:
-     *     summary: delete all tags for a Dumpster
-     *     tags: [Dumpsters]
-     *     parameters:
-     *       - in: path
-     *         name: dumpsterID
-     *         schema:
-     *           type: integer
-     *         required: true
-     *         description: Dumpster ID
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/tags/:dumpsterID'
-     */
-    router.delete(
-        "/dumpsters/tags/:dumpsterID",
-        async (req: { params: { dumpsterID: number } }, res) => {
-            try {
-                /*
-            const dumpsters = await dumpsterDAO.deleteAllTagsForDumpster(dumpsterID);
-            res.status(200).json(dumpsters);
-            */
-            } catch (e) {
-                logger.error("Something went wrong!", e);
-                res.status(500).send("uh?");
-            }
-        },
-    );
-
-    /**
-     * TODO move
-     * @swagger
-     * /tags/:
-     *   post:
-     *     summary: add a new tag
-     *     tags: [Tags]
-     *     requestBody:
-     *          content:
-     *              application/json:
-     *                 schema:
-     *                      type: object
-     *                      properties:
-     *                          categoryid:
-     *                              type: integer
-     *                          name:
-     *                              type: string
-     *     responses:
-     *       "200":
-     *         description: the greeting
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/dumpsters/categories'
-     */
-    router.post(
-        "/dumpsters/categories",
-        validate(postDumpster),
-        async (req, res) => {
-            try {
-                /*
-            const dumpsters = await dumpsterDAO.postOneCategory(postDumpster);
-            res.status(200).json(dumpsters);
-
-             */
-            } catch (e) {
-                logger.error("Something went wrong!", e);
-                res.status(500).send("uh?");
+                next(e);
             }
         },
     );
