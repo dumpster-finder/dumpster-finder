@@ -11,8 +11,10 @@ import {
     TrashIcon,
 } from "./Icons";
 import Dumpster from "../models/Dumpster";
+import { useTranslation } from "react-i18next";
 
 export default function DumpsterInfo({ dumpster }: { dumpster: Dumpster }) {
+    const { t }: { t: (s: string) => string } = useTranslation("details");
     return (
         <View style={{ paddingHorizontal: 5 }}>
             <View style={styles.box}>
@@ -20,7 +22,7 @@ export default function DumpsterInfo({ dumpster }: { dumpster: Dumpster }) {
                     <View style={styles.boxRow}>
                         <StarIcon size="small" />
                         <Text style={styles.infoText}>
-                            Rating: {dumpster.rating.toFixed(1)}
+                            {t("rating")} {dumpster.rating.toFixed(1)}
                         </Text>
                     </View>
                 )}
@@ -28,19 +30,19 @@ export default function DumpsterInfo({ dumpster }: { dumpster: Dumpster }) {
                 <View style={styles.boxRow}>
                     <BrushIcon size="small" />
                     <Text style={styles.infoText}>
-                        Cleanliness: {dumpster.cleanliness}
+                        {t("cleanliness")} {dumpster.cleanliness}
                     </Text>
                 </View>
                 <View style={styles.boxRow}>
                     {dumpster.locked ? (
                         <>
                             <LockIcon size="small" />
-                            <Text style={styles.infoText}>Locked</Text>
+                            <Text style={styles.infoText}>{t("locked")}</Text>
                         </>
                     ) : (
                         <>
                             <OpenLockIcon size="small" />
-                            <Text style={styles.infoText}>Unlocked</Text>
+                            <Text style={styles.infoText}>{t("unlocked")}</Text>
                         </>
                     )}
                 </View>
@@ -48,7 +50,7 @@ export default function DumpsterInfo({ dumpster }: { dumpster: Dumpster }) {
             <View style={styles.infoRow}>
                 <TrashIcon size="small" />
                 <Text style={styles.infoText}>
-                    Emptying schedule: {dumpster.emptyingSchedule}
+                    {t("emptyingSchedule")} {dumpster.emptyingSchedule}
                 </Text>
             </View>
             <View style={styles.infoRow}>
@@ -60,18 +62,20 @@ export default function DumpsterInfo({ dumpster }: { dumpster: Dumpster }) {
                     <NegativeIcon size={"small"} />
                 )}
                 <Text style={styles.infoText}>
-                    Store's view on dumpster diving:{" "}
+                    {t("view")}{" "}
                     {dumpster.positiveStoreViewOnDiving ? (
-                        <Text>Positive</Text>
+                        <Text>{t("positive")}</Text>
                     ) : dumpster.positiveStoreViewOnDiving === null ? (
-                        <Text>Neutral</Text>
+                        <Text>{t("neutral")}</Text>
                     ) : (
-                        <Text>Negative</Text>
+                        <Text>{t("negative")}</Text>
                     )}
                 </Text>
             </View>
             <View style={styles.infoRow}>
-                <Text>Dumpster type: {dumpster.dumpsterType}</Text>
+                <Text>
+                    {t("dumpsterType")} {dumpster.dumpsterType}
+                </Text>
             </View>
             <View style={styles.infoBox}>
                 <Divider />

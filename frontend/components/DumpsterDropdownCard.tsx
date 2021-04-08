@@ -5,6 +5,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "@ui-kitten/components";
 import DumpsterInfo from "./DumpsterInfo";
+import { useTranslation } from "react-i18next";
 
 export default function DumpsterDropdownCard({
     text,
@@ -15,6 +16,7 @@ export default function DumpsterDropdownCard({
     dumpster: RevDumpster;
     onReset: (newValue: RevDumpster) => void;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("revision");
     const [showView, setShowView] = useState(false);
     return (
         <View>
@@ -34,11 +36,11 @@ export default function DumpsterDropdownCard({
                         onPress={() => onReset(dumpster)}
                         disabled={dumpster.isActive}
                     >
-                        Revert to this revision
+                        {t("reset")}
                     </Button>
                     {dumpster.isActive ? (
                         <Text style={{ alignSelf: "center" }}>
-                            This is the current revision
+                            {t("current")}
                         </Text>
                     ) : null}
                 </View>

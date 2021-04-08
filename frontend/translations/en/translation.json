@@ -78,7 +78,8 @@
     },
 
     "revision": {
-        "reset": "Reset to this dumpster"
+        "reset": "Revert to this revision",
+        "current": "This is the current revision"
     },
 
     "comment": {
