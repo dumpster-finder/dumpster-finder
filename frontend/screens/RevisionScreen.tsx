@@ -3,25 +3,40 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import DumpsterDropdownCard from "../components/DumpsterDropdownCard";
 import { useSelector } from "react-redux";
-import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
-import Dumpster from "../models/Dumpster";
+import {
+    currentDumpsterSelector,
+    setCurrentDumpster,
+} from "../redux/slices/dumpsterSlice";
+import { RevDumpster } from "../models/Dumpster";
+import { useEffect, useState } from "react";
+import { DumpsterService } from "../services";
+import { useAppDispatch } from "../redux/store";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-import { testRevision } from "../constants/TestData";
-
-export default function RevisionScreen() {
+export default function RevisionScreen({
+    navigation,
+}: {
+    navigation: StackNavigationProp<any>;
+}) {
+    const dispatch = useAppDispatch();
     const dumpster = useSelector(currentDumpsterSelector);
-    const dates = ["02/11/2020", "07/05/2019", "15/12/2018"];
-
+    const [dumpsterList, setDumpsterList] = useState<RevDumpster[]>([]);
+    useEffect(() => {
+        if (dumpster)
+            DumpsterService.getRevisions(dumpster.dumpsterID)
+                .then(data => setDumpsterList(data))
+                .catch(e => console.error("Could not fetch revisions", e));
+    }, []);
     if (dumpster === null) {
         return <View>Cry</View>;
     } else {
         return (
             <Layout style={styles.container}>
                 <ScrollView style={styles.scrollView}>
-                    {testRevision.map((value, index) => (
+                    {dumpsterList.map((value, index) => (
                         <DumpsterDropdownCard
                             key={index}
-                            text={dates[index]}
+                            text={value.dateUpdated}
                             dumpster={value}
                             onReset={reset}
                         />
@@ -30,8 +45,33 @@ export default function RevisionScreen() {
             </Layout>
         );
     }
-    function reset(dumpster: Dumpster) {
-        console.log(dumpster);
+    function reset(newDumpster: RevDumpster) {
+        if (dumpster)
+            DumpsterService.setRevision(
+                newDumpster.dumpsterID,
+                newDumpster.revisionID,
+            )
+                .then(() =>
+                    dispatch(
+                        setCurrentDumpster({
+                            dumpsterID: newDumpster.dumpsterID,
+                            name: newDumpster.name,
+                            position: newDumpster.position,
+                            emptyingSchedule: newDumpster.emptyingSchedule,
+                            locked: newDumpster.locked,
+                            positiveStoreViewOnDiving:
+                                newDumpster.positiveStoreViewOnDiving,
+                            cleanliness: newDumpster.cleanliness,
+                            rating: dumpster.rating,
+                            dumpsterType: newDumpster.dumpsterType,
+                            storeType: newDumpster.storeType,
+                            categories: newDumpster.categories,
+                            info: newDumpster.info,
+                        }),
+                    ),
+                )
+                .then(() => navigation.navigate("DetailsScreen"))
+                .catch(e => console.error("Could not reset revisions", e));
     }
 }
 
