@@ -10,7 +10,12 @@ import {
 import { StyleSheet, View } from "react-native";
 import Content from "../models/Content";
 import { useState } from "react";
-import { DeleteButtonIcon, PendingButtonIcon, SaveButtonIcon } from "./Icons";
+import {
+    DeleteButtonIcon,
+    PendingButtonIcon,
+    SaveButtonIcon,
+    TrashInputIcon,
+} from "./Icons";
 import { formatDate } from "../utils/date";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -106,7 +111,7 @@ export default function EditContentModal({
                                 }
                                 onPress={_ => handleSubmit()}
                             >
-                                Save changes
+                                {t("save")}
                             </Button>
                             <Button
                                 status={"danger"}
@@ -115,13 +120,13 @@ export default function EditContentModal({
                                 onPress={deleteCheck}
                                 accessoryLeft={DeleteButtonIcon}
                             >
-                                Delete
+                                {t("remove")}
                             </Button>
                             <Button
                                 onPress={() => setVisible(false)}
                                 status={"basic"}
                             >
-                                Cancel
+                                {t("cancel")}
                             </Button>
                         </Card>
                     )}
@@ -137,26 +142,26 @@ export default function EditContentModal({
                         alignItems: "center",
                     }}
                 >
-                    <Text>Are you sure?</Text>
+                    <Text>{t("areYouSure")}</Text>
                     <Divider />
                     <View style={styles.row}>
                         <Button
                             disabled={pending}
                             accessoryLeft={
-                                pending ? PendingButtonIcon : SaveButtonIcon
+                                pending ? PendingButtonIcon : DeleteButtonIcon
                             }
                             style={{ marginHorizontal: 5 }}
                             onPress={del}
                             status={"danger"}
                         >
-                            Yes
+                            {t("remove")}
                         </Button>
                         <Button
                             style={{ marginHorizontal: 5 }}
                             onPress={() => setDeleteModalVisible(false)}
                             status={"basic"}
                         >
-                            Cancel
+                            {t("cancel")}
                         </Button>
                     </View>
                 </Card>

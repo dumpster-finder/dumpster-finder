@@ -21,6 +21,8 @@
 
         "somethingWrong": "Something went wrong.",
 
+
+        "areYouSure": "Are you sure?",
         "cancel": "Cancel",
         "add": "Add",
         "save": "Save",
@@ -170,9 +172,9 @@
             "placeholder": "Select date …"
         },
         "expiresOn": "Expires on",
-        "add": "Legg til",
-        "remove": "Fjern innhold",
-        "save": "Lagre innhold"
+        "add": "Add content",
+        "remove": "Remove content",
+        "save": "Save changes"
     },
 
     "position": {

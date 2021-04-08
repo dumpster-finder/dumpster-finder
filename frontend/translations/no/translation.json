@@ -20,7 +20,11 @@
 
         "somethingWrong": "Noe gikk galt.",
 
-        "cancel": "Avbryt"
+        "areYouSure": "Er du sikker?",
+        "cancel": "Avbryt",
+        "add": "Legg til",
+        "save": "Lagre",
+        "remove": "Fjern"
     },
     "advice": {
         "title": "Dumpster diving råd:",
