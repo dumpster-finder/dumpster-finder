@@ -1,6 +1,5 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
-import { StoreTypeAttributes, StoreTypeCreationAttributes } from "./storeTypes";
 
 export interface DumpsterPositionAttributes {
     dumpsterID: number;
@@ -12,7 +11,10 @@ export interface DumpsterPositionCreationAttributes
     extends Optional<DumpsterPositionAttributes, "dumpsterID"> {}
 
 class DumpsterPositions
-    extends Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>
+    extends Model<
+        DumpsterPositionAttributes,
+        DumpsterPositionCreationAttributes
+    >
     implements DumpsterPositionAttributes {
     dumpsterID!: number;
     position!: object;
@@ -29,7 +31,7 @@ export function init(sequelize: Sequelize) {
                 primaryKey: true,
             },
             position: {
-                type: DataTypes.GEOMETRY('POINT'),
+                type: DataTypes.GEOMETRY("POINT"),
                 allowNull: false,
             },
             revisionID: {
@@ -49,31 +51,37 @@ export function init(sequelize: Sequelize) {
 // The type is not defined yet, so use a substitute
 export function associate({
     Dumpsters,
-                              DumpsterReports,
-                              Ratings,
-                              Comments,
-                              Photos,
-                              DumpsterTags,
+    DumpsterReports,
+    Ratings,
+    Comments,
+    Photos,
+    DumpsterTags,
+    Tags,
     DumpsterCategories,
-
-                          }: {
-    Dumpsters: ModelStatic<Model<DumpsterAttributes, DumpsterCreationAttributes>>;
+}: {
+    Dumpsters: ModelStatic<
+        Model<DumpsterAttributes, DumpsterCreationAttributes>
+    >;
     DumpsterReports: ModelStatic<Model<any, any>>;
     Ratings: ModelStatic<Model<any, any>>;
     Comments: ModelStatic<Model<any, any>>;
     Photos: ModelStatic<Model<any, any>>;
     DumpsterTags: ModelStatic<Model<any, any>>;
+    Tags: ModelStatic<Model<any, any>>;
     DumpsterCategories: ModelStatic<Model<any, any>>;
-
 }) {
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
-    DumpsterPositions.hasMany(Dumpsters, { foreignKey: "dumpsterID"});
-    DumpsterPositions.hasMany(DumpsterReports, { foreignKey: "dumpsterID"});
-    DumpsterPositions.hasMany(Ratings, { foreignKey: "dumpsterID"});
-    DumpsterPositions.hasMany(Comments, { foreignKey: "dumpsterID"});
-    DumpsterPositions.hasMany(Photos, { foreignKey: "dumpsterID"});
-    DumpsterPositions.hasMany(DumpsterTags, { foreignKey: "dumpsterID"});
-    DumpsterPositions.hasMany(DumpsterCategories, { foreignKey: "dumpsterID"});
+    DumpsterPositions.hasMany(Dumpsters, { foreignKey: "dumpsterID" });
+    DumpsterPositions.hasMany(DumpsterReports, { foreignKey: "dumpsterID" });
+    DumpsterPositions.hasMany(Ratings, { foreignKey: "dumpsterID" });
+    DumpsterPositions.hasMany(Comments, { foreignKey: "dumpsterID" });
+    DumpsterPositions.hasMany(Photos, { foreignKey: "dumpsterID" });
+    DumpsterPositions.hasMany(DumpsterTags, {
+        as: "dumpsterTags",
+        foreignKey: "dumpsterID",
+    });
+    // DumpsterPositions.hasMany(Tags, { foreignKey: "dumpsterID" }); // TODO eeeeh?
+    DumpsterPositions.hasMany(DumpsterCategories, { foreignKey: "dumpsterID" });
 }

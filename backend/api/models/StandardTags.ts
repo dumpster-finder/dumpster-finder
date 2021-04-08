@@ -34,10 +34,8 @@ export function init(sequelize: Sequelize) {
 // The type is not defined yet, so use a substitute
 export function associate({
     Tags,
-                          }: {
+}: {
     Tags: ModelStatic<Model<TagAttributes, TagCreationAttributes>>;
 }) {
-    // do associations like
-    // Thing.hasMany()
-    // using the supplied Models object
+    StandardTags.hasOne(Tags, { as: "tag", foreignKey: "tagID" });
 }

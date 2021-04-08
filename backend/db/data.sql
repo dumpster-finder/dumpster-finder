@@ -1,16 +1,21 @@
 INSERT INTO Categories(categoryID, name)
 VALUES
     (1, 'Dairy'),
+    -- TODO remove
     (2, 'Batteries'),
     (3, 'Vegetables'),
     (4, 'Meat'),
+    -- TODO reconsider
     (5, 'Tools'),
     (6, 'Pastries'),
-    (7, 'Seafood');
+    (7, 'Seafood'),
+    (8, 'Chocolate'),
+    (9, 'Candy');
 
 INSERT INTO StoreTypes(storeTypeID, name)
 VALUES
     (1, 'Grocery Store'),
+    -- TODO don't forget to remove this!
     (2, 'Electronics Store'),
     (3, 'Bakery'),
     (4, 'Furniture Store'),
@@ -105,3 +110,33 @@ VALUES
     ('temp5', 7, 2),
     ('temp6', 7, 3);
 
+INSERT INTO Tags(tagID, categoryID, name)
+VALUES
+    (1, 1, 'Cheese'),
+    (2, 1, 'Milk'),
+    (3, 3, 'Squash'),
+    (4, 3, 'Potatoes'),
+    (5, 7, 'Oysters'),
+    (6, 4, 'Steamed ham'),
+    (7, 6, 'Bread'),
+    (8, 8, 'Milk chocolate');
+
+INSERT INTO StandardTags(tagID)
+VALUES
+    (1), (2), (4), (7), (8);
+
+INSERT INTO DumpsterTags
+    (dumpsterID, tagID, amount, unit, quality, expiryDate, foundDate)
+VALUES
+    (1, 1, 23, 'pieces', 3, '2023-04-30', '2021-02-18'), -- cheese
+    (1, 2, 23, 'liters', 3, '2021-03-30', '2021-03-20'), -- Milk
+    (3, 3,  7,     NULL, 3, '2021-04-22', '2021-03-17'), -- squash
+    (3, 4,  2,  'kilos', 4, '2021-12-12', '2021-03-28'), -- potatoes
+    (4, 5,  3,  'kilos', 5, '2021-05-03', '2021-03-14'), -- oysters
+    (4, 8,  3,   'bars', 5, '2021-08-30', '2021-03-17'), -- chocolate
+    (4, 7,  1,   'loaf', 3, '2021-04-11', '2021-03-16'), -- bread
+    (5, 7,  3, 'loaves', 4, '2021-04-02', '2021-03-04'), -- bread
+    (5, 6,  1,     NULL, 4, '2021-04-02', '2021-03-04'), -- steamed ham
+    (6, 8, 20,   'bars', 5, '2022-08-24', '2021-02-28'), -- chocolate
+    (6, 5,  3,  'kilos', 4, '2021-05-21', '2021-02-03'), -- oysters
+    (7, 4,  5,  'kilos', 4, '2021-12-21', '2021-03-20'); -- potatoes

@@ -11,6 +11,8 @@ import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
 import comments from "./routes/comments";
 import { defaultLoggerOptions } from "./config/pino";
+import contents from "./routes/contents";
+import contentTypes from "./routes/contentTypes";
 import errorHandler from "./middleware/errorHandler";
 
 (async () => {
@@ -40,14 +42,17 @@ app.use(expressPino({ logger }));
 
 app.use("/api/dumpsters", dumpsters(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/comments", comments(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/contents", contents(dependencies));
 
 app.use("/api/categories", categories(dependencies));
+app.use("/api/content-types", contentTypes(dependencies));
 app.use("/api/store-types", storeTypes(dependencies));
 app.use("/api/dumpster-types", dumpsterTypes(dependencies));
 
 // Mount Swagger docs at /api
 app.use("/api", swagger());
 
+// Finally, use the error handler!
 app.use(errorHandler(logger));
 
 export default app;

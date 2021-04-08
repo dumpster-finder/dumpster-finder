@@ -34,7 +34,7 @@ const baseDumpster = Joi.object().keys({
     info: Joi.string().required(),
 });
 
-const dumpsterIDParam = Joi.object({
+export const dumpsterIDParam = Joi.object({
     dumpsterID: Joi.string().pattern(/(\d)+/).required(),
 });
 

@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/backend/db/init.sql">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/backend/api/daos/dumpsters.ts">
           <value>
             <Attribute>
