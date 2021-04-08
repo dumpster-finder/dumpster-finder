@@ -40,87 +40,85 @@ export default function EditContentModal({
                 backdropStyle={styles.backdrop}
                 onBackdropPress={() => setVisible(false)}
             >
-                <Card
-                    disabled={true}
-                    style={{
-                        alignItems: "center",
+                <Formik
+                    initialValues={{
+                        amount: selectedContent.amount.toString(),
                     }}
+                    validationSchema={Yup.object().shape({
+                        amount: Yup.number(),
+                    })}
+                    onSubmit={save}
                 >
-                    <Formik
-                        initialValues={{
-                            amount: selectedContent.amount.toString(),
-                        }}
-                        validationSchema={Yup.object().shape({
-                            amount: Yup.number(),
-                        })}
-                        onSubmit={save}
-                    >
-                        {({ handleChange, handleSubmit, values, errors }) => (
-                            <>
+                    {({ handleChange, handleSubmit, values, errors }) => (
+                        <Card
+                            disabled={true}
+                            style={{
+                                alignItems: "center",
+                            }}
+                        >
+                            <Text
+                                category={"h5"}
+                                style={{ alignSelf: "center" }}
+                            >
+                                {selectedContent.name}
+                            </Text>
+                            <Divider />
+
+                            <View style={styles.row}>
+                                <Input
+                                    label={t("amount.label")}
+                                    style={styles.input}
+                                    size={"large"}
+                                    value={values.amount}
+                                    onChangeText={handleChange("amount")}
+                                    keyboardType={"number-pad"}
+                                    status={errors.amount && "danger"}
+                                    caption={
+                                        errors.amount &&
+                                        t("amount.errorInvalid")
+                                    }
+                                />
                                 <Text
-                                    category={"h5"}
-                                    style={{ alignSelf: "center" }}
+                                    category={"h6"}
+                                    style={{
+                                        alignSelf: "center",
+                                        paddingHorizontal: 5,
+                                    }}
                                 >
-                                    {selectedContent.name}
+                                    {selectedContent.unit}
                                 </Text>
-                                <Divider />
+                            </View>
 
-                                <View style={styles.row}>
-                                    <Input
-                                        label={t("amount.label")}
-                                        style={styles.input}
-                                        size={"large"}
-                                        value={values.amount}
-                                        onChangeText={handleChange("amount")}
-                                        keyboardType={"number-pad"}
-                                        status={errors.amount && "danger"}
-                                        caption={
-                                            errors.amount &&
-                                            t("amount.errorInvalid")
-                                        }
-                                    />
-                                    <Text
-                                        category={"h6"}
-                                        style={{
-                                            alignSelf: "center",
-                                            paddingHorizontal: 5,
-                                        }}
-                                    >
-                                        {selectedContent.unit}
-                                    </Text>
-                                </View>
-
-                                {selectedContent.expiryDate && (
-                                    <Text category={"h6"}>
-                                        {t("expiresOn")}{" "}
-                                        {formatDate(selectedContent.expiryDate)}
-                                    </Text>
-                                )}
-                                <Button
-                                    onPress={_ => handleSubmit()}
-                                    accessoryLeft={SaveButtonIcon}
-                                >
-                                    Save changes
-                                </Button>
-                                <Button
-                                    status={"danger"}
-                                    style={{ marginVertical: 10 }}
-                                    size={"small"}
-                                    onPress={deleteCheck}
-                                    accessoryLeft={DeleteButtonIcon}
-                                >
-                                    Delete
-                                </Button>
-                                <Button
-                                    onPress={() => setVisible(false)}
-                                    status={"basic"}
-                                >
-                                    Cancel
-                                </Button>
-                            </>
-                        )}
-                    </Formik>
-                </Card>
+                            {selectedContent.expiryDate && (
+                                <Text category={"h6"}>
+                                    {t("expiresOn")}{" "}
+                                    {formatDate(selectedContent.expiryDate)}
+                                </Text>
+                            )}
+                            <Button
+                                onPress={_ => handleSubmit()}
+                                accessoryLeft={SaveButtonIcon}
+                            >
+                                Save changes
+                            </Button>
+                            <Button
+                                status={"danger"}
+                                style={{ marginVertical: 10 }}
+                                size={"small"}
+                                onPress={deleteCheck}
+                                accessoryLeft={DeleteButtonIcon}
+                            >
+                                Delete
+                            </Button>
+                            <Button
+                                onPress={() => setVisible(false)}
+                                status={"basic"}
+                            >
+                                Cancel
+                            </Button>
+                        </Card>
+                    )}
+                </Formik>
             </Modal>
             <Modal visible={deleteModalVisible} backdropStyle={styles.backdrop}>
                 <Card

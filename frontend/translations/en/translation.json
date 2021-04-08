@@ -19,6 +19,8 @@
 
         "dropdownPlaceholder": "Choose …",
 
+        "somethingWrong": "Something went wrong.",
+
         "cancel": "Cancel",
         "add": "Add",
         "save": "Save",
@@ -134,6 +136,15 @@
         },
         "save": "Save dumpster",
         "create": "Create dumpster"
+    },
+
+    "contents": {
+        "add": "Add content",
+        "amount": "Amount",
+        "unit": "Unit",
+        "quality": "Quality",
+        "expiryDate": "Expiration date",
+        "foundDate": "Found date",
     },
 
     "contentsEditor": {

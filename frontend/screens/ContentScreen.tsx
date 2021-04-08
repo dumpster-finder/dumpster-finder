@@ -8,6 +8,7 @@ import Content from "../models/Content";
 import { useState } from "react";
 import EditContentModal from "../components/EditContentModal";
 import AddContentModal from "../components/AddContentModal";
+import { useTranslation } from "react-i18next";
 
 export default function ContentScreen() {
     const dumpster = useSelector(currentDumpsterSelector);
@@ -45,11 +46,13 @@ export default function ContentScreen() {
     const [selectedContent, setSelectedContent] = useState(a);
     const [visibleEdit, setVisibleEdit] = useState(false);
     const [visibleAdd, setVisibleAdd] = useState(false);
-    if (dumpster === null) {
+    const { t }: { t: (s: string) => string } = useTranslation("contents");
+
+    if (!dumpster) {
         return (
             <Layout style={styles.container}>
                 <View>
-                    <Text>Cry</Text>
+                    <Text>{t("somethingWrong")}</Text>
                 </View>
             </Layout>
         );
@@ -65,7 +68,7 @@ export default function ContentScreen() {
                     <Text category={"h4"}>{dumpster.name}</Text>
                     <Text category={"h6"}>{dumpster.storeType}</Text>
                     <Button onPress={() => setVisibleAdd(true)}>
-                        Add content
+                        {t("add")}
                     </Button>
                 </View>
                 <ScrollView style={styles.scrollView}>

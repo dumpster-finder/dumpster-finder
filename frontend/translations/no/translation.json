@@ -18,6 +18,8 @@
 
         "dropdownPlaceholder": "Velg noe …",
 
+        "somethingWrong": "Noe gikk galt.",
+
         "cancel": "Avbryt"
     },
     "advice": {
@@ -128,6 +130,15 @@
         },
         "save": "Lagre dumpster",
         "create": "Opprett dumpster"
+    },
+
+    "contents": {
+        "add": "Legg til innhold",
+        "amount": "Mengde",
+        "unit": "Enhet",
+        "quality": "Kvalitet",
+        "expiryDate": "Utløpsdato",
+        "foundDate": "Funnet"
     },
 
     "contentsEditor": {

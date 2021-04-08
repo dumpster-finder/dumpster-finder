@@ -54,7 +54,9 @@ export default function AddContentModal({
                     errors,
                 }) => (
                     <Card style={{ alignItems: "center" }}>
-                        <Text category={"h5"}>{t("addTitle")}</Text>
+                        <Text category={"h5"} style={styles.title}>
+                            {t("addTitle")}
+                        </Text>
                         <Divider />
                         <Input
                             style={styles.input}
@@ -106,7 +108,7 @@ export default function AddContentModal({
                             status={errors.expiryDate && "danger"}
                             // caption={errors.expiryDate}
                         />
-                        <View style={styles.row}>
+                        <View style={[styles.row, styles.marginAbove]}>
                             <Button
                                 style={{ marginHorizontal: 5 }}
                                 onPress={() => {
@@ -155,6 +157,12 @@ export default function AddContentModal({
 }
 
 const styles = StyleSheet.create({
+    title: {
+        marginBottom: 4,
+    },
+    marginAbove: {
+        marginTop: 4,
+    },
     backdrop: {
         backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
