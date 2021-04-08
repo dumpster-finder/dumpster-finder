@@ -20,7 +20,7 @@ export const locationParams = {
 };
 
 const baseDumpster = Joi.object().keys({
-    dumpsterID: Joi.number().optional(), // makes requests with a superfluous dumpsterID easier to handle TODO reconsider
+    dumpsterID: Joi.number().positive().optional(), // makes requests with a superfluous dumpsterID easier to handle TODO reconsider
     position,
     name: Joi.string().required(),
     dumpsterType: Joi.string().required(),
@@ -58,4 +58,11 @@ export const postDumpster = {
 export const putDumpster = {
     params: dumpsterIDParam,
     body: baseDumpster,
+};
+
+export const patchRevision = {
+    params: dumpsterIDParam,
+    body: Joi.object({
+        revisionID: Joi.number().positive().required(),
+    }),
 };
