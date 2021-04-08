@@ -10,12 +10,7 @@ export default function({}: { tintColor?: string }) {
     return (
         <Burgermenu
             onSelect={menuSelect}
-            values={[
-                t("flag"),
-                t("revision"),
-                t("editDumpster"),
-                t("editContent"),
-            ]}
+            values={[t("flag"), t("revision"), t("editDumpster")]}
         />
     );
 
@@ -32,11 +27,6 @@ export default function({}: { tintColor?: string }) {
             case 2:
                 navigation.navigate("EditDumpsterScreen", {
                     screen: "EditDumpsterScreen",
-                });
-                break;
-            case 3:
-                navigation.navigate("EditContentScreen", {
-                    screen: "EditContentScreen",
                 });
                 break;
             default:
