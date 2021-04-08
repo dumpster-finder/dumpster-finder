@@ -24,32 +24,8 @@ export default function ToggleSwitch({
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    scrollView: {
-        width: "100%",
-    },
     row: {
         flex: 1,
         flexDirection: "row",
-    },
-    rowBorder: {
-        flex: 1,
-        flexDirection: "row",
-        width: "98%",
-    },
-    columnBorder: {
-        flex: 1,
-        flexDirection: "column",
-        width: "98%",
-        alignItems: "center",
-        marginVertical: 5,
-    },
-
-    dropdownView: {
-        padding: 10,
     },
 });
