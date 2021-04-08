@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "@ui-kitten/components";
 import Content from "../models/Content";
 import { Card } from "@ui-kitten/components";
+import { formatDate } from "../utils/date";
 
 export default function ContentCard({
     content,
@@ -43,7 +44,7 @@ export default function ContentCard({
                     {content.expiryDate && (
                         <View style={styles.column}>
                             <Text>Expiration date:</Text>
-                            <Text>{content.expiryDate.toDateString()}</Text>
+                            <Text>{formatDate(content.expiryDate)}</Text>
                         </View>
                     )}
 
@@ -51,7 +52,7 @@ export default function ContentCard({
                         <View style={styles.column}>
                             <Text>Found date:</Text>
 
-                            <Text>{content.foundDate.toDateString()}</Text>
+                            <Text>{formatDate(content.foundDate)}</Text>
                         </View>
                     )}
                 </View>

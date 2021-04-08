@@ -5,19 +5,19 @@ export interface RawContent {
     amount: number;
     unit: string;
     quality: number;
-    foundDate: string;
+    foundDate?: string;
     expiryDate: string;
 }
 
 class Content {
-    dumpsterID: number;
-    tagID: number;
-    name: string;
-    amount: number;
-    unit: string;
-    quality: number;
-    foundDate: Date;
-    expiryDate: Date;
+    readonly dumpsterID: number;
+    readonly tagID: number;
+    readonly name: string;
+    readonly amount: number;
+    readonly unit: string;
+    readonly quality: number;
+    readonly foundDate?: Date;
+    readonly expiryDate?: Date;
 
     constructor({
         dumpsterID,
@@ -35,8 +35,8 @@ class Content {
         this.amount = amount;
         this.unit = unit;
         this.quality = quality;
-        this.foundDate = new Date(foundDate);
-        this.expiryDate = new Date(expiryDate);
+        if (foundDate) this.foundDate = new Date(foundDate);
+        if (expiryDate) this.expiryDate = new Date(expiryDate);
     }
 }
 

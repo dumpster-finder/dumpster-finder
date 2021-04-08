@@ -7,6 +7,7 @@ import { useState } from "react";
 import { CommentService } from "../services";
 import { useAppDispatch } from "../redux/store";
 import { setRatedComments } from "../redux/slices/configSlice";
+import { formatDate } from "../utils/date";
 
 export default function CommentCard({
     comment,
@@ -26,7 +27,7 @@ export default function CommentCard({
                     <Text category="h6">{comment.nickname}</Text>
                 </View>
                 <View style={{ width: "50%", alignItems: "flex-end" }}>
-                    <Text>{comment.date.toLocaleDateString()}</Text>
+                    <Text>{formatDate(comment.date)}</Text>
                 </View>
             </View>
             <Text>{comment.comment}</Text>

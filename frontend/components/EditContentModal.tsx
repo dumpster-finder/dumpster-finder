@@ -11,6 +11,7 @@ import { StyleSheet, View } from "react-native";
 import Content from "../models/Content";
 import { useState } from "react";
 import { DeleteButtonIcon, SaveButtonIcon } from "./Icons";
+import { formatDate } from "../utils/date";
 
 export default function EditContentModal({
     visible,
@@ -67,8 +68,7 @@ export default function EditContentModal({
 
                     {selectedContent.expiryDate && (
                         <Text category={"h6"}>
-                            Expires on:{" "}
-                            {selectedContent.expiryDate.toDateString()}
+                            Expires on: {formatDate(selectedContent.expiryDate)}
                         </Text>
                     )}
                     <Button onPress={save} accessoryLeft={SaveButtonIcon}>

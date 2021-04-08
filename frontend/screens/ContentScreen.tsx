@@ -18,7 +18,7 @@ export default function ContentScreen() {
         amount: 0,
         unit: "",
         quality: 2,
-        foundDate: "",
+        foundDate: "2020-01-01",
         expiryDate: "",
     });
     const aa = new Content({
@@ -38,7 +38,7 @@ export default function ContentScreen() {
         amount: 3,
         unit: "3",
         quality: 2,
-        foundDate: "",
+        foundDate: "22-01-13",
         expiryDate: "23-05-15",
     });
     const list = [aa, ab, aa, ab, aa, ab, aa, ab, aa, ab, aa, ab];
