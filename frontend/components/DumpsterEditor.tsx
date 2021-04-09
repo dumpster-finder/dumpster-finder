@@ -76,34 +76,16 @@ export default function DumpsterEditor({
                     // Hello. According to separation of concerns, we should draw this out in its own file.
                     // However, in this case, the validation is very much related to the way the editor works.
                     // (idk if that's a valid argument, though)
-                    name: Yup.string()
-                        .max(64)
-                        .required(),
-                    dumpsterType: Yup.number()
-                        .integer()
-                        .min(0),
-                    storeType: Yup.number()
-                        .integer()
-                        .min(0),
+                    name: Yup.string().max(64).required(),
+                    dumpsterType: Yup.number().integer().min(0),
+                    storeType: Yup.number().integer().min(0),
                     categories: Yup.array()
-                        .of(
-                            Yup.number()
-                                .integer()
-                                .min(0),
-                        )
+                        .of(Yup.number().integer().min(0))
                         .strict()
                         .required(),
                     emptyingSchedule: Yup.string().max(128),
-                    storeView: Yup.number()
-                        .integer()
-                        .min(0)
-                        .max(2)
-                        .required(),
-                    locked: Yup.number()
-                        .integer()
-                        .min(0)
-                        .max(1)
-                        .required(),
+                    storeView: Yup.number().integer().min(0).max(2).required(),
+                    locked: Yup.number().integer().min(0).max(1).required(),
                     cleanliness: Yup.number()
                         .integer()
                         .min(0)
@@ -234,9 +216,7 @@ export default function DumpsterEditor({
                             <Rating
                                 value={values.cleanliness}
                                 onChange={i => setFieldValue("cleanliness", i)}
-                                stringList={cleanlinessRange.map(c =>
-                                    t(`cleanliness:${c.toLowerCase()}`),
-                                )}
+                                stringList={cleanlinessRange}
                             />
                         </View>
 
