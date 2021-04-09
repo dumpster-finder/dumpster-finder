@@ -1,4 +1,4 @@
-import { literal } from "sequelize";
+import { literal, Op } from "sequelize";
 import { MyModels } from "../models";
 import Comment from "../types/Comment";
 import { InvalidDataError, NotFoundError, ServerError } from "../types/errors";
@@ -11,13 +11,21 @@ export default function ({ Comments, sequelize }: MyModels) {
          *
          * @param dumpsterID
          */
-        getAllForDumpster: async (dumpsterID: number) =>
-            Comments.findAll({
-                where: {
-                    dumpsterID,
-                },
+        getAllForDumpster: async (
+            dumpsterID: number,
+            { showNegative = false } = {},
+        ) => {
+            const where: any = { dumpsterID };
+            if (!showNegative) {
+                where["rating"] = {
+                    [Op.gte]: 0,
+                };
+            }
+            return await Comments.findAll({
+                where,
                 order: [["date", "DESC"]],
-            }),
+            });
+        },
 
         /**
          * Adds a comment to a dumpster, returning the inserted entity

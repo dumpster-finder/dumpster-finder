@@ -62,7 +62,7 @@ import {
     getComments,
     updateComment,
 } from "../validators/comments";
-import { standardLimiter } from "../middleware/rateLimiter";
+import { standardLimiter, voteLimiter } from "../middleware/rateLimiter";
 
 export default function ({ Models }: RouteDependencies) {
     const commentDAO = CommentDAO(Models);
@@ -81,26 +81,46 @@ export default function ({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: query
+     *         name: options
+     *         schema:
+     *           type: object
+     *           properties:
+     *             showNegative:
+     *               type: boolean
+     *               description: Controls whether negatively voted comments should be shown
+     *           example:
+     *             showNegative: false
+     *         required: false
+     *         style: form
+     *         explode: true
+     *         description: Filters and other options for comment fetching
      *     responses:
      *       "200":
-     *         description: the greeting
+     *         description: A list of comments
      *         content:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/Comment'
+     *               type: array
+     *               items:
+     *                 $ref: '#/components/schemas/Comment'
      */
     router.get(
         "/",
         standardLimiter,
         validate(getComments),
         async (
-            req: Request & { params: { dumpsterID: number } },
+            req: Request & {
+                params: { dumpsterID: number };
+                query: { showNegative?: boolean };
+            },
             res,
             next,
         ) => {
             try {
                 const dumpsters = await commentDAO.getAllForDumpster(
                     req.params.dumpsterID,
+                    req.query,
                 );
                 res.status(200).json(dumpsters);
             } catch (e) {
@@ -188,6 +208,7 @@ export default function ({ Models }: RouteDependencies) {
      */
     router.patch(
         "/:commentID",
+        voteLimiter,
         validate(updateComment),
         async (req: Request & { params: { commentID: number } }, res, next) => {
             try {

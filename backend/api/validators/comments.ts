@@ -4,6 +4,9 @@ export const getComments = {
     params: Joi.object({
         dumpsterID: Joi.string().pattern(/(\d)+/).required(),
     }),
+    query: Joi.object({
+        showNegative: Joi.boolean().optional(),
+    }),
 };
 
 export const postComment = {
