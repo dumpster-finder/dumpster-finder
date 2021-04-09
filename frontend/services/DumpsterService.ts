@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Position from "../models/Position";
-import Dumpster from "../models/Dumpster";
+import Dumpster, { RevDumpster } from "../models/Dumpster";
 import { testDumpsters } from "../constants/TestData";
 
 export default class DumpsterService {
@@ -71,6 +71,18 @@ export default class DumpsterService {
         console.log("Posted dumpster:", dumpster);
         return this.axios
             .post("/dumpsters", dumpster)
+            .then(response => response.data);
+    }
+
+    getRevisions(dumpsterID: number) {
+        return this.axios
+            .get(`/dumpsters/${dumpsterID}/revisions`)
+            .then(response => response.data.map((rev: RevDumpster) => rev));
+    }
+
+    setRevision(dumpsterID: number, revisionID: number) {
+        return this.axios
+            .patch(`/dumpsters/${dumpsterID}/revisions`, { revisionID })
             .then(response => response.data);
     }
 }

@@ -81,7 +81,8 @@
     },
 
     "revision": {
-        "reset": "Reset to this dumpster"
+        "revert": "Tilbakestill til denne revisjonen",
+        "current": "Dette er den nåværende revisjonen"
     },
 
     "comment": {
@@ -182,7 +183,7 @@
         "search": "Place your text",
         "pos": "f.eks. Paris",
         "comment": "Comment",
-        "choose": "Choose..",
+        "choose": "Choose..."
     },
 
     "cleanliness": {

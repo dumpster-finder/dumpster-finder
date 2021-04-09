@@ -2,19 +2,11 @@ import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
 import { Button, Layout, Text, Divider } from "@ui-kitten/components";
-import {
-    TrashIcon,
-    StarIcon,
-    NegativeIcon,
-    PositiveIcon,
-    LockIcon,
-    OpenLockIcon,
-    BrushIcon,
-} from "../components/Icons";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PhotoDisplay from "../components/PhotoDisplay";
+import DumpsterInfo from "../components/DumpsterInfo";
 
 export default function DetailsScreen({
     navigation,
@@ -55,81 +47,7 @@ export default function DetailsScreen({
                     <View style={{ height: 150, marginVertical: 5 }}>
                         <PhotoDisplay photoList={photos} />
                     </View>
-
-                    <View style={styles.box}>
-                        <View style={styles.boxRow}>
-                            <StarIcon size="small" />
-                            <Text style={styles.infoText}>
-                                Rating: {dumpster.rating.toFixed(1)}
-                            </Text>
-                        </View>
-                        <View style={styles.boxRow}>
-                            <BrushIcon size="small" />
-                            <Text style={styles.infoText}>
-                                Cleanliness: {dumpster.cleanliness}
-                            </Text>
-                        </View>
-                        <View style={styles.boxRow}>
-                            {dumpster.locked ? (
-                                <>
-                                    <LockIcon size="small" />
-                                    <Text style={styles.infoText}>Locked</Text>
-                                </>
-                            ) : (
-                                <>
-                                    <OpenLockIcon size="small" />
-                                    <Text style={styles.infoText}>
-                                        Unlocked
-                                    </Text>
-                                </>
-                            )}
-                        </View>
-                    </View>
-
-                    <View style={styles.infoRow}>
-                        {dumpster.positiveStoreViewOnDiving ? (
-                            <>
-                                <PositiveIcon size="small" />
-                                <Text style={styles.infoText}>
-                                    Store's view on dumpster diving:{" "}
-                                </Text>
-                                <Text>Positive</Text>
-                            </>
-                        ) : dumpster.positiveStoreViewOnDiving === null ? (
-                            <>
-                                <PositiveIcon size="small" />
-                                <Text style={styles.infoText}>
-                                    Store's view on dumpster diving:{" "}
-                                </Text>
-                                <Text>Neutral</Text>
-                            </>
-                        ) : (
-                            <>
-                                <NegativeIcon size="small" />
-                                <Text style={styles.infoText}>
-                                    Store's view on dumpster diving:{" "}
-                                </Text>
-                                <Text>Negative</Text>
-                            </>
-                        )}
-                    </View>
-                    <View style={styles.infoRow}>
-                        <TrashIcon size="small" />
-                        <Text style={styles.infoText}>
-                            Emptying schedule: {dumpster.emptyingSchedule}
-                        </Text>
-                    </View>
-
-                    <View style={styles.infoRow}>
-                        <Text>Dumpster type: {dumpster.dumpsterType}</Text>
-                    </View>
-                    <View style={styles.infoBox}>
-                        <Divider />
-                        <Text style={{ paddingVertical: 2 }}>
-                            {dumpster.info}
-                        </Text>
-                        <Divider />
-                    </View>
+                    <DumpsterInfo dumpster={dumpster} />
 
                     <Text style={{ alignSelf: "center" }}>Categories:</Text>
                     <View style={styles.tagRow}>
@@ -168,7 +86,7 @@ export default function DetailsScreen({
                     <Text style={{ alignSelf: "center" }}>Rate me:</Text>
                     <View style={styles.row}>
                         <View style={{ width: "10%" }} />
-                        <View style={{ width: "80%" }}>
+                        <View style={{ width: "80%", marginBottom: 10 }}>
                             <AirbnbRating
                                 size={20}
                                 showRating={false}
@@ -209,9 +127,7 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         flexWrap: "wrap",
     },
-    infoBox: {
-        paddingVertical: 5,
-    },
+
     tagRow: {
         width: "100%",
         flexDirection: "row",

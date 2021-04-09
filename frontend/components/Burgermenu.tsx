@@ -1,10 +1,5 @@
 import * as React from "react";
-import {
-    Layout,
-    MenuItem,
-    OverflowMenu,
-    PopoverPlacements,
-} from "@ui-kitten/components";
+import { Layout, MenuItem, OverflowMenu } from "@ui-kitten/components";
 import { useState } from "react";
 import { Button } from "@ui-kitten/components";
 import { MenuIcon } from "./Icons";

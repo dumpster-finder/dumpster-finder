@@ -1,5 +1,23 @@
 import Position from "./Position";
 
+export interface RevDumpster {
+    revisionID: number;
+    dumpsterID: number;
+    name: string;
+    position: Position;
+    emptyingSchedule: string;
+    locked: boolean;
+    positiveStoreViewOnDiving: boolean | null;
+    cleanliness: number;
+    rating: number;
+    dumpsterType: string;
+    storeType: string;
+    categories: string[];
+    info: string;
+    dateUpdated: string;
+    isActive: boolean;
+}
+
 class Dumpster {
     dumpsterID: number;
     name: string;
