@@ -3,6 +3,8 @@ import { MyModels } from "../models";
 import Comment from "../types/Comment";
 import { InvalidDataError, NotFoundError, ServerError } from "../types/errors";
 
+export const COMMENT_RATING_TRESHOLD = -5;
+
 export default function ({ Comments, sequelize }: MyModels) {
     return {
         /**
@@ -18,7 +20,7 @@ export default function ({ Comments, sequelize }: MyModels) {
             const where: any = { dumpsterID };
             if (!showNegative) {
                 where["rating"] = {
-                    [Op.gte]: 0,
+                    [Op.gte]: COMMENT_RATING_TRESHOLD,
                 };
             }
             return await Comments.findAll({

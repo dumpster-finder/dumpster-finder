@@ -88,7 +88,7 @@ export default function ({ Models }: RouteDependencies) {
      *           properties:
      *             showNegative:
      *               type: boolean
-     *               description: Controls whether negatively voted comments should be shown
+     *               description: Controls whether negatively voted comments (below a treshold) should be shown
      *           example:
      *             showNegative: false
      *         required: false

@@ -1,6 +1,6 @@
 import { setupTestData } from "../../config/testSetup";
 import Models from "../../models";
-import CommentDAO from "../comments";
+import CommentDAO, { COMMENT_RATING_TRESHOLD } from "../comments";
 
 const commentDAO = CommentDAO(Models);
 
@@ -28,16 +28,20 @@ describe("getAllForDumpster", () => {
 
     it("should hide negatively rated comments by default", async () => {
         const comments = await commentDAO.getAllForDumpster(6);
-        expect(comments.length).toBe(2);
-        comments.forEach(c => expect(c.rating).toBeGreaterThanOrEqual(0));
+        expect(comments.length).toBe(3);
+        comments.forEach(c =>
+            expect(c.rating).toBeGreaterThanOrEqual(COMMENT_RATING_TRESHOLD),
+        );
     });
 
     it("should show negatively rated comments when it is told to", async () => {
         const comments = await commentDAO.getAllForDumpster(6, {
             showNegative: true,
         });
-        expect(comments.length).toBe(3);
-        expect(comments.some(c => c.rating < 0)).toBeTruthy();
+        expect(comments.length).toBe(4);
+        expect(
+            comments.some(c => c.rating < COMMENT_RATING_TRESHOLD),
+        ).toBeTruthy();
     });
 });
 
