@@ -23,3 +23,13 @@ export const updateLimiter = rateLimit({
     message:
         "Too many modifying requests from this IP, please try again in an hour",
 });
+
+/**
+ * Rate limiter middleware for up-/downvoting comments
+ */
+export const voteLimiter = rateLimit({
+    windowMs: 60 * 60_1000, // 60 mins
+    max: 100,
+    message:
+        "Too many modifying requests from this IP, please try again in an hour",
+});

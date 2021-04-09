@@ -1,5 +1,8 @@
-import {Sequelize, DataTypes, Optional, Model, ModelStatic} from "sequelize";
-import { DumpsterPositionAttributes, DumpsterPositionCreationAttributes } from "./DumpsterPositions";
+import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
+import {
+    DumpsterPositionAttributes,
+    DumpsterPositionCreationAttributes,
+} from "./DumpsterPositions";
 
 export interface CommentAttributes {
     commentID: number;
@@ -7,11 +10,11 @@ export interface CommentAttributes {
     nickname: string;
     comment: string;
     rating: number;
-    date: string;
+    date: Date;
 }
 
 export interface CommentCreationAttributes
-    extends Optional<CommentAttributes, "commentID"> {}
+    extends Optional<CommentAttributes, "commentID" | "rating" | "date"> {}
 
 export class Comments
     extends Model<CommentAttributes, CommentCreationAttributes>
@@ -21,7 +24,7 @@ export class Comments
     nickname!: string;
     comment!: string;
     rating!: number;
-    date!: string;
+    date!: Date;
 }
 
 // Inject Sequelize
@@ -48,12 +51,12 @@ export function init(sequelize: Sequelize) {
             rating: {
                 type: DataTypes.TINYINT,
                 allowNull: false,
-                defaultValue: 0
+                defaultValue: 0,
             },
             date: {
                 type: DataTypes.DATE,
                 allowNull: false,
-                defaultValue: Sequelize.fn('now')
+                defaultValue: Sequelize.fn("now"),
             },
         },
         {
@@ -66,9 +69,11 @@ export function init(sequelize: Sequelize) {
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              DumpsterPositions,
-                          }: {
-    DumpsterPositions: ModelStatic<Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>>;
+    DumpsterPositions,
+}: {
+    DumpsterPositions: ModelStatic<
+        Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>
+    >;
 }) {
     // do associations like
     // Thing.hasMany()

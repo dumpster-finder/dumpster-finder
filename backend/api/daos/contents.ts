@@ -1,7 +1,7 @@
 import { MyModels } from "../models";
 import { DumpsterTagAttributes } from "../models/DumpsterTags";
 import Content from "../types/Content";
-import { NotFoundError, UnknownError } from "../types/errors";
+import { NotFoundError, ServerError, UnknownError } from "../types/errors";
 
 const contentAttributes = [
     "dumpsterID",
@@ -178,18 +178,23 @@ export default function ({
 
                 if (match) {
                     const { tagID } = match;
-                    const eh = await DumpsterTags.update(editableAttributes, {
-                        where: { dumpsterID, tagID, foundDate },
-                        transaction: t,
-                    });
-                    console.log(eh);
+                    const [numberUpdated, _] = await DumpsterTags.update(
+                        editableAttributes,
+                        {
+                            where: { dumpsterID, tagID, foundDate },
+                            transaction: t,
+                        },
+                    );
+                    if (numberUpdated > 1)
+                        throw new ServerError(
+                            `Updated ${numberUpdated} content entries, but no more than one should be updated`,
+                        );
                     const result = await DumpsterTags.findOne({
                         attributes: contentAttributes,
                         where: { dumpsterID, tagID, foundDate },
                         transaction: t,
                     });
                     if (result) return createResultToContent(name, result);
-                    // TODO add specific error types, that'd make this a ton easier
                     else
                         throw new NotFoundError(
                             "Couldn't find a content entry with this data",
