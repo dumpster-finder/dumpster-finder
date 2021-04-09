@@ -121,9 +121,9 @@
         },
         "storeView": {
             "label": "Store's view on dumpster diving",
-            "neg": "Negative",
-            "neu": "Neutral",
-            "pos": "Positive"
+            "negative": "Negative",
+            "neutral": "Neutral",
+            "positive": "Positive"
         },
         "locked": {
             "label": "Dumpster state",
@@ -207,10 +207,10 @@
     },
 
     "dumpsterType": {
-        "compressor": "Compressor",
-        "Large": "Large container",
-        "small": "Small container",
-        "bin": "Trash bin"
+        "Compressor": "Compressor",
+        "Large container": "Large container",
+        "Small container": "Small container",
+        "Trash Bin": "Trash bin"
     },
 
     "storeType": {

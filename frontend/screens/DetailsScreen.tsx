@@ -42,7 +42,9 @@ export default function DetailsScreen({
                     </View>
 
                     <View style={{ alignItems: "center" }}>
-                        <Text category="h6">{dumpster.storeType}</Text>
+                        <Text category="h6">
+                            {t(`storeType:${dumpster.storeType}`)}
+                        </Text>
                     </View>
 
                     {/*TODO this might end badly on really small screens!*/}

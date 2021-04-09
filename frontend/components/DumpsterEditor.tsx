@@ -140,7 +140,9 @@ export default function DumpsterEditor({
                             <Dropdown
                                 value={values.dumpsterType}
                                 label={t("dumpsterType.label")}
-                                values={dumpsterTypes}
+                                values={dumpsterTypes.map(v =>
+                                    t(`dumpsterType:${v}`),
+                                )}
                                 onSelect={i => setFieldValue("dumpsterType", i)}
                                 status={errors.dumpsterType && "danger"}
                                 caption={
@@ -154,7 +156,7 @@ export default function DumpsterEditor({
                                 value={values.storeType}
                                 label={t("storeType.label")}
                                 values={storeTypes.map(s =>
-                                    t(`storeTypes:${s}`),
+                                    t(`storeType:${s}`),
                                 )}
                                 onSelect={i => setFieldValue("storeType", i)}
                                 status={errors.storeType && "danger"}
@@ -201,9 +203,11 @@ export default function DumpsterEditor({
                         <View style={styles.row}>
                             <ButtonGroupDisplay
                                 value={values.storeView}
-                                values={[t("neg"), t("neu"), t("pos")].map(v =>
-                                    t(`storeView.${v}`),
-                                )}
+                                values={[
+                                    "negative",
+                                    "neutral",
+                                    "positive",
+                                ].map(v => t(`storeView.${v}`))}
                                 icon={PositiveIcon}
                                 label={t("storeView.label")}
                                 onSelect={i => setFieldValue("storeView", i)}

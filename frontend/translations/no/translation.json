@@ -117,9 +117,9 @@
         },
         "storeView": {
             "label": "Butikkens syn på søppeldykkere",
-            "neg": "Negativt",
-            "neu": "Nøytralt",
-            "pos": "Positivt"
+            "negative": "Negativt",
+            "neutral": "Nøytralt",
+            "positive": "Positivt"
         },
         "locked": {
             "label": "Dumpsterens tilstand",
@@ -202,19 +202,21 @@
     },
 
     "dumpsterType": {
-        "compressor": "Compressor",
-        "Large": "Stor søppelkasse",
-        "small": "Liten søppelkasse",
-        "bin": "Søppeldunk"
+        "Compressor": "Compressor",
+        "Large Container": "Stor søppelkasse",
+        "Small Container": "Liten søppelkasse",
+        "Trash Bin": "Søppeldunk"
     },
 
     "storeType": {
-        "Grocery": "Matbutikk",
-        "Electronics": "Elektronikk",
+        "Grocery Store": "Matbutikk",
+        "Electronics Store": "Elektronikk",
         "Bakery": "Bakeri",
-        "Furniture": "Møbelbutikk",
+        "Furniture Store": "Møbelbutikk",
         "Miscellaneous": "Blandet"
     },
+
+
     "categories": {
         "Dairy": "Meieriprodukter",
         "Batteries": "Batterier",
