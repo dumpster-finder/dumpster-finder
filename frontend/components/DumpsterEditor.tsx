@@ -38,11 +38,11 @@ export default function DumpsterEditor({
     const dumpsterTypes = useSelector(dumpsterTypesSelector);
     const storeTypes = useSelector(storeTypesSelector);
     const cleanlinessRange = [
-        "Filthy",
-        "Dirty",
-        "Average",
-        "Clean",
-        "Pristine",
+        t("cleanliness.filthy"),
+        t("cleanliness.dirty"),
+        t("cleanliness.average"),
+        t("cleanliness.clean"),
+        t("cleanliness.pristine"),
     ];
     const categories = useSelector(categoriesSelector);
 
@@ -76,16 +76,34 @@ export default function DumpsterEditor({
                     // Hello. According to separation of concerns, we should draw this out in its own file.
                     // However, in this case, the validation is very much related to the way the editor works.
                     // (idk if that's a valid argument, though)
-                    name: Yup.string().max(64).required(),
-                    dumpsterType: Yup.number().integer().min(0),
-                    storeType: Yup.number().integer().min(0),
+                    name: Yup.string()
+                        .max(64)
+                        .required(),
+                    dumpsterType: Yup.number()
+                        .integer()
+                        .min(0),
+                    storeType: Yup.number()
+                        .integer()
+                        .min(0),
                     categories: Yup.array()
-                        .of(Yup.number().integer().min(0))
+                        .of(
+                            Yup.number()
+                                .integer()
+                                .min(0),
+                        )
                         .strict()
                         .required(),
                     emptyingSchedule: Yup.string().max(128),
-                    storeView: Yup.number().integer().min(0).max(2).required(),
-                    locked: Yup.number().integer().min(0).max(1).required(),
+                    storeView: Yup.number()
+                        .integer()
+                        .min(0)
+                        .max(2)
+                        .required(),
+                    locked: Yup.number()
+                        .integer()
+                        .min(0)
+                        .max(1)
+                        .required(),
                     cleanliness: Yup.number()
                         .integer()
                         .min(0)
@@ -183,11 +201,9 @@ export default function DumpsterEditor({
                         <View style={styles.row}>
                             <ButtonGroupDisplay
                                 value={values.storeView}
-                                values={[
-                                    "negative",
-                                    "neutral",
-                                    "positive",
-                                ].map(v => t(`storeView.${v}`))}
+                                values={[t("neg"), t("neu"), t("pos")].map(v =>
+                                    t(`storeView.${v}`),
+                                )}
                                 icon={PositiveIcon}
                                 label={t("storeView.label")}
                                 onSelect={i => setFieldValue("storeView", i)}

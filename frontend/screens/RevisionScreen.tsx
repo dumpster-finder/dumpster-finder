@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { DumpsterService } from "../services";
 import { useAppDispatch } from "../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { formatDate } from "../utils/date";
 
 export default function RevisionScreen({
     navigation,
@@ -36,7 +37,7 @@ export default function RevisionScreen({
                     {dumpsterList.map((value, index) => (
                         <DumpsterDropdownCard
                             key={index}
-                            text={value.dateUpdated}
+                            text={formatDate(new Date(value.dateUpdated))}
                             dumpster={value}
                             onReset={reset}
                         />

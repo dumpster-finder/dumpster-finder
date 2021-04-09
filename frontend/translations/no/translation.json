@@ -117,9 +117,9 @@
         },
         "storeView": {
             "label": "Butikkens syn på søppeldykkere",
-            "negative": "Negativt",
-            "neutral": "Nøytralt",
-            "positive": "Positivt"
+            "neg": "Negativt",
+            "neu": "Nøytralt",
+            "pos": "Positivt"
         },
         "locked": {
             "label": "Dumpsterens tilstand",
@@ -127,7 +127,12 @@
             "unlocked": "Åpen"
         },
         "cleanliness": {
-            "label": "Renhet"
+            "label": "Renhet",
+            "pristine": "Nydelig",
+            "clean": "Ren",
+            "average": "Normal",
+            "dirty": "Skitten",
+            "filthy": "Forferdelig"
         },
         "extraInfo": {
             "label": "Annen info",
@@ -177,12 +182,13 @@
 
     "position": {
         "save": "Sett posision",
-        "none": "Ingen posisjon valgt"
+        "none": "Ingen posisjon valgt",
+        "yourPos": "Din posisjon",
+        "pos": "f.eks. Paris"
     },
 
     "placeholders": {
         "search": "Place your text",
-        "pos": "f.eks. Paris",
         "comment": "Comment",
         "choose": "Choose.."
     },
@@ -235,5 +241,22 @@
     "notFound": {
         "text": "Denne siden finnes ikke",
         "back": "Gå tilbake til forsiden"
+    },
+
+    "titles": {
+        "mapBar": "Kart",
+        "listBar": "Liste",
+        "map": "Kartvisning",
+        "addPos": "Sett posisjon",
+        "addInfo": "Legg til informasjon",
+        "details": "Detaljer",
+        "comment": "Kommentarer",
+        "content": "Innhold",
+        "revision": "Revisjonshistorikk",
+        "list": "Listevisning",
+        "edit": "Rediger dumpster",
+        "info": "Informasjon",
+        "settings": "Innstillinger",
+        "yourPos": "Sett posisjon"
     }
 }

@@ -7,12 +7,14 @@ import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PhotoDisplay from "../components/PhotoDisplay";
 import DumpsterInfo from "../components/DumpsterInfo";
+import { useTranslation } from "react-i18next";
 
 export default function DetailsScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("details");
     const dumpster = useSelector(currentDumpsterSelector);
     const photos = [
         "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
@@ -23,7 +25,7 @@ export default function DetailsScreen({
     if (!dumpster) {
         return (
             <View style={styles.container}>
-                <Text category="h1">Something went wrong</Text>
+                <Text category="h1">{t("somethingWrong")}</Text>
             </View>
         );
     } else {
@@ -49,7 +51,9 @@ export default function DetailsScreen({
                     </View>
                     <DumpsterInfo dumpster={dumpster} />
 
-                    <Text style={{ alignSelf: "center" }}>Categories:</Text>
+                    <Text style={{ alignSelf: "center" }}>
+                        {t("categories")}
+                    </Text>
                     <View style={styles.tagRow}>
                         {categories.map((category, index) => (
                             <Layout level="3" key={index} style={styles.tagBox}>
@@ -67,7 +71,7 @@ export default function DetailsScreen({
                                     navigation.navigate("ContentScreen")
                                 }
                             >
-                                See content
+                                {t("content")}
                             </Button>
                         </View>
                         <View style={styles.buttons}>
@@ -78,12 +82,14 @@ export default function DetailsScreen({
                                     navigation.navigate("CommentScreen")
                                 }
                             >
-                                See comments
+                                {t("comments")}
                             </Button>
                         </View>
                     </View>
 
-                    <Text style={{ alignSelf: "center" }}>Rate me:</Text>
+                    <Text style={{ alignSelf: "center" }}>
+                        {t("setRating")}
+                    </Text>
                     <View style={styles.row}>
                         <View style={{ width: "10%" }} />
                         <View style={{ width: "80%", marginBottom: 10 }}>
