@@ -78,7 +78,7 @@
     },
 
     "revision": {
-        "reset": "Revert to this revision",
+        "revert": "Revert to this revision",
         "current": "This is the current revision"
     },
 

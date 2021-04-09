@@ -36,7 +36,7 @@ export default function DumpsterDropdownCard({
                         onPress={() => onReset(dumpster)}
                         disabled={dumpster.isActive}
                     >
-                        {t("reset")}
+                        {t("revert")}
                     </Button>
                     {dumpster.isActive ? (
                         <Text style={{ alignSelf: "center" }}>
