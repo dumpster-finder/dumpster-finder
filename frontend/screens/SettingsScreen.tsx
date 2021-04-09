@@ -38,16 +38,16 @@ export default function SettingsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("settings");
-    const languages = [t("en"), t("no"), t("de"), t("fr"), t("es")];
-    const languageCodes = ["en", "no", "de", "fr", "sp"];
+    const languages = [t("en"), t("no")];
+    const languageCodes = ["en", "no"];
     const distances = ["2", "5", "10", "25", "50"];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
     const nickname = useSelector(nicknameSelector);
     const language = useSelector(languageSelector);
     const hideNegativeRating = useSelector(hideNegativeRatingSelector);
-    console.log(hideNegativeRating);
-    const diameter = Math.round(useSelector(radiusSelector) / 1000);
+    const radius = Math.round(useSelector(radiusSelector) / 1000);
+
     const [newLanguage, setNewLanguage] = useState(
         language ? languages.indexOf(language) : 0,
     );
@@ -55,16 +55,16 @@ export default function SettingsScreen({
     const [showDist, setShowDist] = useState(false);
     const [showLanguage, setShowLanguage] = useState(false);
     const [radiusDistance, setRadiusDistance] = useState(
-        diameter ? distances.indexOf(diameter.toString()) : 1,
+        radius ? distances.indexOf(radius.toString()) : 1,
     );
     const [nicknameFieldText, setNicknameFieldText] = useState(nickname);
 
-    if (!diameter) {
+    if (!radius) {
         dispatch(setRadius(1000));
     }
 
     if (!language) {
-        dispatch(setLanguage("English"));
+        dispatch(setLanguage("en"));
     }
 
     return (

@@ -59,7 +59,7 @@ export default function DetailsScreen({
                     <View style={styles.tagRow}>
                         {categories.map((category, index) => (
                             <Layout level="3" key={index} style={styles.tagBox}>
-                                <Text>{category}</Text>
+                                <Text>{t(`categories:${category}`)}</Text>
                             </Layout>
                         ))}
                     </View>
