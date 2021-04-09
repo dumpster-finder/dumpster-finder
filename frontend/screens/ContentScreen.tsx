@@ -5,51 +5,36 @@ import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import ContentCard from "../components/ContentCard";
 import Content from "../models/Content";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditContentModal from "../components/EditContentModal";
 import AddContentModal from "../components/AddContentModal";
+import { useTranslation } from "react-i18next";
+import { ContentService } from "../services";
 
 export default function ContentScreen() {
     const dumpster = useSelector(currentDumpsterSelector);
-    const a = new Content({
-        dumpsterID: 1,
-        tagID: 1,
-        name: "",
-        amount: 0,
-        unit: "",
-        quality: 2,
-        foundDate: "",
-        expiryDate: "",
-    });
-    const aa = new Content({
-        dumpsterID: 1,
-        tagID: 1,
-        name: "Milk",
-        amount: 3,
-        unit: "1 liter",
-        quality: 2,
-        foundDate: "21-04-14",
-        expiryDate: "23-05-15",
-    });
-    const ab = new Content({
-        dumpsterID: 1,
-        tagID: 1,
-        name: "Butter",
-        amount: 3,
-        unit: "3",
-        quality: 2,
-        foundDate: "",
-        expiryDate: "23-05-15",
-    });
-    const list = [aa, ab, aa, ab, aa, ab, aa, ab, aa, ab, aa, ab];
-    const [selectedContent, setSelectedContent] = useState(a);
+    const [contents, setContents] = useState<Content[]>([]);
+    const [selectedContent, setSelectedContent] = useState<Content>(
+        new Content({ name: "Unknown", foundDate: "1997-04-01" }),
+    );
     const [visibleEdit, setVisibleEdit] = useState(false);
+    const [pendingEdit, setPendingEdit] = useState(false);
     const [visibleAdd, setVisibleAdd] = useState(false);
-    if (dumpster === null) {
+    const [pendingAdd, setPendingAdd] = useState(false);
+    const { t }: { t: (s: string) => string } = useTranslation("contents");
+
+    useEffect(() => {
+        if (dumpster)
+            ContentService.getContents(dumpster.dumpsterID)
+                .then(cs => setContents(cs))
+                .catch(e => console.error("Could not fetch contents", e));
+    }, [dumpster]);
+
+    if (!dumpster) {
         return (
             <Layout style={styles.container}>
                 <View>
-                    <Text>Cry</Text>
+                    <Text>{t("somethingWrong")}</Text>
                 </View>
             </Layout>
         );
@@ -65,11 +50,11 @@ export default function ContentScreen() {
                     <Text category={"h4"}>{dumpster.name}</Text>
                     <Text category={"h6"}>{dumpster.storeType}</Text>
                     <Button onPress={() => setVisibleAdd(true)}>
-                        Add content
+                        {t("add")}
                     </Button>
                 </View>
                 <ScrollView style={styles.scrollView}>
-                    {list.map((value, i) => (
+                    {contents.map((value, i) => (
                         <View style={styles.view} key={i}>
                             <ContentCard
                                 content={value}
@@ -80,24 +65,80 @@ export default function ContentScreen() {
                             />
                         </View>
                     ))}
-                    {visibleEdit ? (
+                    {visibleEdit && selectedContent && (
                         <EditContentModal
                             visible={visibleEdit}
                             setVisible={setVisibleEdit}
                             selectedContent={selectedContent}
-                            onSave={(newVal: number) => console.log(newVal)}
-                            onDelete={() => console.log("me")}
+                            pending={pendingEdit}
+                            onSave={handleEdit}
+                            onDelete={handleDelete}
                         />
-                    ) : null}
-                    {visibleAdd ? (
+                    )}
+                    {visibleAdd && (
                         <AddContentModal
                             visible={visibleAdd}
                             setVisible={setVisibleAdd}
+                            pending={pendingAdd}
+                            onAdd={handleAdd}
                         />
-                    ) : null}
+                    )}
                 </ScrollView>
             </Layout>
         );
+    }
+
+    async function handleAdd(
+        content: Pick<Content, "name"> & Partial<Content>,
+    ) {
+        if (!dumpster) return;
+        setPendingAdd(true);
+        try {
+            const addedContent = await ContentService.addContent(
+                dumpster.dumpsterID,
+                content,
+            );
+            setContents([addedContent, ...contents]);
+            setVisibleAdd(false);
+        } catch (e) {
+            console.error("Couldn't add content", e);
+        }
+        setPendingAdd(false);
+    }
+
+    async function handleEdit(content: Content) {
+        if (!dumpster) return;
+        setPendingEdit(true);
+        try {
+            const updatedContent = await ContentService.updateContent(
+                dumpster.dumpsterID,
+                content,
+            );
+            setContents(
+                contents.map(oldContent =>
+                    oldContent.equals(content) ? updatedContent : oldContent,
+                ),
+            );
+            setVisibleEdit(false);
+        } catch (e) {
+            console.error("Couldn't edit content", e);
+        }
+        setPendingEdit(false);
+    }
+
+    async function handleDelete(content: Content) {
+        if (!dumpster) return;
+        setPendingEdit(true);
+        try {
+            await ContentService.removeContent(dumpster.dumpsterID, content);
+            setContents(
+                contents.filter(oldContent => !oldContent.equals(content)),
+            );
+            setVisibleEdit(false);
+        } catch (e) {
+            console.error("Couldn't delete content", e);
+        }
+        setPendingEdit(false);
     }
 }
 

@@ -10,23 +10,36 @@ import {
 import { StyleSheet, View } from "react-native";
 import Content from "../models/Content";
 import { useState } from "react";
-import { DeleteButtonIcon, SaveButtonIcon } from "./Icons";
+import {
+    DeleteButtonIcon,
+    PendingButtonIcon,
+    SaveButtonIcon,
+    TrashInputIcon,
+} from "./Icons";
+import { formatDate } from "../utils/date";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { useTranslation } from "react-i18next";
 
 export default function EditContentModal({
     visible,
     setVisible,
+    pending,
     selectedContent,
     onSave,
     onDelete,
 }: {
     visible: boolean;
     setVisible: (newVisible: boolean) => void;
+    pending: boolean;
     selectedContent: Content;
-    onSave: (newVal: number) => void;
-    onDelete: () => void;
+    onSave: (content: Content) => void;
+    onDelete: (content: Content) => void;
 }) {
-    const [editVal, setEditVal] = useState(selectedContent.amount.toString());
-    const [delVis, setDelVis] = useState(false);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+    const { t }: { t: (s: string) => string } = useTranslation(
+        "contentsEditor",
+    );
     return (
         <View>
             <Modal
@@ -34,101 +47,143 @@ export default function EditContentModal({
                 backdropStyle={styles.backdrop}
                 onBackdropPress={() => setVisible(false)}
             >
-                <Card
-                    disabled={true}
-                    style={{
-                        alignItems: "center",
+                <Formik
+                    initialValues={{
+                        amount: selectedContent.amount
+                            ? selectedContent.amount.toString()
+                            : "",
                     }}
+                    validationSchema={Yup.object().shape({
+                        amount: Yup.number(),
+                    })}
+                    onSubmit={save}
                 >
-                    <Text category={"h5"} style={{ alignSelf: "center" }}>
-                        {selectedContent.name}
-                    </Text>
-                    <Divider />
-
-                    <View style={styles.row}>
-                        <Input
-                            label={"Amount"}
-                            style={styles.input}
-                            size={"large"}
-                            value={editVal.toString()}
-                            onChangeText={change => setEditVal(change)}
-                            keyboardType={"number-pad"}
-                        />
-                        <Text
-                            category={"h6"}
+                    {({ handleChange, handleSubmit, values, errors }) => (
+                        <Card
+                            disabled={true}
                             style={{
-                                alignSelf: "center",
-                                paddingHorizontal: 5,
+                                alignItems: "center",
                             }}
                         >
-                            {selectedContent.unit}
-                        </Text>
-                    </View>
+                            <Text
+                                category={"h5"}
+                                style={{ alignSelf: "center" }}
+                            >
+                                {selectedContent.name}
+                            </Text>
+                            <Divider />
 
-                    <Text category={"h6"}>
-                        Expires on: {selectedContent.expiryDate}
-                    </Text>
-                    <Button onPress={save} accessoryLeft={SaveButtonIcon}>
-                        Save changes
-                    </Button>
-                    <Button
-                        status={"danger"}
-                        style={{ marginVertical: 10 }}
-                        size={"small"}
-                        onPress={deleteCheck}
-                        accessoryLeft={DeleteButtonIcon}
-                    >
-                        Delete
-                    </Button>
-                    <Button onPress={() => setVisible(false)} status={"basic"}>
-                        Cancel
-                    </Button>
-                </Card>
+                            <View style={styles.row}>
+                                <Input
+                                    label={t("amount.label")}
+                                    style={styles.input}
+                                    size={"large"}
+                                    value={values.amount}
+                                    onChangeText={handleChange("amount")}
+                                    keyboardType={"number-pad"}
+                                    status={errors.amount && "danger"}
+                                    caption={
+                                        errors.amount &&
+                                        t("amount.errorInvalid")
+                                    }
+                                />
+                                <Text
+                                    category={"h6"}
+                                    style={{
+                                        alignSelf: "center",
+                                        paddingHorizontal: 5,
+                                    }}
+                                >
+                                    {selectedContent.unit || ""}
+                                </Text>
+                            </View>
+
+                            {selectedContent.expiryDate && (
+                                <Text category={"h6"}>
+                                    {t("expiresOn")}{" "}
+                                    {formatDate(selectedContent.expiryDate)}
+                                </Text>
+                            )}
+                            <Button
+                                disabled={pending}
+                                accessoryLeft={
+                                    pending ? PendingButtonIcon : SaveButtonIcon
+                                }
+                                onPress={_ => handleSubmit()}
+                            >
+                                {t("save")}
+                            </Button>
+                            <Button
+                                status={"danger"}
+                                style={{ marginVertical: 10 }}
+                                size={"small"}
+                                onPress={deleteCheck}
+                                accessoryLeft={DeleteButtonIcon}
+                            >
+                                {t("remove")}
+                            </Button>
+                            <Button
+                                onPress={() => setVisible(false)}
+                                status={"basic"}
+                            >
+                                {t("cancel")}
+                            </Button>
+                        </Card>
+                    )}
+                </Formik>
             </Modal>
-            <Modal visible={delVis} backdropStyle={styles.backdrop}>
+            <Modal
+                visible={visible && deleteModalVisible}
+                backdropStyle={styles.backdrop}
+            >
                 <Card
                     disabled={true}
                     style={{
                         alignItems: "center",
                     }}
                 >
-                    <Text>Are you sure?</Text>
+                    <Text>{t("areYouSure")}</Text>
                     <Divider />
                     <View style={styles.row}>
                         <Button
+                            disabled={pending}
+                            accessoryLeft={
+                                pending ? PendingButtonIcon : DeleteButtonIcon
+                            }
                             style={{ marginHorizontal: 5 }}
                             onPress={del}
                             status={"danger"}
                         >
-                            Yes
+                            {t("remove")}
                         </Button>
                         <Button
                             style={{ marginHorizontal: 5 }}
-                            onPress={() => setDelVis(false)}
+                            onPress={() => setDeleteModalVisible(false)}
                             status={"basic"}
                         >
-                            Cancel
+                            {t("cancel")}
                         </Button>
                     </View>
                 </Card>
             </Modal>
         </View>
     );
-    function save() {
-        setVisible(false);
-        onSave(parseInt(editVal));
+
+    function save({ amount }: { amount: string }) {
+        onSave(
+            new Content({
+                ...selectedContent,
+                amount: parseFloat(amount),
+            }),
+        );
     }
 
     function del() {
-        setDelVis(false);
-        setVisible(false);
-        onDelete();
+        onDelete(selectedContent);
     }
 
     function deleteCheck() {
-        setDelVis(true);
-
-        console.log(delVis);
+        setDeleteModalVisible(true);
     }
 }
 

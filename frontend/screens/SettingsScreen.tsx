@@ -4,7 +4,6 @@ import {
     Button,
     Layout,
     Text,
-    Toggle,
     Input,
     Card,
     RadioGroup,
@@ -16,11 +15,13 @@ import {
     nicknameSelector,
     radiusSelector,
     languageSelector,
+    hideNegativeRatingSelector,
     setDarkMode,
     setNickname,
     setRadius,
     setLanguage,
     setFirstTime,
+    setHideNegativeRating,
 } from "../redux/slices/configSlice";
 import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
@@ -28,6 +29,7 @@ import { ArrowRightIcon } from "../components/Icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DropdownCard from "../components/DropdownCard";
 import ButtonGroupDisplay from "../components/ButtonGroupDisplay";
+import ToggleSwitch from "../components/ToggleSwitch";
 
 export default function SettingsScreen({
     navigation,
@@ -41,6 +43,8 @@ export default function SettingsScreen({
     const darkMode = useSelector(darkModeSelector);
     const nickname = useSelector(nicknameSelector);
     const language = useSelector(languageSelector);
+    const hideNegativeRating = useSelector(hideNegativeRatingSelector);
+    console.log(hideNegativeRating);
     const diameter = Math.round(useSelector(radiusSelector) / 1000);
     const [newLanguage, setNewLanguage] = useState(
         language ? languages.indexOf(language) : 0,
@@ -136,21 +140,19 @@ export default function SettingsScreen({
                         ))}
                     </RadioGroup>
                 )}
-
                 <Card>
-                    <View style={styles.row}>
-                        <View
-                            style={{ width: "50%", justifyContent: "center" }}
-                        >
-                            <Text category={"h6"}>Dark mode</Text>
-                        </View>
-                        <View style={{ width: "50%", alignItems: "flex-end" }}>
-                            <Toggle
-                                checked={darkMode}
-                                onChange={v => dispatch(setDarkMode(v))}
-                            />
-                        </View>
-                    </View>
+                    <ToggleSwitch
+                        name={"Dark mode"}
+                        checked={darkMode}
+                        onChange={v => dispatch(setDarkMode(v))}
+                    />
+                </Card>
+                <Card>
+                    <ToggleSwitch
+                        name={"Hide negative rated comments"}
+                        checked={hideNegativeRating}
+                        onChange={v => dispatch(setHideNegativeRating(v))}
+                    />
                 </Card>
                 <Button onPress={() => dispatch(setFirstTime(true))}>
                     Reset

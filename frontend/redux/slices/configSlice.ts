@@ -11,6 +11,7 @@ interface SliceState {
     firstTime: boolean;
     language: string;
     ratedComments: Record<string, number>;
+    hideNegativeRating: boolean;
     // other settings to come, stay tuned!
 }
 
@@ -27,6 +28,7 @@ export const configSlice = createSlice({
         firstTime: true,
         language: "no",
         ratedComments: {},
+        hideNegativeRating: false,
     } as SliceState,
     reducers: {
         setNickname: (state, { payload }: { payload: string }) => {
@@ -57,6 +59,9 @@ export const configSlice = createSlice({
         },
         resetRatedComments: state => {
             state.ratedComments = {};
+        },
+        setHideNegativeRating: (state, { payload }: { payload: boolean }) => {
+            state.hideNegativeRating = payload;
         },
     },
 });
@@ -123,6 +128,8 @@ export const {
     setRatedComments,
 
     resetRatedComments,
+
+    setHideNegativeRating,
 } = configSlice.actions;
 
 export const nicknameSelector = (state: RootState) => state.config.nickname;
@@ -133,4 +140,6 @@ export const firstTimeSelector = (state: RootState) => state.config.firstTime;
 export const languageSelector = (state: RootState) => state.config.language;
 export const ratedCommentsSelector = (state: RootState) =>
     state.config.ratedComments;
+export const hideNegativeRatingSelector = (state: RootState) =>
+    state.config.hideNegativeRating;
 export default configSlice.reducer;

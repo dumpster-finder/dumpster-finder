@@ -17,7 +17,16 @@
         "dumpsterType": "Dumpster type:",
         "extraInfo": "Extra info",
 
-        "dropdownPlaceholder": "Choose …"
+        "dropdownPlaceholder": "Choose …",
+
+        "somethingWrong": "Something went wrong.",
+
+
+        "areYouSure": "Are you sure?",
+        "cancel": "Cancel",
+        "add": "Add",
+        "save": "Save",
+        "remove": "Remove"
     },
 
     "advice": {
@@ -129,6 +138,43 @@
         },
         "save": "Save dumpster",
         "create": "Create dumpster"
+    },
+
+    "contents": {
+        "add": "Add content",
+        "amount": "Amount",
+        "unit": "Unit",
+        "quality": "Quality",
+        "expiryDate": "Expiration date",
+        "foundDate": "Found date",
+    },
+
+    "contentsEditor": {
+        "addTitle": "Add content",
+        "name": {
+            "label": "Product",
+            "placeholder": "e.g. Milk",
+            "errorEmpty": "Product name is required",
+            "errorLong": "This cannot be longer than 24 characters"
+        },
+        "amount": {
+            "label": "Amount",
+            "placeholder": "1",
+            "errorInvalid": "Must be a number"
+        },
+        "unit": {
+            "label": "Unit",
+            "placeholder": "liters",
+            "errorLong": "Unit cannot be longer than 12 characters"
+        },
+        "expiryDate": {
+            "label": "Expiration date",
+            "placeholder": "Select date …"
+        },
+        "expiresOn": "Expires on",
+        "add": "Add content",
+        "remove": "Remove content",
+        "save": "Save changes"
     },
 
     "position": {
