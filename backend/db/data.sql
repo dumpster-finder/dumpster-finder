@@ -44,8 +44,8 @@ VALUES
     (1, 1, Point(63.416916, 10.354478), 'Byåsen senter', 3, 5, FALSE, TRUE, 2, 'Don\'t know', 'Nothing to be said.', '2020-02-23', '2021-03-04'),
     (2, 51, Point(63.435008, 10.410727), 'Månesiden senter', 1, 2, FALSE, TRUE, 4, 'Every other week','Usually a lot of barfed-up goods.', '2020-11-30', '2020-11-30'),
     (2, 2, Point(63.435008, 10.410727), 'Solsiden senter', 1, 2, FALSE, TRUE, 4, 'Every other week','Usually a lot of baked goods.', '2020-11-30', '2020-12-24'),
-    (3, 52, Point(63.467127, 10.941596), 'Elkjop Sthørdal', 2, 2, FALSE, FALSE, TRUE, 'Last friday of the month', 'Mostly broken stuff, but if you are lucky you find good value', '2020-07-14', '2020-07-14'),
-    (3, 3, Point(63.467127, 10.941596), 'Elkjøp Stjørdal', 2, 2, FALSE, FALSE, TRUE, 'Last friday of the month', 'Mostly broken stuff, but if you are lucky you find good value', '2020-07-14', '2021-02-12'),
+    (3, 52, Point(63.467127, 10.941596), 'Elkjop Sthørdal', 2, 2, FALSE, FALSE, 5, 'Last friday of the month', 'Mostly broken stuff, but if you are lucky you find good value', '2020-07-14', '2020-07-14'),
+    (3, 3, Point(63.467127, 10.941596), 'Elkjøp Stjørdal', 2, 2, FALSE, FALSE, 5, 'Last friday of the month', 'Mostly broken stuff, but if you are lucky you find good value', '2020-07-14', '2021-02-12'),
     (4, 68, Point(63.409747, 10.438794), 'Rema 1000 Loholt', 1, 1, TRUE, TRUE, 5, 'Second Bursday every month', 'Don\'t know if panyone can benter', '2020-08-30', '2020-08-30'),
     (4, 69, Point(63.409747, 10.438794), 'Rema 1000 Loholt', 1, 1, TRUE, TRUE, 5, 'Second Thursday every month', 'Don\'t know if panyone can benter', '2020-08-30', '2020-10-24'),
     (4, 4, Point(63.409747, 10.438794), 'Rema 1000 Moholt', 1, 1, TRUE, FALSE, 5, 'Second Thursday every month', 'Don\'t know if anyone can enter', '2020-08-30', '2021-04-01'),
@@ -58,12 +58,16 @@ VALUES
 
 INSERT INTO Comments(commentID, dumpsterID, nickname, comment, rating, date)
 VALUES
-    (1, 1, 'Tore pa sporet', 'Found some great pastries.', 5, '2021-02-22 12:50:05'),
+    (1, 1, 'Tore på sporet', 'Found some great pastries.', 5, '2021-02-22 12:50:05'),
     (2, 1, 'TrashBin', 'Would anyone join for a dive here?', 6, '2021-02-28 15:40:45'),
     (3, 1, 'Trash panda', 'Please leave some for others as well', 2, '2021-03-01 22:34:49'),
     (4, 2, 'Trash panda', 'Mostly food here, but some other stuff as well', 0, '2021-01-02 23:32:23'),
     (5, 3, 'Diver', 'I never find anything here', 3, '2021-01-15 14:36:45'),
-    (6, 5, 'TheDive', 'This dumpster is locked. Remember that breaking locks is illegal', 3, '2021-01-17 13:36:34');
+    (6, 5, 'TheDive', 'This dumpster is locked. Remember that breaking locks is illegal.', 3, '2021-01-17 13:36:34'),
+    (7, 6, 'trOLlhaUgEn', 'haha dumpster go brrr', -10, '2021-03-24 14:52:30'),
+    (8, 6, 'Stephan', 'Fantastic dumpster! There\'s always something to find here', 12, '2021-01-02 23:09:51'),
+    (9, 6, 'Frodo', 'Found lots of fresh vegetables here last time.', 7, '2021-02-14 21:40:00'),
+    (10, 6, 'Grethe', 'Bacheloren deres suger', -5, '2020-12-24 12:21:00');
 
 UPDATE DumpsterPositions SET revisionID = 1 WHERE dumpsterID = 1;
 UPDATE DumpsterPositions SET revisionID = 2 WHERE dumpsterID = 2;

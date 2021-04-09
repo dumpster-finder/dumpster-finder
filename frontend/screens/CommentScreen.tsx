@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { CommentService } from "../services";
 import {
+    hideNegativeRatingSelector,
     nicknameSelector,
     ratedCommentsSelector,
 } from "../redux/slices/configSlice";
@@ -15,8 +16,9 @@ import { CommentButtonIcon, PendingButtonIcon } from "../components/Icons";
 import { useTranslation } from "react-i18next";
 
 export default function CommentScreen() {
-    const ratedComments = useSelector(ratedCommentsSelector);
     const { t }: { t: (s: string) => string } = useTranslation("comment");
+    const ratedComments = useSelector(ratedCommentsSelector);
+    const hideNegativeRating = useSelector(hideNegativeRatingSelector);
     const [commentList, setCommentList] = useState<Comments[]>([]);
     const [pending, setPending] = useState(false);
     const dumpster = useSelector(currentDumpsterSelector);
@@ -24,10 +26,12 @@ export default function CommentScreen() {
 
     useEffect(() => {
         if (dumpster)
-            CommentService.getAllForDumpster(dumpster.dumpsterID)
+            CommentService.getAllForDumpster(dumpster.dumpsterID, {
+                showNegative: !hideNegativeRating,
+            })
                 .then(data => setCommentList(data))
                 .catch(e => console.error("Could not fetch comments", e));
-    }, []);
+    }, [dumpster, hideNegativeRating]);
 
     const [comment, setComment] = useState("");
     return (

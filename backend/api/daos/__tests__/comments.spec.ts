@@ -1,6 +1,6 @@
 import { setupTestData } from "../../config/testSetup";
 import Models from "../../models";
-import CommentDAO from "../comments";
+import CommentDAO, { COMMENT_RATING_TRESHOLD } from "../comments";
 
 const commentDAO = CommentDAO(Models);
 
@@ -8,8 +8,40 @@ beforeAll(setupTestData);
 
 describe("getAllForDumpster", () => {
     it("should return all comments for a given dumpster", async () => {
-        const comment = await commentDAO.getAllForDumpster(1);
-        expect(comment.length).toBeGreaterThan(0);
+        const comments = await commentDAO.getAllForDumpster(1);
+        expect(comments.length).toBe(3);
+        // Check order and contents
+        expect(comments.map(c => c.nickname)).toEqual([
+            "Trash panda",
+            "TrashBin",
+            "Tore på sporet",
+        ]);
+        // Then check that it is sorted by date
+        expect(
+            comments.every(
+                (c, i) =>
+                    i === comments.length - 1 ||
+                    c.date.getTime() >= comments[i + 1].date.getTime(),
+            ),
+        ).toBeTruthy();
+    });
+
+    it("should hide negatively rated comments by default", async () => {
+        const comments = await commentDAO.getAllForDumpster(6);
+        expect(comments.length).toBe(3);
+        comments.forEach(c =>
+            expect(c.rating).toBeGreaterThanOrEqual(COMMENT_RATING_TRESHOLD),
+        );
+    });
+
+    it("should show negatively rated comments when it is told to", async () => {
+        const comments = await commentDAO.getAllForDumpster(6, {
+            showNegative: true,
+        });
+        expect(comments.length).toBe(4);
+        expect(
+            comments.some(c => c.rating < COMMENT_RATING_TRESHOLD),
+        ).toBeTruthy();
     });
 });
 
@@ -20,8 +52,6 @@ describe("addOne", () => {
             dumpsterID: 1,
             nickname: "FreeFood",
             comment: "I love free food",
-            rating: 0,
-            date: "2021-03-31",
         });
         const commentAfter = await commentDAO.getAllForDumpster(1);
         expect(comment).not.toBe(undefined);
@@ -31,26 +61,32 @@ describe("addOne", () => {
 
 describe("updateOne", () => {
     it("should change a comment so the rating is higher", async () => {
-        const comment = await commentDAO.updateOne(1, 1);
-        const commentAfter = await commentDAO.getAllForDumpster(1);
-        const changedComment = commentAfter.find(com => com.commentID === 1);
+        const comment = await commentDAO.changeVote(1, 1);
+        const changedComment = await Models.Comments.findOne({
+            where: { commentID: 1 },
+        });
         expect(changedComment).not.toBe(undefined);
+        expect(changedComment?.rating).toEqual(comment?.rating);
         // Expect it to have risen to 6 = 5 + 1
         if (changedComment) expect(changedComment.rating).toBe(6);
     });
     it("should change a comment so the rating is lower", async () => {
-        const comment = await commentDAO.updateOne(2, -1);
-        const commentAfter = await commentDAO.getAllForDumpster(1);
-        const changedComment = commentAfter.find(com => com.commentID === 2);
+        const comment = await commentDAO.changeVote(2, -1);
+        const changedComment = await Models.Comments.findOne({
+            where: { commentID: 2 },
+        });
         expect(changedComment).not.toBe(undefined);
+        expect(changedComment?.rating).toEqual(comment?.rating);
         // Expect it to lower to 5 = 6 - 1
         if (changedComment) expect(changedComment.rating).toBe(5);
     });
     it("should be able to result in a negative rating", async () => {
-        const comment = await commentDAO.updateOne(4, -1);
-        const commentAfter = await commentDAO.getAllForDumpster(2);
-        const changedComment = commentAfter.find(com => com.commentID === 4);
+        const comment = await commentDAO.changeVote(4, -1);
+        const changedComment = await Models.Comments.findOne({
+            where: { commentID: 4 },
+        });
         expect(changedComment).not.toBe(undefined);
+        expect(changedComment?.rating).toEqual(comment?.rating);
         // Expect it to lower to -1 = 0 - 1
         if (changedComment) expect(changedComment.rating).toBe(-1);
     });

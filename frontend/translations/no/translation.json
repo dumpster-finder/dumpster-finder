@@ -57,7 +57,7 @@
     },
     "details": {
         "rating": "Vurdering:",
-        "cleanliness": "Renhet:",
+        "cleanliness": "Renhet",
         "locked": "Låst",
         "unlocked": "Åpen",
         "view": "Butikkens syn på søppeldykkere:",
@@ -82,7 +82,7 @@
     },
 
     "revision": {
-        "reset": "Reset til denne revisjonen",
+        "revert": "Tilbakestill til denne revisjonen",
         "current": "Dette er den nåværende revisjonen"
     },
 
@@ -190,7 +190,7 @@
     "placeholders": {
         "search": "Place your text",
         "comment": "Comment",
-        "choose": "Choose.."
+        "choose": "Choose..."
     },
 
     "cleanliness": {
