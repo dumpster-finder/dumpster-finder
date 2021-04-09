@@ -8,6 +8,17 @@ export class APIError extends Error {
 }
 
 /**
+ * Error tied to the 400 status code,
+ * for use when a DAO discovers invalid data
+ */
+export class InvalidDataError extends APIError {
+    constructor(message: string) {
+        super(message, 400);
+        this.name = "InvalidDataError";
+    }
+}
+
+/**
  * Error tied to the 404 status code,
  * for use when there is no such resource (or no such *parent* resource)
  */
@@ -50,5 +61,17 @@ export class UnknownError extends APIError {
     constructor(message: string) {
         super(message, 422);
         this.name = "UnknownError";
+    }
+}
+
+/**
+ * Error tied to the 422 status code,
+ * for use when you don't know exactly what went wrong,
+ * and you're pretty sure it's *your* fault
+ */
+export class ServerError extends APIError {
+    constructor(message: string) {
+        super(message, 500);
+        this.name = "ServerError";
     }
 }

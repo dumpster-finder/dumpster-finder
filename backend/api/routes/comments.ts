@@ -46,13 +46,14 @@
  *         dumpsterID: 1
  *         nickname: "internet troll"
  *         comment: "roflmao imma be helpful now hahaha"
+ *         rating: -121
  *         date: "2020-02-02"
  * tags:
  *   - name: Comments
  *     description: Comments API
  */
 
-import { Router } from "express";
+import { Request, Router } from "express";
 import { validate } from "express-validation";
 import CommentDAO from "../daos/comments";
 import { RouteDependencies } from "../types";
@@ -61,8 +62,9 @@ import {
     getComments,
     updateComment,
 } from "../validators/comments";
+import { standardLimiter } from "../middleware/rateLimiter";
 
-export default function({ Models }: RouteDependencies) {
+export default function ({ Models }: RouteDependencies) {
     const commentDAO = CommentDAO(Models);
     const router = Router({ mergeParams: true });
 
@@ -89,7 +91,13 @@ export default function({ Models }: RouteDependencies) {
      */
     router.get(
         "/",
-        async (req: { params: { dumpsterID: number } }, res, next) => {
+        standardLimiter,
+        validate(getComments),
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
             try {
                 const dumpsters = await commentDAO.getAllForDumpster(
                     req.params.dumpsterID,
@@ -127,14 +135,19 @@ export default function({ Models }: RouteDependencies) {
      *             schema:
      *               $ref: '#/components/schemas/Comment'
      */
-    router.post("/", validate(postComment), async (req, res, next) => {
-        try {
-            const result = await commentDAO.addOne(req.body);
-            res.status(201).json(result);
-        } catch (e) {
-            next(e);
-        }
-    });
+    router.post(
+        "/",
+        standardLimiter,
+        validate(postComment),
+        async (req, res, next) => {
+            try {
+                const result = await commentDAO.addOne(req.body);
+                res.status(201).json(result);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
 
     /**
      * @swagger
@@ -167,29 +180,22 @@ export default function({ Models }: RouteDependencies) {
      *                          vote: 1
      *     responses:
      *       "200":
-     *         description: the greeting
+     *         description: The updated comment
      *         content:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/comments'
+     *               $ref: '#/components/schemas/Comment'
      */
     router.patch(
         "/:commentID",
         validate(updateComment),
-        async (
-            //    req: { params: { commentID: number }; body: { vote: number } },
-            req,
-            res,
-            next,
-        ) => {
+        async (req: Request & { params: { commentID: number } }, res, next) => {
             try {
-                const result = await commentDAO.updateOne(
-                    //@ts-ignore
+                const result = await commentDAO.changeVote(
                     req.params.commentID,
                     req.body.vote,
                 );
                 res.status(200).json(result);
-                console.log(req.params);
             } catch (e) {
                 next(e);
             }
