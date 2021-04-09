@@ -88,15 +88,15 @@ VALUES
     (6, 6, 1),
     (7, 7, 6);
 
-INSERT INTO Users(userID)
+INSERT INTO Users(userID, userName, salt)
 VALUES
-    ('temp'),
-    ('temp1'),
-    ('temp2'),
-    ('temp3'),
-    ('temp4'),
-    ('temp5'),
-    ('temp6');
+    ('temp', 'temp', 'temp'),
+    ('temp1', 'temp2', 'temp2'),
+    ('temp2', 'temp1', 'temp1'),
+    ('temp3', 'temp3', 'temp3'),
+    ('temp4', 'temp4', 'temp4'),
+    ('temp5', 'temp5', 'temp5'),
+    ('temp6', 'temp6', 'temp6');
 
 
 INSERT INTO Ratings(userID, dumpsterID, rating)

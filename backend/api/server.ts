@@ -11,6 +11,7 @@ import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
 import comments from "./routes/comments";
+import users from "./routes/users";
 import { defaultLoggerOptions } from "./config/pino";
 import contents from "./routes/contents";
 import contentTypes from "./routes/contentTypes";
@@ -28,6 +29,9 @@ const app = express();
  * Please pass it to routes instead of importing this instance
  */
 export const logger = pino(defaultLoggerOptions);
+//setup the word file
+//const url = "./utils/wordsEnglish.txt"
+//export const wordList : string[] = readWordsFromFile(url);
 
 const dependencies = {
     logger,
@@ -46,6 +50,7 @@ app.use("/dumpsters", dumpsters(dependencies));
 app.use("/categories", categories(dependencies));
 app.use("/store-types", storeTypes(dependencies));
 app.use("/dumpster-types", dumpsterTypes(dependencies));
+//app.use("/users", users(dependencies));
 
 /**
  * Global error handler
