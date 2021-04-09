@@ -32,7 +32,9 @@ export default function ({ Comments, sequelize }: MyModels) {
          *
          * @param comment
          */
-        addOne: async (comment: Omit<Comment, "commentID">) => {
+        addOne: async (
+            comment: Omit<Comment, "commentID" | "date" | "rating">,
+        ) => {
             return await sequelize.transaction(async t => {
                 const { commentID } = await Comments.create(comment, {
                     transaction: t,
