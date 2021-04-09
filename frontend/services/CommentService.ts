@@ -8,9 +8,16 @@ export default class CommentService {
         this.axios = axios;
     }
 
-    getAllForDumpster(dumpsterID: number): Promise<Comments[]> {
+    getAllForDumpster(
+        dumpsterID: number,
+        { showNegative = false },
+    ): Promise<Comments[]> {
         return this.axios
-            .get(`/dumpsters/${dumpsterID}/comments`)
+            .get(
+                `/dumpsters/${dumpsterID}/comments?showNegative=${
+                    showNegative || false
+                }`,
+            )
             .then(response =>
                 response.data.map(
                     (comment: RawComment) => new Comments(comment),

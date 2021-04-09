@@ -112,15 +112,16 @@ export default function ({ Models }: RouteDependencies) {
         async (
             req: Request & {
                 params: { dumpsterID: number };
-                query: { showNegative?: boolean };
+                query: { showNegative?: string };
             },
             res,
             next,
         ) => {
             try {
+                console.log(req.query);
                 const dumpsters = await commentDAO.getAllForDumpster(
                     req.params.dumpsterID,
-                    req.query,
+                    { showNegative: req.query.showNegative === "true" },
                 );
                 res.status(200).json(dumpsters);
             } catch (e) {

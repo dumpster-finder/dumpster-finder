@@ -28,7 +28,7 @@ export const configSlice = createSlice({
         firstTime: true,
         language: "no",
         ratedComments: {},
-        hideNegativeRating: false,
+        hideNegativeRating: true, // Hide 'em by default
     } as SliceState,
     reducers: {
         setNickname: (state, { payload }: { payload: string }) => {
