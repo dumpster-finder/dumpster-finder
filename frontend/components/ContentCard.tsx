@@ -3,6 +3,8 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "@ui-kitten/components";
 import Content from "../models/Content";
 import { Card } from "@ui-kitten/components";
+import { formatDate } from "../utils/date";
+import { useTranslation } from "react-i18next";
 
 export default function ContentCard({
     content,
@@ -11,6 +13,7 @@ export default function ContentCard({
     content: Content;
     onPress: () => void;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("contents");
     return (
         <Card onPress={onPress}>
             <View style={styles.view}>
@@ -30,20 +33,20 @@ export default function ContentCard({
                         flexDirection: "column",
                     }}
                 >
-                    {content.amount === 0 ? (
-                        <></>
-                    ) : (
-                        <Text>Amount: {content.amount}</Text>
+                    {content.amount && (
+                        <Text>
+                            {t("amount")}: {content.amount}
+                        </Text>
                     )}
-                    {content.unit === "" ? (
-                        <></>
-                    ) : (
-                        <Text>Unit: {content.unit}</Text>
+                    {content.unit && (
+                        <Text>
+                            {t("unit")}: {content.unit}
+                        </Text>
                     )}
-                    {content.quality === 0 ? (
-                        <></>
-                    ) : (
-                        <Text>Quality: {content.quality}</Text>
+                    {content.quality && (
+                        <Text>
+                            {t("quality")}: {content.quality}
+                        </Text>
                     )}
                 </View>
 
@@ -52,22 +55,16 @@ export default function ContentCard({
                         width: "30%",
                     }}
                 >
-                    {content.expiryDate ? (
-                        <></>
-                    ) : (
+                    {content.expiryDate && (
                         <View style={styles.column}>
-                            <Text>Expiration date:</Text>
-                            <Text>{content.expiryDate}</Text>
+                            <Text>{t("expiryDate")}:</Text>
+                            <Text>{formatDate(content.expiryDate)}</Text>
                         </View>
                     )}
-
-                    {content.foundDate ? (
-                        <></>
-                    ) : (
+                    {content.foundDate && (
                         <View style={styles.column}>
-                            <Text>Found date:</Text>
-
-                            <Text>{content.foundDate}</Text>
+                            <Text>{t("foundDate")}:</Text>
+                            <Text>{formatDate(content.foundDate)}</Text>
                         </View>
                     )}
                 </View>

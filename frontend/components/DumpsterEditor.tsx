@@ -34,7 +34,7 @@ export default function DumpsterEditor({
     mode: "edit" | "create";
     pending?: boolean;
 }) {
-    const { t } = useTranslation("editor");
+    const { t }: { t: (s: string) => string } = useTranslation("editor");
     const dumpsterTypes = useSelector(dumpsterTypesSelector);
     const storeTypes = useSelector(storeTypesSelector);
     const cleanlinessRange = [
@@ -123,9 +123,7 @@ export default function DumpsterEditor({
                                 value={values.dumpsterType}
                                 label={t("dumpsterType.label")}
                                 values={dumpsterTypes}
-                                onSelect={i =>
-                                    handleChange("dumpsterType")(String(i))
-                                }
+                                onSelect={i => setFieldValue("dumpsterType", i)}
                                 status={errors.dumpsterType && "danger"}
                                 caption={
                                     errors.dumpsterType &&
@@ -140,9 +138,7 @@ export default function DumpsterEditor({
                                 values={storeTypes.map(s =>
                                     t(`storeTypes:${s}`),
                                 )}
-                                onSelect={i =>
-                                    handleChange("storeType")(String(i))
-                                }
+                                onSelect={i => setFieldValue("storeType", i)}
                                 status={errors.storeType && "danger"}
                                 caption={
                                     errors.storeType &&
@@ -186,7 +182,7 @@ export default function DumpsterEditor({
 
                         <View style={styles.row}>
                             <ButtonGroupDisplay
-                                value={parseInt(values.storeView)}
+                                value={values.storeView}
                                 values={[
                                     "negative",
                                     "neutral",
@@ -194,24 +190,20 @@ export default function DumpsterEditor({
                                 ].map(v => t(`storeView.${v}`))}
                                 icon={PositiveIcon}
                                 label={t("storeView.label")}
-                                onSelect={i =>
-                                    handleChange("storeView")(String(i))
-                                }
+                                onSelect={i => setFieldValue("storeView", i)}
                             />
                         </View>
 
                         <View style={styles.row}>
                             <ButtonGroupDisplay
-                                value={parseInt(values.locked)}
+                                value={values.locked}
                                 values={[
                                     t("locked.locked"),
                                     t("locked.unlocked"),
                                 ]}
                                 label={t("locked.label")}
                                 icon={LockIcon}
-                                onSelect={i =>
-                                    handleChange("locked")(String(i))
-                                }
+                                onSelect={i => setFieldValue("locked", i)}
                             />
                         </View>
 
@@ -221,9 +213,7 @@ export default function DumpsterEditor({
                         <View style={styles.row}>
                             <Rating
                                 value={values.cleanliness}
-                                onChange={i =>
-                                    handleChange("cleanliness")(String(i))
-                                }
+                                onChange={i => setFieldValue("cleanliness", i)}
                                 stringList={cleanlinessRange.map(c =>
                                     t(`cleanliness:${c.toLowerCase()}`),
                                 )}
@@ -276,7 +266,7 @@ export default function DumpsterEditor({
             storeType: storeTypes[values.storeType],
             categories: values.categories.map((i: number) => categories[i]),
             emptyingSchedule: values.emptyingSchedule,
-            cleanliness: parseInt(values.cleanliness) + 1,
+            cleanliness: values.cleanliness + 1,
             // Do not use strict equality here. We're dealing with *strings*
             positiveStoreViewOnDiving:
                 values.storeView == 1 ? null : values.storeView == 2,
