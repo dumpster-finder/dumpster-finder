@@ -45,6 +45,7 @@
         "setDist": "Set distance (km)",
         "changeLang": "Change language",
         "darkMode": "Dark mode",
+        "hide": "Hide negative rated comments",
         "en": "English",
         "no": "Norwegian",
         "de": "German",
