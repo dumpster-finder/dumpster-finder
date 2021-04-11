@@ -11,25 +11,24 @@ stages:
 
 install_deps_backend:
   # Following https://www.addthis.com/blog/2019/05/06/how-to-speed-up-your-gitlab-ci-pipelines-for-node-apps-by-40/
-  # (I *have* thought of this before)
   stage: install_deps
   cache:
-    key: $CI_COMMIT_BRANCH-$CI_PROJECT_DIR # branch instead of slug, for reliability
+    key: $CI_PROJECT_DIR # Just use the same cache for every branch
     paths:
       - backend/api/node_modules/
   script:
     - cd backend/api
     - npm ci
-  only:
-    changes:
-      - package-lock.json
+  #only:
+    #changes:
+      #- package-lock.json
 
 test_backend:
   stage: test
   dependencies:
     - install_deps_backend
   cache:
-    key: $CI_COMMIT_BRANCH-$CI_PROJECT_DIR
+    key: $CI_PROJECT_DIR
     paths:
       - backend/api/node_modules/
     policy: pull
@@ -40,6 +39,7 @@ test_backend:
     MYSQL_ROOT_PASSWORD: password
   script:
     - cd backend/api
+    - ls -d node_modules
     - printf "DB_HOST=mariadb\nDB_USER=root\nDB_PASSWORD=password\n" > .env
     - apt-get update && apt-get upgrade -y
     - apt-get install -y mariadb-client
