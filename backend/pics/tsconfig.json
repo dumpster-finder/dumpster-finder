@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "rootDir": "./",
+        "outDir": "./build",
+        "esModuleInterop": true,
+        "strict": true,
+        "types": ["@types/jest", "./@types/express-pino-logger"],
+        "typeRoots": [ "./@types" ]
+    }
+}

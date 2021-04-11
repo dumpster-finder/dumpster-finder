@@ -20,8 +20,7 @@ export class InvalidDataError extends APIError {
 
 /**
  * Error tied to the 404 status code,
- * for use when there is no such resource (or no such *parent* resource)
- */
+ * for use when there is no such resource */
 export class NotFoundError extends APIError {
     constructor(message: string) {
         super(message, 404);
@@ -37,30 +36,6 @@ export class ConflictError extends APIError {
     constructor(message: string) {
         super(message, 409);
         this.name = "ConflictError";
-    }
-}
-
-/**
- * Error tied to the 422 status code,
- * for use when e.g. there is no such dumpster type
- */
-export class InvalidKeyError extends APIError {
-    constructor(message: string) {
-        super(message, 422);
-        this.name = "InvalidKeyError";
-    }
-}
-
-/**
- * Error tied to the 422 status code,
- * for use when you don't know exactly what went wrong,
- * but you *do* know that it's probably the client's fault
- * (thus, the API is unable to process this particular request)
- */
-export class UnknownError extends APIError {
-    constructor(message: string) {
-        super(message, 422);
-        this.name = "UnknownError";
     }
 }
 
