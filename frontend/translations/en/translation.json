@@ -8,7 +8,7 @@
         "negative": "Negative",
         "neutral": "Neutral",
         "positive": "Positive",
-        "emptySchedule": "Emptying schedule:",
+        "emptyingSchedule": "Emptying schedule:",
         "categories": "Categories",
         "content": "See content",
         "comments": "See comments",
@@ -16,12 +16,9 @@
         "storeType": "Store type:",
         "dumpsterType": "Dumpster type:",
         "extraInfo": "Extra info",
-
         "dropdownPlaceholder": "Choose …",
-
+        "searchPlaceholder": "Place your text",
         "somethingWrong": "Something went wrong.",
-
-
         "areYouSure": "Are you sure?",
         "cancel": "Cancel",
         "add": "Add",
@@ -49,10 +46,12 @@
     "settings": {
         "setPos": "Set position",
         "changeNick": "Change nickname",
+        "nick": "Nickname",
         "saveNick": "Save nickname",
         "setDist": "Set distance (km)",
         "changeLang": "Change language",
         "darkMode": "Dark mode",
+        "hide": "Hide negatively rated comments",
         "en": "English",
         "no": "Norwegian",
         "de": "German",
@@ -92,7 +91,9 @@
     },
 
     "comment": {
-        "add": "Add comment"
+        "add": "Add comment",
+        "comment": "Comment",
+        "yourPos": "Your position"
     },
 
     "editor": {
@@ -130,7 +131,12 @@
             "unlocked": "Open"
         },
         "cleanliness": {
-            "label": "Cleanliness"
+            "label": "Cleanliness",
+            "pristine": "Pristine",
+            "clean": "Clean",
+            "average": "Average",
+            "dirty": "Dirty",
+            "filthy": "Filthy"
         },
         "extraInfo": {
             "label": "Notes",
@@ -147,7 +153,7 @@
         "unit": "Unit",
         "quality": "Quality",
         "expiryDate": "Expiration date",
-        "foundDate": "Found date",
+        "foundDate": "Found date"
     },
 
     "contentsEditor": {
@@ -181,12 +187,12 @@
     "position": {
         "save": "Set location",
         "none": "No position set",
-        "yourPos": "Your location"
+        "yourPos": "Your location",
+        "pos": "e.g. Paris"
     },
 
     "placeholders": {
         "search": "Place your text",
-        "pos": "e.g. Paris",
         "comment": "Comment",
         "choose": "Choose..",
         "extraInfo": "Other information"
@@ -201,10 +207,10 @@
     },
 
     "dumpsterType": {
-        "compressor": "Compressor",
-        "Large": "Large container",
-        "small": "Small container",
-        "bin": "Trash bin"
+        "Compressor": "Compressor",
+        "Large container": "Large container",
+        "Small container": "Small container",
+        "Trash Bin": "Trash bin"
     },
 
     "storeType": {
@@ -230,5 +236,38 @@
         "negative": "Negative",
         "neutral": "Neutral",
         "positive": "Positive"
+    },
+    "content": {
+        "title": "Add content",
+        "product": "Product",
+        "productPlace": "Product name",
+        "amount": "Amount",
+        "unit": "Unit",
+        "expiryDate": "Expires on",
+        "expiryPlace": "Select date ...",
+        "cancel": "Cancel",
+        "add": "Add"
+    },
+
+    "notFound": {
+        "text": "This screen doesn't exist",
+        "back": "Go to home screen!"
+    },
+
+    "titles": {
+        "mapBar": "Map",
+        "listBar": "List",
+        "map": "Map View",
+        "addPos": "Set dumpster position",
+        "addInfo": "Set dumpster info",
+        "details": "Details",
+        "comment": "Comments",
+        "content": "Content",
+        "revision": "Revision history",
+        "list": "List View",
+        "edit": "Edit dumpster",
+        "info": "Info",
+        "settings": "Settings",
+        "yourPos": "Set position"
     }
 }

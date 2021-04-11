@@ -29,6 +29,7 @@ import { ArrowRightIcon } from "../components/Icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DropdownCard from "../components/DropdownCard";
 import ButtonGroupDisplay from "../components/ButtonGroupDisplay";
+import { useTranslation } from "react-i18next";
 import ToggleSwitch from "../components/ToggleSwitch";
 
 export default function SettingsScreen({
@@ -36,16 +37,17 @@ export default function SettingsScreen({
 }: {
     navigation: StackNavigationProp<any>;
 }) {
-    const languages = ["English", "Norwegian", "German", "French", "Spanish"];
-    const languageCodes = ["en", "no", "de", "fr", "sp"];
+    const { t }: { t: (s: string) => string } = useTranslation("settings");
+    const languages = [t("en"), t("no")];
+    const languageCodes = ["en", "no"];
     const distances = ["2", "5", "10", "25", "50"];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
     const nickname = useSelector(nicknameSelector);
     const language = useSelector(languageSelector);
     const hideNegativeRating = useSelector(hideNegativeRatingSelector);
-    console.log(hideNegativeRating);
-    const diameter = Math.round(useSelector(radiusSelector) / 1000);
+    const radius = Math.round(useSelector(radiusSelector) / 1000);
+
     const [newLanguage, setNewLanguage] = useState(
         language ? languages.indexOf(language) : 0,
     );
@@ -53,16 +55,16 @@ export default function SettingsScreen({
     const [showDist, setShowDist] = useState(false);
     const [showLanguage, setShowLanguage] = useState(false);
     const [radiusDistance, setRadiusDistance] = useState(
-        diameter ? distances.indexOf(diameter.toString()) : 1,
+        radius ? distances.indexOf(radius.toString()) : 1,
     );
     const [nicknameFieldText, setNicknameFieldText] = useState(nickname);
 
-    if (!diameter) {
+    if (!radius) {
         dispatch(setRadius(1000));
     }
 
     if (!language) {
-        dispatch(setLanguage("English"));
+        dispatch(setLanguage("en"));
     }
 
     return (
@@ -77,7 +79,7 @@ export default function SettingsScreen({
                 >
                     <View style={styles.row}>
                         <View style={{ width: "50%" }}>
-                            <Text category={"h6"}>Set position </Text>
+                            <Text category={"h6"}>{t("setPos")} </Text>
                         </View>
                         <View style={{ width: "50%", alignItems: "flex-end" }}>
                             <ArrowRightIcon size="medium" />
@@ -86,7 +88,7 @@ export default function SettingsScreen({
                 </Card>
                 <DropdownCard
                     value={showNick}
-                    text={"Change nickname"}
+                    text={t("changeNick")}
                     onClick={newValue => setShowNick(newValue)}
                 />
                 {showNick && (
@@ -94,7 +96,7 @@ export default function SettingsScreen({
                         <Input
                             style={{ width: "90%" }}
                             size="large"
-                            placeholder={"Nickname"}
+                            placeholder={t("nick")}
                             value={nicknameFieldText}
                             onChangeText={s => setNicknameFieldText(s)}
                         />
@@ -104,14 +106,14 @@ export default function SettingsScreen({
                                 dispatch(setNickname(nicknameFieldText))
                             }
                         >
-                            Save nickname
+                            {t("saveNick")}
                         </Button>
                     </View>
                 )}
 
                 <DropdownCard
                     value={showDist}
-                    text={"Set distance (km)"}
+                    text={t("setDist")}
                     onClick={newValue => setShowDist(newValue)}
                 />
                 {showDist && (
@@ -126,7 +128,7 @@ export default function SettingsScreen({
 
                 <DropdownCard
                     value={showLanguage}
-                    text={"Change language"}
+                    text={t("changeLang")}
                     onClick={newValue => setShowLanguage(newValue)}
                 />
                 {showLanguage && (
@@ -142,14 +144,14 @@ export default function SettingsScreen({
                 )}
                 <Card>
                     <ToggleSwitch
-                        name={"Dark mode"}
+                        name={t("darkMode")}
                         checked={darkMode}
                         onChange={v => dispatch(setDarkMode(v))}
                     />
                 </Card>
                 <Card>
                     <ToggleSwitch
-                        name={"Hide negative rated comments"}
+                        name={t("hide")}
                         checked={hideNegativeRating}
                         onChange={v => dispatch(setHideNegativeRating(v))}
                     />

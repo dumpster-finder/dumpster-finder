@@ -74,7 +74,8 @@ export default function DumpsterInfo({ dumpster }: { dumpster: Dumpster }) {
             </View>
             <View style={styles.infoRow}>
                 <Text>
-                    {t("dumpsterType")} {dumpster.dumpsterType}
+                    {t("dumpsterType")}{" "}
+                    {t(`dumpsterType:${dumpster.dumpsterType}`)}
                 </Text>
             </View>
             <View style={styles.infoBox}>

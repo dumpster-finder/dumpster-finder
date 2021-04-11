@@ -3,15 +3,17 @@ import { useState } from "react";
 import MapView, { Marker } from "react-native-maps";
 import Position from "../models/Position";
 import { StyleSheet, View } from "react-native";
-import {Button, Layout, Text} from "@ui-kitten/components";
+import { Button, Layout, Text } from "@ui-kitten/components";
+import { useTranslation } from "react-i18next";
 
-export default function ({
+export default function({
     initialPosition,
     onSubmit,
 }: {
     initialPosition: Position;
     onSubmit: (position: Position) => void;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("position");
     const [position, setPosition] = useState(initialPosition);
 
     return (
@@ -25,7 +27,8 @@ export default function ({
                 }}
                 style={styles.map}
                 showsPointsOfInterest={false}
-                onPress={e => setPosition(e.nativeEvent.coordinate)}>
+                onPress={e => setPosition(e.nativeEvent.coordinate)}
+            >
                 <Marker
                     draggable
                     coordinate={position}
@@ -34,15 +37,14 @@ export default function ({
             </MapView>
             <Layout style={styles.positionBox}>
                 <Text category="h4">
-                    {"("}{position.latitude.toFixed(5)}{", "}
-                    {position.longitude.toFixed(5)}{")"}
+                    {"("}
+                    {position.latitude.toFixed(5)}
+                    {", "}
+                    {position.longitude.toFixed(5)}
+                    {")"}
                 </Text>
             </Layout>
-            <Button
-                onPress={() => onSubmit(position)}
-            >
-                Set position
-            </Button>
+            <Button onPress={() => onSubmit(position)}>{t("save")}</Button>
         </>
     );
 }
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
-        fontWeight: "200"
+        fontWeight: "200",
     },
     map: {
         left: 0,
@@ -63,5 +65,5 @@ const styles = StyleSheet.create({
         bottom: 0,
         position: "absolute",
         width: "100%",
-    }
+    },
 });

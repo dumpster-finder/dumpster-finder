@@ -31,6 +31,7 @@ import { firstTimeSelector } from "../redux/slices/configSlice";
 import { useTheme } from "@ui-kitten/components";
 import DetailsMenu from "../components/DetailsMenu";
 import RevisionScreen from "../screens/RevisionScreen";
+import { useTranslation } from "react-i18next";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -39,6 +40,7 @@ export default function BottomTabNavigator({
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("titles");
     const firstTime = useSelector(firstTimeSelector);
     const theme = useTheme();
 
@@ -65,7 +67,7 @@ export default function BottomTabNavigator({
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="navigate" color={color} />
                     ),
-                    title: "Map",
+                    title: t("mapBar"),
                 }}
             />
             <BottomTab.Screen
@@ -75,7 +77,7 @@ export default function BottomTabNavigator({
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="menu" color={color} />
                     ),
-                    title: "List",
+                    title: t("listBar"),
                 }}
             />
             <BottomTab.Screen
@@ -95,7 +97,7 @@ export default function BottomTabNavigator({
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="settings" color={color} />
                     ),
-                    title: "Settings",
+                    title: t("settings"),
                 }}
             />
         </BottomTab.Navigator>
@@ -121,49 +123,53 @@ const createStandardOptions = (theme: Record<string, string>) => ({
 });
 
 function MapTabNavigator() {
+    const { t }: { t: (s: string) => string } = useTranslation("titles");
     const theme = useTheme();
     return (
         <MapTabStack.Navigator screenOptions={createStandardOptions(theme)}>
             <MapTabStack.Screen
                 name="MapTabScreen"
                 component={MapScreen}
-                options={{ headerTitle: "Map View" }}
+                options={{ headerTitle: t("map") }}
             />
             <MapTabStack.Screen
                 name="AddPositionScreen"
                 component={AddPositionScreen}
-                options={{ headerTitle: "Set dumpster position" }}
+                options={{ headerTitle: t("addPos") }}
             />
             <MapTabStack.Screen
                 name="AddInfoScreen"
                 component={AddInfoScreen}
-                options={{ headerTitle: "Set dumpster info" }}
+                options={{ headerTitle: t("addInfo") }}
             />
             <ListTabStack.Screen
                 name="DetailsScreen"
                 component={DetailsScreen}
-                options={{ headerTitle: "Details", headerRight: DetailsMenu }}
+                options={{
+                    headerTitle: t("details"),
+                    headerRight: DetailsMenu,
+                }}
             />
             <ListTabStack.Screen
                 name="CommentScreen"
                 component={CommentScreen}
-                options={{ headerTitle: "Comments" }}
+                options={{ headerTitle: t("comment") }}
             />
 
             <ListTabStack.Screen
                 name="ContentScreen"
                 component={ContentScreen}
-                options={{ headerTitle: "Content" }}
+                options={{ headerTitle: t("content") }}
             />
             <ListTabStack.Screen
                 name="EditDumpsterScreen"
                 component={EditDumpsterScreen}
-                options={{ headerTitle: "Edit dumpster" }}
+                options={{ headerTitle: t("edit") }}
             />
             <ListTabStack.Screen
                 name="RevisionScreen"
                 component={RevisionScreen}
-                options={{ headerTitle: "Revision history" }}
+                options={{ headerTitle: t("revision") }}
             />
         </MapTabStack.Navigator>
     );
@@ -172,48 +178,52 @@ function MapTabNavigator() {
 const ListTabStack = createStackNavigator<ListTabParamList>();
 
 function ListTabNavigator() {
+    const { t }: { t: (s: string) => string } = useTranslation("titles");
     const theme = useTheme();
     return (
         <ListTabStack.Navigator screenOptions={createStandardOptions(theme)}>
             <ListTabStack.Screen
                 name="ListTabScreen"
                 component={ListScreen}
-                options={{ headerTitle: "List View" }}
+                options={{ headerTitle: t("list") }}
             />
             <ListTabStack.Screen
                 name="AddPositionScreen"
                 component={AddPositionScreen}
-                options={{ headerTitle: "Set dumpster position" }}
+                options={{ headerTitle: t("addPos") }}
             />
             <ListTabStack.Screen
                 name="AddInfoScreen"
                 component={AddInfoScreen}
-                options={{ headerTitle: "Set dumpster info" }}
+                options={{ headerTitle: t("addInfo") }}
             />
             <ListTabStack.Screen
                 name="DetailsScreen"
                 component={DetailsScreen}
-                options={{ headerTitle: "Details", headerRight: DetailsMenu }}
+                options={{
+                    headerTitle: t("details"),
+                    headerRight: DetailsMenu,
+                }}
             />
             <ListTabStack.Screen
                 name="CommentScreen"
                 component={CommentScreen}
-                options={{ headerTitle: "Comments" }}
+                options={{ headerTitle: t("comment") }}
             />
             <ListTabStack.Screen
                 name="ContentScreen"
                 component={ContentScreen}
-                options={{ headerTitle: "Content" }}
+                options={{ headerTitle: t("content") }}
             />
             <ListTabStack.Screen
                 name="EditDumpsterScreen"
                 component={EditDumpsterScreen}
-                options={{ headerTitle: "Edit dumpster" }}
+                options={{ headerTitle: t("edit") }}
             />
             <ListTabStack.Screen
                 name="RevisionScreen"
                 component={RevisionScreen}
-                options={{ headerTitle: "Revision" }}
+                options={{ headerTitle: t("revision") }}
             />
         </ListTabStack.Navigator>
     );
@@ -222,13 +232,14 @@ function ListTabNavigator() {
 const InfoTabStack = createStackNavigator<InfoTabParamList>();
 
 function InfoTabNavigator() {
+    const { t }: { t: (s: string) => string } = useTranslation("titles");
     const theme = useTheme();
     return (
         <InfoTabStack.Navigator screenOptions={createStandardOptions(theme)}>
             <InfoTabStack.Screen
                 name="InfoTabScreen"
                 component={InfoScreen}
-                options={{ headerTitle: "Info" }}
+                options={{ headerTitle: t("info") }}
             />
         </InfoTabStack.Navigator>
     );
@@ -237,6 +248,7 @@ function InfoTabNavigator() {
 const SettingsTabStack = createStackNavigator<SettingsTabParamList>();
 
 function SettingsTabNavigator() {
+    const { t }: { t: (s: string) => string } = useTranslation("titles");
     const theme = useTheme();
     return (
         <SettingsTabStack.Navigator
@@ -245,12 +257,12 @@ function SettingsTabNavigator() {
             <SettingsTabStack.Screen
                 name="SettingsTabScreen"
                 component={SettingsScreen}
-                options={{ headerTitle: "Settings" }}
+                options={{ headerTitle: t("settings") }}
             />
             <SettingsTabStack.Screen
                 name="SetPositionScreen"
                 component={SetPositionScreen}
-                options={{ headerTitle: "Set position" }}
+                options={{ headerTitle: t("yourPos") }}
             />
         </SettingsTabStack.Navigator>
     );

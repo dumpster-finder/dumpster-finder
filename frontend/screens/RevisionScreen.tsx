@@ -4,6 +4,7 @@ import { Layout } from "@ui-kitten/components";
 import DumpsterDropdownCard from "../components/DumpsterDropdownCard";
 import { useSelector } from "react-redux";
 import {
+    addDumpster,
     currentDumpsterSelector,
     setCurrentDumpster,
 } from "../redux/slices/dumpsterSlice";
@@ -12,6 +13,7 @@ import { useEffect, useState } from "react";
 import { DumpsterService } from "../services";
 import { useAppDispatch } from "../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { formatDate } from "../utils/date";
 
 export default function RevisionScreen({
     navigation,
@@ -36,7 +38,7 @@ export default function RevisionScreen({
                     {dumpsterList.map((value, index) => (
                         <DumpsterDropdownCard
                             key={index}
-                            text={value.dateUpdated}
+                            text={formatDate(new Date(value.dateUpdated))}
                             dumpster={value}
                             onReset={reset}
                         />
@@ -46,6 +48,7 @@ export default function RevisionScreen({
         );
     }
     function reset(newDumpster: RevDumpster) {
+        const { dateUpdated, isActive, ...restDumpster } = newDumpster;
         if (dumpster)
             DumpsterService.setRevision(
                 newDumpster.dumpsterID,
@@ -54,19 +57,16 @@ export default function RevisionScreen({
                 .then(() =>
                     dispatch(
                         setCurrentDumpster({
-                            dumpsterID: newDumpster.dumpsterID,
-                            name: newDumpster.name,
-                            position: newDumpster.position,
-                            emptyingSchedule: newDumpster.emptyingSchedule,
-                            locked: newDumpster.locked,
-                            positiveStoreViewOnDiving:
-                                newDumpster.positiveStoreViewOnDiving,
-                            cleanliness: newDumpster.cleanliness,
+                            ...restDumpster,
                             rating: dumpster.rating,
-                            dumpsterType: newDumpster.dumpsterType,
-                            storeType: newDumpster.storeType,
-                            categories: newDumpster.categories,
-                            info: newDumpster.info,
+                        }),
+                    ),
+                )
+                .then(() =>
+                    dispatch(
+                        addDumpster({
+                            ...restDumpster,
+                            rating: dumpster.rating,
                         }),
                     ),
                 )

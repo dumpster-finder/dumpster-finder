@@ -15,21 +15,20 @@
         "storeType": "Butikktype",
         "dumpsterType": "Type søppelkasse",
         "extraInfo": "Ekstra info",
-
         "dropdownPlaceholder": "Velg noe …",
-
+        "searchPlaceholder": "Søk etter noe",
         "somethingWrong": "Noe gikk galt.",
-
         "areYouSure": "Er du sikker?",
         "cancel": "Avbryt",
         "add": "Legg til",
         "save": "Lagre",
         "remove": "Fjern"
+
     },
     "advice": {
-        "title": "Dumpster diving råd:",
+        "title": "Råd for dumpster diving",
         "nr1": "1. Ikke gå i låste søppelkasser",
-        "nr2": "2. Ikke gå i søppelkasser som er markert private",
+        "nr2": "2. Ikke let i søppelkasser som er markert private",
         "nr3": "3. Ikke gå alene",
         "nr4": "4. Kle deg passende",
         "nr5": "5. Rydd opp etter deg"
@@ -44,10 +43,12 @@
     "settings": {
         "setPos": "Sett posisjon",
         "changeNick": "Endre kallenavn",
+        "nick": "Kallenavn",
         "saveNick": "Lagre kallenavn",
         "setDist": "Sett avstand (km)",
         "changeLang": "Endre språk",
-        "darkMode": "Mørkt modus",
+        "darkMode": "Mørkt tema",
+        "hide": "Sjul kommentarer med negativ vurdering",
         "en": "Engelsk",
         "no": "Norsk",
         "de": "Tysk",
@@ -67,14 +68,14 @@
         "categories": "Kategorier",
         "content": "Se innhold",
         "comments": "Se kommentarer",
-        "setRating": "Vurder meg:",
+        "setRating": "Vurdér meg:",
         "storeType": "Butikktype:",
         "dumpsterType": "Type søppelkasse:",
         "extraInfo": "Ekstra info"
     },
 
     "menu": {
-        "flag": "Flagg søppelkasse",
+        "flag": "Rapportér søppelkasse",
         "revision": "Revisjonshistorikk",
         "editDumpster": "Rediger søppelkasse",
         "editContent": "Rediger innhold"
@@ -86,7 +87,7 @@
     },
 
     "comment": {
-        "add": "Publiser kommentar",
+        "add": "Publisér kommentar",
         "comment": "Kommentar",
         "yourPos": "Din posisjon"
     },
@@ -126,7 +127,12 @@
             "unlocked": "Åpen"
         },
         "cleanliness": {
-            "label": "Renhet"
+            "label": "Renhet",
+            "pristine": "Nydelig",
+            "clean": "Ren",
+            "average": "Normal",
+            "dirty": "Skitten",
+            "filthy": "Forferdelig"
         },
         "extraInfo": {
             "label": "Annen info",
@@ -176,12 +182,13 @@
 
     "position": {
         "save": "Sett posision",
-        "none": "Ingen posisjon valgt"
+        "none": "Ingen posisjon valgt",
+        "yourPos": "Din posisjon",
+        "pos": "f.eks. Paris"
     },
 
     "placeholders": {
         "search": "Place your text",
-        "pos": "f.eks. Paris",
         "comment": "Comment",
         "choose": "Choose..."
     },
@@ -195,19 +202,21 @@
     },
 
     "dumpsterType": {
-        "compressor": "Compressor",
-        "Large": "Stor søppelkasse",
-        "small": "Liten søppelkasse",
-        "bin": "Søppeldunk"
+        "Compressor": "Kompressor",
+        "Large Container": "Stor konteiner",
+        "Small Container": "Liten konteiner",
+        "Trash Bin": "Søppeldunk"
     },
 
     "storeType": {
-        "Grocery": "Matbutikk",
-        "Electronics": "Elektronikk",
+        "Grocery Store": "Matbutikk",
+        "Electronics Store": "Elektronikk",
         "Bakery": "Bakeri",
-        "Furniture": "Møbelbutikk",
+        "Furniture Store": "Møbelbutikk",
         "Miscellaneous": "Blandet"
     },
+
+
     "categories": {
         "Dairy": "Meieriprodukter",
         "Batteries": "Batterier",
@@ -217,5 +226,39 @@
         "Pastries": "Bakevarer",
         "Seafood": "Sjømat",
         "unknown": "Ukjent"
+    },
+
+    "content": {
+        "title": "Legg til innhold",
+        "product": "Produkt",
+        "productPlace": "Produktnavn",
+        "amount": "Mengde",
+        "unit": "Konteiner",
+        "expiryDate": "Utløpsdato",
+        "expiryPlace": "Velg dato ...",
+        "cancel": "Avbryt",
+        "add": "Legg til"
+    },
+
+    "notFound": {
+        "text": "Denne siden finnes ikke",
+        "back": "Gå tilbake til forsiden"
+    },
+
+    "titles": {
+        "mapBar": "Kart",
+        "listBar": "Liste",
+        "map": "Kartvisning",
+        "addPos": "Sett posisjon",
+        "addInfo": "Legg til informasjon",
+        "details": "Detaljer",
+        "comment": "Kommentarer",
+        "content": "Innhold",
+        "revision": "Revisjonshistorikk",
+        "list": "Listevisning",
+        "edit": "Rediger dumpster",
+        "info": "Informasjon",
+        "settings": "Innstillinger",
+        "yourPos": "Sett posisjon"
     }
 }

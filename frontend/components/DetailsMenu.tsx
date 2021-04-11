@@ -1,14 +1,16 @@
 import * as React from "react";
 import Burgermenu from "./Burgermenu";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 export default function({}: { tintColor?: string }) {
     const navigation = useNavigation();
+    const { t }: { t: (s: string) => string } = useTranslation("menu");
 
     return (
         <Burgermenu
             onSelect={menuSelect}
-            values={["Flag dumpster", "Revision history", "Edit dumpster"]}
+            values={[t("flag"), t("revision"), t("editDumpster")]}
         />
     );
 

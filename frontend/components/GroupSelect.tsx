@@ -5,6 +5,7 @@ import {
     SelectGroup,
     SelectItem,
 } from "@ui-kitten/components";
+import { useTranslation } from "react-i18next";
 
 export default function GroupSelect({
     sValue,
@@ -17,6 +18,7 @@ export default function GroupSelect({
     values: Record<string, string[]>;
     onSelect: (newValue: Array<IndexPath>) => void;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("common");
     const [multiSelectedIndex, setMultiSelectedIndex] = React.useState([
         new IndexPath(0, 0),
         new IndexPath(1, 1),
@@ -34,7 +36,7 @@ export default function GroupSelect({
             label={label}
             multiSelect={true}
             value={groupDisplayValues.join(", ")}
-            placeholder="Choose..."
+            placeholder={t("dropdownPlaceholder")}
             onSelect={index =>
                 index instanceof Array && setMultiSelectedIndex(index)
             }

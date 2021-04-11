@@ -3,6 +3,7 @@ import { Callout, Marker } from "react-native-maps";
 import Dumpster from "../models/Dumpster";
 import { View } from "react-native";
 import { Text } from "@ui-kitten/components";
+import { useTranslation } from "react-i18next";
 
 /**
  * Displays a dumpster as a marker on a map
@@ -11,20 +12,21 @@ import { Text } from "@ui-kitten/components";
  * @param dumpster The dumpster to display
  * @param onPress  What should happen when the callout/marker is tapped
  */
-export default function({
+export default function ({
     dumpster: { name, storeType, dumpsterType, position },
     onPress,
 }: {
     dumpster: Dumpster;
     onPress: () => void;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("common");
     return (
         <Marker coordinate={position}>
             <Callout onPress={onPress}>
                 <View>
                     <Text category="h4">{name}</Text>
-                    <Text>{storeType}</Text>
-                    <Text>{dumpsterType}</Text>
+                    <Text>{t(`storeType:${storeType}`)}</Text>
+                    <Text>{t(`dumpsterType:${dumpsterType}`)}</Text>
                 </View>
             </Callout>
         </Marker>

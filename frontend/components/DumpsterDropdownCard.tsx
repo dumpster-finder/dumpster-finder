@@ -27,7 +27,7 @@ export default function DumpsterDropdownCard({
                         {dumpster.name}
                     </Text>
                     <Text category={"h6"} style={{ alignSelf: "center" }}>
-                        {dumpster.storeType}
+                        {t(`storeType:${dumpster.storeType}`)}
                     </Text>
                     <DumpsterInfo dumpster={dumpster} />
                     <Button

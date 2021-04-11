@@ -46,7 +46,9 @@ export default function AddContentModal({
                     expiryDate: null,
                 }}
                 validationSchema={Yup.object().shape({
-                    name: Yup.string().max(24).required(),
+                    name: Yup.string()
+                        .max(24)
+                        .required(),
                     amount: Yup.number(),
                     unit: Yup.string().max(12),
                     expiryDate: Yup.date().nullable(),

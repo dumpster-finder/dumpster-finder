@@ -7,12 +7,14 @@ import { fetchNearbyDumpsters } from "../redux/slices/dumpsterSlice";
 import { useAppDispatch } from "../redux/store";
 import { useSelector } from "react-redux";
 import { positionSelector, radiusSelector } from "../redux/slices/configSlice";
+import { useTranslation } from "react-i18next";
 
 export default function SearchHeader({
     onPressPlus,
 }: {
     onPressPlus: () => void;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("common");
     const [text, setText] = useState("");
     // TODO remove afterwards
     const radius = useSelector(radiusSelector);
@@ -35,7 +37,7 @@ export default function SearchHeader({
                 onPress={onPressPlus}
             />
             <Autocomplete
-                placeholder="Place your Text"
+                placeholder={t("searchPlaceholder")}
                 accessoryLeft={SearchInputIcon}
                 onChangeText={text => setText(text)}
                 value={text}

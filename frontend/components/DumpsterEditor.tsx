@@ -38,11 +38,11 @@ export default function DumpsterEditor({
     const dumpsterTypes = useSelector(dumpsterTypesSelector);
     const storeTypes = useSelector(storeTypesSelector);
     const cleanlinessRange = [
-        "Filthy",
-        "Dirty",
-        "Average",
-        "Clean",
-        "Pristine",
+        t("cleanliness.filthy"),
+        t("cleanliness.dirty"),
+        t("cleanliness.average"),
+        t("cleanliness.clean"),
+        t("cleanliness.pristine"),
     ];
     const categories = useSelector(categoriesSelector);
 
@@ -122,7 +122,9 @@ export default function DumpsterEditor({
                             <Dropdown
                                 value={values.dumpsterType}
                                 label={t("dumpsterType.label")}
-                                values={dumpsterTypes}
+                                values={dumpsterTypes.map(v =>
+                                    t(`dumpsterType:${v}`),
+                                )}
                                 onSelect={i => setFieldValue("dumpsterType", i)}
                                 status={errors.dumpsterType && "danger"}
                                 caption={
@@ -136,7 +138,7 @@ export default function DumpsterEditor({
                                 value={values.storeType}
                                 label={t("storeType.label")}
                                 values={storeTypes.map(s =>
-                                    t(`storeTypes:${s}`),
+                                    t(`storeType:${s}`),
                                 )}
                                 onSelect={i => setFieldValue("storeType", i)}
                                 status={errors.storeType && "danger"}
@@ -214,9 +216,7 @@ export default function DumpsterEditor({
                             <Rating
                                 value={values.cleanliness}
                                 onChange={i => setFieldValue("cleanliness", i)}
-                                stringList={cleanlinessRange.map(c =>
-                                    t(`cleanliness:${c.toLowerCase()}`),
-                                )}
+                                stringList={cleanlinessRange}
                             />
                         </View>
 

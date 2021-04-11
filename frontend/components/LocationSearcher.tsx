@@ -6,12 +6,14 @@ import { Text } from "@ui-kitten/components";
 import _ from "lodash";
 import { PlaceService } from "../services";
 import { SaveButtonIcon, SearchInputIcon } from "../components/Icons";
+import { useTranslation } from "react-i18next";
 
 export default function LocationSearcher({
     onSubmit,
 }: {
     onSubmit: (place: Place) => void;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("position");
     const [suggestions, setSuggestions] = useState<Place[]>([
         new Place({
             position: { latitude: 0, longitude: 0 },
@@ -31,8 +33,8 @@ export default function LocationSearcher({
     return (
         <>
             <Autocomplete
-                placeholder="e.g. Paris"
-                label="Your location"
+                placeholder={t("pos")}
+                label={t("yourPos")}
                 value={query}
                 size="large"
                 onChangeText={handleChange}
@@ -48,7 +50,7 @@ export default function LocationSearcher({
                     />
                 ))}
             </Autocomplete>
-            <Text>{place ? place.toString() : "No position set"}</Text>
+            <Text>{place ? place.toString() : t("none")}</Text>
             <Text>
                 {place
                     ? `(${place.position.latitude.toFixed(
@@ -62,7 +64,7 @@ export default function LocationSearcher({
                 onPress={() => place && onSubmit(place)}
                 disabled={!place}
             >
-                Set location
+                {t("save")}
             </Button>
         </>
     );

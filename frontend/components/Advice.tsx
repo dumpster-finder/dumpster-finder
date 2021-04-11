@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 export default function Advice() {
     // Specify the namespace when you get the t function
-    const { t } = useTranslation("advice");
+    const { t }: { t: (s: string) => string } = useTranslation("advice");
     return (
         <View>
             {/* Then you don't need to specify it all the time here */}
