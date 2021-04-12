@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import {CategoryService, DumpsterTypeService, StoreTypeService} from "../../services";
-import {Category, DumpsterType, StoreType} from "../../models/Constants";
+import {
+    CategoryService,
+    DumpsterTypeService,
+    StoreTypeService,
+} from "../../services";
+import { Category, DumpsterType, StoreType } from "../../models/Constants";
 
 /**
  * State for various constants
@@ -40,28 +44,17 @@ export const constantsSlice = createSlice({
         error: null,
     } as SliceState,
     reducers: {
-        setDumpsterTypes: (
-            state,
-            {
-                payload,
-            }: { payload: DumpsterType[] },
-        ) => {
+        setDumpsterTypes: (state, { payload }: { payload: DumpsterType[] }) => {
             state.dumpsterTypes = {};
             payload.forEach(
                 t => (state.dumpsterTypes[t.dumpsterTypeID] = t.name),
             );
         },
-        setStoreTypes: (
-            state,
-            { payload }: { payload: StoreType[] },
-        ) => {
+        setStoreTypes: (state, { payload }: { payload: StoreType[] }) => {
             state.storeTypes = {};
             payload.forEach(t => (state.storeTypes[t.storeTypeID] = t.name));
         },
-        setCategories: (
-            state,
-            { payload }: { payload: Category[] },
-        ) => {
+        setCategories: (state, { payload }: { payload: Category[] }) => {
             state.categories = {};
             payload.forEach(c => (state.categories[c.categoryID] = c.name));
         },
@@ -75,11 +68,20 @@ export const constantsSlice = createSlice({
         );
         builder.addCase(
             fetchAllConstants.fulfilled,
-            (state: SliceState, { payload: { categories, dumpsterTypes, storeTypes } }) => {
+            (
+                state: SliceState,
+                { payload: { categories, dumpsterTypes, storeTypes } },
+            ) => {
                 state.status = "succeeded";
-                dumpsterTypes.forEach(c => (state.dumpsterTypes[c.dumpsterTypeID] = c.name));
-                storeTypes.forEach(c => (state.storeTypes[c.storeTypeID] = c.name));
-                categories.forEach(c => (state.categories[c.categoryID] = c.name));
+                dumpsterTypes.forEach(
+                    c => (state.dumpsterTypes[c.dumpsterTypeID] = c.name),
+                );
+                storeTypes.forEach(
+                    c => (state.storeTypes[c.storeTypeID] = c.name),
+                );
+                categories.forEach(
+                    c => (state.categories[c.categoryID] = c.name),
+                );
             },
         );
         builder.addCase(

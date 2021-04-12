@@ -11,7 +11,7 @@ interface SliceState {
     status: "empty" | "changed";
 }
 
-const templateDumpster: Dumpster = {
+export const templateDumpster: Dumpster = {
     dumpsterID: 0,
     name: "",
     position: {

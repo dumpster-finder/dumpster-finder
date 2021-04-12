@@ -15,11 +15,16 @@ import {
     setDarkMode,
     resetRatedComments,
     languageSelector,
+    ratedCommentsSelector,
 } from "./redux/slices/configSlice";
 import {
     fetchNearbyDumpsters,
     setDumpsters,
 } from "./redux/slices/dumpsterSlice";
+import {
+    setEditorDumpster,
+    templateDumpster,
+} from "./redux/slices/editorSlice";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
@@ -37,11 +42,14 @@ const InnerApp = () => {
     const position = useSelector(positionSelector);
     const radius = useSelector(radiusSelector);
     const language = useSelector(languageSelector);
+    const ratedComments = useSelector(ratedCommentsSelector);
 
     useEffect(() => {
-        // TODO Tore said we had to do something here but I was to tiered to remember what
-        store.dispatch(resetRatedComments());
+        // Do some state-independent resets and fetches at app load
+        // TODO Remove this when ratedComments is guaranteed to be undefined on our dev devices
+        if (!ratedComments) store.dispatch(resetRatedComments());
         store.dispatch(fetchAllConstants());
+        store.dispatch(setEditorDumpster(templateDumpster));
         if (firstTime) {
             store.dispatch(setDarkMode(externalColorScheme === "dark"));
             // unset firstTime only AFTER the intro page has been shown!
