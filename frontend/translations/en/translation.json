@@ -268,6 +268,17 @@
         "edit": "Edit dumpster",
         "info": "Info",
         "settings": "Settings",
-        "yourPos": "Set position"
+        "yourPos": "Set position",
+        "gallery": "Photo gallery",
+        "display": "Photo",
+        "addPhoto": "Add photo"
+    },
+
+    "photo": {
+        "upload": "Upload photo",
+        "take": "Take Photo",
+        "photo": "Photo",
+        "delete" : "Delete photo",
+        "add": "Add photo"
     }
 }

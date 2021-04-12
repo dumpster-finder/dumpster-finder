@@ -102,6 +102,15 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
+                    <Button
+                        style={{ width: "80%" }}
+                        size="small"
+                        onPress={() =>
+                            navigation.navigate("PhotoGalleryScreen")
+                        }
+                    >
+                        Photos
+                    </Button>
                 </ScrollView>
             </Layout>
         );

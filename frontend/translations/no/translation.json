@@ -259,6 +259,17 @@
         "edit": "Rediger dumpster",
         "info": "Informasjon",
         "settings": "Innstillinger",
-        "yourPos": "Sett posisjon"
+        "yourPos": "Sett posisjon",
+        "gallery": "Bildegalleri",
+        "display": "Bilde",
+        "addPhoto": "Legg til bilde"
+    },
+
+    "photo": {
+        "upload": "Last opp bilde",
+        "take": "Ta bilde",
+        "photo": "Bilde",
+        "delete" : "Slett bilde",
+        "add": "Legg til bide"
     }
 }

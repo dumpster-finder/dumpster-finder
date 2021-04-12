@@ -162,6 +162,14 @@ export const MenuIcon = (props: IconProps) => (
     <BaseIcon {...props} name="menu" />
 );
 
+export const UploadIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="image-outline" />
+);
+
+export const CameraIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="camera" />
+);
+
 const styles: Record<string, any> = StyleSheet.create({
     small: {
         width: 16,

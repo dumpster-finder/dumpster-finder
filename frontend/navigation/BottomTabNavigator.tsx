@@ -32,6 +32,10 @@ import { useTheme } from "@ui-kitten/components";
 import DetailsMenu from "../components/DetailsMenu";
 import RevisionScreen from "../screens/RevisionScreen";
 import { useTranslation } from "react-i18next";
+import PhotoGalleryScreen from "../screens/PhotoGalleryScreen";
+import PhotoDisplayScreen from "../screens/PhotoDisplayScreen";
+import AddPhotoHeader from "../components/AddPhotoHeader";
+import AddPhotoScreen from "../screens/AddPhotoScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -224,6 +228,29 @@ function ListTabNavigator() {
                 name="RevisionScreen"
                 component={RevisionScreen}
                 options={{ headerTitle: t("revision") }}
+            />
+            <ListTabStack.Screen
+                name="PhotoGalleryScreen"
+                component={PhotoGalleryScreen}
+                options={{
+                    headerTitle: t("gallery"),
+                    headerRight: AddPhotoHeader,
+                }}
+            />
+            <ListTabStack.Screen
+                name="PhotoDisplayScreen"
+                component={PhotoDisplayScreen}
+                options={{
+                    headerTitle: t("display"),
+                    headerRight: AddPhotoHeader,
+                }}
+            />
+            <ListTabStack.Screen
+                name="AddPhotoScreen"
+                component={AddPhotoScreen}
+                options={{
+                    headerTitle: t("addPhoto"),
+                }}
             />
         </ListTabStack.Navigator>
     );
