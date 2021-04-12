@@ -43,28 +43,23 @@ app.use(express.json());
 app.use(cors());
 app.use(expressPino({ logger }));
 
-app.use("/spec", swagger());
+// TODO find a better way to prepend /api to all routes...
+//      (not a big thing though)
 
-app.use("/dumpsters", dumpsters(dependencies));
+app.use("/api/dumpsters", dumpsters(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/comments", comments(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/contents", contents(dependencies));
 
-app.use("/categories", categories(dependencies));
-app.use("/store-types", storeTypes(dependencies));
-app.use("/dumpster-types", dumpsterTypes(dependencies));
-//app.use("/users", users(dependencies));
+app.use("/api/categories", categories(dependencies));
+app.use("/api/content-types", contentTypes(dependencies));
+app.use("/api/store-types", storeTypes(dependencies));
+app.use("/api/dumpster-types", dumpsterTypes(dependencies));
+//app.use("/api/users", users(dependencies))
 
-/**
- * Global error handler
- *
- * Gives TypeScript a heart attack
- */
-// @ts-ignore
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    if (err.name === "ValidationError" && err instanceof ValidationError) {
-        logger.error(err.details, `Validation failed in ${req.url}`);
-    } else {
-        logger.error(err, `Something went wrong in ${req.url}`);
-    }
-    next(err);
-});
+// Mount Swagger docs at /api
+app.use("/api", swagger());
+
+// Finally, use the error handler!
+app.use(errorHandler(logger));
 
 export default app;
