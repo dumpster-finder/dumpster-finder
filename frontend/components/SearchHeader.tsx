@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import { PlusIcon, FilterIcon, SearchInputIcon, RefreshIcon } from "./Icons";
-import { Autocomplete, Button } from "@ui-kitten/components";
+import { Autocomplete, Button, Input } from "@ui-kitten/components";
 import { useState } from "react";
 import { fetchNearbyDumpsters } from "../redux/slices/dumpsterSlice";
 import { useAppDispatch } from "../redux/store";
@@ -26,32 +26,31 @@ export default function SearchHeader({
                 display: "flex",
                 width: "100%",
                 flexDirection: "row",
-                justifyContent: "space-evenly",
+                justifyContent: "center",
                 paddingVertical: 5,
             }}
         >
             <Button
+                style={{ width: "15%" }}
                 appearance="ghost"
                 size={"medium"}
                 accessoryLeft={PlusIcon}
                 onPress={onPressPlus}
             />
-            <Autocomplete
-                placeholder={t("searchPlaceholder")}
-                accessoryLeft={SearchInputIcon}
-                onChangeText={text => setText(text)}
-                value={text}
-            />
+            <View style={{ width: "70%" }}>
+                <Autocomplete
+                    style={{
+                        width: "100%",
+                    }}
+                    placeholder={t("searchPlaceholder")}
+                    accessoryLeft={SearchInputIcon}
+                    onChangeText={text => setText(text)}
+                    value={text}
+                />
+            </View>
+
             <Button
-                appearance="ghost"
-                size={"medium"}
-                onPress={() => {
-                    // TODO remove when tested
-                    dispatch(fetchNearbyDumpsters({ position, radius }));
-                }}
-                accessoryLeft={RefreshIcon}
-            />
-            <Button
+                style={{ width: "15%" }}
                 appearance="ghost"
                 size={"medium"}
                 accessoryLeft={FilterIcon}
