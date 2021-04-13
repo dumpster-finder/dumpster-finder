@@ -33,12 +33,14 @@ import { validate } from "express-validation";
 import RouteDependencies from "../types/RouteDependencies";
 import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
 import { getPicture, postPicture } from "../validators/pictures";
-import PictureController from "../controllers/pictures";
-import { InvalidDataError } from "../types/errors";
+import { InvalidDataError, NotFoundError } from "../types/errors";
 import multer from "multer";
+import * as fs from "fs";
+
+const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || "/tmp/";
 
 const upload = multer({
-    dest: process.env.UPLOAD_FOLDER || "/tmp/",
+    dest: UPLOAD_FOLDER,
     limits: {
         fileSize: process.env.UPLOAD_MAX_SIZE
             ? parseInt(process.env.UPLOAD_MAX_SIZE)
@@ -50,17 +52,18 @@ const upload = multer({
                 new InvalidDataError(`Invalid field ${file.fieldname}`),
             );
         if (!["image/png", "image/jpeg"].includes(file.mimetype))
-            return callback(new InvalidDataError("File type not allowed"));
+            return callback(
+                new InvalidDataError(
+                    "File type not allowed (PNG and JPEG are accepted)",
+                ),
+            );
 
         callback(null, true);
     },
 });
 
 export default function({ logger }: RouteDependencies) {
-    const pictureController = PictureController();
     const router = Router();
-
-    // const form = formidable({ multiples: true });
 
     /**
      * @swagger
@@ -101,7 +104,7 @@ export default function({ logger }: RouteDependencies) {
         "/:pictureID([a-zA-Z0-9]+)", // only allow alphanumeric IDs
         standardLimiter,
         validate(getPicture),
-        async (
+        (
             req: Request & {
                 params: { pictureID: string };
                 query: {};
@@ -109,11 +112,11 @@ export default function({ logger }: RouteDependencies) {
             res,
             next,
         ) => {
-            try {
-                await pictureController.find(req.params.pictureID);
-                res.status(200).json({ hi: "it works" });
-            } catch (e) {
-                next(e);
+            const filePath = `${UPLOAD_FOLDER}${req.params.pictureID}`;
+            if (fs.existsSync(filePath)) {
+                res.status(200).sendFile(filePath);
+            } else {
+                throw new NotFoundError("Picture not found");
             }
         },
     );
@@ -153,20 +156,16 @@ export default function({ logger }: RouteDependencies) {
      */
     router.post(
         "/",
-        standardLimiter,
+        updateLimiter,
         validate(postPicture),
         upload.any(),
         (req, res, next) => {
             if (!req.files) throw new InvalidDataError("No files uploaded");
-            try {
-                Object.keys(req.files).forEach(f => console.log(f));
-                res.status(201).send({
-                    message: "Picture uploaded successfully",
-                    files: req.files,
-                });
-            } catch (e) {
-                next(e);
-            }
+            Object.keys(req.files).forEach(f => console.log(f));
+            res.status(201).send({
+                message: "Picture uploaded successfully",
+                files: req.files,
+            });
         },
     );
 
