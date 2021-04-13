@@ -1,5 +1,6 @@
 {
     "common": {
+        "all": "All",
         "rating": "Rating:",
         "cleanliness": "Cleanliness",
         "locked": "Locked",
@@ -23,7 +24,8 @@
         "cancel": "Cancel",
         "add": "Add",
         "save": "Save",
-        "remove": "Remove"
+        "remove": "Remove",
+        "filter": "Apply filter"
     },
 
     "advice": {
