@@ -70,7 +70,7 @@ describe("getAll", () => {
         const dumpsters = await dumpsterDAO.getAll(params);
         expect(
             // Far away
-            dumpsters.find(({ name }) => name === "Elkjøp Stjørdal"),
+            dumpsters.find(({ name }) => name === "Rema 1000 Stjørdal"),
         ).toBeUndefined();
         expect(
             // About 6 km away

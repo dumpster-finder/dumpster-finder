@@ -219,14 +219,21 @@
 
     "categories": {
         "Dairy": "Meieriprodukter",
-        "Batteries": "Batterier",
+        "Bread": "Brød",
         "Vegetables": "Grønnsaker",
         "Meat": "Kjøtt",
-        "Tools": "Verktøy",
+        "Fruit": "Frukt",
         "Pastries": "Bakevarer",
         "Seafood": "Sjømat",
-        "Candy": "Godteri",
         "Chocolate": "Sjokolade",
+        "Candy": "Godteri",
+        "Nuts": "Nøtter",
+        "Rice": "Ris",
+        "Pasta": "Pasta",
+        "Fish": "Fisk",
+        "Cereals": "Frokostblanding",
+        "Noodles": "Nudler",
+        "Eggs": "Egg",
         "unknown": "Ukjent"
     },
 

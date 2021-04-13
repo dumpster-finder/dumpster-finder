@@ -223,12 +223,21 @@
 
     "categories": {
         "Dairy": "Dairy",
-        "Batteries": "Batteries",
+        "Bread": "Bread",
         "Vegetables": "Vegetables",
         "Meat": "Meat",
-        "Tools": "Tools",
+        "Fruit": "Fruit",
         "Pastries": "Pastries",
         "Seafood": "Seafood",
+        "Chocolate": "Chocolate",
+        "Candy": "Candy",
+        "Nuts": "Nuts",
+        "Rice": "Rice",
+        "Pasta": "Pasta",
+        "Fish": "Fish",
+        "Cereals": "Cereals",
+        "Noodles": "Noodles",
+        "Eggs": "Eggs",
         "Unknown": "Unknown"
     },
 
