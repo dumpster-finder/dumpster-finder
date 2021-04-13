@@ -37,7 +37,24 @@ import PictureController from "../controllers/pictures";
 import { InvalidDataError } from "../types/errors";
 import multer from "multer";
 
-const upload = multer({ dest: "/tmp/" });
+const upload = multer({
+    dest: process.env.UPLOAD_FOLDER || "/tmp/",
+    limits: {
+        fileSize: process.env.UPLOAD_MAX_SIZE
+            ? parseInt(process.env.UPLOAD_MAX_SIZE)
+            : 4_000_000, // size is in bytes or sth
+    },
+    fileFilter: (req, file, callback) => {
+        if (file.fieldname !== "picture")
+            return callback(
+                new InvalidDataError(`Invalid field ${file.fieldname}`),
+            );
+        if (!["image/png", "image/jpeg"].includes(file.mimetype))
+            return callback(new InvalidDataError("File type not allowed"));
+
+        callback(null, true);
+    },
+});
 
 export default function({ logger }: RouteDependencies) {
     const pictureController = PictureController();
@@ -131,31 +148,25 @@ export default function({ logger }: RouteDependencies) {
      *           application/json:
      *             schema:
      *               $ref: '#/components/schemas/Picture'
+     *       "400":
+     *         description: Invalid request
      */
     router.post(
         "/",
         standardLimiter,
         validate(postPicture),
-        upload.single("picture"),
+        upload.any(),
         (req, res, next) => {
             if (!req.files) throw new InvalidDataError("No files uploaded");
             try {
                 Object.keys(req.files).forEach(f => console.log(f));
-                res.status(201).send({ eh: "idk", files: req.files });
+                res.status(201).send({
+                    message: "Picture uploaded successfully",
+                    files: req.files,
+                });
             } catch (e) {
                 next(e);
             }
-            // Formidable, a possible alternative:
-            // form.parse(req, async (err, fields, files) => {
-            //     if (err) return next(err);
-            //     try {
-            //         console.log(fields);
-            //         await pictureController.upload(null);
-            //         res.status(201).json({ fields, files });
-            //     } catch (e) {
-            //         next(e);
-            //     }
-            // });
         },
     );
 
