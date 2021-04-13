@@ -2,27 +2,23 @@
  * @swagger
  * components:
  *   schemas:
- *     PostPicture:
+ *     PictureResult:
  *       type: object
  *       required:
- *         - idk
+ *         - statusCode
+ *         - message
+ *         - filename
  *       properties:
- *         idk:
+ *         statusCode:
  *           type: integer
+ *         message:
+ *           type: string
+ *         filename:
+ *           type: string
  *       example:
- *         idk: 1
- *     Picture:
- *       allOf:
- *         - type: object
- *           required:
- *             - pictureID
- *           properties:
- *             pictureID:
- *               type: integer
- *         - $ref: '#/components/schemas/PostPicture'
- *       example:
- *         pictureID: 23
- *         idk: 1
+ *         statusCode: 201
+ *         message: "File successfully uploaded"
+ *         filename: "206aef2927ea5bb255067c2eaffeaed73.jpg"
  * tags:
  *   - name: Pictures
  *     description: Picture API
@@ -83,20 +79,6 @@ export default function({ logger }: RouteDependencies) {
      *           type: string
      *         required: true
      *         description: Name of the picture file inside the server's storage
-     *       - in: query
-     *         name: options
-     *         schema:
-     *           type: object
-     *           properties:
-     *             width:
-     *               type: integer
-     *               description: Width of returned picture, in pixels
-     *           example:
-     *             width: 100
-     *         required: false
-     *         style: form
-     *         explode: true
-     *         description: Options for returned pictures
      *     responses:
      *       "200":
      *         description: A picture
@@ -109,6 +91,10 @@ export default function({ logger }: RouteDependencies) {
      *             schema:
      *               type: string
      *               format: binary
+     *       "400":
+     *         description: Invalid request
+     *       "404":
+     *         description: Picture not found
      */
     router.get(
         "/:pictureID([a-zA-Z0-9]+[.](jpg|png))", // only allow alphanumeric IDs with file extension
@@ -160,7 +146,7 @@ export default function({ logger }: RouteDependencies) {
      *         content:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/Picture'
+     *               $ref: '#/components/schemas/PictureResult'
      *       "400":
      *         description: Invalid request
      */
@@ -171,11 +157,13 @@ export default function({ logger }: RouteDependencies) {
         upload.any(),
         (req, res, next) => {
             if (!req.files) throw new InvalidDataError("No files uploaded");
-            // Rename file so it has an extension
             if (!(req.files instanceof Array))
                 throw new APIError("Something went wrong", 500);
+
             const picture = req.files.find(f => f.fieldname);
-            if (!picture) throw new InvalidDataError("Invalid fieldname");
+            if (!picture) throw new InvalidDataError("Invalid field name");
+
+            // Rename file so it has an extension
             const filename = `${picture.filename}.${extensions[
                 picture.mimetype
             ] || "jpg"}`;
@@ -183,9 +171,11 @@ export default function({ logger }: RouteDependencies) {
                 `${UPLOAD_FOLDER}${picture.filename}`,
                 `${UPLOAD_FOLDER}${filename}`,
             );
+
+            logger.info(`Successfully stored file ${filename}`);
             // Send info back
             res.status(201).send({
-                message: "Picture uploaded successfully",
+                message: "Picture successfully uploaded",
                 url: filename,
             });
         },
