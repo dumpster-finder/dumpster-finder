@@ -35,7 +35,6 @@
 import { Request, Router } from "express";
 import { validate } from "express-validation";
 import DumpsterDAO from "../daos/dumpsters";
-import CategoryDAo from "../daos/categories";
 import {
     getDumpster,
     locationParams,
@@ -43,7 +42,6 @@ import {
     putDumpster,
 } from "../validators/dumpsters";
 import { RouteDependencies } from "../types";
-import { PositionParams } from "../types/Position";
 import {generateUserID} from "../utils/IdGeneration";
 import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
 
@@ -52,7 +50,6 @@ import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
 export default function ({ logger, Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
-    const userDAO = CategoryDAo(Models);
 
     /**
      * @swagger
@@ -60,7 +57,6 @@ export default function ({ logger, Models }: RouteDependencies) {
      *   get:
      *     summary: GET a userID, and register it in server
      *     tags: [Users]
-     *     parameters:
      *     responses:
      *       "200":
      *         description: An array of dumpsters
@@ -82,7 +78,7 @@ export default function ({ logger, Models }: RouteDependencies) {
                 logger.info(salt);
                 const passwordHash = hashPassword(salt, userHash);
                 logger.info(passwordHash);
-                res.status(200);
+                res.status(200).json(userName.toString());
             } catch (e) {
                 logger.error(e, "Something went wrong!");
                 next(e);
