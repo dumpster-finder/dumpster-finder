@@ -3,8 +3,9 @@ import Joi from "joi";
 export const getPicture = {
     params: Joi.object({
         pictureID: Joi.string()
-            .alphanum()
+            .regex(/[a-zA-Z0-9]+\.(jpg|png)/)
             .required(),
+        "0": Joi.string(), // WTF???
     }),
 };
 

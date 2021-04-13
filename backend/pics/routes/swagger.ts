@@ -25,9 +25,8 @@ export default function() {
                 {
                     // This depends on what host the server is deployed to
                     url:
-                        process.env.HTTPS === "true"
-                            ? `https://${process.env.DOMAIN_NAME}/pic/` // TODO make these alternatives agree a little more
-                            : `http://${process.env.PIC_HOST}:${process.env.PIC_PORT}/pic/`, // (CORS issues caused the split)
+                        process.env.PIC_URL ||
+                        `http://${process.env.PIC_HOST}:${process.env.PIC_PORT}/pic/`,
                 },
             ],
         },

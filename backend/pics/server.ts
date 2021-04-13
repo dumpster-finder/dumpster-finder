@@ -28,10 +28,10 @@ app.use(expressPino({ logger }));
 // TODO find a better way to prepend /pic to all routes...
 //      (not a big thing though)
 
-app.use("/pic", pictures(dependencies));
-
 // Mount Swagger docs at /pic
-app.use("/pic", swagger());
+app.use("/pic/spec", swagger());
+
+app.use("/pic", pictures(dependencies));
 
 // Finally, use the error handler!
 app.use(errorHandler(logger));

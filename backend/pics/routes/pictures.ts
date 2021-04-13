@@ -33,17 +33,22 @@ import { validate } from "express-validation";
 import RouteDependencies from "../types/RouteDependencies";
 import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
 import { getPicture, postPicture } from "../validators/pictures";
-import { InvalidDataError, NotFoundError } from "../types/errors";
+import { APIError, InvalidDataError, NotFoundError } from "../types/errors";
 import multer from "multer";
 import * as fs from "fs";
 
-const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || "/tmp/";
+const UPLOAD_FOLDER = process.env.PIC_FOLDER || "/tmp/";
+
+const extensions: Record<string, string | undefined> = {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+};
 
 const upload = multer({
     dest: UPLOAD_FOLDER,
     limits: {
-        fileSize: process.env.UPLOAD_MAX_SIZE
-            ? parseInt(process.env.UPLOAD_MAX_SIZE)
+        fileSize: process.env.PIC_MAX_SIZE
+            ? parseInt(process.env.PIC_MAX_SIZE)
             : 4_000_000, // size is in bytes or sth
     },
     fileFilter: (req, file, callback) => {
@@ -67,17 +72,17 @@ export default function({ logger }: RouteDependencies) {
 
     /**
      * @swagger
-     * /{pictureID}:
+     * /{filename}:
      *   get:
      *     summary: Download a picture
      *     tags: [Pictures]
      *     parameters:
      *       - in: path
-     *         name: pictureID
+     *         name: filename
      *         schema:
      *           type: string
      *         required: true
-     *         description: Picture ID
+     *         description: Name of the picture file inside the server's storage
      *       - in: query
      *         name: options
      *         schema:
@@ -96,12 +101,17 @@ export default function({ logger }: RouteDependencies) {
      *       "200":
      *         description: A picture
      *         content:
-     *           application/json:
+     *           image/png:
      *             schema:
-     *               $ref: '#/components/schemas/Picture'
+     *               type: string
+     *               format: binary
+     *           image/jpeg:
+     *             schema:
+     *               type: string
+     *               format: binary
      */
     router.get(
-        "/:pictureID([a-zA-Z0-9]+)", // only allow alphanumeric IDs
+        "/:pictureID([a-zA-Z0-9]+[.](jpg|png))", // only allow alphanumeric IDs with file extension
         standardLimiter,
         validate(getPicture),
         (
@@ -161,10 +171,22 @@ export default function({ logger }: RouteDependencies) {
         upload.any(),
         (req, res, next) => {
             if (!req.files) throw new InvalidDataError("No files uploaded");
-            Object.keys(req.files).forEach(f => console.log(f));
+            // Rename file so it has an extension
+            if (!(req.files instanceof Array))
+                throw new APIError("Something went wrong", 500);
+            const picture = req.files.find(f => f.fieldname);
+            if (!picture) throw new InvalidDataError("Invalid fieldname");
+            const filename = `${picture.filename}.${extensions[
+                picture.mimetype
+            ] || "jpg"}`;
+            fs.renameSync(
+                `${UPLOAD_FOLDER}${picture.filename}`,
+                `${UPLOAD_FOLDER}${filename}`,
+            );
+            // Send info back
             res.status(201).send({
                 message: "Picture uploaded successfully",
-                files: req.files,
+                url: filename,
             });
         },
     );
