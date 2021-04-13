@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Button, Layout, Text, Input } from "@ui-kitten/components";
-import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View, Alert } from "react-native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
     CameraIcon,
     DeleteButtonIcon,
     SaveButtonIcon,
-    TrashIcon,
     UploadIcon,
 } from "../components/Icons";
+import ImagePicker, { launchImageLibrary } from "react-native-image-picker";
 
 export default function AddPhotoScreen() {
     const { t }: { t: (s: string) => string } = useTranslation("photo");
@@ -18,10 +18,15 @@ export default function AddPhotoScreen() {
     const [pending, setPending] = useState(false);
     const photoPath =
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
+    const [imageSource, setImageSource] = useState(null);
     return (
         <Layout style={styles.container}>
             <View style={styles.view}>
-                <Button style={styles.button} accessoryLeft={UploadIcon}>
+                <Button
+                    style={styles.button}
+                    accessoryLeft={UploadIcon}
+                    onPress={selectImage}
+                >
                     {t("upload")}
                 </Button>
                 <Button style={styles.button} accessoryLeft={CameraIcon}>
@@ -80,7 +85,34 @@ export default function AddPhotoScreen() {
             </View>
         </Layout>
     );
+
+    function selectImage() {
+        let options = {
+            title: "You can choose one image",
+            maxWidth: 256,
+            maxHeight: 256,
+            storageOptions: {
+                skipBackup: true,
+            },
+        };
+
+        launchImageLibrary(
+            { mediaType: "photo", maxWidth: 256, maxHeight: 256 },
+            response => {
+                console.log({ response });
+
+                if (response.didCancel) {
+                    console.log("User cancelled photo picker");
+                    Alert.alert("You did not select any image");
+                } else {
+                    let source = { uri: response.uri };
+                    console.log({ source });
+                }
+            },
+        );
+    }
 }
+
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
