@@ -34,7 +34,7 @@ export default function RevisionScreen({
     } else {
         return (
             <Layout style={styles.container}>
-                <ScrollView style={styles.scrollView}>
+                <ScrollView>
                     {dumpsterList.map((value, index) => (
                         <DumpsterDropdownCard
                             key={index}
@@ -80,9 +80,5 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-    },
-    scrollView: {
-        width: "auto",
-        marginVertical: "15%",
     },
 });

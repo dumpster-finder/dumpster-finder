@@ -10,12 +10,7 @@ import {
 import { StyleSheet, View } from "react-native";
 import Content from "../models/Content";
 import { useState } from "react";
-import {
-    DeleteButtonIcon,
-    PendingButtonIcon,
-    SaveButtonIcon,
-    TrashInputIcon,
-} from "./Icons";
+import { DeleteButtonIcon, PendingButtonIcon, SaveButtonIcon } from "./Icons";
 import { formatDate } from "../utils/date";
 import { Formik } from "formik";
 import * as Yup from "yup";

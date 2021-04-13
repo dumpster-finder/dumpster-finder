@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import { Divider, Text } from "@ui-kitten/components";
+import { Layout, Text } from "@ui-kitten/components";
 import {
     BrushIcon,
     LockIcon,
@@ -16,44 +16,26 @@ import { useTranslation } from "react-i18next";
 export default function DumpsterInfo({ dumpster }: { dumpster: Dumpster }) {
     const { t }: { t: (s: string) => string } = useTranslation("details");
     return (
-        <View style={{ paddingHorizontal: 5 }}>
-            <View style={styles.box}>
-                {typeof dumpster.rating === "undefined" ? null : (
-                    <View style={styles.boxRow}>
-                        <StarIcon size="small" />
-                        <Text style={styles.infoText}>
-                            {t("rating")} {dumpster.rating.toFixed(1)}
-                        </Text>
-                    </View>
-                )}
-
-                <View style={styles.boxRow}>
-                    <BrushIcon size="small" />
-                    <Text style={styles.infoText}>
-                        {t("cleanliness")} {dumpster.cleanliness}
-                    </Text>
-                </View>
-                <View style={styles.boxRow}>
-                    {dumpster.locked ? (
-                        <>
-                            <LockIcon size="small" />
-                            <Text style={styles.infoText}>{t("locked")}</Text>
-                        </>
-                    ) : (
-                        <>
-                            <OpenLockIcon size="small" />
-                            <Text style={styles.infoText}>{t("unlocked")}</Text>
-                        </>
-                    )}
-                </View>
+        <View style={styles.infoView}>
+            {/* CATEGORIES */}
+            <Text style={{ alignSelf: "center" }}>{t("categories")}</Text>
+            <View style={styles.tagRow}>
+                {dumpster.categories.map(category => (
+                    <Layout level="3" key={category} style={styles.tagBox}>
+                        <Text>{t(`categories:${category}`)}</Text>
+                    </Layout>
+                ))}
             </View>
-            <View style={styles.infoRow}>
+
+            {/* EMPTYING SCHEDULE */}
+            <View style={styles.row}>
                 <TrashIcon size="small" />
-                <Text style={styles.infoText}>
-                    {t("emptyingSchedule")} {dumpster.emptyingSchedule}
+                <Text style={styles.rowText}>
+                    {t("emptyingSchedule")}: {dumpster.emptyingSchedule}
                 </Text>
             </View>
-            <View style={styles.infoRow}>
+            {/* STORE VIEW */}
+            <View style={styles.row}>
                 {dumpster.positiveStoreViewOnDiving ? (
                     <PositiveIcon size="small" />
                 ) : dumpster.positiveStoreViewOnDiving === null ? (
@@ -61,8 +43,9 @@ export default function DumpsterInfo({ dumpster }: { dumpster: Dumpster }) {
                 ) : (
                     <NegativeIcon size={"small"} />
                 )}
-                <Text style={styles.infoText}>
-                    {t("view")}{" "}
+                <Text style={styles.rowText}>
+                    {t("view")}
+                    {": "}
                     {dumpster.positiveStoreViewOnDiving ? (
                         <Text>{t("positive")}</Text>
                     ) : dumpster.positiveStoreViewOnDiving === null ? (
@@ -72,46 +55,89 @@ export default function DumpsterInfo({ dumpster }: { dumpster: Dumpster }) {
                     )}
                 </Text>
             </View>
-            <View style={styles.infoRow}>
-                <Text>
-                    {t("dumpsterType")}{" "}
-                    {t(`dumpsterType:${dumpster.dumpsterType}`)}
-                </Text>
-            </View>
-            <View style={styles.infoBox}>
-                <Divider />
-                <Text style={{ paddingVertical: 2 }}>{dumpster.info}</Text>
-                <Divider />
-            </View>
+
+            {/* RATING, CLEANLINESS, OPENNESS */}
+            <Layout level="2" style={styles.box}>
+                {dumpster.rating && (
+                    <View style={styles.boxRow}>
+                        <StarIcon size="small" />
+                        <Text style={styles.rowText}>
+                            {t("rating")}: {dumpster.rating.toFixed(1)}
+                        </Text>
+                    </View>
+                )}
+
+                <View style={styles.boxRow}>
+                    <BrushIcon size="small" />
+                    <Text style={styles.rowText}>
+                        {t("cleanliness")}: {dumpster.cleanliness}
+                    </Text>
+                </View>
+                <View style={styles.boxRow}>
+                    {dumpster.locked ? (
+                        <>
+                            <LockIcon size="small" />
+                            <Text style={styles.rowText}>{t("locked")}</Text>
+                        </>
+                    ) : (
+                        <>
+                            <OpenLockIcon size="small" />
+                            <Text style={styles.rowText}>{t("unlocked")}</Text>
+                        </>
+                    )}
+                </View>
+            </Layout>
+            <Layout level="2" style={styles.infoBox}>
+                <Text style={{ marginVertical: 2 }}>{dumpster.info}</Text>
+            </Layout>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    infoText: {
-        paddingLeft: 3,
+    rowText: {
+        marginLeft: 3,
     },
     infoView: {
-        paddingHorizontal: 10,
-        paddingVertical: 5,
+        marginVertical: 5,
     },
-    infoRow: {
+    row: {
         flex: 1,
         flexDirection: "row",
-        paddingVertical: 5,
+        marginVertical: 2,
     },
     box: {
         display: "flex",
         flexWrap: "wrap",
         flexDirection: "row",
         justifyContent: "space-evenly",
-        paddingHorizontal: 5,
+        paddingVertical: 3,
+        marginVertical: 2,
+        borderRadius: 15,
     },
     boxRow: {
         flexDirection: "row",
-        paddingHorizontal: 5,
     },
     infoBox: {
+        marginVertical: 5,
+        paddingVertical: 3,
+        paddingHorizontal: 9,
+        borderRadius: 15,
+    },
+    tagRow: {
+        width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
         paddingVertical: 5,
+        paddingHorizontal: 10,
+        flexWrap: "wrap",
+    },
+    tagBox: {
+        paddingBottom: 5,
+        paddingTop: 3,
+        paddingHorizontal: 7,
+        borderRadius: 15,
+        marginRight: 3,
+        marginBottom: 4,
     },
 });

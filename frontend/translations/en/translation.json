@@ -1,20 +1,20 @@
 {
     "common": {
-        "rating": "Rating:",
+        "rating": "Rating",
         "cleanliness": "Cleanliness",
         "locked": "Locked",
         "unlocked": "Unlocked",
-        "view": "Store's view on dumpster diving:",
+        "view": "Store's view on dumpster diving",
         "negative": "Negative",
         "neutral": "Neutral",
         "positive": "Positive",
-        "emptyingSchedule": "Emptying schedule:",
+        "emptyingSchedule": "Emptying schedule",
         "categories": "Categories",
         "content": "See content",
         "comments": "See comments",
-        "setRating": "Rate me:",
-        "storeType": "Store type:",
-        "dumpsterType": "Dumpster type:",
+        "setRating": "Rate me",
+        "storeType": "Store type",
+        "dumpsterType": "Dumpster type",
         "extraInfo": "Extra info",
         "dropdownPlaceholder": "Choose …",
         "searchPlaceholder": "Place your text",
@@ -36,7 +36,7 @@
     },
 
     "iconDesc": {
-        "title": "Icon explanation:",
+        "title": "Icon explanation",
         "rating": "Rating for dumpster",
         "locked": "Is the dumpster locked",
         "emptySchedule": "Emptying schedule for dumpster",
@@ -60,21 +60,21 @@
     },
 
     "details": {
-        "rating": "Rating:",
+        "rating": "Rating",
         "cleanliness": "Cleanliness",
         "locked": "Locked",
         "unlocked": "Unlocked",
-        "view": "Store's view on dumpster diving:",
+        "view": "Store's view on dumpster diving",
         "negative": "Negative",
         "neutral": "Neutral",
         "positive": "Positive",
-        "emptySchedule": "Emptying schedule:",
-        "categories": "Categories",
-        "content": "See content",
+        "emptyingSchedule": "Emptying schedule",
+        "categories": "You might find",
+        "content": "See others' findings",
         "comments": "See comments",
-        "setRating": "Rate me:",
-        "storeType": "Store type:",
-        "dumpsterType": "Dumpster type:",
+        "setRating": "Rate me",
+        "storeType": "Store type",
+        "dumpsterType": "Dumpster type",
         "extraInfo": "Extra info"
     },
 
@@ -105,11 +105,11 @@
         },
         "dumpsterType": {
             "label": "Dumpster type",
-            "errorEmpty": "This field is required"
+            "errorEmpty": "Dumpster type is required"
         },
         "storeType": {
             "label": "Store type",
-            "errorEmpty": "This field is required"
+            "errorEmpty": "Store type is required"
         },
         "categories": {
             "label": "Categories"
@@ -223,12 +223,21 @@
 
     "categories": {
         "Dairy": "Dairy",
-        "Batteries": "Batteries",
+        "Bread": "Bread",
         "Vegetables": "Vegetables",
         "Meat": "Meat",
-        "Tools": "Tools",
+        "Fruit": "Fruit",
         "Pastries": "Pastries",
         "Seafood": "Seafood",
+        "Chocolate": "Chocolate",
+        "Candy": "Candy",
+        "Nuts": "Nuts",
+        "Rice": "Rice",
+        "Pasta": "Pasta",
+        "Fish": "Fish",
+        "Cereals": "Cereals",
+        "Noodles": "Noodles",
+        "Eggs": "Eggs",
         "Unknown": "Unknown"
     },
 
