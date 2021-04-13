@@ -34,7 +34,7 @@
         "nr5": "5. Rydd opp etter deg"
     },
     "iconDesc": {
-        "title": "Forklaring av ikoner:",
+        "title": "Forklaring av ikoner",
         "rating": "Vurdering av søppelkassen",
         "locked": "Er søppeøkassen låst",
         "emptySchedule": "Tømmeplan for søppelkassen",
@@ -56,21 +56,21 @@
         "es": "Spansk"
     },
     "details": {
-        "rating": "Vurdering:",
+        "rating": "Vurdering",
         "cleanliness": "Renhet",
         "locked": "Låst",
         "unlocked": "Åpen",
-        "view": "Butikkens syn på søppeldykkere:",
-        "negative": "Negativ",
-        "neutral": "Nøytral",
-        "positive": "Positiv",
-        "emptyingSchedule": "Tømmeplan:",
-        "categories": "Kategorier",
-        "content": "Se innhold",
+        "view": "Butikkens syn på søppeldykkere",
+        "negative": "Negativt",
+        "neutral": "Nøytralt",
+        "positive": "Positivt",
+        "emptyingSchedule": "Tømmeplan",
+        "categories": "Her kan du finne",
+        "content": "Se andres funn",
         "comments": "Se kommentarer",
-        "setRating": "Vurdér meg:",
-        "storeType": "Butikktype:",
-        "dumpsterType": "Type søppelkasse:",
+        "setRating": "Vurdér meg",
+        "storeType": "Butikktype",
+        "dumpsterType": "Type søppelkasse",
         "extraInfo": "Ekstra info"
     },
 
@@ -225,6 +225,8 @@
         "Tools": "Verktøy",
         "Pastries": "Bakevarer",
         "Seafood": "Sjømat",
+        "Candy": "Godteri",
+        "Chocolate": "Sjokolade",
         "unknown": "Ukjent"
     },
 

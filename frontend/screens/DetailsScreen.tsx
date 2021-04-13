@@ -1,13 +1,14 @@
 import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
-import { Button, Layout, Text, Divider } from "@ui-kitten/components";
+import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PhotoDisplay from "../components/PhotoDisplay";
 import DumpsterInfo from "../components/DumpsterInfo";
 import { useTranslation } from "react-i18next";
+import { CommentButtonIcon } from "../components/Icons";
 
 export default function DetailsScreen({
     navigation,
@@ -29,8 +30,6 @@ export default function DetailsScreen({
             </View>
         );
     } else {
-        const { categories } = dumpster;
-
         return (
             <Layout style={styles.container}>
                 <ScrollView style={styles.scrollView}>
@@ -43,6 +42,8 @@ export default function DetailsScreen({
 
                     <View style={{ alignItems: "center" }}>
                         <Text category="h6">
+                            {t(`dumpsterType:${dumpster.dumpsterType}`)}
+                            {" – "}
                             {t(`storeType:${dumpster.storeType}`)}
                         </Text>
                     </View>
@@ -53,40 +54,23 @@ export default function DetailsScreen({
                     </View>
                     <DumpsterInfo dumpster={dumpster} />
 
-                    <Text style={{ alignSelf: "center" }}>
-                        {t("categories")}
-                    </Text>
-                    <View style={styles.tagRow}>
-                        {categories.map((category, index) => (
-                            <Layout level="3" key={index} style={styles.tagBox}>
-                                <Text>{t(`categories:${category}`)}</Text>
-                            </Layout>
-                        ))}
-                    </View>
-
-                    <View style={styles.row}>
-                        <View style={styles.buttons}>
-                            <Button
-                                style={{ width: "80%" }}
-                                size="small"
-                                onPress={() =>
-                                    navigation.navigate("ContentScreen")
-                                }
-                            >
-                                {t("content")}
-                            </Button>
-                        </View>
-                        <View style={styles.buttons}>
-                            <Button
-                                style={{ width: "80%" }}
-                                size="small"
-                                onPress={() =>
-                                    navigation.navigate("CommentScreen")
-                                }
-                            >
-                                {t("comments")}
-                            </Button>
-                        </View>
+                    <View style={styles.buttonRow}>
+                        <Button
+                            style={styles.button}
+                            size="small"
+                            status="info"
+                            onPress={() => navigation.navigate("ContentScreen")}
+                        >
+                            {t("content")}
+                        </Button>
+                        <Button
+                            style={styles.button}
+                            size="small"
+                            status="info"
+                            onPress={() => navigation.navigate("CommentScreen")}
+                        >
+                            {t("comments")}
+                        </Button>
                     </View>
 
                     <Text style={{ alignSelf: "center" }}>
@@ -114,54 +98,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     scrollView: {
-        width: "100%",
+        paddingHorizontal: 12,
+        minHeight: "100%",
     },
     row: {
         flexDirection: "row",
     },
-    buttons: {
-        paddingVertical: 10,
-        width: "50%",
-        alignItems: "center",
-    },
-    infoRow: {
-        display: "flex",
+    buttonRow: {
+        marginVertical: 10,
         flexDirection: "row",
-        paddingVertical: 5,
-        marginHorizontal: 5,
-        flexWrap: "wrap",
+        justifyContent: "center",
     },
-    infoText: {
-        paddingLeft: 5,
-        flexWrap: "wrap",
-    },
-
-    tagRow: {
-        width: "100%",
-        flexDirection: "row",
-        alignItems: "center",
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        flexWrap: "wrap",
-    },
-    box: {
-        display: "flex",
-        flexWrap: "wrap",
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        paddingHorizontal: 5,
-    },
-
-    boxRow: {
-        flexDirection: "row",
-        paddingHorizontal: 5,
-    },
-    tagBox: {
-        paddingBottom: 5,
-        paddingTop: 3,
-        paddingHorizontal: 7,
-        borderRadius: 15,
-        marginRight: 3,
-        marginBottom: 4,
+    button: {
+        marginHorizontal: 10,
     },
 });
