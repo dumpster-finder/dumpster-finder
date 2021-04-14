@@ -194,3 +194,7 @@ VALUES
     (6, 8, 20,   'bars', 5, '2022-08-24', '2021-02-28'), -- chocolate
     (6, 5,  3,  'kilos', 4, '2021-05-21', '2021-02-03'), -- oysters
     (7, 4,  5,  'kilos', 4, '2021-12-21', '2021-03-20'); -- potatoes
+
+INSERT INTO Photos (photoID, dumpsterID, url, userID, dateAdded)
+VALUES
+    (1, 1, 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Dumpster-non.JPG', 'temp1', '2021-03-24');

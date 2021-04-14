@@ -195,10 +195,7 @@ import { PositionParams } from "../types/Position";
 import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
 import { NotFoundError } from "../types/errors";
 
-//TODO add validation and models, and DAO for the key ones
-//TODO change storetype and dumpstertype to String primary key and foreign key
-//     (really?)
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
 
