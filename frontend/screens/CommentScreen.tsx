@@ -35,7 +35,7 @@ export default function CommentScreen() {
 
     const [comment, setComment] = useState("");
     return (
-        <Layout style={styles.container}>
+        <Layout>
             <ScrollView style={styles.scrollView}>
                 <Text style={{ marginVertical: 4 }}>{nickname}</Text>
                 <Input
@@ -94,14 +94,8 @@ export default function CommentScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
     scrollView: {
-        flex: 1,
-        width: "95%",
-        height: "70%",
+        paddingHorizontal: 10,
+        paddingVertical: 5,
     },
 });

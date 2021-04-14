@@ -27,22 +27,24 @@ export default function DumpsterDropdownCard({
                         {dumpster.name}
                     </Text>
                     <Text category={"h6"} style={{ alignSelf: "center" }}>
+                        {t(`dumpsterType:${dumpster.dumpsterType}`)}
+                        {" – "}
                         {t(`storeType:${dumpster.storeType}`)}
                     </Text>
                     <DumpsterInfo dumpster={dumpster} />
                     <Button
-                        style={{ width: "50%", alignSelf: "center" }}
+                        style={{ minWidth: "50%", alignSelf: "center" }}
                         size={"small"}
                         onPress={() => onReset(dumpster)}
                         disabled={dumpster.isActive}
                     >
                         {t("revert")}
                     </Button>
-                    {dumpster.isActive ? (
+                    {dumpster.isActive && (
                         <Text style={{ alignSelf: "center" }}>
                             {t("current")}
                         </Text>
-                    ) : null}
+                    )}
                 </View>
             )}
         </View>

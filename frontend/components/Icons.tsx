@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon, IconProps as BaseIconProps } from "@ui-kitten/components";
 import { withStyles } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 type IconProps = BaseIconProps & {
     faded?: boolean;
@@ -18,11 +18,13 @@ export const UnthemedIcon = ({
 }: IconProps) => {
     const fill = color ? eva.style[color].color : eva.style.icon.color;
     return (
-        <Icon
-            {...restProps}
-            fill={fill}
-            style={[eva.style.icon, size && styles[size], style]}
-        />
+        <View style={styles.wrapper}>
+            <Icon
+                {...restProps}
+                fill={fill}
+                style={[eva.style.icon, size && styles[size], style]}
+            />
+        </View>
     );
 };
 
@@ -174,5 +176,9 @@ const styles: Record<string, any> = StyleSheet.create({
     large: {
         width: 32,
         height: 32,
+    },
+    wrapper: {
+        alignItems: "center",
+        justifyContent: "center",
     },
 });
