@@ -12,4 +12,6 @@ RUN npm install
 # Then copy data
 COPY . $SOURCE_FOLDER
 
+RUN mkdir -p /var/uploads
+
 ENTRYPOINT [ "npm", "start" ]

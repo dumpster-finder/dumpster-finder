@@ -110,7 +110,15 @@ export default function({ logger }: RouteDependencies) {
         ) => {
             const filePath = `${UPLOAD_FOLDER}${req.params.pictureID}`;
             if (fs.existsSync(filePath)) {
-                res.status(200).sendFile(filePath);
+                if (UPLOAD_FOLDER.charAt(0) === "/") {
+                    // Absolute path, works w/o issues
+                    res.status(200).sendFile(filePath);
+                } else {
+                    res.status(200).sendFile(filePath, {
+                        // relative path, try prepending project root
+                        root: __dirname.replace("/routes", ""),
+                    });
+                }
             } else {
                 throw new NotFoundError("Picture not found");
             }
