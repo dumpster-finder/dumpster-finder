@@ -1,10 +1,12 @@
 import { setupTestData } from "../../config/testSetup";
 import Models from "../../models";
 import UserDAO from "../users";
-import {generateUserID} from "../../utils/IdGeneration";
+import {generateUserID, readWordsFromFile} from "../../utils/IdGeneration";
 import {generateSalt, hashPassword, hashUser} from "../../utils/hashing";
 
 const userDAO = UserDAO(Models);
+const url = "./utils/wordsEnglish.txt"
+readWordsFromFile(url);
 
 beforeAll(setupTestData);
 
