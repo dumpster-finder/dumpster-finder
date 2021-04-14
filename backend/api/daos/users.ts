@@ -3,7 +3,6 @@ import { literal, Transaction } from "sequelize";
 import { UserAttributes } from "../models/Users";
 import {ConflictError, InvalidKeyError} from "../types/errors";
 import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
-import {logger} from "../server";
 
 export default function ({ Users, sequelize }: MyModels) {
     return {
@@ -50,9 +49,7 @@ export default function ({ Users, sequelize }: MyModels) {
             return sequelize.transaction(async t=> {
                 // Perform transaction
                 // Check that the pair of revision and dumpster ID is valid
-                logger.info(userWords);
                 let userName = hashUser(userWords);
-                logger.info(userName)
                 const match = await Users.findOne({
                     where: {
                         userName,
@@ -60,8 +57,6 @@ export default function ({ Users, sequelize }: MyModels) {
                     transaction: t,
                 });
                 if(match != null){
-                    logger.info(match.salt);
-                    logger.info(userWords);
                     const userID = hashPassword(match.salt, userWords);
                     const validate = await Users.findOne({
                         where: {
