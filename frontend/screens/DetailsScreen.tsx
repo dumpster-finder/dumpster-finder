@@ -22,12 +22,13 @@ export default function DetailsScreen({
         "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
     ];
+    const visitors = 5;
 
     if (!dumpster) {
         return (
-            <View style={styles.container}>
+            <Layout style={styles.container}>
                 <Text category="h1">{t("somethingWrong")}</Text>
-            </View>
+            </Layout>
         );
     } else {
         return (
@@ -53,7 +54,6 @@ export default function DetailsScreen({
                         <PhotoDisplay photoList={photos} />
                     </View>
                     <DumpsterInfo dumpster={dumpster} />
-
                     <View style={styles.buttonRow}>
                         <Button
                             style={styles.button}
@@ -85,6 +85,17 @@ export default function DetailsScreen({
                                 defaultRating={0}
                             />
                         </View>
+                    </View>
+                    <View>
+                        <Button
+                            size="small"
+                            style={{ width: "40%", alignSelf: "center" }}
+                        >
+                            {t("visit:visitbtn")}
+                        </Button>
+                        <Text style={{ alignSelf: "center" }}>
+                            {t("visit:part1")} {visitors} {t("visit:part2")}
+                        </Text>
                     </View>
                 </ScrollView>
             </Layout>

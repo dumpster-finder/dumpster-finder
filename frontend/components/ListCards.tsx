@@ -18,6 +18,7 @@ export default function ListCards({
     const currentPosition = useSelector(positionSelector);
     const pic =
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
+    const visitors = 5;
     return (
         <Card onPress={onPress}>
             <View style={styles.footerContainer}>
@@ -31,9 +32,12 @@ export default function ListCards({
                     }}
                 />
 
-                <View style={{ width: "60%", height: "100%" }}>
+                <View style={{ width: "60%", height: "100%", marginLeft: 5 }}>
                     <Text category="h6">{dumpster.name}</Text>
                     <Text>{t(`${dumpster.storeType}`)}</Text>
+                    <Text>
+                        {t("visit:part1")} {visitors} {t("visit:part2")}
+                    </Text>
                     <View
                         style={{
                             flex: 1,

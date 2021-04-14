@@ -41,6 +41,7 @@ export default function SettingsScreen({
     const languages = [t("en"), t("no")];
     const languageCodes = ["en", "no"];
     const distances = ["2", "5", "10", "25", "50"];
+    const intervalValue = ["day", "month", "year"];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
     const nickname = useSelector(nicknameSelector);
@@ -58,6 +59,9 @@ export default function SettingsScreen({
         radius ? distances.indexOf(radius.toString()) : 1,
     );
     const [nicknameFieldText, setNicknameFieldText] = useState(nickname);
+
+    const [showVis, setShowVis] = useState(false);
+    const [visitInterval, setVisitInterval] = useState(0);
 
     if (!radius) {
         dispatch(setRadius(1000));
@@ -141,6 +145,20 @@ export default function SettingsScreen({
                             <Radio key={index}>{value}</Radio>
                         ))}
                     </RadioGroup>
+                )}
+                <DropdownCard
+                    value={showVis}
+                    text={t("visit:visitInterval")}
+                    onClick={newValue => setShowVis(newValue)}
+                />
+                {showVis && (
+                    <View style={{ width: "98%", alignItems: "center" }}>
+                        <ButtonGroupDisplay
+                            value={visitInterval}
+                            values={intervalValue}
+                            onSelect={setVisitInterval}
+                        />
+                    </View>
                 )}
                 <Card>
                     <ToggleSwitch

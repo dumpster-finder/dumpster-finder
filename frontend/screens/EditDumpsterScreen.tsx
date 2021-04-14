@@ -14,21 +14,23 @@ import { setCurrentDumpster } from "../redux/slices/dumpsterSlice";
 import { resetEditor } from "../redux/slices/editorSlice";
 import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function EditDumpsterScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("common");
     const dispatch = useAppDispatch();
     const dumpster = useSelector(currentDumpsterSelector);
     const [pending, setPending] = useState(false);
 
     if (dumpster === null) {
         return (
-            <View style={styles.container}>
-                <Text>CRY</Text>
-            </View>
+            <Layout style={styles.container}>
+                <Text category="h1">{t("somethingWrong")}</Text>
+            </Layout>
         );
     } else {
         return (
