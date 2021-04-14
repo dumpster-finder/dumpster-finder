@@ -115,7 +115,10 @@ export default function ({ logger, Models }: RouteDependencies) {
                 );
                 logger.info(userExists.toString());
                 if (userExists) {
-                    res.status(200);
+                    res.status(200).json({
+                        statusCode: 200,
+                        message: "User exists, validation complete"
+                    });
                 } else {
                     res.status(404).json({
                         statusCode: 404,
