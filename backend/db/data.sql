@@ -97,10 +97,10 @@ VALUES
     ('temp4', 'temp4', 'temp4'),
     ('temp5', 'temp5', 'temp5'),
     ('temp6', 'temp6', 'temp6'),
-    ('ecf27ba076f34cb54ab8faea4b151b127ce120f3dfd5ed629bed32eeab6897a1022bc29aa32cef4b8c691179225dfeea2827ea92a6fac0c271666e44848699fd246e67d62b873ea68d764c9ed53212b145fa26c781ef34ba60420ac8debad08f672ac6f7',
-      'e3476d94d5188da6e55611bea9494374cb37dd261b7acd5dabcbc527fe058168a7f7c67d812f8768df3234d9296d5f39f600c5a4d410f1fa5f54547cea36be49',
-      '2bd907dded271a1706c1073314edef2c');
-    -- output minimum thunder afraid water spawn
+    ('52ca3a47e839d66f419297abde8a1dc7d4507162d9ca308270a8a84879110e75aa8f78ce7c2af2c41c26752a84ad422d79d2a91928b7a99ee47674c3a526fc13c6a550148317aa507c2adc6cd5508b27af2c607e0a8060cfd7cdc6f88e9edce276f08d25',
+      '76f2d41e00708c4644ab2fb4636f0ae741784bb48ff429659b5a79344bec88358df0052f773cefaebcfeaacf9c9c68e9e851f666e007a7e1cbc1e69a03a9efe0',
+      '1c45a7c753a365624c8fafa53e7b70e2');
+    -- crawl daring message team lamp develop
 
 INSERT INTO Ratings(userID, dumpsterID, rating)
 VALUES

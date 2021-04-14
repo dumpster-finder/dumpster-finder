@@ -1,5 +1,4 @@
 import { MyModels } from "../models";
-import {PositionParams} from "../types/Position";
 import { literal, Transaction } from "sequelize";
 import { UserAttributes } from "../models/Users";
 import {ConflictError, InvalidKeyError} from "../types/errors";
@@ -32,7 +31,7 @@ export default function ({ Users, sequelize }: MyModels) {
                     );
                 });
                 //this is probably redundant, but it's here now
-                if(await dumpsterPosition){
+                if(dumpsterPosition.salt != null){
                     return true;
                 }
                 else{
@@ -44,15 +43,14 @@ export default function ({ Users, sequelize }: MyModels) {
         /**
          * Fetches all dumpsters in a given radius around a position (lat, long)
          *
-         * @param latitude
-         * @param longitude
-         * @param radius
-         * @return The dumpsters that fit the query
+         * @param userWords
+         * @return if the user exists
          */
-        checkOne: async ( userWords : string ) => {
+        getOne: async ( userWords : string ) => {
             return sequelize.transaction(async t=> {
                 // Perform transaction
                 // Check that the pair of revision and dumpster ID is valid
+                logger.info(userWords);
                 let userName = hashUser(userWords);
                 logger.info(userName)
                 const match = await Users.findOne({
@@ -62,6 +60,8 @@ export default function ({ Users, sequelize }: MyModels) {
                     transaction: t,
                 });
                 if(match != null){
+                    logger.info(match.salt);
+                    logger.info(userWords);
                     const userID = hashPassword(match.salt, userWords);
                     const validate = await Users.findOne({
                         where: {
@@ -77,9 +77,7 @@ export default function ({ Users, sequelize }: MyModels) {
                     }
                 }
                 else {
-                    throw new InvalidKeyError(
-                        "There is no user with this ID",
-                    );
+                    return false
                 }
             });
 

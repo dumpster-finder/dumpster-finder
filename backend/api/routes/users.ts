@@ -75,7 +75,7 @@ export default function ({ logger, Models }: RouteDependencies) {
                 logger.info(userHash);
                 const salt = generateSalt()
                 logger.info(salt);
-                const passwordHash = hashPassword(salt, userHash);
+                const passwordHash = hashPassword(salt, userName);
                 logger.info(passwordHash);
                 const success = await userDAO.postOne( userHash, salt, passwordHash);
                 res.status(200).json(userName);
@@ -110,10 +110,10 @@ export default function ({ logger, Models }: RouteDependencies) {
         validate(validateUser),
         async (req, res, next) => {
             try {
-                const userExists : boolean = await userDAO.checkOne(
-                    req.params.userId
+                logger.info(req.params.userID)
+                const userExists : boolean = await userDAO.getOne(
+                    req.params.userID
                 );
-                logger.info(userExists.toString());
                 if (userExists) {
                     res.status(200).json({
                         statusCode: 200,

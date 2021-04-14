@@ -4,6 +4,7 @@ const userNameStop = 4; //how many words the username should be
 const iterations = 25000;
 const crypto = require('crypto');
 
+
 export function hashUser(userId : string){
     let userName = getUserName(userId);
     return crypto.createHash("sha512").update(userName).digest("hex");
