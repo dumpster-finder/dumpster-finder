@@ -33,7 +33,7 @@ import { APIError, InvalidDataError, NotFoundError } from "../types/errors";
 import multer from "multer";
 import * as fs from "fs";
 
-const UPLOAD_FOLDER = process.env.PIC_FOLDER || "/tmp/";
+const UPLOAD_FOLDER = process.env.PIC_FOLDER || "uploads/";
 
 const extensions: Record<string, string | undefined> = {
     "image/jpeg": "jpg",
@@ -176,7 +176,7 @@ export default function({ logger }: RouteDependencies) {
             // Send info back
             res.status(201).send({
                 message: "Picture successfully uploaded",
-                url: filename,
+                filename,
             });
         },
     );

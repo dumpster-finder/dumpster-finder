@@ -28,7 +28,7 @@ app.use(expressPino({ logger }));
 // TODO find a better way to prepend /pic to all routes...
 //      (not a big thing though)
 
-// Mount Swagger docs at /pic
+// Mount Swagger docs at subpath
 app.use("/pic/spec", swagger());
 
 app.use("/pic", pictures(dependencies));
