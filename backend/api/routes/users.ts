@@ -5,7 +5,7 @@
  *     getValidate:
  *       type: object
  *       required:
- *         - date
+ *         - userID
  *       properties:
  *         userName:
  *           type: integer
@@ -58,11 +58,11 @@ export default function ({ Models }: RouteDependencies) {
      *     tags: [Users]
      *     responses:
      *       "200":
-     *         description: An array of dumpsters
+     *         description: returns a new user
      *         content:
      *           application/json:
      *             schema:
-     *               type: array
+     *               type: string
      *               items:
      *                   $ref: '#/components/schemas/Users'
      */
@@ -86,7 +86,7 @@ export default function ({ Models }: RouteDependencies) {
      * @swagger
      * /users/validation/{userID}:
      *   get:
-     *     summary: GET Dumpster by ID
+     *     summary: Authenticates the user
      *     tags: [Users]
      *     parameters:
      *       - in: path
@@ -97,9 +97,9 @@ export default function ({ Models }: RouteDependencies) {
      *         description: the User Id
      *     responses:
      *       "200":
-     *         description: The requested dumpster
+     *         description: User valid
      *       "404":
-     *         description: Not found
+     *         description: user Not found
      */
     router.get(
         "/validation/:userID",

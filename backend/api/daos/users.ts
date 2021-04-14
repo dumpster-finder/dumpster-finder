@@ -8,12 +8,12 @@ import {logger} from "../server";
 export default function ({ Users, sequelize }: MyModels) {
     return {
         /**
-         * Fetches all dumpsters in a given radius around a position (lat, long)
+         * Posts a new user
          *
-         * @param latitude
-         * @param longitude
-         * @param radius
-         * @return The dumpsters that fit the query
+         * @param userName
+         * @param salt
+         * @param userID
+         * @return true or false depending on if it worked
          */
         postOne: async ( userName : string, salt : string, userID : string ) => {
             // Perform transaction
@@ -41,7 +41,7 @@ export default function ({ Users, sequelize }: MyModels) {
             });
         },
         /**
-         * Fetches all dumpsters in a given radius around a position (lat, long)
+         * validates the user input to see if it's accurate
          *
          * @param userWords
          * @return if the user exists
