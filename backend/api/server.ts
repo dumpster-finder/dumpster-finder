@@ -37,6 +37,9 @@ app.use(express.json());
 app.use(cors());
 app.use(expressPino({ logger }));
 
+// Trust NGINX (prevents rate limiter from going *global*)
+app.set("trust proxy", 1);
+
 // TODO find a better way to prepend /api to all routes...
 //      (not a big thing though)
 
