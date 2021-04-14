@@ -15,6 +15,7 @@
   "dependencies": {
     "@eva-design/eva": "^2.0.0",
     "@expo/vector-icons": "^12.0.0",
+    "@ptomasroos/react-native-multi-slider": "git://github.com/ptomasroos/react-native-multi-slider.git#38eb8100d667908c591a19cdd8f08a3e92252112",
     "@react-native-async-storage/async-storage": "^1.13.4",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.1",
