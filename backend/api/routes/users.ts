@@ -42,10 +42,11 @@ import { RouteDependencies } from "../types";
 import {generateUserID} from "../utils/IdGeneration";
 import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
 import {standardLimiter} from "../middleware/rateLimiter";
+import {logger} from "../server";
 
 
 
-export default function ({ logger, Models }: RouteDependencies) {
+export default function ({ Models }: RouteDependencies) {
     const router = Router();
     const userDAO = UserDAO(Models);
 
@@ -70,13 +71,9 @@ export default function ({ logger, Models }: RouteDependencies) {
             async (req, res, next) => {
             try {
                 const userName : string = await generateUserID();
-                logger.info(userName);
                 const userHash = hashUser(userName);
-                logger.info(userHash);
                 const salt = generateSalt()
-                logger.info(salt);
                 const passwordHash = hashPassword(salt, userName);
-                logger.info(passwordHash);
                 const success = await userDAO.postOne( userHash, salt, passwordHash);
                 res.status(200).json(userName);
             } catch (e) {
@@ -110,7 +107,6 @@ export default function ({ logger, Models }: RouteDependencies) {
         validate(validateUser),
         async (req, res, next) => {
             try {
-                logger.info(req.params.userID)
                 const userExists : boolean = await userDAO.getOne(
                     req.params.userID
                 );
