@@ -30,8 +30,8 @@ const app = express();
  */
 export const logger = pino(defaultLoggerOptions);
 //setup the word file
-//const url = "./utils/wordsEnglish.txt"
-//export const wordList : string[] = readWordsFromFile(url);
+const url = "./utils/wordsEnglish.txt"
+export const wordList : string[] = readWordsFromFile(url);
 
 const dependencies = {
     logger,
@@ -54,7 +54,7 @@ app.use("/api/categories", categories(dependencies));
 app.use("/api/content-types", contentTypes(dependencies));
 app.use("/api/store-types", storeTypes(dependencies));
 app.use("/api/dumpster-types", dumpsterTypes(dependencies));
-//app.use("/api/users", users(dependencies))
+app.use("/api/users", users(dependencies))
 
 // Mount Swagger docs at /api
 app.use("/api", swagger());

@@ -34,22 +34,20 @@
 
 import { Request, Router } from "express";
 import { validate } from "express-validation";
-import DumpsterDAO from "../daos/dumpsters";
+import UserDAO from "../daos/users";
 import {
-    getDumpster,
-    locationParams,
-    postDumpster,
-    putDumpster,
-} from "../validators/dumpsters";
+    validateUser
+} from "../validators/users";
 import { RouteDependencies } from "../types";
 import {generateUserID} from "../utils/IdGeneration";
 import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
+import {standardLimiter} from "../middleware/rateLimiter";
 
 
 
 export default function ({ logger, Models }: RouteDependencies) {
     const router = Router();
-    const dumpsterDAO = DumpsterDAO(Models);
+    const userDAO = UserDAO(Models);
 
     /**
      * @swagger
@@ -68,65 +66,61 @@ export default function ({ logger, Models }: RouteDependencies) {
      *                   $ref: '#/components/schemas/Users'
      */
         router.get("/",
+            standardLimiter,
             async (req, res, next) => {
             try {
-                const userName : string = generateUserID();
-                logger.info(userName)
+                const userName : string = await generateUserID();
+                logger.info(userName);
                 const userHash = hashUser(userName);
                 logger.info(userHash);
                 const salt = generateSalt()
                 logger.info(salt);
                 const passwordHash = hashPassword(salt, userHash);
                 logger.info(passwordHash);
-                res.status(200).json(userName.toString());
+                const success = await userDAO.postOne( userHash, salt, passwordHash);
+                res.status(200).json(userName);
             } catch (e) {
-                logger.error(e, "Something went wrong!");
+                logger.error(e, "that user already exists, send new request");
                 next(e);
             }
         });
 
     /**
      * @swagger
-     * /users/validation:
+     * /users/validation/{userID}:
      *   get:
      *     summary: GET Dumpster by ID
      *     tags: [Users]
      *     parameters:
      *       - in: path
-     *         name: dumpsterID
+     *         name: userID
      *         schema:
-     *           type: integer
+     *           type: string
      *         required: true
-     *         description: Dumpster ID
+     *         description: the User Id
      *     responses:
      *       "200":
      *         description: The requested dumpster
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/Dumpster'
      *       "404":
      *         description: Not found
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/Message'
      */
     router.get(
-        "/:dumpsterID(\\d+)",
-        validate(getDumpster),
+        "/validation/:userID",
+        standardLimiter,
+        validate(validateUser),
         async (req, res, next) => {
             try {
-                const dumpster = await dumpsterDAO.getOne(
-                    parseInt(req.params.dumpsterID),
+                const userExists : boolean = await userDAO.checkOne(
+                    req.params.userId
                 );
-                if (dumpster) {
-                    res.status(200).json(dumpster);
+                logger.info(userExists.toString());
+                if (userExists) {
+                    res.status(200);
                 } else {
                     res.status(404).json({
                         statusCode: 404,
-                        message: "Dumpster not found",
-                    });
+                        message: "user doesn't exist"
+                })
                 }
             } catch (e) {
                 logger.error(e, "Something went wrong!");

@@ -96,8 +96,11 @@ VALUES
     ('temp3', 'temp3', 'temp3'),
     ('temp4', 'temp4', 'temp4'),
     ('temp5', 'temp5', 'temp5'),
-    ('temp6', 'temp6', 'temp6');
-
+    ('temp6', 'temp6', 'temp6'),
+    ('ecf27ba076f34cb54ab8faea4b151b127ce120f3dfd5ed629bed32eeab6897a1022bc29aa32cef4b8c691179225dfeea2827ea92a6fac0c271666e44848699fd246e67d62b873ea68d764c9ed53212b145fa26c781ef34ba60420ac8debad08f672ac6f7',
+      'e3476d94d5188da6e55611bea9494374cb37dd261b7acd5dabcbc527fe058168a7f7c67d812f8768df3234d9296d5f39f600c5a4d410f1fa5f54547cea36be49',
+      '2bd907dded271a1706c1073314edef2c');
+    -- output minimum thunder afraid water spawn
 
 INSERT INTO Ratings(userID, dumpsterID, rating)
 VALUES

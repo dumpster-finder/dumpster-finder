@@ -1,13 +1,13 @@
 import {randomInt} from "crypto";
 import {stringifyArray } from "./hashing";
 import {logger} from "../server";
-const fs = require("fs")
+const fs = require("fs");
 
 export let wordArray : string[] = [];
 export let wordCount : number = 6;
 
 export function readWordsFromFile(url : string){
-    wordArray = fs.readFileSync(url, 'utf-8').split('\n');
+    wordArray = fs.readFileSync(url, 'utf-8').split(/\r\n|\n|\r/);
     return wordArray
 }
 

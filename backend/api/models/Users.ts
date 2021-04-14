@@ -28,6 +28,7 @@ export function init(sequelize: Sequelize) {
             },
             userName : {
                 type: DataTypes.STRING,
+                unique: true,
             },
             salt : {
                 type: DataTypes.STRING,
