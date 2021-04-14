@@ -14,7 +14,7 @@ export function readWordsFromFile(url : string){
 export function generateUserID() : string{
     let words : string[] = [];
     for(var i = 0; i < wordCount; i++){
-        words.push(wordArray[randomInt(0, wordArray.length)]);
+        words.push(wordArray[randomInt(0, wordArray.length-1)]);
     }
     return stringifyArray(words);
 }
