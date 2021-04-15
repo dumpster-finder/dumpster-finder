@@ -6,9 +6,12 @@ import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PhotoDisplay from "../components/PhotoDisplay";
-import DumpsterInfo from "../components/DumpsterInfo";
 import { useTranslation } from "react-i18next";
 import { CommentButtonIcon } from "../components/Icons";
+import CategoryInfo from "../components/DumpsterInfo/CategoryInfo";
+import ExtraInfo from "../components/DumpsterInfo/ExtraInfo";
+import InfoRow from "../components/DumpsterInfo/InfoRow";
+import GeneralInfo from "../components/DumpsterInfo/GeneralInfo";
 
 export default function DetailsScreen({
     navigation,
@@ -48,12 +51,25 @@ export default function DetailsScreen({
                             {t(`storeType:${dumpster.storeType}`)}
                         </Text>
                     </View>
-
-                    {/*TODO this might end badly on really small screens!*/}
                     <View style={{ height: 150, marginVertical: 5 }}>
                         <PhotoDisplay photoList={photos} />
                     </View>
-                    <DumpsterInfo dumpster={dumpster} />
+
+                    {/*TODO this might end badly on really small screens!*/}
+
+                    <CategoryInfo dumpster={dumpster} />
+                    <GeneralInfo dumpster={dumpster} />
+                    <Text
+                        style={{
+                            justifyContent: "flex-start",
+                        }}
+                    >
+                        {t("visit:part1")} {visitors} {t("visit:part2")}
+                    </Text>
+                    <InfoRow dumpster={dumpster} />
+
+                    <ExtraInfo dumpster={dumpster} />
+
                     <View style={styles.buttonRow}>
                         <Button
                             style={styles.button}
@@ -86,17 +102,14 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
-                    <View>
-                        <Button
-                            size="small"
-                            style={{ width: "40%", alignSelf: "center" }}
-                        >
-                            {t("visit:visitbtn")}
-                        </Button>
-                        <Text style={{ alignSelf: "center" }}>
-                            {t("visit:part1")} {visitors} {t("visit:part2")}
-                        </Text>
-                    </View>
+                    <Button
+                        style={{
+                            alignSelf: "center",
+                        }}
+                        size="small"
+                    >
+                        {t("visit:visitbtn")}
+                    </Button>
                 </ScrollView>
             </Layout>
         );
@@ -122,5 +135,9 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: 10,
+    },
+    view: {
+        flexDirection: "row",
+        alignItems: "center",
     },
 });
