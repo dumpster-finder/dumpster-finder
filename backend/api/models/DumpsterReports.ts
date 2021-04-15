@@ -16,11 +16,11 @@ export interface DumpsterReportCreationAttributes
 export class DumpsterReports
     extends Model<DumpsterReportAttributes, DumpsterReportCreationAttributes>
     implements DumpsterReportAttributes {
-    public dumpsterReportID!: number;
-    public dumpsterID!: number;
-    public userID!: string | null;
-    public reason!: string;
-    public date!: string;
+    dumpsterReportID!: number;
+    dumpsterID!: number;
+    userID!: string | null;
+    reason!: string;
+    date!: string;
 }
 
 // Inject Sequelize

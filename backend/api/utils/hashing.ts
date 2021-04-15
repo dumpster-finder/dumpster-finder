@@ -18,12 +18,7 @@ function getUserName(userID : string){
 }
 
 export function stringifyArray(words : string[]) : string{
-    let userName = "";
-    userName += words.shift()
-    while(words.length>0){
-        userName += " " + words.shift()
-    }
-    return userName;
+    return words.join(" ")
 }
 
 export function generateSalt(){

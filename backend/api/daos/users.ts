@@ -16,28 +16,21 @@ export default function ({ Users, sequelize }: MyModels) {
          */
         postOne: async ( userName : string, salt : string, userID : string ) => {
             // Perform transaction
-            await sequelize.transaction(async t => {
                 const dumpsterPosition = await Users.create(
                     {
                         userID,
                         userName,
                         salt
                     },
-                    { transaction: t },
                 ).catch(_ => {
                     throw new ConflictError(
                         "A user with this hash already exists",
                     );
+                    return false;
                 });
                 //this is probably redundant, but it's here now
-                if(dumpsterPosition.salt != null){
-                    return true;
-                }
-                else{
-                    return false
-                }
+                return dumpsterPosition !== null;
 
-            });
         },
         /**
          * validates the user input to see if it's accurate
@@ -46,15 +39,13 @@ export default function ({ Users, sequelize }: MyModels) {
          * @return if the user exists
          */
         getOne: async ( userWords : string ) => {
-            return sequelize.transaction(async t=> {
-                // Perform transaction
-                // Check that the pair of revision and dumpster ID is valid
-                let userName = hashUser(userWords);
+            let userName = hashUser(userWords);
+                // Does't Perform transaction, since nothing is getting written
+                // Check that the userHash and the salted hash are both nice
                 const match = await Users.findOne({
                     where: {
                         userName,
                     },
-                    transaction: t,
                 });
                 if(match != null){
                     const userID = hashPassword(match.salt, userWords);
@@ -62,20 +53,12 @@ export default function ({ Users, sequelize }: MyModels) {
                         where: {
                             userID,
                         },
-                        transaction: t,
                     });
-                    if(validate != null){
-                        return true
-                    }
-                    else{
-                        return false
-                    }
+                    return validate !== null;
                 }
                 else {
                     return false
                 }
-            });
-
         },
 
     };

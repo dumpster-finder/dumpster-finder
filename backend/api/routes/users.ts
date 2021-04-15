@@ -1,37 +1,3 @@
-/**
- * @swagger
- * components:
- *   schemas:
- *     getValidate:
- *       type: object
- *       required:
- *         - userID
- *       properties:
- *         userName:
- *           type: integer
- *       example:
- *         userName: ahahah
- *     Users:
- *       type: object
- *       properties:
- *         userID:
- *           type: string
- *           description: ID hash, used to identify user
- *         userName:
- *           type: string
- *           description: simple hash, used to identify user for authentication
- *         salt:
- *           type: string
- *           description: the salt for the hash
- *       example:
- *         userID: fix
- *         userName: fix
- *         salt: fix
- * user:
- *   - name: Comments
- *     description: Comments API
- */
-
 import { Request, Router } from "express";
 import { validate } from "express-validation";
 import UserDAO from "../daos/users";
@@ -63,8 +29,6 @@ export default function ({ Models }: RouteDependencies) {
      *           application/json:
      *             schema:
      *               type: string
-     *               items:
-     *                   $ref: '#/components/schemas/Users'
      */
         router.get("/",
             standardLimiter,
