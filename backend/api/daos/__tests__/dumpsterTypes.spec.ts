@@ -6,9 +6,14 @@ const dumpsterTypeDAO = DumpsterTypeDAO(Models);
 
 beforeAll(setupTestData);
 
-describe("postOne", () => {
-    it("", async () => {
+describe("getAll", () => {
+    it("should return all dumpster types", async () => {
         const dumpsterTypes = await dumpsterTypeDAO.getAll();
-
+        expect(dumpsterTypes.map(({ name }) => name)).toEqual([
+            "Compressor",
+            "Large Container",
+            "Small Container",
+            "Trash Bin",
+        ]);
     });
 });
