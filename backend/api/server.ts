@@ -12,6 +12,7 @@ import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
 import comments from "./routes/comments";
 import users from "./routes/users";
+import ratings from "./routes/ratings";
 import { defaultLoggerOptions } from "./config/pino";
 import contents from "./routes/contents";
 import contentTypes from "./routes/contentTypes";
@@ -58,6 +59,8 @@ app.use("/api/content-types", contentTypes(dependencies));
 app.use("/api/store-types", storeTypes(dependencies));
 app.use("/api/dumpster-types", dumpsterTypes(dependencies));
 app.use("/api/users", users(dependencies));
+app.use("/api/ratings", ratings(dependencies));
+
 
 // Mount Swagger docs at /api
 app.use("/api", swagger());
