@@ -62,9 +62,13 @@ import {
     getComments,
     updateComment,
 } from "../validators/comments";
-import { standardLimiter, voteLimiter } from "../middleware/rateLimiter";
+import {
+    standardLimiter,
+    updateLimiter,
+    voteLimiter,
+} from "../middleware/rateLimiter";
 
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const commentDAO = CommentDAO(Models);
     const router = Router({ mergeParams: true });
 
@@ -158,7 +162,7 @@ export default function ({ Models }: RouteDependencies) {
      */
     router.post(
         "/",
-        standardLimiter,
+        updateLimiter,
         validate(postComment),
         async (req, res, next) => {
             try {
