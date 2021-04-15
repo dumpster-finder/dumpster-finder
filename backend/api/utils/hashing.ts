@@ -26,6 +26,6 @@ export function generateSalt(){
 }
 
 export function hashPassword(salt : string, password : string){
-    let userName = crypto.pbkdf2Sync(password, salt, iterations,100, "sha512")
+    let userName = crypto.pbkdf2(password, salt, iterations,100, "sha512");
     return userName.toString("hex");
 }
