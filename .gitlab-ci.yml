@@ -5,19 +5,18 @@ include:
   - template: Security/Secret-Detection.gitlab-ci.yml
 
 stages:
-  - build
+  - install_deps
   - test
   - deploy
 
-build:
-  stage: build
+install_deps_backend:
+  stage: install_deps
   script:
-    - echo TODO
-
-test_frontend:
-  stage: test
-  script:
-    - echo TODO
+    - cd backend/api
+    - npm ci
+  artifacts:
+    paths:
+      - backend/api/node_modules
 
 test_backend:
   stage: test
@@ -31,7 +30,6 @@ test_backend:
     - printf "DB_HOST=mariadb\nDB_USER=root\nDB_PASSWORD=password\n" > .env
     - apt-get update && apt-get upgrade -y
     - apt-get install -y mariadb-client
-    - npm install
     - npm run test:ci
   artifacts:
     paths:

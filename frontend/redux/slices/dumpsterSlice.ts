@@ -84,6 +84,7 @@ export const dumpsterSlice = createSlice({
             fetchNearbyDumpsters.fulfilled,
             (state: SliceState, action) => {
                 state.status = "succeeded";
+                // TODO possibly make this *reset* the dumpster cache!
                 action.payload.forEach(
                     (d: Dumpster) => (state.dumpsters[d.dumpsterID] = d),
                 );
@@ -112,8 +113,9 @@ export default dumpsterSlice.reducer;
 export const allDumpstersSelector = ({ dumpsters: { dumpsters } }: RootState) =>
     Object.values(dumpsters).filter(Boolean);
 
-export const dumpsterSelectorByID = (dumpsterID: number) => (state: RootState) =>
-    state.dumpsters.dumpsters[dumpsterID];
+export const dumpsterSelectorByID = (dumpsterID: number) => (
+    state: RootState,
+) => state.dumpsters.dumpsters[dumpsterID];
 
 export const currentDumpsterSelector = (state: RootState) =>
     state.dumpsters.currentDumpster;

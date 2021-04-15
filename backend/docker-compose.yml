@@ -10,8 +10,6 @@ services:
       MYSQL_USER: "${DB_USER}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
       MYSQL_DATABASE: "${DB_NAME}"
-    expose:
-      - "${DB_PORT}"
     volumes:
       - "dumpsterdb:/var/lib/mysql/"
     networks:
@@ -19,10 +17,15 @@ services:
 
   api:
     build: ./api/
-    expose:
-      - "${API_PORT}"
     depends_on:
       - db
+    networks:
+      - network
+
+  pics:
+    build: ./pics/
+    volumes:
+      - "uploads:/var/uploads/"
     networks:
       - network
 
@@ -36,8 +39,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    expose:
-      - "80"
     volumes:
       - dhparam:/etc/ssl/certs
       # Shared with certbot container:
@@ -66,6 +67,7 @@ services:
 
 volumes:
   dumpsterdb:
+  uploads:
   certbot-etc:
   certbot-var:
   web-root:

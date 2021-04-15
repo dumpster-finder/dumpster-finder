@@ -29,7 +29,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { firstTimeSelector } from "../redux/slices/configSlice";
 import { useTheme } from "@ui-kitten/components";
-import DetailsMenu from "../components/DetailsMenu";
+import DetailsMenu from "../components/basicComponents/DetailsMenu";
 import RevisionScreen from "../screens/RevisionScreen";
 import { useTranslation } from "react-i18next";
 import PhotoGalleryScreen from "../screens/PhotoGalleryScreen";

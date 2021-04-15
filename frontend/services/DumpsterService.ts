@@ -17,14 +17,8 @@ export default class DumpsterService {
      * @param dumpsterID ID of the dumpster to fetch
      */
     getDumpster(dumpsterID: number) {
-        // TODO eventually this'll become
-        // return this.axios.get(`/dumpsters/${dumpsterID}`);
         console.log("Fetched dumpster with ID", dumpsterID);
-        return new Promise<Dumpster>((resolve, reject) =>
-            dumpsterID > 0 && dumpsterID < 4
-                ? resolve(testDumpsters[dumpsterID + 1])
-                : reject(),
-        );
+        return this.axios.get(`/dumpsters/${dumpsterID}`);
     }
 
     /**

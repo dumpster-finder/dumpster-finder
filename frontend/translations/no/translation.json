@@ -22,7 +22,8 @@
         "cancel": "Avbryt",
         "add": "Legg til",
         "save": "Lagre",
-        "remove": "Fjern"
+        "remove": "Fjern",
+        "back": "Tilbake"
 
     },
     "advice": {
@@ -34,7 +35,7 @@
         "nr5": "5. Rydd opp etter deg"
     },
     "iconDesc": {
-        "title": "Forklaring av ikoner:",
+        "title": "Forklaring av ikoner",
         "rating": "Vurdering av søppelkassen",
         "locked": "Er søppeøkassen låst",
         "emptySchedule": "Tømmeplan for søppelkassen",
@@ -56,21 +57,21 @@
         "es": "Spansk"
     },
     "details": {
-        "rating": "Vurdering:",
+        "rating": "Vurdering",
         "cleanliness": "Renhet",
         "locked": "Låst",
         "unlocked": "Åpen",
-        "view": "Butikkens syn på søppeldykkere:",
-        "negative": "Negativ",
-        "neutral": "Nøytral",
-        "positive": "Positiv",
-        "emptyingSchedule": "Tømmeplan:",
-        "categories": "Kategorier",
-        "content": "Se innhold",
+        "view": "Butikkens syn på søppeldykkere",
+        "negative": "Negativt",
+        "neutral": "Nøytralt",
+        "positive": "Positivt",
+        "emptyingSchedule": "Tømmeplan",
+        "categories": "Her kan du finne",
+        "content": "Se andres funn",
         "comments": "Se kommentarer",
-        "setRating": "Vurdér meg:",
-        "storeType": "Butikktype:",
-        "dumpsterType": "Type søppelkasse:",
+        "setRating": "Vurdér meg",
+        "storeType": "Butikktype",
+        "dumpsterType": "Type søppelkasse",
         "extraInfo": "Ekstra info"
     },
 
@@ -219,12 +220,21 @@
 
     "categories": {
         "Dairy": "Meieriprodukter",
-        "Batteries": "Batterier",
+        "Bread": "Brød",
         "Vegetables": "Grønnsaker",
         "Meat": "Kjøtt",
-        "Tools": "Verktøy",
+        "Fruit": "Frukt",
         "Pastries": "Bakevarer",
         "Seafood": "Sjømat",
+        "Chocolate": "Sjokolade",
+        "Candy": "Godteri",
+        "Nuts": "Nøtter",
+        "Rice": "Ris",
+        "Pasta": "Pasta",
+        "Fish": "Fisk",
+        "Cereals": "Frokostblanding",
+        "Noodles": "Nudler",
+        "Eggs": "Egg",
         "unknown": "Ukjent"
     },
 
@@ -265,11 +275,22 @@
         "addPhoto": "Legg til bilde"
     },
 
+    "visit": {
+        "visitbtn":"Jeg var her",
+        "part1": "Besøkt",
+        "part2": "ganger",
+        "visitInterval": "Sett besøksintervall",
+        "day": "Dag",
+        "month": "Måned",
+        "year": "År"
+    },
+
     "photo": {
         "upload": "Last opp bilde",
         "take": "Ta bilde",
         "photo": "Bilde",
         "delete" : "Slett bilde",
         "add": "Legg til bide"
+        "yourPos": "Sett posisjon"
     }
 }
