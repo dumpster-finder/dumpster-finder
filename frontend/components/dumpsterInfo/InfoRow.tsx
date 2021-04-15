@@ -1,7 +1,12 @@
 import Dumpster from "../../models/Dumpster";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { BrushIcon, LockIcon, OpenLockIcon, StarIcon } from "../Icons";
+import {
+    BrushIcon,
+    LockIcon,
+    OpenLockIcon,
+    StarIcon,
+} from "../basicComponents/Icons";
 import { Layout, Text } from "@ui-kitten/components";
 import * as React from "react";
 

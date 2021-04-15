@@ -5,13 +5,12 @@ import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
-import PhotoDisplay from "../components/PhotoDisplay";
+import PhotoDisplay from "../components/compoundComponents/PhotoDisplay";
 import { useTranslation } from "react-i18next";
-import { CommentButtonIcon } from "../components/Icons";
-import CategoryInfo from "../components/DumpsterInfo/CategoryInfo";
-import ExtraInfo from "../components/DumpsterInfo/ExtraInfo";
-import InfoRow from "../components/DumpsterInfo/InfoRow";
-import GeneralInfo from "../components/DumpsterInfo/GeneralInfo";
+import CategoryInfo from "../components/dumpsterInfo/CategoryInfo";
+import ExtraInfo from "../components/dumpsterInfo/ExtraInfo";
+import InfoRow from "../components/dumpsterInfo/InfoRow";
+import GeneralInfo from "../components/dumpsterInfo/GeneralInfo";
 
 export default function DetailsScreen({
     navigation,

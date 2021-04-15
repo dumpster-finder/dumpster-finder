@@ -2,7 +2,11 @@ import * as React from "react";
 import Dumpster from "../../models/Dumpster";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { NegativeIcon, PositiveIcon, TrashIcon } from "../Icons";
+import {
+    NegativeIcon,
+    PositiveIcon,
+    TrashIcon,
+} from "../basicComponents/Icons";
 import { Text } from "@ui-kitten/components";
 
 export default function GeneralInfo({ dumpster }: { dumpster: Dumpster }) {

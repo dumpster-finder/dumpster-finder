@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
-import DumpsterDropdownCard from "../components/DumpsterDropdownCard";
+import DumpsterRevisionCard from "../components/cards/DumpsterRevisionCard";
 import { useSelector } from "react-redux";
 import {
     addDumpster,
@@ -42,7 +42,7 @@ export default function RevisionScreen({
             <Layout style={styles.container}>
                 <ScrollView>
                     {dumpsterList.map((value, index) => (
-                        <DumpsterDropdownCard
+                        <DumpsterRevisionCard
                             key={index}
                             text={formatDate(new Date(value.dateUpdated))}
                             dumpster={value}

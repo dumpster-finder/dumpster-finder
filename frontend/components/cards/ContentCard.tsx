@@ -1,9 +1,9 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "@ui-kitten/components";
-import Content from "../models/Content";
+import Content from "../../models/Content";
 import { Card } from "@ui-kitten/components";
-import { formatDate } from "../utils/date";
+import { formatDate } from "../../utils/date";
 import { useTranslation } from "react-i18next";
 
 export default function ContentCard({

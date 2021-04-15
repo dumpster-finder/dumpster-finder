@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Card, Text } from "@ui-kitten/components";
 import { Image, StyleSheet, View } from "react-native";
-import Dumpster from "../models/Dumpster";
-import { StarIcon, LockIcon } from "./Icons";
+import Dumpster from "../../models/Dumpster";
+import { StarIcon, LockIcon } from "../basicComponents/Icons";
 import { useSelector } from "react-redux";
-import { positionSelector } from "../redux/slices/configSlice";
+import { positionSelector } from "../../redux/slices/configSlice";
 import { useTranslation } from "react-i18next";
 
-export default function ListCards({
+export default function DumpsterListCards({
     dumpster,
     onPress,
 }: {

@@ -12,9 +12,8 @@ import { StyleSheet, View } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
-import Content from "../models/Content";
-import { useState } from "react";
-import { PendingButtonIcon, SaveButtonIcon } from "./Icons";
+import Content from "../../models/Content";
+import { PendingButtonIcon, SaveButtonIcon } from "../basicComponents/Icons";
 
 export default function AddContentModal({
     visible,

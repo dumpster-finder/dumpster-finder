@@ -1,7 +1,12 @@
 import * as React from "react";
 import { Text } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
-import { LockIcon, PositiveIcon, StarIcon, TrashIcon } from "./Icons";
+import {
+    LockIcon,
+    PositiveIcon,
+    StarIcon,
+    TrashIcon,
+} from "../basicComponents/Icons";
 import { useTranslation } from "react-i18next";
 
 export default function IconExplanation() {

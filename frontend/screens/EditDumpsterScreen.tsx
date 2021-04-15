@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import Dumpster from "../models/Dumpster";
-import DumpsterEditor from "../components/DumpsterEditor";
+import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import {
     addDumpster,
     currentDumpsterSelector,

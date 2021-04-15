@@ -1,16 +1,16 @@
 import * as React from "react";
-import { RevDumpster } from "../models/Dumpster";
+import { RevDumpster } from "../../models/Dumpster";
 import DropdownCard from "./DropdownCard";
 import { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, Text } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
-import CategoryInfo from "./DumpsterInfo/CategoryInfo";
-import GeneralInfo from "./DumpsterInfo/GeneralInfo";
-import InfoRow from "./DumpsterInfo/InfoRow";
-import ExtraInfo from "./DumpsterInfo/ExtraInfo";
+import CategoryInfo from "../dumpsterInfo/CategoryInfo";
+import GeneralInfo from "../dumpsterInfo/GeneralInfo";
+import InfoRow from "../dumpsterInfo/InfoRow";
+import ExtraInfo from "../dumpsterInfo/ExtraInfo";
 
-export default function DumpsterDropdownCard({
+export default function DumpsterRevisionCard({
     text,
     dumpster,
     onReset,

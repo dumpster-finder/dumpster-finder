@@ -1,6 +1,6 @@
 import React from "react";
 import { Callout, Marker } from "react-native-maps";
-import Dumpster from "../models/Dumpster";
+import Dumpster from "../../models/Dumpster";
 import { View } from "react-native";
 import { Text } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
