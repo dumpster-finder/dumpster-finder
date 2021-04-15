@@ -34,7 +34,7 @@ import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
 import { getPhotos } from "../validators/photos";
 
 export default function({ Models }: RouteDependencies) {
-    const router = Router();
+    const router = Router({ mergeParams: true });
     const photoDAO = PhotoDAO(Models);
 
     /**
@@ -43,6 +43,13 @@ export default function({ Models }: RouteDependencies) {
      *   get:
      *     summary: GET all photos of a dumpster
      *     tags: [Photos]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
      *     responses:
      *       "200":
      *         description: An array of photos

@@ -13,7 +13,8 @@ import comments from "./routes/comments";
 import { defaultLoggerOptions } from "./config/pino";
 import contents from "./routes/contents";
 import contentTypes from "./routes/contentTypes";
-import errorHandler from "./middleware/errorHandler";
+import errorHandler, { notFoundHandler } from "./middleware/errorHandler";
+import photos from "./routes/photos";
 
 (async () => {
     await connectToDatabase();
@@ -43,16 +44,20 @@ app.use(expressPino({ logger }));
 app.use("/api/dumpsters", dumpsters(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/comments", comments(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/contents", contents(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/photos", photos(dependencies));
 
 app.use("/api/categories", categories(dependencies));
 app.use("/api/content-types", contentTypes(dependencies));
 app.use("/api/store-types", storeTypes(dependencies));
 app.use("/api/dumpster-types", dumpsterTypes(dependencies));
 
-// Mount Swagger docs at /api
-app.use("/api", swagger());
+// Mount Swagger docs at /api/spec
+// to avoid conflicts with other routes
+app.use("/api/spec", swagger());
 
 // Finally, use the error handler!
 app.use(errorHandler(logger));
+// And mount a 404 handler
+app.use(notFoundHandler(logger));
 
 export default app;
