@@ -2,7 +2,7 @@ import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Button, Input, Layout, Text } from "@ui-kitten/components";
 import Comments from "../models/Comment";
-import CommentCard from "../components/CommentCard";
+import CommentCard from "../components/cards/CommentCard";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
@@ -12,7 +12,10 @@ import {
     nicknameSelector,
     ratedCommentsSelector,
 } from "../redux/slices/configSlice";
-import { CommentButtonIcon, PendingButtonIcon } from "../components/Icons";
+import {
+    CommentButtonIcon,
+    PendingButtonIcon,
+} from "../components/basicComponents/Icons";
 import { useTranslation } from "react-i18next";
 
 export default function CommentScreen() {

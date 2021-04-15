@@ -2,13 +2,13 @@ import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Layout, ViewPager, Text, Button } from "@ui-kitten/components";
 import { useState } from "react";
-import ButtonGroupDisplay from "../components/ButtonGroupDisplay";
-import Advice from "../components/Advice";
-import IconExplanation from "../components/IconExplanation";
+import ButtonGroupDisplay from "../components/basicComponents/ButtonGroupDisplay";
+import Advice from "../components/textComponents/Advice";
+import IconExplanation from "../components/textComponents/IconExplanation";
 import { setFirstTime, setPosition } from "../redux/slices/configSlice";
 import { useAppDispatch } from "../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
-import LocationSearcher from "../components/LocationSearcher";
+import LocationSearcher from "../components/compoundComponents/LocationSearcher";
 import { StackActions } from "@react-navigation/native";
 
 export default function IntroScreen({

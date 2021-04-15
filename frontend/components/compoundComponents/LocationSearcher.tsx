@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Autocomplete, AutocompleteItem, Button } from "@ui-kitten/components";
-import Place from "../models/Place";
-import { useCallback, useEffect, useState } from "react";
+import Place from "../../models/Place";
+import { useCallback, useState } from "react";
 import { Text } from "@ui-kitten/components";
 import _ from "lodash";
-import { PlaceService } from "../services";
-import { SaveButtonIcon, SearchInputIcon } from "../components/Icons";
+import { PlaceService } from "../../services";
+import { SaveButtonIcon, SearchInputIcon } from "../basicComponents/Icons";
 import { useTranslation } from "react-i18next";
 
 export default function LocationSearcher({

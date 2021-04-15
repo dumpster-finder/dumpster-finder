@@ -11,7 +11,7 @@ import { addDumpster } from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
 import Dumpster from "../models/Dumpster";
 import { StackNavigationProp } from "@react-navigation/stack";
-import DumpsterEditor from "../components/DumpsterEditor";
+import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import { DumpsterService } from "../services";
 import { StackActions } from "@react-navigation/native";
 import { useState } from "react";

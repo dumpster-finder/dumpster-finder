@@ -1,13 +1,13 @@
 import * as React from "react";
-import Comments from "../models/Comment";
+import Comments from "../../models/Comment";
 import { Button, Card, Text } from "@ui-kitten/components";
 import { View } from "react-native";
-import { RateDownIcon, RateUpIcon } from "./Icons";
+import { RateDownIcon, RateUpIcon } from "../basicComponents/Icons";
 import { useState } from "react";
-import { CommentService } from "../services";
-import { useAppDispatch } from "../redux/store";
-import { setRatedComments } from "../redux/slices/configSlice";
-import { formatDate } from "../utils/date";
+import { CommentService } from "../../services";
+import { useAppDispatch } from "../../redux/store";
+import { setRatedComments } from "../../redux/slices/configSlice";
+import { formatDate } from "../../utils/date";
 
 export default function CommentCard({
     comment,

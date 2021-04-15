@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useState } from "react";
 import MapView, { Marker } from "react-native-maps";
-import Position from "../models/Position";
-import { StyleSheet, View } from "react-native";
+import Position from "../../models/Position";
+import { StyleSheet } from "react-native";
 import { Button, Layout, Text } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
 

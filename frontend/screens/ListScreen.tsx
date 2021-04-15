@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import ListCards from "../components/ListCards";
+import DumpsterListCards from "../components/cards/DumpsterListCards";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useAppDispatch } from "../redux/store";
 import {
@@ -8,7 +8,7 @@ import {
     setCurrentDumpster,
 } from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
-import SearchHeader from "../components/SearchHeader";
+import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
 
 export default function ListScreen({
@@ -30,7 +30,7 @@ export default function ListScreen({
                     }}
                 />
                 {dumpsters.map(thisDumpster => (
-                    <ListCards
+                    <DumpsterListCards
                         key={thisDumpster.dumpsterID}
                         dumpster={thisDumpster}
                         onPress={() => {

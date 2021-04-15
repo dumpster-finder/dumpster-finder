@@ -2,7 +2,7 @@ import * as React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { useState } from "react";
 import { Button } from "@ui-kitten/components";
-import { ArrowLeftIcon, ArrowRightIcon } from "./Icons";
+import { ArrowLeftIcon, ArrowRightIcon } from "../basicComponents/Icons";
 
 export default function PhotoDisplay({ photoList }: { photoList: string[] }) {
     const [photoDisplay, onPhotoChange] = useState(0);

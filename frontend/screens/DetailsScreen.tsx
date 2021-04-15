@@ -5,10 +5,12 @@ import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
-import PhotoDisplay from "../components/PhotoDisplay";
-import DumpsterInfo from "../components/DumpsterInfo";
+import PhotoDisplay from "../components/compoundComponents/PhotoDisplay";
 import { useTranslation } from "react-i18next";
-import { CommentButtonIcon } from "../components/Icons";
+import CategoryInfo from "../components/dumpsterInfo/CategoryInfo";
+import ExtraInfo from "../components/dumpsterInfo/ExtraInfo";
+import InfoRow from "../components/dumpsterInfo/InfoRow";
+import GeneralInfo from "../components/dumpsterInfo/GeneralInfo";
 
 export default function DetailsScreen({
     navigation,
@@ -22,12 +24,13 @@ export default function DetailsScreen({
         "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
     ];
+    const visitors = 5;
 
     if (!dumpster) {
         return (
-            <View style={styles.container}>
+            <Layout style={styles.container}>
                 <Text category="h1">{t("somethingWrong")}</Text>
-            </View>
+            </Layout>
         );
     } else {
         return (
@@ -47,12 +50,24 @@ export default function DetailsScreen({
                             {t(`storeType:${dumpster.storeType}`)}
                         </Text>
                     </View>
-
-                    {/*TODO this might end badly on really small screens!*/}
                     <View style={{ height: 150, marginVertical: 5 }}>
                         <PhotoDisplay photoList={photos} />
                     </View>
-                    <DumpsterInfo dumpster={dumpster} />
+
+                    {/*TODO this might end badly on really small screens!*/}
+
+                    <CategoryInfo dumpster={dumpster} />
+                    <GeneralInfo dumpster={dumpster} />
+                    <Text
+                        style={{
+                            justifyContent: "flex-start",
+                        }}
+                    >
+                        {t("visit:part1")} {visitors} {t("visit:part2")}
+                    </Text>
+                    <InfoRow dumpster={dumpster} />
+
+                    <ExtraInfo dumpster={dumpster} />
 
                     <View style={styles.buttonRow}>
                         <Button
@@ -86,6 +101,14 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
+                    <Button
+                        style={{
+                            alignSelf: "center",
+                        }}
+                        size="small"
+                    >
+                        {t("visit:visitbtn")}
+                    </Button>
                 </ScrollView>
             </Layout>
         );
@@ -111,5 +134,9 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: 10,
+    },
+    view: {
+        flexDirection: "row",
+        alignItems: "center",
     },
 });

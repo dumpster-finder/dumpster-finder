@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Card, Text } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
-import { ArrowDownIcon, ArrowUpIcon } from "./Icons";
+import { ArrowDownIcon, ArrowUpIcon } from "../basicComponents/Icons";
 
 export default function DropdownCard({
     value,
