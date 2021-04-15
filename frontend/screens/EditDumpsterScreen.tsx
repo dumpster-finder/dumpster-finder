@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import Dumpster from "../models/Dumpster";
-import DumpsterEditor from "../components/DumpsterEditor";
+import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import {
     addDumpster,
     currentDumpsterSelector,
@@ -14,21 +14,23 @@ import { setCurrentDumpster } from "../redux/slices/dumpsterSlice";
 import { resetEditor } from "../redux/slices/editorSlice";
 import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function EditDumpsterScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("common");
     const dispatch = useAppDispatch();
     const dumpster = useSelector(currentDumpsterSelector);
     const [pending, setPending] = useState(false);
 
     if (dumpster === null) {
         return (
-            <View style={styles.container}>
-                <Text>CRY</Text>
-            </View>
+            <Layout style={styles.container}>
+                <Text category="h1">{t("somethingWrong")}</Text>
+            </Layout>
         );
     } else {
         return (

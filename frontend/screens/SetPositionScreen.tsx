@@ -5,7 +5,7 @@ import { useAppDispatch } from "../redux/store";
 import { setPosition } from "../redux/slices/configSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Place from "../models/Place";
-import LocationSearcher from "../components/LocationSearcher";
+import LocationSearcher from "../components/compoundComponents/LocationSearcher";
 
 export default function SetPositionScreen({
     navigation,

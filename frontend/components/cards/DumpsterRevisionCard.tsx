@@ -1,13 +1,16 @@
 import * as React from "react";
-import { RevDumpster } from "../models/Dumpster";
+import { RevDumpster } from "../../models/Dumpster";
 import DropdownCard from "./DropdownCard";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "@ui-kitten/components";
-import DumpsterInfo from "./DumpsterInfo";
 import { useTranslation } from "react-i18next";
+import CategoryInfo from "../dumpsterInfo/CategoryInfo";
+import GeneralInfo from "../dumpsterInfo/GeneralInfo";
+import InfoRow from "../dumpsterInfo/InfoRow";
+import ExtraInfo from "../dumpsterInfo/ExtraInfo";
 
-export default function DumpsterDropdownCard({
+export default function DumpsterRevisionCard({
     text,
     dumpster,
     onReset,
@@ -31,7 +34,10 @@ export default function DumpsterDropdownCard({
                         {" – "}
                         {t(`storeType:${dumpster.storeType}`)}
                     </Text>
-                    <DumpsterInfo dumpster={dumpster} />
+                    <CategoryInfo dumpster={dumpster} />
+                    <GeneralInfo dumpster={dumpster} />
+                    <InfoRow dumpster={dumpster} />
+                    <ExtraInfo dumpster={dumpster} />
                     <Button
                         style={{ minWidth: "50%", alignSelf: "center" }}
                         size={"small"}

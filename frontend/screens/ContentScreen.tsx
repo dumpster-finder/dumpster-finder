@@ -3,11 +3,11 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
-import ContentCard from "../components/ContentCard";
+import ContentCard from "../components/cards/ContentCard";
 import Content from "../models/Content";
 import { useEffect, useState } from "react";
-import EditContentModal from "../components/EditContentModal";
-import AddContentModal from "../components/AddContentModal";
+import EditContentModal from "../components/Modals/EditContentModal";
+import AddContentModal from "../components/Modals/AddContentModal";
 import { useTranslation } from "react-i18next";
 import { ContentService } from "../services";
 

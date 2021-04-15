@@ -1,8 +1,8 @@
 import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Layout } from "@ui-kitten/components";
-import IconExplanation from "../components/IconExplanation";
-import Advice from "../components/Advice";
+import IconExplanation from "../components/textComponents/IconExplanation";
+import Advice from "../components/textComponents/Advice";
 
 export default function InfoScreen() {
     return (

@@ -1,12 +1,14 @@
 import * as React from "react";
 import { View } from "react-native";
-import { PlusIcon, FilterIcon, SearchInputIcon, RefreshIcon } from "./Icons";
-import { Autocomplete, Button, Input } from "@ui-kitten/components";
+import { PlusIcon, FilterIcon, SearchInputIcon } from "./Icons";
+import { Autocomplete, Button } from "@ui-kitten/components";
 import { useState } from "react";
-import { fetchNearbyDumpsters } from "../redux/slices/dumpsterSlice";
-import { useAppDispatch } from "../redux/store";
+import { useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
-import { positionSelector, radiusSelector } from "../redux/slices/configSlice";
+import {
+    positionSelector,
+    radiusSelector,
+} from "../../redux/slices/configSlice";
 import { useTranslation } from "react-i18next";
 
 export default function SearchHeader({

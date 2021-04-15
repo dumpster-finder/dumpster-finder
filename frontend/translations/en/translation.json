@@ -23,7 +23,8 @@
         "cancel": "Cancel",
         "add": "Add",
         "save": "Save",
-        "remove": "Remove"
+        "remove": "Remove",
+        "back": "Back"
     },
 
     "advice": {
@@ -278,5 +279,15 @@
         "info": "Info",
         "settings": "Settings",
         "yourPos": "Set position"
+    },
+
+    "visit": {
+        "visitbtn":"I was here",
+        "part1": "Visited",
+        "part2": "times",
+        "visitInterval": "Set visit interval",
+        "day": "Day",
+        "month": "month",
+        "year": "year"
     }
 }

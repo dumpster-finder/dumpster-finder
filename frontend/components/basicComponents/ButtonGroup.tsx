@@ -6,32 +6,30 @@
  * Modified by Tore Bergebakken
  */
 
-import React from 'react';
-import {
-    StyleSheet,
-    View,
-    ViewProps,
-    ViewStyle,
-} from 'react-native';
+import React from "react";
+import { StyleSheet, View, ViewProps, ViewStyle } from "react-native";
 import {
     ChildrenWithProps,
     EvaSize,
     EvaStatus,
     Overwrite,
-} from '@ui-kitten/components/devsupport';
+} from "@ui-kitten/components/devsupport";
 import {
     styled,
     StyledComponentProps,
     StyleType,
-} from '@ui-kitten/components/theme';
+} from "@ui-kitten/components/theme";
 import {
     ButtonElement,
     ButtonProps,
-} from '@ui-kitten/components/ui/button/button.component';
+} from "@ui-kitten/components/ui/button/button.component";
 
-type ButtonGroupStyledProps = Overwrite<StyledComponentProps, {
-    appearance?: 'filled' | 'outline' | string;
-}>;
+type ButtonGroupStyledProps = Overwrite<
+    StyledComponentProps,
+    {
+        appearance?: "filled" | "outline" | string;
+    }
+>;
 
 export interface ButtonGroupProps extends ViewProps, ButtonGroupStyledProps {
     children: ChildrenWithProps<ButtonProps>;
@@ -83,9 +81,12 @@ export type ButtonGroupElement = React.ReactElement<ButtonGroupProps>;
  */
 
 class ButtonGroupBase extends React.Component<ButtonGroupProps> {
-
     private getComponentStyle = (source: StyleType) => {
-        const { dividerBackgroundColor, dividerWidth, ...containerParameters } = source;
+        const {
+            dividerBackgroundColor,
+            dividerWidth,
+            ...containerParameters
+        } = source;
 
         return {
             container: {
@@ -107,7 +108,11 @@ class ButtonGroupBase extends React.Component<ButtonGroupProps> {
         return index === React.Children.count(this.props.children) - 1;
     };
 
-    private renderButtonElement = (element: ButtonElement, index: number, style: StyleType): ButtonElement => {
+    private renderButtonElement = (
+        element: ButtonElement,
+        index: number,
+        style: StyleType,
+    ): ButtonElement => {
         const { appearance, size, status } = this.props;
         const { borderRadius }: ViewStyle = style.container;
         const { borderWidth, borderColor }: ViewStyle = style.button;
@@ -117,12 +122,16 @@ class ButtonGroupBase extends React.Component<ButtonGroupProps> {
             borderEndColor: borderColor,
         };
 
-        const startShapeStyle: ViewStyle | boolean = this.isFirstElement(index) && {
+        const startShapeStyle: ViewStyle | boolean = this.isFirstElement(
+            index,
+        ) && {
             borderTopStartRadius: borderRadius,
             borderBottomStartRadius: borderRadius,
         };
 
-        const endShapeStyle: ViewStyle | boolean = this.isLastElement(index) && {
+        const endShapeStyle: ViewStyle | boolean = this.isLastElement(
+            index,
+        ) && {
             borderTopEndRadius: borderRadius,
             borderBottomEndRadius: borderRadius,
         };
@@ -132,14 +141,26 @@ class ButtonGroupBase extends React.Component<ButtonGroupProps> {
             appearance: element.props.appearance || appearance,
             size: size,
             status: element.props.status || status,
-            style: [element.props.style, styles.button, shapeStyle, startShapeStyle, endShapeStyle],
+            style: [
+                element.props.style,
+                styles.button,
+                shapeStyle,
+                startShapeStyle,
+                endShapeStyle,
+            ],
         });
     };
 
-    private renderButtonElements = (source: ChildrenWithProps<ButtonProps>, style: StyleType): ButtonElement[] => {
-        return React.Children.map(source, (element: ButtonElement, index: number): ButtonElement => {
-            return this.renderButtonElement(element, index, style);
-        });
+    private renderButtonElements = (
+        source: ChildrenWithProps<ButtonProps>,
+        style: StyleType,
+    ): ButtonElement[] => {
+        return React.Children.map(
+            source,
+            (element: ButtonElement, index: number): ButtonElement => {
+                return this.renderButtonElement(element, index, style);
+            },
+        );
     };
 
     public render(): React.ReactElement<ViewProps> {
@@ -149,7 +170,8 @@ class ButtonGroupBase extends React.Component<ButtonGroupProps> {
         return (
             <View
                 {...viewProps}
-                style={[evaStyle.container, styles.container, style]}>
+                style={[evaStyle.container, styles.container, style]}
+            >
                 {this.renderButtonElements(children, evaStyle)}
             </View>
         );
@@ -160,8 +182,8 @@ export const ButtonGroup = styled("ButtonGroup")(ButtonGroupBase);
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        overflow: 'hidden',
+        flexDirection: "row",
+        overflow: "hidden",
     },
     button: {
         borderRadius: 0,

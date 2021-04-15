@@ -1,24 +1,24 @@
 import * as React from "react";
-import Dumpster from "../models/Dumpster";
+import Dumpster from "../../models/Dumpster";
 import { Button, IndexPath, Input, Text } from "@ui-kitten/components";
 import { ScrollView, StyleSheet, View } from "react-native";
-import Dropdown from "./Dropdown";
-import SingleMultiSelect from "./SingleMultiSelect";
+import DropdownSelect from "../selects/DropdownSelect";
+import SingleMultiSelect from "../selects/SingleMultiSelect";
 import {
     LockIcon,
     PendingButtonIcon,
     PositiveIcon,
     SaveButtonIcon,
     TrashInputIcon,
-} from "./Icons";
-import ButtonGroupDisplay from "./ButtonGroupDisplay";
-import Rating from "./Rating";
+} from "../basicComponents/Icons";
+import ButtonGroupDisplay from "../basicComponents/ButtonGroupDisplay";
+import Rating from "../basicComponents/Rating";
 import { useSelector } from "react-redux";
 import {
     dumpsterTypesSelector,
     storeTypesSelector,
     categoriesSelector,
-} from "../redux/slices/constantsSlice";
+} from "../../redux/slices/constantsSlice";
 import { useTranslation } from "react-i18next";
 import { Formik, FormikValues } from "formik";
 import * as Yup from "yup";
@@ -76,16 +76,34 @@ export default function DumpsterEditor({
                     // Hello. According to separation of concerns, we should draw this out in its own file.
                     // However, in this case, the validation is very much related to the way the editor works.
                     // (idk if that's a valid argument, though)
-                    name: Yup.string().max(64).required(),
-                    dumpsterType: Yup.number().integer().min(0),
-                    storeType: Yup.number().integer().min(0),
+                    name: Yup.string()
+                        .max(64)
+                        .required(),
+                    dumpsterType: Yup.number()
+                        .integer()
+                        .min(0),
+                    storeType: Yup.number()
+                        .integer()
+                        .min(0),
                     categories: Yup.array()
-                        .of(Yup.number().integer().min(0))
+                        .of(
+                            Yup.number()
+                                .integer()
+                                .min(0),
+                        )
                         .strict()
                         .required(),
                     emptyingSchedule: Yup.string().max(128),
-                    storeView: Yup.number().integer().min(0).max(2).required(),
-                    locked: Yup.number().integer().min(0).max(1).required(),
+                    storeView: Yup.number()
+                        .integer()
+                        .min(0)
+                        .max(2)
+                        .required(),
+                    locked: Yup.number()
+                        .integer()
+                        .min(0)
+                        .max(1)
+                        .required(),
                     cleanliness: Yup.number()
                         .integer()
                         .min(0)
@@ -119,7 +137,7 @@ export default function DumpsterEditor({
                             }
                         />
                         <View style={styles.inputField}>
-                            <Dropdown
+                            <DropdownSelect
                                 value={values.dumpsterType}
                                 label={t("dumpsterType.label")}
                                 values={dumpsterTypes.map(v =>
@@ -134,7 +152,7 @@ export default function DumpsterEditor({
                             />
                         </View>
                         <View style={styles.inputField}>
-                            <Dropdown
+                            <DropdownSelect
                                 value={values.storeType}
                                 label={t("storeType.label")}
                                 values={storeTypes.map(s =>

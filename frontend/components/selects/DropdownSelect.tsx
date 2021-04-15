@@ -7,7 +7,7 @@ import {
 } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
 
-export default function Dropdown({
+export default function DropdownSelect({
     value,
     label,
     values,

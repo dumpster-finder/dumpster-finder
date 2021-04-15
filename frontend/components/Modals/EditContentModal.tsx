@@ -8,10 +8,14 @@ import {
     Text,
 } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
-import Content from "../models/Content";
+import Content from "../../models/Content";
 import { useState } from "react";
-import { DeleteButtonIcon, PendingButtonIcon, SaveButtonIcon } from "./Icons";
-import { formatDate } from "../utils/date";
+import {
+    DeleteButtonIcon,
+    PendingButtonIcon,
+    SaveButtonIcon,
+} from "../basicComponents/Icons";
+import { formatDate } from "../../utils/date";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
