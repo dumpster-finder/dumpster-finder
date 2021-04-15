@@ -2,6 +2,19 @@
  * @swagger
  * components:
  *   schemas:
+ *     PostPhoto:
+ *       type: object
+ *       required:
+ *         - url
+ *         - userID
+ *       properties:
+ *         url:
+ *           type: string
+ *         userID:
+ *           type: string
+ *       example:
+ *         url: "https://example.com/photos/gry08ht0248thg08h0wgh4g42g2.jpg"
+ *         userID: "four wide strides of water"
  *     Photo:
  *       type: object
  *       required:
@@ -31,7 +44,9 @@ import { validate } from "express-validation";
 import PhotoDAO from "../daos/photos";
 import { RouteDependencies } from "../types";
 import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
-import { getPhotos } from "../validators/photos";
+import { getPhotos, postPhotos } from "../validators/photos";
+import { PostPhoto } from "../types/Photo";
+import { InvalidDataError } from "../types/errors";
 
 export default function({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
@@ -72,6 +87,61 @@ export default function({ Models }: RouteDependencies) {
             try {
                 const photos = await photoDAO.getAll(req.params.dumpsterID);
                 res.status(200).json(photos);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/photos:
+     *   post:
+     *     summary: Add a photo to a dumpster
+     *     tags: [Photos]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     requestBody:
+     *       content:
+     *         application/json:
+     *           schema:
+     *             $ref: '#/components/schemas/PostPhoto'
+     *     responses:
+     *       "200":
+     *         description: The posted photo
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Photo'
+     */
+    router.post(
+        "/",
+        updateLimiter,
+        validate(postPhotos),
+        async (
+            req: Request & { params: { dumpsterID: number }; body: PostPhoto },
+            res,
+            next,
+        ) => {
+            try {
+                if (
+                    // Only accept URLs that come from *our* photo server
+                    !req.body.url.match(
+                        `${process.env.PHOTO_URL}/?[a-zA-Z0-9]+\\.(jpg|png)`,
+                    )
+                )
+                    throw new InvalidDataError("Untrusted photo host");
+                // TODO treat that userID …
+                const result = await photoDAO.addOne(
+                    req.params.dumpsterID,
+                    req.body,
+                );
+                res.status(201).json(result);
             } catch (e) {
                 next(e);
             }

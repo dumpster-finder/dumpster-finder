@@ -13,7 +13,7 @@ export interface PhotoAttributes {
 }
 
 export interface PhotoCreationAttributes
-    extends Optional<PhotoAttributes, "photoID"> {}
+    extends Optional<PhotoAttributes, "photoID" | "dateAdded"> {}
 
 export class Photos extends Model<PhotoAttributes, PhotoCreationAttributes>
     implements PhotoAttributes {
