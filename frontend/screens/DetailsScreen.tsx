@@ -9,6 +9,9 @@ import PhotoDisplay from "../components/PhotoDisplay";
 import DumpsterInfo from "../components/DumpsterInfo";
 import { useTranslation } from "react-i18next";
 import { CommentButtonIcon } from "../components/Icons";
+import { useEffect, useState } from "react";
+import Photo from "../models/Photo";
+import { PhotoService } from "../services";
 
 export default function DetailsScreen({
     navigation,
@@ -17,11 +20,29 @@ export default function DetailsScreen({
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("details");
     const dumpster = useSelector(currentDumpsterSelector);
-    const photos = [
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-    ];
+    const [photos, setPhotos] = useState(
+        [
+            "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
+            "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
+            "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
+        ].map(
+            (url, i) =>
+                new Photo({
+                    photoID: i,
+                    url,
+                    dateAdded: new Date().toISOString(),
+                }),
+        ),
+    );
+
+    useEffect(() => {
+        if (dumpster)
+            PhotoService.getPhotos(dumpster.dumpsterID)
+                .then(ps => setPhotos(ps))
+                .catch(e =>
+                    console.error("Could not find photos for this dumpster", e),
+                );
+    }, [dumpster]);
 
     if (!dumpster) {
         return (

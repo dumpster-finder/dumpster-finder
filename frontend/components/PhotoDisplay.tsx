@@ -3,8 +3,9 @@ import { Image, StyleSheet, View } from "react-native";
 import { useState } from "react";
 import { Button } from "@ui-kitten/components";
 import { ArrowLeftIcon, ArrowRightIcon } from "./Icons";
+import Photo from "../models/Photo";
 
-export default function PhotoDisplay({ photoList }: { photoList: string[] }) {
+export default function PhotoDisplay({ photoList }: { photoList: Photo[] }) {
     const [photoDisplay, onPhotoChange] = useState(0);
     return (
         <View style={styles.view}>
@@ -18,7 +19,9 @@ export default function PhotoDisplay({ photoList }: { photoList: string[] }) {
                 style={styles.photo}
                 resizeMode="contain"
                 source={{
-                    uri: photoList[photoDisplay],
+                    uri: photoList[photoDisplay]
+                        ? photoList[photoDisplay].url
+                        : "https://picsum.photos/400", // TODO insert an actual placeholder image here!
                 }}
             />
             <Button

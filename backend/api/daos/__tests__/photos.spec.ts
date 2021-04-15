@@ -18,9 +18,11 @@ const photo: PostPhoto = {
 describe("getAll", () => {
     it("should return all photos for a given dumpster", async () => {
         const photos = await photoDAO.getAll(1);
-        expect(photos[0].url).toEqual(
+        expect(photos.map(p => p.url)).toEqual([
             "https://upload.wikimedia.org/wikipedia/commons/4/4c/Dumpster-non.JPG",
-        );
+            "https://upload.wikimedia.org/wikipedia/commons/0/0f/Blue_dumpster.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/American_Education_in_Dumpster.jpg/640px-American_Education_in_Dumpster.jpg"
+        ]);
         photos.forEach(photo =>
             photoProperties.forEach(prop => expect(photo).toHaveProperty(prop)),
         );
