@@ -6,9 +6,10 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { Layout, Text } from "@ui-kitten/components";
+import { Layout } from "@ui-kitten/components";
 import { Dimensions } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import usePhotos from "../hooks/usePhotos";
 
 export default function PhotoGalleryScreen({
     navigation,
@@ -16,26 +17,37 @@ export default function PhotoGalleryScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const windowWidth = Dimensions.get("window").width;
-    const photos = [
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-    ];
+    const photos = usePhotos();
+
+    //const [photos, setPhotos] = useState(
+    //    [
+    //        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
+    //        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
+    //        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
+    //        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
+    //        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
+    //        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
+    //        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
+    //        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
+    //        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
+    //        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
+    //        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
+    //        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
+    //        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
+    //        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
+    //        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
+    //        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
+    //        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
+    //        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
+    //    ].map(
+    //        (url, i) =>
+    //            new Photo({
+    //                photoID: i,
+    //                url,
+    //                dateAdded: new Date().toISOString(),
+    //            }),
+    //    ),
+    //);
 
     return (
         <Layout style={styles.container}>
@@ -48,9 +60,11 @@ export default function PhotoGalleryScreen({
                                 height: windowWidth / 3,
                             }}
                             onPress={() =>
-                                navigation.navigate("PhotoDisplayScreen")
+                                navigation.navigate("PhotoDisplayScreen", {
+                                    index,
+                                })
                             }
-                            key={index}
+                            key={photo.url}
                         >
                             <Image
                                 style={{
@@ -59,9 +73,9 @@ export default function PhotoGalleryScreen({
                                     width: windowWidth / 3,
                                     height: windowWidth / 3,
                                 }}
-                                resizeMode="contain"
+                                resizeMode="cover"
                                 source={{
-                                    uri: photo,
+                                    uri: photo.url,
                                 }}
                             />
                         </TouchableOpacity>

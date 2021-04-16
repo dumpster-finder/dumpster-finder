@@ -11,9 +11,7 @@ import CategoryInfo from "../components/dumpsterInfo/CategoryInfo";
 import ExtraInfo from "../components/dumpsterInfo/ExtraInfo";
 import InfoRow from "../components/dumpsterInfo/InfoRow";
 import GeneralInfo from "../components/dumpsterInfo/GeneralInfo";
-import { useEffect, useState } from "react";
-import Photo from "../models/Photo";
-import { PhotoService } from "../services";
+import usePhotos from "../hooks/usePhotos";
 
 export default function DetailsScreen({
     navigation,
@@ -22,30 +20,8 @@ export default function DetailsScreen({
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("details");
     const dumpster = useSelector(currentDumpsterSelector);
+    const photos = usePhotos();
     const visitors = 5;
-    const [photos, setPhotos] = useState(
-        [
-            "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-            "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-            "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        ].map(
-            (url, i) =>
-                new Photo({
-                    photoID: i,
-                    url,
-                    dateAdded: new Date().toISOString(),
-                }),
-        ),
-    );
-
-    useEffect(() => {
-        if (dumpster)
-            PhotoService.getPhotos(dumpster.dumpsterID)
-                .then(ps => setPhotos(ps))
-                .catch(e =>
-                    console.error("Could not find photos for this dumpster", e),
-                );
-    }, [dumpster]);
 
     if (!dumpster) {
         return (
@@ -72,7 +48,12 @@ export default function DetailsScreen({
                         </Text>
                     </View>
                     <View style={{ height: 150, marginVertical: 5 }}>
-                        <PhotoDisplay photoList={photos} />
+                        <PhotoDisplay
+                            photoList={photos}
+                            onPress={() =>
+                                navigation.navigate("PhotoGalleryScreen")
+                            }
+                        />
                     </View>
 
                     {/*TODO this might end badly on really small screens!*/}
@@ -129,15 +110,6 @@ export default function DetailsScreen({
                         size="small"
                     >
                         {t("visit:visitbtn")}
-                    </Button>
-                    <Button
-                        style={{ width: "80%" }}
-                        size="small"
-                        onPress={() =>
-                            navigation.navigate("PhotoGalleryScreen")
-                        }
-                    >
-                        Photos
                     </Button>
                 </ScrollView>
             </Layout>

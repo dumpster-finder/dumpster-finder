@@ -23,7 +23,7 @@ export default function DropdownSelect({
     values: string[];
     onSelect: (newValue: number) => void;
 } & Omit<SelectProps, "onSelect">) {
-    const { t } = useTranslation();
+    const { t }: { t: (s: string) => string } = useTranslation();
     return (
         <Select
             label={label}

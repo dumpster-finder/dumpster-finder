@@ -2,38 +2,28 @@ import * as React from "react";
 import { Dimensions, Image, StyleSheet } from "react-native";
 import { Layout, ViewPager, Text } from "@ui-kitten/components";
 import { useState } from "react";
+import usePhotos from "../hooks/usePhotos";
+import { RouteProp } from "@react-navigation/native";
+import { formatDate } from "../utils/date";
 
-export default function PhotoDisplayScreen() {
+export default function PhotoDisplayScreen({
+    route,
+}: {
+    route: RouteProp<any, any>;
+}) {
     const windowWidth = Dimensions.get("window").width;
-    const photos = [
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-    ];
-    const [photoIndex, setPhotoIndex] = useState(1);
+    const photos = usePhotos();
+    const [photoIndex, setPhotoIndex] = useState(
+        route.params ? route.params.index : 0,
+    );
     return (
         <Layout>
             <ViewPager
                 selectedIndex={photoIndex}
                 onSelect={index => setPhotoIndex(index)}
             >
-                {photos.map((photo, i) => (
-                    <Layout style={styles.tab} key={i}>
+                {photos.map(photo => (
+                    <Layout style={styles.tab} key={photo.url}>
                         <Image
                             style={{
                                 display: "flex",
@@ -43,11 +33,11 @@ export default function PhotoDisplayScreen() {
                             }}
                             resizeMode="contain"
                             source={{
-                                uri: photo,
+                                uri: photo.url,
                             }}
                         />
                         <Text style={styles.date} category={"h5"}>
-                            I AM DATE
+                            {formatDate(photo.dateAdded)}
                         </Text>
                     </Layout>
                 ))}

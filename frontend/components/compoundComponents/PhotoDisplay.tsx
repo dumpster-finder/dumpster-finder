@@ -1,11 +1,17 @@
 import * as React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useState } from "react";
 import { Button } from "@ui-kitten/components";
 import { ArrowLeftIcon, ArrowRightIcon } from "../basicComponents/Icons";
 import Photo from "../../models/Photo";
 
-export default function PhotoDisplay({ photoList }: { photoList: Photo[] }) {
+export default function PhotoDisplay({
+    photoList,
+    onPress,
+}: {
+    photoList: Photo[];
+    onPress: () => any;
+}) {
     const [photoDisplay, onPhotoChange] = useState(0);
     return (
         <View style={styles.view}>
@@ -15,15 +21,17 @@ export default function PhotoDisplay({ photoList }: { photoList: Photo[] }) {
                 accessoryLeft={ArrowLeftIcon}
                 onPress={() => backArrow()}
             />
-            <Image
-                style={styles.photo}
-                resizeMode="contain"
-                source={{
-                    uri: photoList[photoDisplay]
-                        ? photoList[photoDisplay].url
-                        : "https://picsum.photos/400", // TODO insert an actual placeholder image here!
-                }}
-            />
+            <TouchableOpacity style={styles.photoContainer} onPress={onPress}>
+                <Image
+                    style={styles.photo}
+                    resizeMode="contain"
+                    source={{
+                        uri: photoList[photoDisplay]
+                            ? photoList[photoDisplay].url
+                            : "https://picsum.photos/400", // TODO insert an actual placeholder image here!
+                    }}
+                />
+            </TouchableOpacity>
             <Button
                 style={{ width: "15%" }}
                 appearance="ghost"
@@ -51,14 +59,14 @@ export default function PhotoDisplay({ photoList }: { photoList: Photo[] }) {
 
 const styles = StyleSheet.create({
     view: {
-        flex: 1,
         flexDirection: "row",
         width: "100%",
     },
-    photo: {
-        display: "flex",
-        alignItems: "stretch",
+    photoContainer: {
         width: "70%",
+    },
+    photo: {
+        width: "100%",
         height: "100%",
     },
 });

@@ -34,7 +34,7 @@ import RevisionScreen from "../screens/RevisionScreen";
 import { useTranslation } from "react-i18next";
 import PhotoGalleryScreen from "../screens/PhotoGalleryScreen";
 import PhotoDisplayScreen from "../screens/PhotoDisplayScreen";
-import AddPhotoHeader from "../components/AddPhotoHeader";
+import AddPhotoHeader from "../components/basicComponents/AddPhotoHeader";
 import AddPhotoScreen from "../screens/AddPhotoScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -146,7 +146,7 @@ function MapTabNavigator() {
                 component={AddInfoScreen}
                 options={{ headerTitle: t("addInfo") }}
             />
-            <ListTabStack.Screen
+            <MapTabStack.Screen
                 name="DetailsScreen"
                 component={DetailsScreen}
                 options={{
@@ -154,26 +154,49 @@ function MapTabNavigator() {
                     headerRight: DetailsMenu,
                 }}
             />
-            <ListTabStack.Screen
+            <MapTabStack.Screen
                 name="CommentScreen"
                 component={CommentScreen}
                 options={{ headerTitle: t("comment") }}
             />
 
-            <ListTabStack.Screen
+            <MapTabStack.Screen
                 name="ContentScreen"
                 component={ContentScreen}
                 options={{ headerTitle: t("content") }}
             />
-            <ListTabStack.Screen
+            <MapTabStack.Screen
                 name="EditDumpsterScreen"
                 component={EditDumpsterScreen}
                 options={{ headerTitle: t("edit") }}
             />
-            <ListTabStack.Screen
+            <MapTabStack.Screen
                 name="RevisionScreen"
                 component={RevisionScreen}
                 options={{ headerTitle: t("revision") }}
+            />
+            <MapTabStack.Screen
+                name="PhotoGalleryScreen"
+                component={PhotoGalleryScreen}
+                options={{
+                    headerTitle: t("gallery"),
+                    headerRight: AddPhotoHeader,
+                }}
+            />
+            <MapTabStack.Screen
+                name="PhotoDisplayScreen"
+                component={PhotoDisplayScreen}
+                options={{
+                    headerTitle: t("display"),
+                    headerRight: AddPhotoHeader,
+                }}
+            />
+            <MapTabStack.Screen
+                name="AddPhotoScreen"
+                component={AddPhotoScreen}
+                options={{
+                    headerTitle: t("addPhoto"),
+                }}
             />
         </MapTabStack.Navigator>
     );

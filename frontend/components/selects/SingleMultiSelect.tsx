@@ -15,7 +15,7 @@ export default function singleMultiSelect({
     onSelect: (newValue: Array<IndexPath>) => void;
     placeholder?: string;
 }) {
-    const { t } = useTranslation();
+    const { t }: { t: (s: string) => string } = useTranslation();
     const val = sValue.map(value => values[value.row]);
     return (
         <Select

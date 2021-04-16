@@ -44,4 +44,7 @@ export type MapTabParamList = {
     ContentScreen: undefined;
     EditDumpsterScreen: undefined;
     RevisionScreen: undefined;
+    PhotoGalleryScreen: undefined;
+    PhotoDisplayScreen: undefined;
+    AddPhotoScreen: undefined;
 };

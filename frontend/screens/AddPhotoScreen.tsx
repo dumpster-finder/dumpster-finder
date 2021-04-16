@@ -8,7 +8,7 @@ import {
     DeleteButtonIcon,
     SaveButtonIcon,
     UploadIcon,
-} from "../components/Icons";
+} from "../components/basicComponents/Icons";
 import ImagePicker, { launchImageLibrary } from "react-native-image-picker";
 
 export default function AddPhotoScreen() {
