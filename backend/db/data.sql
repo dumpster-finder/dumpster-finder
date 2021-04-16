@@ -142,7 +142,7 @@ VALUES
     (7, 7, 15), -- noodles
     (7, 7, 16); -- eggs
 
-INSERT INTO Users(userID, userName, salt)
+INSERT INTO Users(passwordHash, userName, salt)
 VALUES
     ('temp', 'temp', 'temp'),
     ('temp1', 'temp2', 'temp2'),
