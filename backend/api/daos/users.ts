@@ -1,7 +1,5 @@
 import { MyModels } from "../models";
-import { literal, Transaction } from "sequelize";
-import { UserAttributes } from "../models/Users";
-import {ConflictError, InvalidKeyError} from "../types/errors";
+import {ConflictError, InvalidKeyError, NotFoundError} from "../types/errors";
 import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
 
 export default function ({ Users, sequelize }: MyModels) {
@@ -54,10 +52,15 @@ export default function ({ Users, sequelize }: MyModels) {
                             passwordHash,
                         },
                     });
-                    return validate !== null;
+                    if (validate !== null){
+                        return validate.userID
+                    }
+                    else{
+                        throw new NotFoundError("No such user exists")
+                    }
                 }
                 else {
-                    return false
+                    throw new NotFoundError("No such user exists")
                 }
         },
 

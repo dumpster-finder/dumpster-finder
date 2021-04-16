@@ -71,7 +71,7 @@ export default function ({ Models }: RouteDependencies) {
         validate(validateUser),
         async (req, res, next) => {
             try {
-                const userExists : boolean = await userDAO.getOne(
+                const userExists : number = await userDAO.getOne(
                     req.params.userID
                 );
                 if (userExists) {

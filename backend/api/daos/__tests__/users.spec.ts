@@ -26,7 +26,7 @@ describe("postOne", () => {
         const userName = await generateUserID();
         const userHash = hashUser(userName);
         const salt = generateSalt();
-        const passwordHash = await hashPassword(salt, userName);
+        const passwordHash = await hashPassword(salt, userName)|| "no work";
         const success = await userDAO.postOne(userHash, salt, passwordHash);
         expect(success);
         expect(passwordHash.length).toBe(200)

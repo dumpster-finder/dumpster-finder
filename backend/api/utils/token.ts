@@ -1,4 +1,4 @@
-import {TAlgorithm} from "jwt-simple";
+import {encode, decode, TAlgorithm} from "jwt-simple";
 
 export interface Session {
     id: number;
@@ -8,13 +8,19 @@ export interface Session {
     expires: number;
 }
 
-export function encodeToken(userID : string){
+export function encodeToken(userID : number){
         // Always use HS512 to sign the token
         const algorithm: TAlgorithm = "HS512";
         // Determine when the token should expire
         const issued = Date.now();
-        const fifteenMinutesInMs = 15 * 60 * 1000;
-        const expires = issued + fifteenMinutesInMs;
+        const thirtyMinutesInMs = 30 * 60 * 1000;
+        const expires = issued + thirtyMinutesInMs;
+        const session:Session={
+            id: userID,
+            expires: expires
+        }
+        let token = encode(session, process.env.TOKEN_SECRET || "you should get a token secret", algorithm);
+        return token
 
 }
 
