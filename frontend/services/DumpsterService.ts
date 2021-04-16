@@ -2,6 +2,7 @@ import { AxiosInstance } from "axios";
 import Position from "../models/Position";
 import Dumpster, { RevDumpster } from "../models/Dumpster";
 import { testDumpsters } from "../constants/TestData";
+import Comments, { RawComment } from "../models/Comment";
 
 export default class DumpsterService {
     readonly axios;
@@ -18,7 +19,9 @@ export default class DumpsterService {
      */
     getDumpster(dumpsterID: number) {
         console.log("Fetched dumpster with ID", dumpsterID);
-        return this.axios.get(`/dumpsters/${dumpsterID}`);
+        return this.axios
+            .get(`/dumpsters/${dumpsterID}`)
+            .then(response => response.data);
     }
 
     /**

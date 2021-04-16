@@ -31,6 +31,8 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     // @ts-ignore
     categories: dumpster.categories && dumpster.categories.map(c => c.name),
     info: dumpster.info,
+    // @ts-ignore
+    visits: dumpster.dataValues.visits,
 });
 
 const toRevision = (dumpster: DumpsterAttributes): DumpsterRevision => {
@@ -78,6 +80,12 @@ const dumpsterAttributes: (string | any)[] = [
         ),
         "rating",
     ],
+    [
+        literal(
+            "(SELECT COUNT(*) from Visits where dumpsterID = Dumpsters.dumpsterID)",
+        ),
+        "visits",
+    ],
 ];
 
 /**
@@ -85,7 +93,7 @@ const dumpsterAttributes: (string | any)[] = [
  *
  * @param Models - All defined Sequelize models
  */
-export default function ({
+export default function({
     DumpsterPositions,
     Dumpsters,
     DumpsterCategories,

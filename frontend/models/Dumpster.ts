@@ -14,6 +14,7 @@ export interface RevDumpster {
     storeType: string;
     categories: string[];
     info: string;
+    visits: number;
     dateUpdated: string;
     isActive: boolean;
 }
@@ -31,6 +32,7 @@ class Dumpster {
     storeType: string;
     categories: string[];
     info: string;
+    visits: number;
 
     constructor({
         dumpsterID,
@@ -45,6 +47,7 @@ class Dumpster {
         storeType,
         categories,
         info,
+        visits,
     }: {
         dumpsterID: number;
         name: string;
@@ -58,6 +61,7 @@ class Dumpster {
         storeType: string;
         categories: string[];
         info: string;
+        visits: number;
     }) {
         this.dumpsterID = dumpsterID;
         this.name = name;
@@ -71,6 +75,7 @@ class Dumpster {
         this.storeType = storeType;
         this.categories = categories;
         this.info = info;
+        this.visits = visits;
     }
 }
 

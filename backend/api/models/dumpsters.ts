@@ -11,7 +11,6 @@ import {
 import { Categories } from "./Categories";
 import { UserAttributes, UserCreationAttributes } from "./Users";
 
-
 export interface DumpsterAttributes {
     revisionID: number;
     dumpsterID: number;
@@ -27,6 +26,7 @@ export interface DumpsterAttributes {
     cleanliness: number;
     userID: string | null;
     info: string;
+    visits: number;
 }
 
 export interface DumpsterCreationAttributes
@@ -35,8 +35,7 @@ export interface DumpsterCreationAttributes
         "revisionID" | "dateAdded" | "dateUpdated"
     > {}
 
-class Dumpsters
-    extends Model<DumpsterAttributes, DumpsterCreationAttributes>
+class Dumpsters extends Model<DumpsterAttributes, DumpsterCreationAttributes>
     implements DumpsterAttributes {
     revisionID!: number;
     dumpsterID!: number;
@@ -52,6 +51,7 @@ class Dumpsters
     cleanliness!: number;
     userID!: string | null;
     info!: string;
+    visits!: number;
 }
 
 // Inject Sequelize
@@ -114,6 +114,9 @@ export function init(sequelize: Sequelize) {
             info: {
                 type: DataTypes.TEXT,
             },
+            visits: {
+                type: DataTypes.INTEGER,
+            },
         },
         {
             sequelize,
@@ -129,7 +132,7 @@ export function associate({
     StoreTypes,
     DumpsterCategories,
     DumpsterPositions,
-    Users
+    Users,
 }: {
     DumpsterTypes: ModelStatic<
         Model<DumpsterTypeAttributes, DumpsterTypeCreationAttributes>
@@ -142,7 +145,6 @@ export function associate({
     >;
     Users: ModelStatic<Model<UserAttributes, UserCreationAttributes>>;
     DumpsterCategories: ModelStatic<Model<any, any>>;
-
 }) {
     // do associations like
     // Thing.hasMany()
