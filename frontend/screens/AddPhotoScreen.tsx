@@ -1,7 +1,14 @@
 import * as React from "react";
 import { Button, Layout, Text, Input } from "@ui-kitten/components";
-import { Dimensions, Image, StyleSheet, View, Alert } from "react-native";
-import { useState } from "react";
+import {
+    Dimensions,
+    Image,
+    StyleSheet,
+    View,
+    Alert,
+    Platform,
+} from "react-native";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
     CameraIcon,
@@ -9,7 +16,7 @@ import {
     SaveButtonIcon,
     UploadIcon,
 } from "../components/basicComponents/Icons";
-import ImagePicker, { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
 
 export default function AddPhotoScreen() {
     const { t }: { t: (s: string) => string } = useTranslation("photo");
@@ -19,6 +26,23 @@ export default function AddPhotoScreen() {
     const photoPath =
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
     const [imageSource, setImageSource] = useState(null);
+
+    useEffect(() => {
+        // TODO this is just example code!
+        (async () => {
+            if (Platform.OS !== "web") {
+                const {
+                    status,
+                } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== "granted") {
+                    alert(
+                        "Sorry, we need camera roll permissions to make this work!",
+                    );
+                }
+            }
+        })();
+    }, []);
+
     return (
         <Layout style={styles.container}>
             <View style={styles.view}>
@@ -86,7 +110,7 @@ export default function AddPhotoScreen() {
         </Layout>
     );
 
-    function selectImage() {
+    async function selectImage() {
         let options = {
             title: "You can choose one image",
             maxWidth: 256,
@@ -96,20 +120,26 @@ export default function AddPhotoScreen() {
             },
         };
 
-        launchImageLibrary(
-            { mediaType: "photo", maxWidth: 256, maxHeight: 256 },
-            response => {
-                console.log({ response });
+        try {
+            const response = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: false,
+            });
 
-                if (response.didCancel) {
-                    console.log("User cancelled photo picker");
-                    Alert.alert("You did not select any image");
-                } else {
-                    let source = { uri: response.uri };
-                    console.log({ source });
-                }
-            },
-        );
+            if (response.cancelled) {
+                console.log("User cancelled photo picker");
+                // TODO get rid of this alert
+                Alert.alert("You did not select any image");
+            } else {
+                let source = { uri: response.uri };
+                console.log({ source });
+            }
+        } catch (e) {
+            console.error(
+                "Couldn't do anything about this image picking, I'm sorry",
+                e,
+            );
+        }
     }
 }
 
