@@ -206,31 +206,28 @@ describe("addOne", () => {
             positiveStoreViewOnDiving: true,
             visits: 3,
         };
-        try {
-            const result = await dumpsterDAO.addOne(dumpster);
-            expect({
-                ...result,
-                rating: undefined,
-                dumpsterID: undefined,
-            }).toEqual(dumpster);
 
-            // Check DumpsterPosition record
-            const dumpsterPosition = await Models.DumpsterPositions.findOne({
-                where: { dumpsterID: result.dumpsterID },
-            });
-            expect(dumpsterPosition).not.toBeNull();
-            // @ts-ignore
-            expect(dumpsterPosition?.position.coordinates[0]).toEqual(
-                dumpster.position.latitude,
-            );
-            // @ts-ignore
-            expect(dumpsterPosition?.position.coordinates[1]).toEqual(
-                dumpster.position.longitude,
-            );
-            expect(dumpsterPosition?.revisionID).toBeGreaterThan(7);
-        } catch (e) {
-            fail("Threw an error when it should not");
-        }
+        const result = await dumpsterDAO.addOne(dumpster);
+        expect({
+            ...result,
+            rating: undefined,
+            dumpsterID: undefined,
+        }).toEqual(dumpster);
+
+        // Check DumpsterPosition record
+        const dumpsterPosition = await Models.DumpsterPositions.findOne({
+            where: { dumpsterID: result.dumpsterID },
+        });
+        expect(dumpsterPosition).not.toBeNull();
+        // @ts-ignore
+        expect(dumpsterPosition?.position.coordinates[0]).toEqual(
+            dumpster.position.latitude,
+        );
+        // @ts-ignore
+        expect(dumpsterPosition?.position.coordinates[1]).toEqual(
+            dumpster.position.longitude,
+        );
+        expect(dumpsterPosition?.revisionID).toBeGreaterThan(7);
     });
 });
 
@@ -265,46 +262,43 @@ describe("updateOne", () => {
             positiveStoreViewOnDiving: true,
             visits: 3,
         };
-        try {
-            // Remember the previous rev ID
-            const previousDumpsterPosition = await Models.DumpsterPositions.findOne(
-                {
-                    where: { dumpsterID: dumpster.dumpsterID },
-                },
-            );
 
-            // Update it!
-            const result = await dumpsterDAO.updateOne(dumpster);
-            expect({
-                ...result,
-                rating: undefined,
-            }).toEqual(dumpster);
-
-            // Check DumpsterPosition record
-            const dumpsterPosition = await Models.DumpsterPositions.findOne({
+        // Remember the previous rev ID
+        const previousDumpsterPosition = await Models.DumpsterPositions.findOne(
+            {
                 where: { dumpsterID: dumpster.dumpsterID },
-            });
-            // @ts-ignore
-            expect(dumpsterPosition?.position.coordinates[0]).toEqual(
-                dumpster.position.latitude,
-            );
-            // @ts-ignore
-            expect(dumpsterPosition?.position.coordinates[1]).toEqual(
-                dumpster.position.longitude,
-            );
-            // Make sure that the revision ID has been updated
-            expect(dumpsterPosition?.revisionID).toBeGreaterThan(
-                previousDumpsterPosition?.revisionID!,
-            );
+            },
+        );
 
-            // Check that the resulting dumpster matches our update
-            const visibleResult = await dumpsterDAO.getOne(dumpster.dumpsterID);
-            expect({
-                ...visibleResult,
-                rating: undefined,
-            }).toEqual(dumpster);
-        } catch (e) {
-            fail("Threw an error when it should not");
-        }
+        // Update it!
+        const result = await dumpsterDAO.updateOne(dumpster);
+        expect({
+            ...result,
+            rating: undefined,
+        }).toEqual(dumpster);
+
+        // Check DumpsterPosition record
+        const dumpsterPosition = await Models.DumpsterPositions.findOne({
+            where: { dumpsterID: dumpster.dumpsterID },
+        });
+        // @ts-ignore
+        expect(dumpsterPosition?.position.coordinates[0]).toEqual(
+            dumpster.position.latitude,
+        );
+        // @ts-ignore
+        expect(dumpsterPosition?.position.coordinates[1]).toEqual(
+            dumpster.position.longitude,
+        );
+        // Make sure that the revision ID has been updated
+        expect(dumpsterPosition?.revisionID).toBeGreaterThan(
+            previousDumpsterPosition?.revisionID!,
+        );
+
+        // Check that the resulting dumpster matches our update
+        const visibleResult = await dumpsterDAO.getOne(dumpster.dumpsterID);
+        expect({
+            ...visibleResult,
+            rating: undefined,
+        }).toEqual(dumpster);
     });
 });
