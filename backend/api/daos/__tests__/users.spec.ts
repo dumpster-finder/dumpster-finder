@@ -13,7 +13,7 @@ beforeAll(setupTestData);
 describe("getOne", () => {
     it("should return all store types", async () => {
         const userExists = await userDAO.getOne("crawl daring message team lamp develop")
-        expect(userExists).toBe(true);
+        expect(userExists).toBe(8);
         const wrongPassword = await userDAO.getOne("crawl daring message team Tore Sporet")
         expect(wrongPassword).toBe(false);
         const wrongUser = await userDAO.getOne("Bob Fridtjof Hansen")
