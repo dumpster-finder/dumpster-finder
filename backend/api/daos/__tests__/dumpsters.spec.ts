@@ -27,6 +27,7 @@ const invalidDumpster = {
     locked: false,
     positiveStoreViewOnDiving: null,
     storeType: "Hahaha",
+    visits: -1,
 };
 
 const baseDumpsterProps = [
@@ -40,6 +41,7 @@ const baseDumpsterProps = [
     "info",
     "locked",
     "positiveStoreViewOnDiving",
+    "visits",
 ];
 
 const dumpsterProps = [...baseDumpsterProps, "rating"];
@@ -202,6 +204,7 @@ describe("addOne", () => {
             info: "obla di obla da",
             locked: false,
             positiveStoreViewOnDiving: true,
+            visits: 2,
         };
         try {
             const result = await dumpsterDAO.addOne(dumpster);
@@ -260,6 +263,7 @@ describe("updateOne", () => {
                 "Usually a lot of baked goods. Moved to the other side of the building.",
             locked: false,
             positiveStoreViewOnDiving: true,
+            visits: 3,
         };
         try {
             // Remember the previous rev ID
