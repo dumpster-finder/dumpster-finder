@@ -204,7 +204,7 @@ describe("addOne", () => {
             info: "obla di obla da",
             locked: false,
             positiveStoreViewOnDiving: true,
-            visits: 2,
+            visits: 3,
         };
         try {
             const result = await dumpsterDAO.addOne(dumpster);
