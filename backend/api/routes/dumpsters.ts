@@ -175,9 +175,9 @@
  *
  * tags:
  *   - name: Dumpsters
- *     description: Dumpster API
+ *     description: Data about things that contain trash
  *   - name: Revisions
- *     description: Dumpster revision API
+ *     description: Edit history of dumpsters
  */
 
 import { Request, Router } from "express";

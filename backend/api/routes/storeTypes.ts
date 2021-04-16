@@ -16,7 +16,7 @@
  *                 name: "Unspeakable Store"
  * tags:
  *   - name: StoreTypes
- *     description: Store type API
+ *     description: Types of stores that a dumpster can be found by
  */
 
 import { RouteDependencies } from "../types";
@@ -24,7 +24,7 @@ import { Router } from "express";
 import StoreTypeDAO from "../daos/storeTypes";
 import { standardLimiter } from "../middleware/rateLimiter";
 
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const router = Router();
     const storeTypeDAO = StoreTypeDAO(Models);
 
