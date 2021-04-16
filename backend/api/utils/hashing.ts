@@ -25,7 +25,7 @@ export function generateSalt(){
     return crypto.randomBytes(16).toString('hex');
 }
 
-export function hashPassword(salt : string, password : string){
-    let userName = crypto.pbkdf2(password, salt, iterations,100, "sha512");
+export async function hashPassword(salt : string, password : string){
+    let userName = await crypto.pbkdf2(password, salt, iterations,100, "sha512");
     return userName.toString("hex");
 }
