@@ -37,7 +37,7 @@ export default function ({ Models }: RouteDependencies) {
                 const userName : string = await generateUserID();
                 const userHash = hashUser(userName);
                 const salt = generateSalt()
-                const passwordHash = hashPassword(salt, userName);
+                const passwordHash = await hashPassword(salt, userName);
                 const success = await userDAO.postOne( userHash, salt, passwordHash);
                 res.status(200).json(userName);
             } catch (e) {
