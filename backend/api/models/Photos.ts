@@ -7,7 +7,7 @@ export interface PhotoAttributes {
     photoID: number;
     dumpsterID: number;
     url: string;
-    userID: string | null;
+    userID: number | null;
     dateAdded: string;
 }
 
@@ -20,7 +20,7 @@ export class Photos
     photoID!: number;
     dumpsterID!: number;
     url!: string;
-    userID!: string | null;
+    userID!: number | null;
     dateAdded!: string;
 }
 
@@ -42,7 +42,7 @@ export function init(sequelize: Sequelize) {
                 allowNull: false,
             },
             userID: {
-                type: DataTypes.STRING,
+                type: DataTypes.NUMBER,
             },
             dateAdded: {
                 type: DataTypes.DATE,

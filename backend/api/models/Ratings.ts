@@ -4,7 +4,7 @@ import { UserAttributes, UserCreationAttributes } from "./Users";
 
 
 export interface RatingAttributes {
-    userID: string;
+    userID: number;
     ratingID: number;
     dumpsterID: number;
     rating: number;
@@ -17,7 +17,7 @@ export interface RatingCreationAttributes
 export class Ratings
     extends Model<RatingAttributes, RatingCreationAttributes>
     implements RatingAttributes {
-    userID!: string;
+    userID!: number;
     ratingID!: number;
     dumpsterID!: number;
     rating!: number;
@@ -29,7 +29,7 @@ export function init(sequelize: Sequelize) {
     Ratings.init(
         {
             userID: {
-                type: DataTypes.STRING,
+                type: DataTypes.NUMBER,
                 primaryKey: true,
             },
             ratingID: {

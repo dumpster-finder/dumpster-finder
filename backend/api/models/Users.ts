@@ -1,7 +1,8 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 
 export interface UserAttributes {
-    userID : string;
+    userID : number;
+    passwordHash : string;
     userName : string;
     salt : string;
 }
@@ -12,7 +13,8 @@ export interface UserCreationAttributes
 class Users
     extends Model<UserAttributes, UserCreationAttributes>
     implements UserAttributes {
-    public userID!: string;
+    public userID!: number;
+    passwordHash!: string;
     public userName!: string;
     public salt!: string;
 }
@@ -25,6 +27,10 @@ export function init(sequelize: Sequelize) {
             userID : {
                 type: DataTypes.STRING,
                 primaryKey: true,
+            },
+            passwordHash : {
+                type: DataTypes.STRING,
+                unique: true,
             },
             userName : {
                 type: DataTypes.STRING,

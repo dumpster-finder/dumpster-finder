@@ -11,14 +11,14 @@ export default function ({ Users, sequelize }: MyModels) {
          *
          * @param userName
          * @param salt
-         * @param userID
+         * @param passwordHash
          * @return true or false depending on if it worked
          */
-        postOne: async ( userName : string, salt : string, userID : string ) => {
+        postOne: async ( userName : string, salt : string, passwordHash : string ) => {
             // Perform transaction
                 const dumpsterPosition = await Users.create(
                     {
-                        userID,
+                        passwordHash,
                         userName,
                         salt
                     },
@@ -48,10 +48,10 @@ export default function ({ Users, sequelize }: MyModels) {
                     },
                 });
                 if(match != null){
-                    const userID = await hashPassword(match.salt, userWords);
+                    const passwordHash = await hashPassword(match.salt, userWords);
                     const validate = await Users.findOne({
                         where: {
-                            userID,
+                            passwordHash,
                         },
                     });
                     return validate !== null;

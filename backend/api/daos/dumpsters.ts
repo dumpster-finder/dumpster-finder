@@ -127,7 +127,7 @@ export default function ({
                 ...dumpster,
                 dumpsterTypeID,
                 storeTypeID,
-                userID: "temp",
+                userID: 1,
                 position,
             },
             { transaction: t },

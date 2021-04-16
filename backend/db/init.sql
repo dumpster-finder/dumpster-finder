@@ -46,7 +46,8 @@ CREATE TABLE StoreTypes (
 );
 -- Store types: Grocery, electronics, etc.
 CREATE TABLE Users (
-    userID VARCHAR(256) PRIMARY KEY,
+    userID INT PRIMARY KEY AUTO_INCREMENT,
+    passwordHash VARCHAR(256) UNIQUE NOT NULL,
     userName VARCHAR(256) UNIQUE NOT NULL,
     salt VARCHAR(256) NOT NULL
     );
@@ -78,7 +79,7 @@ CREATE TABLE Dumpsters (
     positiveStoreViewOnDiving BOOLEAN, -- NULL if unknown (triple boolean hell)
     emptyingSchedule VARCHAR(128) NOT NULL, -- should this be nullable?
     cleanliness TINYINT UNSIGNED NOT NULL,
-    userID VARCHAR(256),
+    userID INT,
     info TEXT NOT NULL,
 
     -- Position index!
@@ -106,7 +107,7 @@ ALTER TABLE DumpsterPositions ADD FOREIGN KEY (revisionID) references Dumpsters(
 CREATE TABLE DumpsterReports (
     dumpsterReportID INT PRIMARY KEY AUTO_INCREMENT,
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
-    userID VARCHAR(256),
+    userID INT,
     reason TEXT NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (dumpsterID),
@@ -122,7 +123,7 @@ CREATE TABLE DumpsterReports (
 -- A dumpster's rating is calculated as an average of
 -- these instances (perhaps filtered by recency)
 CREATE TABLE Ratings (
-    userID VARCHAR(256),
+    userID INT,
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     rating TINYINT UNSIGNED NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -156,7 +157,7 @@ CREATE TABLE Photos (
     photoID INT PRIMARY KEY AUTO_INCREMENT,
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     url VARCHAR(256) NOT NULL,
-    userID VARCHAR(256) NOT NULL, -- for deleting the photo if you regret everything
+    userID INT NOT NULL, -- for deleting the photo if you regret everything
     dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (userID),
     CONSTRAINT photosFK1 FOREIGN KEY Photos(dumpsterID)
@@ -171,7 +172,7 @@ CREATE TABLE Photos (
 CREATE TABLE PhotoReports (
     photoReportID INT PRIMARY KEY AUTO_INCREMENT,
     photoID INT NOT NULL REFERENCES Photos(photoID),
-    userID VARCHAR(256),
+    userID INT,
     reason TEXT NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (photoID),
