@@ -27,7 +27,6 @@ const invalidDumpster = {
     locked: false,
     positiveStoreViewOnDiving: null,
     storeType: "Hahaha",
-    visits: -1,
 };
 
 const baseDumpsterProps = [
@@ -41,10 +40,9 @@ const baseDumpsterProps = [
     "info",
     "locked",
     "positiveStoreViewOnDiving",
-    "visits",
 ];
 
-const dumpsterProps = [...baseDumpsterProps, "rating"];
+const dumpsterProps = [...baseDumpsterProps, "rating", "visits"];
 
 const revisionProps = [
     ...baseDumpsterProps,
@@ -107,6 +105,8 @@ describe("getOne", () => {
             // TODO check IDs when types are reworked to integers...
             expect(dumpster.storeType).toEqual("Grocery Store");
             expect(dumpster.dumpsterType).toEqual("Compressor");
+            expect(dumpster.rating).toBe(1);
+            expect(dumpster.visits).toBe(4);
         }
     });
 
@@ -204,13 +204,13 @@ describe("addOne", () => {
             info: "obla di obla da",
             locked: false,
             positiveStoreViewOnDiving: true,
-            visits: 3,
         };
 
         const result = await dumpsterDAO.addOne(dumpster);
         expect({
             ...result,
             rating: undefined,
+            vists: undefined,
             dumpsterID: undefined,
         }).toEqual(dumpster);
 
@@ -260,7 +260,6 @@ describe("updateOne", () => {
                 "Usually a lot of baked goods. Moved to the other side of the building.",
             locked: false,
             positiveStoreViewOnDiving: true,
-            visits: 3,
         };
 
         // Remember the previous rev ID
@@ -275,6 +274,7 @@ describe("updateOne", () => {
         expect({
             ...result,
             rating: undefined,
+            visits: undefined,
         }).toEqual(dumpster);
 
         // Check DumpsterPosition record
@@ -299,6 +299,7 @@ describe("updateOne", () => {
         expect({
             ...visibleResult,
             rating: undefined,
+            visits: undefined,
         }).toEqual(dumpster);
     });
 });

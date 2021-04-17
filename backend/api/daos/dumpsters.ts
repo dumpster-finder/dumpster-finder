@@ -108,7 +108,7 @@ export default function({
      */
     const createDumpsterRevision = async (
         dumpsterID: number,
-        dumpster: Omit<Dumpster, "dumpsterID" | "rating">,
+        dumpster: Omit<Dumpster, "dumpsterID" | "rating" | "visits">,
         position: GeoJSONPoint,
         t: Transaction,
     ) => {
@@ -257,7 +257,7 @@ export default function({
                 attributes: [
                     ...dumpsterAttributes.slice(
                         0,
-                        dumpsterAttributes.length - 1,
+                        dumpsterAttributes.length - 2,
                     ),
                     "dateUpdated",
                     "revisionID",
@@ -327,7 +327,9 @@ export default function({
          * @param dumpster
          * @return The newly posted data, with an ID
          */
-        addOne: async (dumpster: Omit<Dumpster, "dumpsterID" | "rating">) => {
+        addOne: async (
+            dumpster: Omit<Dumpster, "dumpsterID" | "rating" | "visits">,
+        ) => {
             // Rewrite position data to GeoJSON format
             const position = translateToGeoJSONPoint(dumpster.position);
 
@@ -363,7 +365,7 @@ export default function({
          * @param dumpster
          * @return The updated data
          */
-        updateOne: async (dumpster: Omit<Dumpster, "rating">) => {
+        updateOne: async (dumpster: Omit<Dumpster, "rating" | "visits">) => {
             // TODO should position be editable?
             //      for now I'd say it SHOULD NOT
             //      (especially since this implementation will break the link to the DumpsterPosition)

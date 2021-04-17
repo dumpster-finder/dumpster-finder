@@ -26,7 +26,6 @@ export interface DumpsterAttributes {
     cleanliness: number;
     userID: string | null;
     info: string;
-    visits: number;
 }
 
 export interface DumpsterCreationAttributes
@@ -51,7 +50,6 @@ class Dumpsters extends Model<DumpsterAttributes, DumpsterCreationAttributes>
     cleanliness!: number;
     userID!: string | null;
     info!: string;
-    visits!: number;
 }
 
 // Inject Sequelize
@@ -113,9 +111,6 @@ export function init(sequelize: Sequelize) {
             },
             info: {
                 type: DataTypes.TEXT,
-            },
-            visits: {
-                type: DataTypes.INTEGER,
             },
         },
         {
