@@ -15,6 +15,7 @@ import { useAppDispatch } from "../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { formatDate } from "../utils/date";
 import { useTranslation } from "react-i18next";
+import Message from "../utils/Message";
 
 export default function RevisionScreen({
     navigation,
@@ -29,7 +30,7 @@ export default function RevisionScreen({
         if (dumpster)
             DumpsterService.getRevisions(dumpster.dumpsterID)
                 .then(data => setDumpsterList(data))
-                .catch(e => console.error("Could not fetch revisions", e));
+                .catch(e => Message.error(e, "Could not fetch revisions"));
     }, []);
     if (dumpster === null) {
         return (
@@ -77,7 +78,7 @@ export default function RevisionScreen({
                     ),
                 )
                 .then(() => navigation.navigate("DetailsScreen"))
-                .catch(e => console.error("Could not reset revisions", e));
+                .catch(e => Message.error(e, "Could not reset revisions"));
     }
 }
 

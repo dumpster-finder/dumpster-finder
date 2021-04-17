@@ -7,6 +7,7 @@ import _ from "lodash";
 import { PlaceService } from "../../services";
 import { SaveButtonIcon, SearchInputIcon } from "../basicComponents/Icons";
 import { useTranslation } from "react-i18next";
+import Message from "../../utils/Message";
 
 export default function LocationSearcher({
     onSubmit,
@@ -78,7 +79,7 @@ export default function LocationSearcher({
         try {
             setSuggestions(await PlaceService.search(text));
         } catch (e) {
-            console.error(e, "Failed to fetch search results");
+            Message.error(e, "Failed to fetch search results");
         }
     }
 }
