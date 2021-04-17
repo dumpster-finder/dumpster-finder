@@ -92,6 +92,7 @@ export default function ListCards({
     );
 
     function setDistance() {
+        // https://stackoverflow.com/questions/365826/calculate-distance-between-2-gps-coordinates
         const earthRadiusKm = 6371;
 
         const dLat =
