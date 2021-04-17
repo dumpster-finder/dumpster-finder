@@ -10,6 +10,8 @@ import {
 import { useSelector } from "react-redux";
 import SearchHeader from "../components/SearchHeader";
 import { Layout } from "@ui-kitten/components";
+import FilterModal from "../components/FilterModal";
+import { useState } from "react";
 
 export default function ListScreen({
     navigation,
@@ -18,6 +20,7 @@ export default function ListScreen({
 }) {
     const dispatch = useAppDispatch();
     const dumpsters = useSelector(allDumpstersSelector);
+    const [filter, setFilter] = useState(false);
 
     return (
         <Layout style={styles.container}>
@@ -28,7 +31,11 @@ export default function ListScreen({
                             screen: "AddPositionScreen",
                         });
                     }}
+                    onPressFilter={() => setFilter(true)}
                 />
+                {filter && (
+                    <FilterModal visible={filter} setVisible={setFilter} />
+                )}
                 {dumpsters.map(thisDumpster => (
                     <ListCards
                         key={thisDumpster.dumpsterID}

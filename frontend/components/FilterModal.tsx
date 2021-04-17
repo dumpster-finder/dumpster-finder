@@ -30,7 +30,7 @@ export default function FilterModal({
     const dumpsterTypes = useSelector(dumpsterTypesSelector);
     const storeTypes = useSelector(storeTypesSelector);
     const categories = useSelector(categoriesSelector);
-    const lock = [t("all"), t("locked"), t("unlocked")];
+    const lock = ["all", "locked", "unlocked"];
     const [selectedDumpsters, setSelectedDumpsters] = useState([
         new IndexPath(0),
         new IndexPath(1),
@@ -43,7 +43,7 @@ export default function FilterModal({
         new IndexPath(0),
         new IndexPath(1),
     ]);
-    const [locked, setLocked] = useState("");
+    const [locked, setLocked] = useState(lock[0]);
     const [rating, setRating] = useState([0, 4]);
     const [cleanliness, setCleanliness] = useState([0, 4]);
     const [view, setView] = useState([0, 2]);
@@ -180,7 +180,7 @@ export default function FilterModal({
                             checked={locked === value}
                             onChange={next => setLocked(value)}
                         >
-                            {value}
+                            {t(`${value}`)}
                         </CheckBox>
                     ))}
                 </View>
