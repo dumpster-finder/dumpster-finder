@@ -11,17 +11,22 @@ import {
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-    CameraIcon,
+    CameraButtonIcon,
     DeleteButtonIcon,
     SaveButtonIcon,
-    UploadIcon,
+    PhotoButtonIcon,
 } from "../components/basicComponents/Icons";
+import { NavigationProp } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 
-export default function AddPhotoScreen() {
+export default function AddPhotoScreen({
+    navigation,
+}: {
+    navigation: NavigationProp<any>;
+}) {
     const { t }: { t: (s: string) => string } = useTranslation("photo");
     const windowWidth = Dimensions.get("window").width;
-    const [uploaded, setUploaded] = useState(true);
+    const [uploaded, setUploaded] = useState(false);
     const [pending, setPending] = useState(false);
     const photoPath =
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
@@ -48,12 +53,16 @@ export default function AddPhotoScreen() {
             <View style={styles.view}>
                 <Button
                     style={styles.button}
-                    accessoryLeft={UploadIcon}
+                    accessoryLeft={PhotoButtonIcon}
                     onPress={selectImage}
                 >
                     {t("upload")}
                 </Button>
-                <Button style={styles.button} accessoryLeft={CameraIcon}>
+                <Button
+                    style={styles.button}
+                    accessoryLeft={CameraButtonIcon}
+                    onPress={() => navigation.navigate("CameraScreen")}
+                >
                     {t("take")}
                 </Button>
 

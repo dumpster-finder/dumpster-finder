@@ -3,6 +3,7 @@ export type RootStackParamList = {
     IntroScreen: undefined;
     IntroPositionScreen: undefined;
     NotFound: undefined;
+    CameraScreen: undefined;
 };
 
 export type BottomTabParamList = {

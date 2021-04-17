@@ -28,6 +28,7 @@
     "date-fns": "^2.20.0",
     "expo": "~40.0.0",
     "expo-asset": "~8.2.1",
+    "expo-camera": "~9.1.0",
     "expo-constants": "~9.3.0",
     "expo-font": "~8.4.0",
     "expo-image-picker": "~9.2.0",
