@@ -32,7 +32,7 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     categories: dumpster.categories && dumpster.categories.map(c => c.name),
     info: dumpster.info,
     // @ts-ignore
-    visits: dumpster.dataValues.visits,
+    visits: dumpster.dataValues.visits || 0,
 });
 
 const toRevision = (dumpster: DumpsterAttributes): DumpsterRevision => {
@@ -108,7 +108,8 @@ export default function({
      */
     const createDumpsterRevision = async (
         dumpsterID: number,
-        dumpster: Omit<Dumpster, "dumpsterID" | "rating" | "visits">,
+        dumpster: Omit<Dumpster, "dumpsterID" | "rating" | "visits"> &
+            Partial<Dumpster>,
         position: GeoJSONPoint,
         t: Transaction,
     ) => {
@@ -174,6 +175,9 @@ export default function({
             storeType: dumpster.storeType,
             dumpsterType: dumpster.dumpsterType,
             categories: dumpster.categories,
+            // Also override these...
+            rating: dumpster.rating || 2.5,
+            visits: dumpster.visits || 0,
         };
     };
 

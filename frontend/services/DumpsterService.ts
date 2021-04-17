@@ -1,6 +1,10 @@
 import { AxiosInstance } from "axios";
 import Position from "../models/Position";
-import Dumpster, { RevDumpster } from "../models/Dumpster";
+import Dumpster, {
+    PostDumpster,
+    UpdatedDumpster,
+    RevDumpster,
+} from "../models/Dumpster";
 import { testDumpsters } from "../constants/TestData";
 import Comments, { RawComment } from "../models/Comment";
 
@@ -50,7 +54,7 @@ export default class DumpsterService {
      *
      * @param dumpster An edited version of an existing dumpster
      */
-    updateDumpster(dumpster: Omit<Dumpster, "rating">): Promise<Dumpster> {
+    updateDumpster(dumpster: Dumpster): Promise<Dumpster> {
         console.log("Updated dumpster:", dumpster);
         return this.axios
             .put(`/dumpsters/${dumpster.dumpsterID}`, dumpster)
@@ -62,9 +66,7 @@ export default class DumpsterService {
      *
      * @param dumpster A dumpster object without ID or rating
      */
-    addDumpster(
-        dumpster: Omit<Dumpster, "dumpsterID" | "rating">,
-    ): Promise<Dumpster> {
+    addDumpster(dumpster: PostDumpster): Promise<Dumpster> {
         console.log("Posted dumpster:", dumpster);
         return this.axios
             .post("/dumpsters", dumpster)

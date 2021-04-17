@@ -206,17 +206,16 @@ describe("addOne", () => {
             positiveStoreViewOnDiving: true,
         };
 
-        const result = await dumpsterDAO.addOne(dumpster);
-        expect({
-            ...result,
-            rating: undefined,
-            vists: undefined,
-            dumpsterID: undefined,
-        }).toEqual(dumpster);
+        const { dumpsterID, rating, visits, ...result} = await dumpsterDAO.addOne(dumpster);
+        // Check that the actual data is returned
+        expect(result).toEqual(dumpster);
+        // Check default values
+        expect(rating).toBe(2.5);
+        expect(visits).toBe(0);
 
         // Check DumpsterPosition record
         const dumpsterPosition = await Models.DumpsterPositions.findOne({
-            where: { dumpsterID: result.dumpsterID },
+            where: { dumpsterID },
         });
         expect(dumpsterPosition).not.toBeNull();
         // @ts-ignore

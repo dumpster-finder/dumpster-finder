@@ -78,7 +78,10 @@ export const postDumpster = {
  */
 export const putDumpster = {
     params: dumpsterIDParam,
-    body: baseDumpster,
+    body: baseDumpster.keys({
+        rating: Joi.number(),
+        visits: Joi.number().integer(),
+    }),
 };
 
 export const patchRevision = {

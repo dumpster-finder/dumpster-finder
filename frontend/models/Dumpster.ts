@@ -19,7 +19,7 @@ export interface RevDumpster {
     isActive: boolean;
 }
 
-class Dumpster {
+export default class Dumpster {
     dumpsterID: number;
     name: string;
     position: Position;
@@ -79,4 +79,5 @@ class Dumpster {
     }
 }
 
-export default Dumpster;
+export type UpdatedDumpster = Omit<Dumpster, "rating" | "visits">; // wait, what sense does this make?
+export type PostDumpster = Omit<Dumpster, "dumpsterID" | "rating" | "visits">;

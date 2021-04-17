@@ -1,5 +1,5 @@
 import * as React from "react";
-import Dumpster from "../../models/Dumpster";
+import Dumpster, { UpdatedDumpster } from "../../models/Dumpster";
 import { Button, IndexPath, Input, Text } from "@ui-kitten/components";
 import { ScrollView, StyleSheet, View } from "react-native";
 import DropdownSelect from "../selects/DropdownSelect";
@@ -30,7 +30,7 @@ export default function DumpsterEditor({
     pending,
 }: {
     dumpster: Omit<Dumpster, "rating">;
-    onSave: (newDumpster: Omit<Dumpster, "rating">) => void;
+    onSave: (newDumpster: UpdatedDumpster) => void;
     mode: "edit" | "create";
     pending?: boolean;
 }) {
@@ -203,11 +203,9 @@ export default function DumpsterEditor({
                         <View style={styles.row}>
                             <ButtonGroupDisplay
                                 value={values.storeView}
-                                values={[
-                                    "negative",
-                                    "neutral",
-                                    "positive",
-                                ].map(v => t(`storeView.${v}`))}
+                                values={["negative", "neutral", "positive"].map(
+                                    v => t(`storeView.${v}`),
+                                )}
                                 icon={PositiveIcon}
                                 label={t("storeView.label")}
                                 onSelect={i => setFieldValue("storeView", i)}

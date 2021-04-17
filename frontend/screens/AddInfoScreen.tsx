@@ -9,7 +9,7 @@ import {
 } from "../redux/slices/editorSlice";
 import { addDumpster } from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
-import Dumpster from "../models/Dumpster";
+import Dumpster, { UpdatedDumpster } from "../models/Dumpster";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import { DumpsterService } from "../services";
@@ -44,7 +44,7 @@ export default function AddInfoScreen({
         );
     }
 
-    async function handleSave(dumpster: Omit<Dumpster, "rating">) {
+    async function handleSave(dumpster: UpdatedDumpster) {
         try {
             // Strip the dumpster of ID
             const { dumpsterID, ...restDumpster } = dumpster;
