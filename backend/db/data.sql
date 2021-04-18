@@ -207,3 +207,18 @@ VALUES
     (6, 8, 20,   'bars', 5, '2022-08-24', '2021-02-28'), -- chocolate
     (6, 5,  3,  'kilos', 4, '2021-05-21', '2021-02-03'), -- oysters
     (7, 4,  5,  'kilos', 4, '2021-12-21', '2021-03-20'); -- potatoes
+
+insert INTO Visits (dumpsterID,  userID)
+VALUES
+(1,'temp'),
+(1,'temp2'),
+(1,'temp3'),
+(2,'temp'),
+(2,'temp2'),
+(3,'temp'),
+(3,'temp4'),
+(4,'temp3'),
+(5,'temp1'),
+(5,'temp2'),
+(5,'temp3'),
+(5,'temp4');
