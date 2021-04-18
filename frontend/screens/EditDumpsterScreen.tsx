@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import Dumpster from "../models/Dumpster";
+import Dumpster, { UpdatedDumpster } from "../models/Dumpster";
 import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import {
     addDumpster,
@@ -23,10 +23,10 @@ export default function EditDumpsterScreen({
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("common");
     const dispatch = useAppDispatch();
-    const dumpster = useSelector(currentDumpsterSelector);
+    const actualDumpster = useSelector(currentDumpsterSelector);
     const [pending, setPending] = useState(false);
 
-    if (dumpster === null) {
+    if (actualDumpster === null) {
         return (
             <Layout style={styles.container}>
                 <Text category="h1">{t("somethingWrong")}</Text>
@@ -37,7 +37,7 @@ export default function EditDumpsterScreen({
             <Layout style={styles.container}>
                 <DumpsterEditor
                     mode="edit"
-                    dumpster={dumpster}
+                    dumpster={actualDumpster}
                     onSave={handleSave}
                     pending={pending}
                 />
@@ -45,13 +45,16 @@ export default function EditDumpsterScreen({
         );
     }
 
-    async function handleSave(dumpster: Omit<Dumpster, "rating">) {
+    async function handleSave(dumpster: UpdatedDumpster) {
+        if (!actualDumpster) return; // there was no dumpster to edit in the first place
         try {
             setPending(true);
             // Update the dumpster
-            const updatedDumpster = await DumpsterService.updateDumpster(
-                dumpster,
-            );
+            const updatedDumpster = await DumpsterService.updateDumpster({
+                ...dumpster,
+                rating: actualDumpster.rating,
+                visits: actualDumpster.visits,
+            });
             // Add this dumpster to the list of dumpsters!
             dispatch(addDumpster(updatedDumpster));
             dispatch(setCurrentDumpster(updatedDumpster));

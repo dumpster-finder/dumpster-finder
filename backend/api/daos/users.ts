@@ -48,7 +48,7 @@ export default function ({ Users, sequelize }: MyModels) {
                     },
                 });
                 if(match != null){
-                    const userID = hashPassword(match.salt, userWords);
+                    const userID = await hashPassword(match.salt, userWords);
                     const validate = await Users.findOne({
                         where: {
                             userID,

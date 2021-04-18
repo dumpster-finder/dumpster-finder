@@ -33,19 +33,21 @@ export default function({ Models }: RouteDependencies) {
      *             schema:
      *               type: string
      */
-    router.get("/", standardLimiter, async (req, res, next) => {
-        try {
-            const userName: string = await generateUserID();
-            const userHash = hashUser(userName);
-            const salt = generateSalt();
-            const passwordHash = hashPassword(salt, userName);
-            const success = await userDAO.postOne(userHash, salt, passwordHash);
-            res.status(200).json(userName);
-        } catch (e) {
-            logger.error(e, "that user already exists, send new request");
-            next(e);
-        }
-    });
+        router.get("/",
+            standardLimiter,
+            async (req, res, next) => {
+            try {
+                const userName : string = await generateUserID();
+                const userHash = hashUser(userName);
+                const salt = generateSalt()
+                const passwordHash = await hashPassword(salt, userName);
+                const success = await userDAO.postOne( userHash, salt, passwordHash);
+                res.status(200).json(userName);
+            } catch (e) {
+                logger.error(e, "that user already exists, send new request");
+                next(e);
+            }
+        });
 
     /**
      * @swagger

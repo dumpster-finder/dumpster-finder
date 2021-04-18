@@ -14,6 +14,7 @@ export default interface Dumpster {
     // TODO reconsider!
     categories: string[];
     info: string;
+    visits: number;
 }
 
 export interface DumpsterRevision extends Omit<Dumpster, "rating"> {
