@@ -12,6 +12,7 @@ interface SliceState {
     language: string;
     ratedComments: Record<string, number>;
     hideNegativeRating: boolean;
+    visitDate: number;
     // other settings to come, stay tuned!
 }
 
@@ -29,6 +30,7 @@ export const configSlice = createSlice({
         language: "no",
         ratedComments: {},
         hideNegativeRating: true, // Hide 'em by default
+        visitDate: 2,
     } as SliceState,
     reducers: {
         setNickname: (state, { payload }: { payload: string }) => {
@@ -62,6 +64,9 @@ export const configSlice = createSlice({
         },
         setHideNegativeRating: (state, { payload }: { payload: boolean }) => {
             state.hideNegativeRating = payload;
+        },
+        setVisitDate: (state, { payload }: { payload: number }) => {
+            state.radius = payload;
         },
     },
 });
@@ -130,6 +135,8 @@ export const {
     resetRatedComments,
 
     setHideNegativeRating,
+
+    setVisitDate,
 } = configSlice.actions;
 
 export const nicknameSelector = (state: RootState) => state.config.nickname;
@@ -142,4 +149,5 @@ export const ratedCommentsSelector = (state: RootState) =>
     state.config.ratedComments;
 export const hideNegativeRatingSelector = (state: RootState) =>
     state.config.hideNegativeRating;
+export const visitDateSelector = (state: RootState) => state.config.radius;
 export default configSlice.reducer;

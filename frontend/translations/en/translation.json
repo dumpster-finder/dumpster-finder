@@ -286,8 +286,8 @@
         "part1": "Visited",
         "part2": "times",
         "visitInterval": "Set visit interval",
-        "day": "Day",
-        "month": "month",
-        "year": "year"
+        "day": "day",
+        "days": "3 days",
+        "week": "week"
     }
 }

@@ -35,7 +35,7 @@ export default class DumpsterService {
      * @param radius   How far around the location a dumpster can be
      * @return         A promise which resolves to a list of dumpsters
      */
-    getNearbyDumpsters(position: Position, radius: number) {
+    getNearbyDumpsters(position: Position, radius: number, dateInterval: Date) {
         console.log(
             `Fetched dumpsters ${radius} meters around (${position.latitude}, ${position.latitude})`,
         );
@@ -44,6 +44,7 @@ export default class DumpsterService {
                 params: {
                     ...position,
                     radius,
+                    dateInterval,
                 },
             })
             .then(response => response.data);

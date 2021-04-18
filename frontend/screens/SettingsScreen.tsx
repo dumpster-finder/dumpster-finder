@@ -22,6 +22,7 @@ import {
     setLanguage,
     setFirstTime,
     setHideNegativeRating,
+    visitDateSelector,
 } from "../redux/slices/configSlice";
 import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
@@ -41,7 +42,7 @@ export default function SettingsScreen({
     const languages = [t("en"), t("no")];
     const languageCodes = ["en", "no"];
     const distances = ["2", "5", "10", "25", "50"];
-    const intervalValue = ["day", "month", "year"];
+    const intervalValue = [t("visit:day"), t("visit:days"), t("visit:week")];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
     const nickname = useSelector(nicknameSelector);
@@ -61,7 +62,9 @@ export default function SettingsScreen({
     const [nicknameFieldText, setNicknameFieldText] = useState(nickname);
 
     const [showVis, setShowVis] = useState(false);
-    const [visitInterval, setVisitInterval] = useState(0);
+    const [visitInterval, setVisitInterval] = useState(
+        useSelector(visitDateSelector),
+    );
 
     if (!radius) {
         dispatch(setRadius(1000));
