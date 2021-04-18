@@ -36,6 +36,7 @@ export default {
     },
     extra: {
         apiURL: process.env.API_URL,
+        photoURL: process.env.PHOTO_URL,
         debug: Boolean(process.env.DEBUG) || false,
     },
 };

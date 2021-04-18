@@ -18,6 +18,11 @@ import {
 } from "../components/basicComponents/Icons";
 import { NavigationProp } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
+import { PhotoService } from "../services";
+import { useSelector } from "react-redux";
+import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
+import { addPhoto } from "../redux/slices/photoSlice";
+import { useAppDispatch } from "../redux/store";
 
 export default function AddPhotoScreen({
     navigation,
@@ -28,8 +33,11 @@ export default function AddPhotoScreen({
     const windowWidth = Dimensions.get("window").width;
     const [uploaded, setUploaded] = useState(false);
     const [pending, setPending] = useState(false);
-    const photoPath =
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
+    const dumpster = useSelector(currentDumpsterSelector);
+    const dispatch = useAppDispatch();
+    const [photoPath, setPhotoPath] = useState(
+        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
+    );
     const [imageSource, setImageSource] = useState(null);
 
     useEffect(() => {
@@ -110,6 +118,7 @@ export default function AddPhotoScreen({
                             style={styles.buttonRow}
                             disabled={!uploaded || pending}
                             accessoryLeft={SaveButtonIcon}
+                            onPress={upload}
                         >
                             {t("add")}
                         </Button>
@@ -120,15 +129,6 @@ export default function AddPhotoScreen({
     );
 
     async function selectImage() {
-        let options = {
-            title: "You can choose one image",
-            maxWidth: 256,
-            maxHeight: 256,
-            storageOptions: {
-                skipBackup: true,
-            },
-        };
-
         try {
             const response = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -140,14 +140,28 @@ export default function AddPhotoScreen({
                 // TODO get rid of this alert
                 Alert.alert("You did not select any image");
             } else {
-                let source = { uri: response.uri };
-                console.log({ source });
+                setPhotoPath(response.uri);
+                setUploaded(true);
             }
         } catch (e) {
             console.error(
                 "Couldn't do anything about this image picking, I'm sorry",
                 e,
             );
+        }
+    }
+
+    async function upload() {
+        if (!dumpster) return;
+        try {
+            const photo = await PhotoService.addPhoto(
+                dumpster.dumpsterID,
+                photoPath,
+            );
+            dispatch(addPhoto({ dumpsterID: dumpster.dumpsterID, photo }));
+            navigation.goBack();
+        } catch (e) {
+            console.error(e);
         }
     }
 }

@@ -54,7 +54,7 @@ export const photoSlice = createSlice({
     },
 });
 
-export const { addPhotos, resetPhotos } = photoSlice.actions;
+export const { addPhoto, addPhotos, resetPhotos } = photoSlice.actions;
 
 export default photoSlice.reducer;
 

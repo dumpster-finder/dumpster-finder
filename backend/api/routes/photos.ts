@@ -146,7 +146,9 @@ export default function({ Models }: RouteDependencies) {
                         `${process.env.PHOTO_URL}/?[a-zA-Z0-9]+\\.(jpg|png)`,
                     )
                 )
-                    throw new InvalidDataError("Untrusted photo host");
+                    throw new InvalidDataError(
+                        `Untrusted photo host ${req.body.url}`,
+                    );
                 // TODO treat that userID …
                 const result = await photoDAO.addOne(
                     req.params.dumpsterID,
