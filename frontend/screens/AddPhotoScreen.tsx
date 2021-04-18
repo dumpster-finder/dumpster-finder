@@ -1,13 +1,6 @@
 import * as React from "react";
 import { Button, Layout, Text, Input } from "@ui-kitten/components";
-import {
-    Dimensions,
-    Image,
-    StyleSheet,
-    View,
-    Alert,
-    Platform,
-} from "react-native";
+import { Dimensions, Image, StyleSheet, View, Platform } from "react-native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -15,13 +8,18 @@ import {
     DeleteButtonIcon,
     SaveButtonIcon,
     PhotoButtonIcon,
+    PendingButtonIcon,
 } from "../components/basicComponents/Icons";
 import { NavigationProp } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { PhotoService } from "../services";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
-import { addPhoto } from "../redux/slices/photoSlice";
+import {
+    addPhoto,
+    setUploadURI,
+    uploadURISelector,
+} from "../redux/slices/photoSlice";
 import { useAppDispatch } from "../redux/store";
 
 export default function AddPhotoScreen({
@@ -31,17 +29,13 @@ export default function AddPhotoScreen({
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("photo");
     const windowWidth = Dimensions.get("window").width;
-    const [uploaded, setUploaded] = useState(false);
     const [pending, setPending] = useState(false);
     const dumpster = useSelector(currentDumpsterSelector);
     const dispatch = useAppDispatch();
-    const [photoPath, setPhotoPath] = useState(
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-    );
-    const [imageSource, setImageSource] = useState(null);
+    const uploadURI = useSelector(uploadURISelector);
 
     useEffect(() => {
-        // TODO this is just example code!
+        // This part is just example code from Expo documentation
         (async () => {
             if (Platform.OS !== "web") {
                 const {
@@ -74,7 +68,7 @@ export default function AddPhotoScreen({
                     {t("take")}
                 </Button>
 
-                {uploaded ? (
+                {uploadURI ? (
                     <View style={{ alignItems: "center", marginVertical: 10 }}>
                         <Text category={"h6"}>{t("photo")}:</Text>
                         <Image
@@ -86,7 +80,7 @@ export default function AddPhotoScreen({
                             }}
                             resizeMode="contain"
                             source={{
-                                uri: photoPath,
+                                uri: uploadURI,
                             }}
                         />
                     </View>
@@ -106,7 +100,7 @@ export default function AddPhotoScreen({
                         <Button
                             style={styles.buttonRow}
                             status={"danger"}
-                            disabled={!uploaded || pending}
+                            disabled={!uploadURI || pending}
                             accessoryLeft={DeleteButtonIcon}
                         >
                             {t("delete")}
@@ -116,8 +110,10 @@ export default function AddPhotoScreen({
                     <View style={{ width: "50%" }}>
                         <Button
                             style={styles.buttonRow}
-                            disabled={!uploaded || pending}
-                            accessoryLeft={SaveButtonIcon}
+                            disabled={!uploadURI || pending}
+                            accessoryLeft={
+                                pending ? PendingButtonIcon : SaveButtonIcon
+                            }
                             onPress={upload}
                         >
                             {t("add")}
@@ -137,11 +133,8 @@ export default function AddPhotoScreen({
 
             if (response.cancelled) {
                 console.log("User cancelled photo picker");
-                // TODO get rid of this alert
-                Alert.alert("You did not select any image");
             } else {
-                setPhotoPath(response.uri);
-                setUploaded(true);
+                dispatch(setUploadURI(response.uri));
             }
         } catch (e) {
             console.error(
@@ -153,15 +146,18 @@ export default function AddPhotoScreen({
 
     async function upload() {
         if (!dumpster) return;
+        setPending(true);
         try {
             const photo = await PhotoService.addPhoto(
                 dumpster.dumpsterID,
-                photoPath,
+                uploadURI,
             );
             dispatch(addPhoto({ dumpsterID: dumpster.dumpsterID, photo }));
+            dispatch(setUploadURI(""));
             navigation.goBack();
         } catch (e) {
             console.error(e);
+            setPending(false);
         }
     }
 }

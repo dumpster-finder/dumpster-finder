@@ -7,12 +7,14 @@ import { RawPhoto } from "../../models/Photo";
  */
 interface SliceState {
     photos: Record<string, RawPhoto[]>;
+    uploadURI: string;
 }
 
 export const photoSlice = createSlice({
     name: "photos",
     initialState: {
         photos: {},
+        uploadURI: "",
     } as SliceState,
     reducers: {
         /**
@@ -51,13 +53,22 @@ export const photoSlice = createSlice({
         resetPhotos: state => {
             state.photos = {};
         },
+        setUploadURI: (state, { payload }: { payload: string }) => {
+            state.uploadURI = payload;
+        },
     },
 });
 
-export const { addPhoto, addPhotos, resetPhotos } = photoSlice.actions;
+export const {
+    addPhoto,
+    addPhotos,
+    resetPhotos,
+    setUploadURI,
+} = photoSlice.actions;
 
 export default photoSlice.reducer;
 
+export const uploadURISelector = (state: RootState) => state.photos.uploadURI;
 export const allPhotosSelector = (state: RootState) => state.photos.photos;
 
 export const photosSelector = (dumpsterID: number) => ({

@@ -8,12 +8,15 @@ import {
     FlipButtonIcon,
     PendingButtonIcon,
 } from "../components/basicComponents/Icons";
+import { setUploadURI } from "../redux/slices/photoSlice";
+import { useAppDispatch } from "../redux/store";
 
 export default function CameraScreen({
     navigation,
 }: {
     navigation: NavigationProp<any>;
 }) {
+    const dispatch = useAppDispatch();
     const [camera, setCamera] = useState<Camera | null>(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
 
@@ -22,6 +25,7 @@ export default function CameraScreen({
     const [hasCaptured, setHasCaptured] = useState(false);
 
     useEffect(() => {
+        // This part is just example code from Expo documentation
         (async () => {
             const { status } = await Camera.requestPermissionsAsync();
             setHasPermission(status === "granted");
@@ -80,8 +84,8 @@ export default function CameraScreen({
     async function takePicture() {
         if (camera && isReady) {
             setHasCaptured(true);
-            const photo = await camera.takePictureAsync();
-            console.log("took pic", photo);
+            const { uri } = await camera.takePictureAsync();
+            dispatch(setUploadURI(uri));
             navigation.goBack();
         }
         console.log("Camera not ready…");
