@@ -254,7 +254,11 @@ export default function({ Models }: RouteDependencies) {
      *         schema:
      *           type: integer
      *         required: true
-     *         description: Dumpster ID
+     *         description: visitSinceDate
+     *       - in: query
+     *         name: values
+     *         required: true
+     *         description: Date to calculate visits
      *     responses:
      *       "200":
      *         description: The requested dumpster

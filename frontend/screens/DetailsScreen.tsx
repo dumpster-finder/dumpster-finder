@@ -3,7 +3,11 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
 import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
+import {
+    addDumpster,
+    currentDumpsterSelector,
+    setCurrentDumpster,
+} from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PhotoDisplay from "../components/compoundComponents/PhotoDisplay";
 import { useTranslation } from "react-i18next";
@@ -21,6 +25,7 @@ export default function DetailsScreen({
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const dispatch = useAppDispatch();
     const { t }: { t: (s: string) => string } = useTranslation("details");
     const dumpster = useSelector(currentDumpsterSelector);
     const photos = usePhotos();
@@ -122,10 +127,12 @@ export default function DetailsScreen({
     }
 
     async function getDumpster() {
+        const visitSinceDate = "ds";
         if (dumpster) {
             try {
                 const updatedDumpster = await DumpsterService.getDumpster(
                     dumpster.dumpsterID,
+                    visitSinceDate,
                 );
                 // TODO calc distance here (fix-list has stuff)
                 dispatch(setCurrentDumpster(updatedDumpster));
