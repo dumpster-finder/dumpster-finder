@@ -33,6 +33,7 @@ export default class Dumpster {
     categories: string[];
     info: string;
     visits: number;
+    distance?: number;
 
     constructor({
         dumpsterID,
@@ -48,6 +49,7 @@ export default class Dumpster {
         categories,
         info,
         visits,
+        distance,
     }: {
         dumpsterID: number;
         name: string;
@@ -62,6 +64,7 @@ export default class Dumpster {
         categories: string[];
         info: string;
         visits: number;
+        distance?: number;
     }) {
         this.dumpsterID = dumpsterID;
         this.name = name;
@@ -76,6 +79,7 @@ export default class Dumpster {
         this.categories = categories;
         this.info = info;
         this.visits = visits;
+        this.distance = distance;
     }
 }
 
