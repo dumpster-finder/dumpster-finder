@@ -26,13 +26,15 @@ export const photoSlice = createSlice({
          */
         addPhoto: (
             { photos, coverPhotos },
-            { payload }: { payload: { dumpsterID: number; photo: RawPhoto } },
+            {
+                payload: { dumpsterID, photo },
+            }: { payload: { dumpsterID: number; photo: RawPhoto } },
         ) => {
-            if (photos[payload.dumpsterID])
-                photos[payload.dumpsterID].push(payload.photo);
-            else photos[payload.dumpsterID] = [payload.photo];
+            if (photos[dumpsterID])
+                photos[dumpsterID] = [photo, ...photos[dumpsterID]];
+            else photos[dumpsterID] = [photo];
             // will be the most recent one!
-            coverPhotos[payload.dumpsterID] = payload.photo;
+            coverPhotos[dumpsterID] = photo;
         },
         /**
          * Adds a list of photos to the cache
