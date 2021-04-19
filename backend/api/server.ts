@@ -1,12 +1,11 @@
 import cors from "cors";
 import dumpsters from "./routes/dumpsters";
-import express, { NextFunction } from "express";
+import express from "express";
 import { connectToDatabase } from "./config/sequelize";
 import swagger from "./routes/swagger";
 import pino from "pino";
 import expressPino from "express-pino-logger";
 import Models from "./models";
-import { ValidationError } from "express-validation";
 import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";

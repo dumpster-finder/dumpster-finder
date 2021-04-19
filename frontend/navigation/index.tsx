@@ -13,6 +13,7 @@ import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 
 import IntroScreen from "../screens/IntroScreen";
+import CameraScreen from "../screens/CameraScreen";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -40,6 +41,7 @@ function RootNavigator() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Root" component={BottomTabNavigator} />
             <Stack.Screen name="IntroScreen" component={IntroScreen} />
+            <Stack.Screen name="CameraScreen" component={CameraScreen} />
             <Stack.Screen
                 name="NotFound"
                 component={NotFoundScreen}

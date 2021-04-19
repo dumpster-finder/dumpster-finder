@@ -14,4 +14,12 @@ export default class Photo {
         this.url = url;
         this.dateAdded = new Date(dateAdded);
     }
+
+    toJSON(): RawPhoto {
+        return {
+            photoID: this.photoID,
+            url: this.url,
+            dateAdded: this.dateAdded.toISOString(),
+        };
+    }
 }

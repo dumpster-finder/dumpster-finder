@@ -10,8 +10,10 @@
  *       properties:
  *         url:
  *           type: string
+ *           description: URL to the photo. Must be in our photo server.
  *         userID:
  *           type: string
+ *           description: Your user ID
  *       example:
  *         url: "https://example.com/photos/gry08ht0248thg08h0wgh4g42g2.jpg"
  *         userID: "four wide strides of water"
@@ -26,9 +28,11 @@
  *           type: integer
  *         url:
  *           type: string
+ *           description: URL to the photo
  *         dateAdded:
  *           type: string
  *           format: date
+ *           description: The date the photo was added
  *       example:
  *         photoID: 13
  *         url: "https://example.com/photos/gry08ht0248thg08h0wgh4g42g2.jpg"
@@ -36,7 +40,7 @@
  *
  * tags:
  *   - name: Photos
- *     description: Photo API
+ *     description: Photos of dumpsters and contents
  */
 
 import { Request, Router } from "express";
@@ -74,6 +78,8 @@ export default function({ Models }: RouteDependencies) {
      *               type: array
      *               items:
      *                   $ref: '#/components/schemas/Photo'
+     *       "404":
+     *         description: Dumpster not found
      */
     router.get(
         "/",
@@ -98,6 +104,9 @@ export default function({ Models }: RouteDependencies) {
      * /dumpsters/{dumpsterID}/photos:
      *   post:
      *     summary: Add a photo to a dumpster
+     *     description: |
+     *       Adds a photo entry to the specified dumpster.
+     *       Requires a URL to a photo on *our* photo server, and the ID of a valid user.
      *     tags: [Photos]
      *     parameters:
      *       - in: path
@@ -118,6 +127,8 @@ export default function({ Models }: RouteDependencies) {
      *           application/json:
      *             schema:
      *               $ref: '#/components/schemas/Photo'
+     *       "400":
+     *         description: Invalid data (e.g. the URL leads to a host we don't accept)
      */
     router.post(
         "/",
@@ -135,7 +146,9 @@ export default function({ Models }: RouteDependencies) {
                         `${process.env.PHOTO_URL}/?[a-zA-Z0-9]+\\.(jpg|png)`,
                     )
                 )
-                    throw new InvalidDataError("Untrusted photo host");
+                    throw new InvalidDataError(
+                        `Untrusted photo host ${req.body.url}`,
+                    );
                 // TODO treat that userID …
                 const result = await photoDAO.addOne(
                     req.params.dumpsterID,
