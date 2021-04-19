@@ -77,7 +77,7 @@ export default function({ Models }: RouteDependencies) {
      *             schema:
      *               type: array
      *               items:
-     *                   $ref: '#/components/schemas/Photo'
+     *                 $ref: '#/components/schemas/Photo'
      *       "404":
      *         description: Dumpster not found
      */
@@ -93,6 +93,47 @@ export default function({ Models }: RouteDependencies) {
             try {
                 const photos = await photoDAO.getAll(req.params.dumpsterID);
                 res.status(200).json(photos);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/photos/cover:
+     *   get:
+     *     summary: GET the most recent photo of a dumpster
+     *     tags: [Photos]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     responses:
+     *       "200":
+     *         description: A photo
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Photo'
+     *       "404":
+     *         description: Dumpster not found, or has no photos
+     */
+    router.get(
+        "/cover",
+        standardLimiter,
+        validate(getPhotos),
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
+            try {
+                const photo = await photoDAO.getOne(req.params.dumpsterID);
+                res.status(200).json(photo);
             } catch (e) {
                 next(e);
             }

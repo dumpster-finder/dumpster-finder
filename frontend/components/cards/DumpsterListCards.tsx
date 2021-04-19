@@ -6,6 +6,7 @@ import { StarIcon, LockIcon } from "../basicComponents/Icons";
 import { useSelector } from "react-redux";
 import { positionSelector } from "../../redux/slices/configSlice";
 import { useTranslation } from "react-i18next";
+import { coverPhotoSelector } from "../../redux/slices/photoSlice";
 
 export default function DumpsterListCards({
     dumpster,
@@ -16,7 +17,8 @@ export default function DumpsterListCards({
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("storeType");
     const currentPosition = useSelector(positionSelector);
-    const pic =
+    const coverPhoto = useSelector(coverPhotoSelector(dumpster.dumpsterID));
+    const placeholder =
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
     return (
         <Card onPress={onPress}>
@@ -27,7 +29,7 @@ export default function DumpsterListCards({
                         height: "100%",
                     }}
                     source={{
-                        uri: pic,
+                        uri: coverPhoto ? coverPhoto.url : placeholder,
                     }}
                 />
 

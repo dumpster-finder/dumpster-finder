@@ -10,6 +10,12 @@ import {
 import { useSelector } from "react-redux";
 import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
+import {
+    coverPhotoMapSelector,
+    setCoverPhoto,
+} from "../redux/slices/photoSlice";
+import { useEffect } from "react";
+import { PhotoService } from "../services";
 
 export default function ListScreen({
     navigation,
@@ -18,6 +24,18 @@ export default function ListScreen({
 }) {
     const dispatch = useAppDispatch();
     const dumpsters = useSelector(allDumpstersSelector);
+    const coverPhotos = useSelector(coverPhotoMapSelector);
+
+    useEffect(() => {
+        dumpsters.forEach(({ dumpsterID }) => {
+            if (!coverPhotos[dumpsterID])
+                PhotoService.getCoverPhoto(dumpsterID)
+                    .then(photo =>
+                        dispatch(setCoverPhoto({ dumpsterID, photo })),
+                    )
+                    .catch(e => console.error(e)); // can be ignored, probably
+        });
+    }, [dumpsters]);
 
     return (
         <Layout style={styles.container}>

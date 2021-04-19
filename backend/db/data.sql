@@ -213,12 +213,12 @@ VALUES
     (1, 1, 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Dumpster-non.JPG', 'temp1', '2021-03-24'),
     (11, 1, 'https://upload.wikimedia.org/wikipedia/commons/0/0f/Blue_dumpster.jpg', 'temp1', '2021-02-13'),
     (12, 1, 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/American_Education_in_Dumpster.jpg/640px-American_Education_in_Dumpster.jpg', 'temp1', '2020-12-13'),
-    (2, 3, 'https://images.unsplash.com/photo-1510251197878-a2e6d2cb590c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', 'temp1', '2021-03-24'),
+    (2, 2, 'https://images.unsplash.com/photo-1510251197878-a2e6d2cb590c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', 'temp1', '2021-03-24'),
     (3, 3, 'https://images.unsplash.com/photo-1607536243899-57a307af22c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80', 'temp1', '2021-03-24'),
     (4, 4, 'https://images.unsplash.com/photo-1605600659908-0ef719419d41?ixlib=rb-1.2.1&auto=format&fit=crop&w=676&q=80', 'temp1', '2021-03-24'),
     (5, 5, 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', 'temp1', '2021-03-24'),
     (6, 6, 'https://images.unsplash.com/photo-1599691823377-545103b0137c?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24'),
-    (7, 7, 'https://images.unsplash.com/photo-1560543899-58ce3bc3c8fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24');
+    (61, 6, 'https://images.unsplash.com/photo-1560543899-58ce3bc3c8fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24');
 
 INSERT INTO Visits (dumpsterID,  userID)
 VALUES
