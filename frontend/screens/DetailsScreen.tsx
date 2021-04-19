@@ -147,28 +147,24 @@ export default function DetailsScreen({
     async function visit() {
         setVisits(visits + 1);
         if (dumpster) {
-            const aaa = await VisitService.addOne(
-                dumpster.dumpsterID,
-                "temp1",
-            ).then(getDumpster);
+            await VisitService.addOne(dumpster.dumpsterID, "temp1").then(
+                getDumpster,
+            );
         }
     }
 
     async function getDumpster() {
         if (dumpster) {
-            const updatedDumpster = DumpsterService.getDumpster(
-                dumpster.dumpsterID,
-            )
-                //.then(data => dispatch(setCurrentDumpster({ data })))
-                /*.then(data =>
-                    dispatch(
-                        // @ts-ignore
-                        addDumpster({ data }),
-                    ),
-                )
-
-                 */
-                .catch(e => console.error("Could not add visit", e));
+            try {
+                const updatedDumpster = await DumpsterService.getDumpster(
+                    dumpster.dumpsterID,
+                );
+                // TODO calc distance here (fix-list has stuff)
+                dispatch(setCurrentDumpster(updatedDumpster));
+                dispatch(addDumpster(updatedDumpster));
+            } catch (e) {
+                console.error("Could not add visit", e);
+            }
         }
     }
 }
