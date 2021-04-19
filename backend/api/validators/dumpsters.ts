@@ -65,6 +65,9 @@ export const dumpsterIDParam = Joi.object({
  */
 export const getDumpster = {
     params: dumpsterIDParam,
+    query: Joi.object({
+        visitSinceDate: Joi.string().required(),
+    }),
 };
 
 /**

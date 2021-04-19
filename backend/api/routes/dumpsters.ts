@@ -272,10 +272,15 @@ export default function({ Models }: RouteDependencies) {
         "/:dumpsterID(\\d+)",
         standardLimiter,
         validate(getDumpster),
-        async (req, res, next) => {
+        async (
+            req: Request & { query: { visitSinceDate: string } },
+            res,
+            next,
+        ) => {
             try {
                 const dumpster = await dumpsterDAO.getOne(
                     parseInt(req.params.dumpsterID),
+                    req.query.visitSinceDate,
                 );
                 if (dumpster) {
                     res.status(200).json(dumpster);

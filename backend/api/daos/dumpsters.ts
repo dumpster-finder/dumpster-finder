@@ -239,9 +239,19 @@ export default function({
          * @param dumpsterID
          * @return null if not found, a dumpster if found
          */
-        getOne: (dumpsterID: number) =>
+        getOne: (dumpsterID: number, visitSinceDate: string) =>
             Dumpsters.findOne({
-                attributes: dumpsterAttributes,
+                attributes: [
+                    ...dumpsterAttributes,
+                    [
+                        literal(
+                            `(SELECT COUNT(*) from Visits as v where v.dumpsterID = Dumpsters.dumpsterID AND v.visitDate > CONVERT('${escape(
+                                visitSinceDate,
+                            )}',DATETIME) )`,
+                        ),
+                        "visits",
+                    ],
+                ],
                 include: [
                     {
                         // @ts-ignore

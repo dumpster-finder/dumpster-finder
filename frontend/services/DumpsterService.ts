@@ -20,11 +20,16 @@ export default class DumpsterService {
      * TODO Retrieves the dumpster from the cache if it is present
      *
      * @param dumpsterID ID of the dumpster to fetch
+     * @param visitSinceDate date limit for calculating visits
      */
-    getDumpster(dumpsterID: number) {
+    getDumpster(dumpsterID: number, visitSinceDate: string) {
         console.log("Fetched dumpster with ID", dumpsterID);
         return this.axios
-            .get(`/dumpsters/${dumpsterID}`)
+            .get(`/dumpsters/${dumpsterID}`, {
+                params: {
+                    visitSinceDate,
+                },
+            })
             .then(response => response.data);
     }
 
