@@ -43,13 +43,13 @@ describe("getOne", () => {
     });
 
     it("should reject if a dumpster does not exist", async () => {
-        await expect(photoDAO.getAll(832052))
+        await expect(photoDAO.getOne(832052))
             .rejects.toEqual(new NotFoundError("No such dumpster"));
     });
 
     it("should reject if a dumpster has no photo", async () => {
-        await expect(photoDAO.getAll(832052))
-            .rejects.toEqual(new NotFoundError("No such dumpster"));
+        await expect(photoDAO.getOne(7))
+            .rejects.toEqual(new NotFoundError("No photos for this dumpster"));
     });
 });
 
