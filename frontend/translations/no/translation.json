@@ -280,16 +280,11 @@
         "visitbtn":"Jeg var her",
         "part1": "Besøkt",
         "part2": "ganger",
-<<<<<<< HEAD
+
         "visitInterval": "Sett besøkintervall",
         "day": "dag",
         "days": "3 dager",
         "week": "uke"
-=======
-        "visitInterval": "Sett besøksintervall",
-        "day": "Dag",
-        "month": "Måned",
-        "year": "År"
     },
 
     "photo": {
@@ -298,6 +293,5 @@
         "photo": "Bilde",
         "delete" : "Slett bilde",
         "add": "Legg til bide"
->>>>>>> 6407894064e3222611ebc404c554aaefe8dc8a09
     }
 }

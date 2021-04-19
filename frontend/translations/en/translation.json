@@ -290,14 +290,9 @@
         "part1": "Visited",
         "part2": "times",
         "visitInterval": "Set visit interval",
-<<<<<<< HEAD
         "day": "day",
         "days": "3 days",
         "week": "week"
-=======
-        "day": "Day",
-        "month": "month",
-        "year": "year"
     },
 
     "photo": {
@@ -306,6 +301,6 @@
         "photo": "Photo",
         "delete" : "Delete photo",
         "add": "Add photo"
->>>>>>> 6407894064e3222611ebc404c554aaefe8dc8a09
+
     }
 }
