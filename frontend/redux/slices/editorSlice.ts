@@ -26,6 +26,7 @@ export const templateDumpster: Dumpster = {
     positiveStoreViewOnDiving: null,
     locked: false,
     rating: 2.5,
+    visits: 0,
     info: "",
 };
 

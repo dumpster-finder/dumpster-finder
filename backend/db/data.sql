@@ -219,3 +219,18 @@ VALUES
     (5, 5, 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', 'temp1', '2021-03-24'),
     (6, 6, 'https://images.unsplash.com/photo-1599691823377-545103b0137c?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24'),
     (7, 7, 'https://images.unsplash.com/photo-1560543899-58ce3bc3c8fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24');
+
+INSERT INTO Visits (dumpsterID,  userID)
+VALUES
+(1,'temp'),
+(1,'temp2'),
+(1,'temp3'),
+(2,'temp'),
+(2,'temp2'),
+(3,'temp'),
+(3,'temp4'),
+(4,'temp3'),
+(5,'temp1'),
+(5,'temp2'),
+(5,'temp3'),
+(5,'temp4');

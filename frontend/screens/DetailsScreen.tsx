@@ -3,7 +3,11 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
 import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
+import {
+    addDumpster,
+    currentDumpsterSelector,
+    setCurrentDumpster,
+} from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PhotoDisplay from "../components/compoundComponents/PhotoDisplay";
 import { useTranslation } from "react-i18next";
@@ -14,6 +18,8 @@ import GeneralInfo from "../components/dumpsterInfo/GeneralInfo";
 import { useEffect, useState } from "react";
 import Photo from "../models/Photo";
 import { PhotoService } from "../services";
+import { DumpsterService, VisitService } from "../services";
+import { useAppDispatch } from "../redux/store";
 
 export default function DetailsScreen({
     navigation,
@@ -21,8 +27,8 @@ export default function DetailsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("details");
+    const dispatch = useAppDispatch();
     const dumpster = useSelector(currentDumpsterSelector);
-    const visitors = 5;
     const [photos, setPhotos] = useState(
         [
             "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
@@ -46,6 +52,8 @@ export default function DetailsScreen({
                     console.error("Could not find photos for this dumpster", e),
                 );
     }, [dumpster]);
+    // @ts-ignore
+    const [visits, setVisits] = useState(dumpster.visits || 0);
 
     if (!dumpster) {
         return (
@@ -84,7 +92,7 @@ export default function DetailsScreen({
                             justifyContent: "flex-start",
                         }}
                     >
-                        {t("visit:part1")} {visitors} {t("visit:part2")}
+                        {t("visit:part1")} {visits} {t("visit:part2")}
                     </Text>
                     <InfoRow dumpster={dumpster} />
 
@@ -127,12 +135,41 @@ export default function DetailsScreen({
                             alignSelf: "center",
                         }}
                         size="small"
+                        onPress={visit}
                     >
                         {t("visit:visitbtn")}
                     </Button>
                 </ScrollView>
             </Layout>
         );
+    }
+
+    async function visit() {
+        setVisits(visits + 1);
+        if (dumpster) {
+            const aaa = await VisitService.addOne(
+                dumpster.dumpsterID,
+                "temp1",
+            ).then(getDumpster);
+        }
+    }
+
+    async function getDumpster() {
+        if (dumpster) {
+            const updatedDumpster = DumpsterService.getDumpster(
+                dumpster.dumpsterID,
+            )
+                //.then(data => dispatch(setCurrentDumpster({ data })))
+                /*.then(data =>
+                    dispatch(
+                        // @ts-ignore
+                        addDumpster({ data }),
+                    ),
+                )
+
+                 */
+                .catch(e => console.error("Could not add visit", e));
+        }
     }
 }
 
