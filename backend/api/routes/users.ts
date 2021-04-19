@@ -81,7 +81,7 @@ export default function({ Models }: RouteDependencies) {
                 if (userExists) {
                     res.cookie("JWTCookie", encodeToken(userExists), {
                         "httpOnly" : true
-                    } )
+                    } );
                     res.status(200).json({
                         statusCode: 200,
                         message: "User exists, validation complete"

@@ -83,7 +83,7 @@ export function decodeToken(token : string): DecodeResult{
 
 }
 
-function checkTokenTime(session: Session):ExpirationStatus{
+export function checkTokenTime(session: Session):ExpirationStatus{
     const now = Date.now();
 
     if (session.expires > now) return "active";
@@ -109,8 +109,7 @@ export function JwtMiddleware(request: Request, response: Response, next: NextFu
         message: message
     });
 
-    const requestHeader = "X-JWT-Token";
-    const responseHeader = "X-Renewed-JWT-Token";
+    const requestHeader = "JWTToken";
     const header = request.header(requestHeader);
 
     if (!header) {
@@ -141,7 +140,9 @@ export function JwtMiddleware(request: Request, response: Response, next: NextFu
             ...decodedSession.session,
         };
 
-        response.setHeader(responseHeader, token);
+        response.cookie("JWTCookie", token, {
+            "httpOnly" : true
+        } );
     } else {
         session = decodedSession.session;
     }

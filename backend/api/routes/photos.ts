@@ -48,6 +48,7 @@ import { validate } from "express-validation";
 import PhotoDAO from "../daos/photos";
 import { RouteDependencies } from "../types";
 import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
+import { JwtMiddleware} from "../middleware/tokenMiddleware";
 import { getPhotos, postPhotos } from "../validators/photos";
 import { PostPhoto } from "../types/Photo";
 import { InvalidDataError } from "../types/errors";
@@ -55,6 +56,9 @@ import { InvalidDataError } from "../types/errors";
 export default function({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
     const photoDAO = PhotoDAO(Models);
+
+    // a middleware sub-stack shows request info for any type of HTTP request to the /user/:id path
+    router.use('/protected', JwtMiddleware );
 
     /**
      * @swagger
@@ -101,7 +105,7 @@ export default function({ Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/{dumpsterID}/photos:
+     * /dumpsters/{dumpsterID}/photos/protected:
      *   post:
      *     summary: Add a photo to a dumpster
      *     description: |
@@ -131,7 +135,7 @@ export default function({ Models }: RouteDependencies) {
      *         description: Invalid data (e.g. the URL leads to a host we don't accept)
      */
     router.post(
-        "/",
+        "/protected",
         updateLimiter,
         validate(postPhotos),
         async (
