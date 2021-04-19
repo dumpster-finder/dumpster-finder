@@ -3,11 +3,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
 import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import {
-    addDumpster,
-    currentDumpsterSelector,
-    setCurrentDumpster,
-} from "../redux/slices/dumpsterSlice";
+import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PhotoDisplay from "../components/compoundComponents/PhotoDisplay";
 import { useTranslation } from "react-i18next";
@@ -16,9 +12,9 @@ import ExtraInfo from "../components/dumpsterInfo/ExtraInfo";
 import InfoRow from "../components/dumpsterInfo/InfoRow";
 import GeneralInfo from "../components/dumpsterInfo/GeneralInfo";
 import { DumpsterService, VisitService } from "../services";
-import { useState } from "react";
 import { useAppDispatch } from "../redux/store";
 import usePhotos from "../hooks/usePhotos";
+import { useState } from "react";
 
 export default function DetailsScreen({
     navigation,
@@ -26,11 +22,9 @@ export default function DetailsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("details");
-    const dispatch = useAppDispatch();
     const dumpster = useSelector(currentDumpsterSelector);
     const photos = usePhotos();
-    // @ts-ignore
-    const [visits, setVisits] = useState(dumpster.visits || 0);
+    const [visits, setVisits] = useState(dumpster ? dumpster.visits : 0);
 
     if (!dumpster) {
         return (

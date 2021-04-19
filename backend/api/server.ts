@@ -1,12 +1,11 @@
 import cors from "cors";
 import dumpsters from "./routes/dumpsters";
-import express, { NextFunction } from "express";
+import express from "express";
 import { connectToDatabase } from "./config/sequelize";
 import swagger from "./routes/swagger";
 import pino from "pino";
 import expressPino from "express-pino-logger";
 import Models from "./models";
-import { ValidationError } from "express-validation";
 import categories from "./routes/categories";
 import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
@@ -16,7 +15,7 @@ import { defaultLoggerOptions } from "./config/pino";
 import contents from "./routes/contents";
 import contentTypes from "./routes/contentTypes";
 import errorHandler, { notFoundHandler } from "./middleware/errorHandler";
-import {readWordsFromFile} from "./utils/IdGeneration";
+import { readWordsFromFile } from "./utils/IdGeneration";
 import photos from "./routes/photos";
 import visits from "./routes/visits";
 

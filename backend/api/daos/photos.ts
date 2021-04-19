@@ -49,7 +49,7 @@ export default function({ Photos, DumpsterPositions, sequelize }: MyModels) {
                 ).catch(e => {
                     // Throw a more precise error if possible
                     if (e instanceof ForeignKeyConstraintError) {
-                        if (e.message.includes("dumpsterID"))
+                        if (e.message.includes("REFERENCES `DumpsterPositions`"))
                             throw new NotFoundError("No such dumpster");
                         else throw new InvalidKeyError("No such user ID");
                     }
