@@ -22,7 +22,8 @@ import {
     setLanguage,
     setFirstTime,
     setHideNegativeRating,
-    visitDateSelector,
+    visitsSelector,
+    setVisits,
 } from "../redux/slices/configSlice";
 import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
@@ -47,9 +48,9 @@ export default function SettingsScreen({
     const darkMode = useSelector(darkModeSelector);
     const nickname = useSelector(nicknameSelector);
     const language = useSelector(languageSelector);
+    const visit = useSelector(visitsSelector);
     const hideNegativeRating = useSelector(hideNegativeRatingSelector);
     const radius = Math.round(useSelector(radiusSelector) / 1000);
-
     const [newLanguage, setNewLanguage] = useState(
         language ? languages.indexOf(language) : 0,
     );
@@ -62,9 +63,7 @@ export default function SettingsScreen({
     const [nicknameFieldText, setNicknameFieldText] = useState(nickname);
 
     const [showVis, setShowVis] = useState(false);
-    const [visitInterval, setVisitInterval] = useState(
-        useSelector(visitDateSelector),
-    );
+    const [visitInterval, setVisitInterval] = useState(visit || 2);
 
     if (!radius) {
         dispatch(setRadius(1000));
@@ -159,7 +158,7 @@ export default function SettingsScreen({
                         <ButtonGroupDisplay
                             value={visitInterval}
                             values={intervalValue}
-                            onSelect={setVisitInterval}
+                            onSelect={setInterval}
                         />
                     </View>
                 )}
@@ -192,6 +191,11 @@ export default function SettingsScreen({
     function setNewLang(i: number) {
         setNewLanguage(i);
         dispatch(setLanguage(languageCodes[i]));
+    }
+
+    function setInterval(i: number) {
+        setVisitInterval(i);
+        dispatch(setVisits(i));
     }
 }
 

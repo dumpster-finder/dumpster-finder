@@ -67,15 +67,7 @@ export default function DetailsScreen({
 
                     <CategoryInfo dumpster={dumpster} />
                     <GeneralInfo dumpster={dumpster} />
-                    <Text
-                        style={{
-                            justifyContent: "flex-start",
-                        }}
-                    >
-                        {t("visit:part1")} {visits} {t("visit:part2")}
-                    </Text>
                     <InfoRow dumpster={dumpster} />
-
                     <ExtraInfo dumpster={dumpster} />
 
                     <View style={styles.buttonRow}>

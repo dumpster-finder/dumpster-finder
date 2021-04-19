@@ -204,9 +204,9 @@ export default function({
                     ],
                     [
                         literal(
-                            `(SELECT COUNT(*) from Visits as v where v.dumpsterID = Dumpsters.dumpsterID AND v.visitDate > CONVERT(DATETIME,'${escape(
+                            `(SELECT COUNT(*) from Visits as v where v.dumpsterID = Dumpsters.dumpsterID AND v.visitDate > CONVERT('${escape(
                                 dateInterval,
-                            )}',111) )`,
+                            )}',DATETIME) )`,
                         ),
                         "visits",
                     ],

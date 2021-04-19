@@ -19,6 +19,7 @@ export default function GeneralInfo({ dumpster }: { dumpster: Dumpster }) {
                     {t("emptyingSchedule")}: {dumpster.emptyingSchedule}
                 </Text>
             </View>
+
             {/* STORE VIEW */}
             <View style={styles.row}>
                 {dumpster.positiveStoreViewOnDiving ? (
@@ -38,6 +39,11 @@ export default function GeneralInfo({ dumpster }: { dumpster: Dumpster }) {
                     ) : (
                         <Text>{t("negative")}</Text>
                     )}
+                </Text>
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.rowText}>
+                    {t("visit:part1")} {dumpster.visits} {t("visit:part2")}
                 </Text>
             </View>
         </View>

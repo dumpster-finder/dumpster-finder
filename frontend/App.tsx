@@ -16,7 +16,7 @@ import {
     resetRatedComments,
     languageSelector,
     ratedCommentsSelector,
-    visitDateSelector,
+    visitsSelector,
 } from "./redux/slices/configSlice";
 import {
     fetchNearbyDumpsters,
@@ -45,7 +45,8 @@ const InnerApp = () => {
     const radius = useSelector(radiusSelector);
     const language = useSelector(languageSelector);
     const ratedComments = useSelector(ratedCommentsSelector);
-    const visitDate = useSelector(visitDateSelector);
+    const visitDate = useSelector(visitsSelector);
+
     const dateInterval = subDays(
         new Date(),
         visitDate === 0 ? 1 : visitDate === 1 ? 3 : 7,
@@ -54,7 +55,6 @@ const InnerApp = () => {
         .split("T")[0]
         .replace("-", "/")
         .replace("-", "/");
-    console.log(dateInterval);
 
     useEffect(() => {
         // Do some state-independent resets and fetches at app load
