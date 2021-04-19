@@ -7,6 +7,6 @@ export const postVisit = {
             .required(),
     }),
     body: Joi.object({
-        userID: Joi.string().required(),
+        userID: Joi.number().required(),
     }),
 };

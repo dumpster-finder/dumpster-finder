@@ -255,7 +255,7 @@ CREATE TABLE StandardTags (
 CREATE TABLE Visits (
     dumpsterID INT NOT NULL,
     visitDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    userID VARCHAR(256) NOT NULL,
+    userID INT NOT NULL,
     CONSTRAINT visitsPK PRIMARY KEY Visits(dumpsterID, visitDate, userID),
     CONSTRAINT visitsFK1 FOREIGN KEY Visits(dumpsterID)
         REFERENCES Dumpsters(dumpsterID)

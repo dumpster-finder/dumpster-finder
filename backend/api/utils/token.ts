@@ -1,5 +1,8 @@
 import {encode, decode, TAlgorithm} from "jwt-simple";
 
+/** mostly from:
+ * https://nozzlegear.com/blog/implementing-a-jwt-auth-system-with-typescript-and-node
+ */
 const algorithm: TAlgorithm = "HS512";
 
 export interface Session {
