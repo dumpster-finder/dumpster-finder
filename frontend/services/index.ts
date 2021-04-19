@@ -26,8 +26,8 @@ const CategoryService = new CategoryServiceClass(axiosInstance);
 const PlaceService = new PlaceServiceClass(axiosInstance);
 const CommentService = new CommentServiceClass(axiosInstance);
 const ContentService = new ContentServiceClass(axiosInstance);
-const VisitService = new VisitServiceClass(axiosInstance);
 const PhotoService = new PhotoServiceClass(axiosInstance);
+const VisitService = new VisitServiceClass(axiosInstance);
 
 // and export them
 export {

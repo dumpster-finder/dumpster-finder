@@ -33,6 +33,8 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     info: dumpster.info,
     // @ts-ignore
     visits: dumpster.dataValues.visits || 0,
+    // @ts-ignore
+    distance: dumpster.dataValues.distance,
 });
 
 const toRevision = (dumpster: DumpsterAttributes): DumpsterRevision => {
@@ -80,12 +82,6 @@ const dumpsterAttributes: (string | any)[] = [
         ),
         "rating",
     ],
-    [
-        literal(
-            "(SELECT COUNT(*) from Visits where dumpsterID = Dumpsters.dumpsterID)",
-        ),
-        "visits",
-    ],
 ];
 
 /**
@@ -93,7 +89,7 @@ const dumpsterAttributes: (string | any)[] = [
  *
  * @param Models - All defined Sequelize models
  */
-export default function({
+export default function ({
     DumpsterPositions,
     Dumpsters,
     DumpsterCategories,
@@ -108,8 +104,7 @@ export default function({
      */
     const createDumpsterRevision = async (
         dumpsterID: number,
-        dumpster: Omit<Dumpster, "dumpsterID" | "rating" | "visits"> &
-            Partial<Dumpster>,
+        dumpster: Omit<Dumpster, "dumpsterID" | "rating">,
         position: GeoJSONPoint,
         t: Transaction,
     ) => {
@@ -136,7 +131,7 @@ export default function({
                 ...dumpster,
                 dumpsterTypeID,
                 storeTypeID,
-                userID: 1,
+                userID: "temp",
                 position,
             },
             { transaction: t },
@@ -175,9 +170,6 @@ export default function({
             storeType: dumpster.storeType,
             dumpsterType: dumpster.dumpsterType,
             categories: dumpster.categories,
-            // Also override these...
-            rating: dumpster.rating || 2.5,
-            visits: dumpster.visits || 0,
         };
     };
 
@@ -261,7 +253,7 @@ export default function({
                 attributes: [
                     ...dumpsterAttributes.slice(
                         0,
-                        dumpsterAttributes.length - 2,
+                        dumpsterAttributes.length - 1,
                     ),
                     "dateUpdated",
                     "revisionID",
@@ -331,9 +323,7 @@ export default function({
          * @param dumpster
          * @return The newly posted data, with an ID
          */
-        addOne: async (
-            dumpster: Omit<Dumpster, "dumpsterID" | "rating" | "visits">,
-        ) => {
+        addOne: async (dumpster: Omit<Dumpster, "dumpsterID" | "rating">) => {
             // Rewrite position data to GeoJSON format
             const position = translateToGeoJSONPoint(dumpster.position);
 
@@ -369,7 +359,7 @@ export default function({
          * @param dumpster
          * @return The updated data
          */
-        updateOne: async (dumpster: Omit<Dumpster, "rating" | "visits">) => {
+        updateOne: async (dumpster: Omit<Dumpster, "rating">) => {
             // TODO should position be editable?
             //      for now I'd say it SHOULD NOT
             //      (especially since this implementation will break the link to the DumpsterPosition)

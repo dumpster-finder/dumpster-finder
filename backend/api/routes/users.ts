@@ -1,9 +1,14 @@
+/**
+ * @swagger
+ * tags:
+ *   - name: Users
+ *     description: Handles unique identifiers for users of the app
+ */
+
 import { Request, Router } from "express";
 import { validate } from "express-validation";
 import UserDAO from "../daos/users";
-import {
-    validateUser
-} from "../validators/users";
+import { validateUser } from "../validators/users";
 import { RouteDependencies } from "../types";
 import {generateUserID} from "../utils/IdGeneration";
 import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
@@ -11,9 +16,7 @@ import {encodeToken, JwtMiddleware} from "../utils/token";
 import {standardLimiter} from "../middleware/rateLimiter";
 import {logger} from "../server";
 
-
-
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const router = Router();
     const userDAO = UserDAO(Models);
 

@@ -66,6 +66,18 @@ export const DeleteButtonIcon = (props: IconProps) => (
     <Icon {...props} name="trash" />
 );
 
+export const CameraButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="camera" />
+);
+
+export const PhotoButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="image-outline" />
+);
+
+export const FlipButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="flip-2-outline" />
+);
+
 export const TrashInputIcon = (props: IconProps) => (
     <Icon {...props} name="trash" />
 );
@@ -170,8 +182,8 @@ const styles: Record<string, any> = StyleSheet.create({
         height: 16,
     },
     medium: {
-        width: 24,
-        height: 24,
+        width: 22,
+        height: 22,
     },
     large: {
         width: 32,

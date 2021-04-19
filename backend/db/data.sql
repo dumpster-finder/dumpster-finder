@@ -142,40 +142,40 @@ VALUES
     (7, 7, 15), -- noodles
     (7, 7, 16); -- eggs
 
-INSERT INTO Users(userID, passwordHash, userName, salt)
+INSERT INTO Users(userID, userName, salt)
 VALUES
-    (1, 'temp', 'temp', 'temp'),
-    (2, 'temp1', 'temp2', 'temp2'),
-    (3, 'temp2', 'temp1', 'temp1'),
-    (4, 'temp3', 'temp3', 'temp3'),
-    (5, 'temp4', 'temp4', 'temp4'),
-    (6, 'temp5', 'temp5', 'temp5'),
-    (7, 'temp6', 'temp6', 'temp6'),
-    (8, '52ca3a47e839d66f419297abde8a1dc7d4507162d9ca308270a8a84879110e75aa8f78ce7c2af2c41c26752a84ad422d79d2a91928b7a99ee47674c3a526fc13c6a550148317aa507c2adc6cd5508b27af2c607e0a8060cfd7cdc6f88e9edce276f08d25',
+    ('temp', 'temp', 'temp'),
+    ('temp1', 'temp2', 'temp2'),
+    ('temp2', 'temp1', 'temp1'),
+    ('temp3', 'temp3', 'temp3'),
+    ('temp4', 'temp4', 'temp4'),
+    ('temp5', 'temp5', 'temp5'),
+    ('temp6', 'temp6', 'temp6'),
+    ('52ca3a47e839d66f419297abde8a1dc7d4507162d9ca308270a8a84879110e75aa8f78ce7c2af2c41c26752a84ad422d79d2a91928b7a99ee47674c3a526fc13c6a550148317aa507c2adc6cd5508b27af2c607e0a8060cfd7cdc6f88e9edce276f08d25',
       '76f2d41e00708c4644ab2fb4636f0ae741784bb48ff429659b5a79344bec88358df0052f773cefaebcfeaacf9c9c68e9e851f666e007a7e1cbc1e69a03a9efe0',
       '1c45a7c753a365624c8fafa53e7b70e2');
     -- crawl daring message team lamp develop
 
 INSERT INTO Ratings(userID, dumpsterID, rating)
 VALUES
-    (1, 1, 3),
-    (2, 1, 5),
-    (3, 1, 5),
-    (4, 1, 4),
-    (5, 2, 5),
-    (1, 2, 3),
-    (2, 2, 3),
-    (1, 3, 2),
-    (2, 3, 3),
-    (1, 4, 3),
-    (2, 4, 4),
-    (3, 4, 2),
-    (4, 4, 1),
-    (5, 4, 2),
-    (1, 5, 1),
-    (1, 6, 4),
-    (5, 7, 2),
-    (6, 7, 3);
+    ('temp1', 1, 3),
+    ('temp2', 1, 5),
+    ('temp3', 1, 5),
+    ('temp4', 1, 4),
+    ('temp1', 2, 5),
+    ('temp2', 2, 3),
+    ('temp3', 2, 3),
+    ('temp1', 3, 2),
+    ('temp2', 3, 3),
+    ('temp1', 4, 3),
+    ('temp2', 4, 4),
+    ('temp3', 4, 2),
+    ('temp4', 4, 1),
+    ('temp5', 4, 2),
+    ('temp1', 5, 1),
+    ('temp1', 6, 4),
+    ('temp5', 7, 2),
+    ('temp6', 7, 3);
 
 INSERT INTO Tags(tagID, categoryID, name)
 VALUES
@@ -220,7 +220,7 @@ VALUES
     (6, 6, 'https://images.unsplash.com/photo-1599691823377-545103b0137c?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24'),
     (7, 7, 'https://images.unsplash.com/photo-1560543899-58ce3bc3c8fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24');
 
-insert INTO Visits (dumpsterID,  userID)
+INSERT INTO Visits (dumpsterID,  userID)
 VALUES
 (1,'temp'),
 (1,'temp2'),
