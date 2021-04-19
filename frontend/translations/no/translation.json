@@ -69,17 +69,18 @@
         "categories": "Her kan du finne",
         "content": "Se andres funn",
         "comments": "Se kommentarer",
-        "setRating": "Vurdér meg",
+        "setRating": "Vurder meg",
         "storeType": "Butikktype",
         "dumpsterType": "Type søppelkasse",
         "extraInfo": "Ekstra info"
     },
 
     "menu": {
-        "flag": "Rapportér søppelkasse",
+        "flag": "Rapporter søppelkasse",
         "revision": "Revisjonshistorikk",
         "editDumpster": "Rediger søppelkasse",
-        "editContent": "Rediger innhold"
+        "editContent": "Rediger innhold",
+        "gallery": "Se bilder"
     },
 
     "revision": {
