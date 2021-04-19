@@ -50,7 +50,7 @@
  *         date: "2020-02-02"
  * tags:
  *   - name: Comments
- *     description: Comments API
+ *     description: Comments regarding dumpsters
  */
 
 import { Request, Router } from "express";

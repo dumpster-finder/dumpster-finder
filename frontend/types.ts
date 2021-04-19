@@ -3,6 +3,7 @@ export type RootStackParamList = {
     IntroScreen: undefined;
     IntroPositionScreen: undefined;
     NotFound: undefined;
+    CameraScreen: undefined;
 };
 
 export type BottomTabParamList = {
@@ -30,6 +31,9 @@ export type ListTabParamList = {
     ContentScreen: undefined;
     EditDumpsterScreen: undefined;
     RevisionScreen: undefined;
+    PhotoGalleryScreen: undefined;
+    PhotoDisplayScreen: undefined;
+    AddPhotoScreen: undefined;
 };
 
 export type MapTabParamList = {
@@ -41,4 +45,7 @@ export type MapTabParamList = {
     ContentScreen: undefined;
     EditDumpsterScreen: undefined;
     RevisionScreen: undefined;
+    PhotoGalleryScreen: undefined;
+    PhotoDisplayScreen: undefined;
+    AddPhotoScreen: undefined;
 };

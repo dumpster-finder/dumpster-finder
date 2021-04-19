@@ -1,18 +1,21 @@
+/**
+ * @swagger
+ * tags:
+ *   - name: Users
+ *     description: Handles unique identifiers for users of the app
+ */
+
 import { Request, Router } from "express";
 import { validate } from "express-validation";
 import UserDAO from "../daos/users";
-import {
-    validateUser
-} from "../validators/users";
+import { validateUser } from "../validators/users";
 import { RouteDependencies } from "../types";
-import {generateUserID} from "../utils/IdGeneration";
-import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
-import {standardLimiter} from "../middleware/rateLimiter";
-import {logger} from "../server";
+import { generateUserID } from "../utils/IdGeneration";
+import { hashUser, generateSalt, hashPassword } from "../utils/hashing";
+import { standardLimiter } from "../middleware/rateLimiter";
+import { logger } from "../server";
 
-
-
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const router = Router();
     const userDAO = UserDAO(Models);
 
@@ -71,19 +74,19 @@ export default function ({ Models }: RouteDependencies) {
         validate(validateUser),
         async (req, res, next) => {
             try {
-                const userExists : boolean = await userDAO.getOne(
-                    req.params.userID
+                const userExists: boolean = await userDAO.getOne(
+                    req.params.userID,
                 );
                 if (userExists) {
                     res.status(200).json({
                         statusCode: 200,
-                        message: "User exists, validation complete"
+                        message: "User exists, validation complete",
                     });
                 } else {
                     res.status(404).json({
                         statusCode: 404,
-                        message: "user doesn't exist"
-                })
+                        message: "user doesn't exist",
+                    });
                 }
             } catch (e) {
                 logger.error(e, "Something went wrong!");
