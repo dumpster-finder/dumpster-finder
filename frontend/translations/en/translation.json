@@ -292,7 +292,8 @@
         "visitInterval": "Set visit interval",
         "day": "day",
         "days": "3 days",
-        "week": "week"
+        "week": "week",
+        "disabled": "You have to wait a bit to register again"
     },
 
     "photo": {

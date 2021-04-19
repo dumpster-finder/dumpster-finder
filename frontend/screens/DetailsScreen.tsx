@@ -19,8 +19,12 @@ import { DumpsterService, VisitService } from "../services";
 import { useAppDispatch } from "../redux/store";
 import usePhotos from "../hooks/usePhotos";
 import { useState } from "react";
-import { subDays } from "date-fns";
-import { visitsSelector } from "../redux/slices/configSlice";
+import { subDays, subHours } from "date-fns";
+import {
+    registeredVisitsSelector,
+    setRegisteredVisits,
+    visitsSelector,
+} from "../redux/slices/configSlice";
 
 export default function DetailsScreen({
     navigation,
@@ -33,6 +37,15 @@ export default function DetailsScreen({
     const dumpster = useSelector(currentDumpsterSelector);
     const photos = usePhotos();
     const [visits, setVisits] = useState(dumpster ? dumpster.visits : 0);
+    let lastVisit = new Date();
+
+    if (dumpster) {
+        lastVisit = useSelector(registeredVisitsSelector)[dumpster.dumpsterID];
+    }
+
+    const [pending, setPending] = useState(
+        subHours(new Date(), 4) <= lastVisit || false,
+    );
 
     if (!dumpster) {
         return (
@@ -106,7 +119,15 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
+                    {pending && (
+                        <Text
+                            style={{ marginVertical: 5, alignSelf: "center" }}
+                        >
+                            {t("visit:disabled")}
+                        </Text>
+                    )}
                     <Button
+                        disabled={pending}
                         style={{
                             alignSelf: "center",
                         }}
@@ -123,9 +144,11 @@ export default function DetailsScreen({
     async function visit() {
         setVisits(visits + 1);
         if (dumpster) {
-            await VisitService.addOne(dumpster.dumpsterID, "temp1").then(
-                getDumpster,
-            );
+            await VisitService.addOne(dumpster.dumpsterID, "temp1")
+                .then(getDumpster)
+                // TODO not use ts-ignore here. Maybe fix useState
+                // @ts-ignore
+                .then(setPending(true));
         }
     }
 

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Position from "../../models/Position";
 import { RootState } from "../store";
 import RatedComment from "../../models/RatedComment";
+import RegisteredVisits from "../../models/RegisteredVisits";
 
 interface SliceState {
     position: Position;
@@ -13,6 +14,7 @@ interface SliceState {
     ratedComments: Record<string, number>;
     hideNegativeRating: boolean;
     visits: number;
+    registeredVisits: Record<string, Date>;
     // other settings to come, stay tuned!
 }
 
@@ -31,6 +33,7 @@ export const configSlice = createSlice({
         ratedComments: {},
         hideNegativeRating: true, // Hide 'em by default
         visits: 2,
+        registeredVisits: {},
     } as SliceState,
     reducers: {
         setNickname: (state, { payload }: { payload: string }) => {
@@ -67,6 +70,17 @@ export const configSlice = createSlice({
         },
         setVisits: (state, { payload }: { payload: number }) => {
             state.visits = payload;
+        },
+        setRegisteredVisits: (
+            { registeredVisits },
+            { payload }: { payload: RegisteredVisits },
+        ) => {
+            console.log(payload);
+            console.log(registeredVisits);
+            registeredVisits[payload.dumpsterID] = payload.visitTime;
+        },
+        resetRegisteredVisits: state => {
+            state.registeredVisits = {};
         },
     },
 });
@@ -137,6 +151,10 @@ export const {
     setHideNegativeRating,
 
     setVisits,
+
+    setRegisteredVisits,
+
+    resetRegisteredVisits,
 } = configSlice.actions;
 
 export const nicknameSelector = (state: RootState) => state.config.nickname;
@@ -150,5 +168,7 @@ export const ratedCommentsSelector = (state: RootState) =>
 export const hideNegativeRatingSelector = (state: RootState) =>
     state.config.hideNegativeRating;
 export const visitsSelector = (state: RootState) => state.config.visits;
+export const registeredVisitsSelector = (state: RootState) =>
+    state.config.registeredVisits;
 
 export default configSlice.reducer;

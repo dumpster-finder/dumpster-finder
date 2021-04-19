@@ -284,7 +284,8 @@
         "visitInterval": "Sett besøkintervall",
         "day": "dag",
         "days": "3 dager",
-        "week": "uke"
+        "week": "uke",
+        "disabled": "Du må vente litt med å registrere deg igjen"
     },
 
     "photo": {

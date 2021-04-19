@@ -17,6 +17,8 @@ import {
     languageSelector,
     ratedCommentsSelector,
     visitsSelector,
+    registeredVisitsSelector,
+    resetRegisteredVisits,
 } from "./redux/slices/configSlice";
 import {
     fetchNearbyDumpsters,
@@ -47,6 +49,7 @@ const InnerApp = () => {
     const language = useSelector(languageSelector);
     const ratedComments = useSelector(ratedCommentsSelector);
     const visitDate = useSelector(visitsSelector);
+    const registeredVisits = useSelector(registeredVisitsSelector);
 
     const visitSinceDate = subDays(
         new Date(),
@@ -59,6 +62,7 @@ const InnerApp = () => {
         // Do some state-independent resets and fetches at app load
         // TODO Remove this when ratedComments is guaranteed to be undefined on our dev devices
         if (!ratedComments) store.dispatch(resetRatedComments());
+        if (!registeredVisits) store.dispatch(resetRegisteredVisits());
         store.dispatch(resetPhotos());
         store.dispatch(fetchAllConstants());
         store.dispatch(setEditorDumpster(templateDumpster));
