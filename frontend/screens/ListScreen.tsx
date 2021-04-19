@@ -10,6 +10,8 @@ import {
 import { useSelector } from "react-redux";
 import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
+import { calcOrUseDistance } from "../utils/distance";
+import { positionSelector } from "../redux/slices/configSlice";
 import {
     coverPhotoMapSelector,
     setCoverPhoto,
@@ -24,6 +26,7 @@ export default function ListScreen({
 }) {
     const dispatch = useAppDispatch();
     const dumpsters = useSelector(allDumpstersSelector);
+    const p = useSelector(positionSelector);
     const coverPhotos = useSelector(coverPhotoMapSelector);
 
     useEffect(() => {
@@ -47,18 +50,23 @@ export default function ListScreen({
                         });
                     }}
                 />
-                {dumpsters.map(thisDumpster => (
-                    <DumpsterListCards
-                        key={thisDumpster.dumpsterID}
-                        dumpster={thisDumpster}
-                        onPress={() => {
-                            dispatch(setCurrentDumpster(thisDumpster));
-                            navigation.navigate("DetailsScreen", {
-                                screen: "DetailsScreen",
-                            });
-                        }}
-                    />
-                ))}
+                {dumpsters
+                    .sort(
+                        (a, b) =>
+                            calcOrUseDistance(p, a) - calcOrUseDistance(p, b),
+                    )
+                    .map(thisDumpster => (
+                        <DumpsterListCards
+                            key={thisDumpster.dumpsterID}
+                            dumpster={thisDumpster}
+                            onPress={() => {
+                                dispatch(setCurrentDumpster(thisDumpster));
+                                navigation.navigate("DetailsScreen", {
+                                    screen: "DetailsScreen",
+                                });
+                            }}
+                        />
+                    ))}
             </ScrollView>
         </Layout>
     );

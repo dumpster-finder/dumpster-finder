@@ -23,8 +23,8 @@
         "add": "Legg til",
         "save": "Lagre",
         "remove": "Fjern",
-        "back": "Tilbake"
-
+        "back": "Tilbake",
+        "km": "km"
     },
     "advice": {
         "title": "Råd for dumpster diving",
@@ -214,6 +214,7 @@
         "Electronics Store": "Elektronikk",
         "Bakery": "Bakeri",
         "Furniture Store": "Møbelbutikk",
+        "General Store": "Dagligvarebutikk",
         "Miscellaneous": "Blandet"
     },
 
