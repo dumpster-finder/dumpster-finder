@@ -22,6 +22,7 @@ import {
     fetchNearbyDumpsters,
     setDumpsters,
 } from "./redux/slices/dumpsterSlice";
+import { resetPhotos } from "./redux/slices/photoSlice";
 import {
     setEditorDumpster,
     templateDumpster,
@@ -59,6 +60,7 @@ const InnerApp = () => {
         // Do some state-independent resets and fetches at app load
         // TODO Remove this when ratedComments is guaranteed to be undefined on our dev devices
         if (!ratedComments) store.dispatch(resetRatedComments());
+        store.dispatch(resetPhotos());
         store.dispatch(fetchAllConstants());
         store.dispatch(setEditorDumpster(templateDumpster));
         if (firstTime) {

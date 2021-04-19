@@ -16,7 +16,7 @@
  *                 name: "Planets"
  * tags:
  *   - name: Categories
- *     description: Categories API
+ *     description: What users might find in a dumpster
  */
 
 import { RouteDependencies } from "../types";
@@ -24,7 +24,7 @@ import { Router } from "express";
 import CategoryDAO from "../daos/categories";
 import { standardLimiter } from "../middleware/rateLimiter";
 
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const router = Router();
     const categoryDAO = CategoryDAO(Models);
 
