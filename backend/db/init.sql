@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS
     DumpsterCategories, Categories,
     Ratings, Comments,
     DumpsterReports,  Dumpsters, DumpsterPositions,
-    Users, StoreTypes, DumpsterTypes;
+    Users, StoreTypes, DumpsterTypes, Visits;
 -- Get back to safe terrain
 SET foreign_key_checks = 1;
 
@@ -250,3 +250,17 @@ CREATE TABLE StandardTags (
         REFERENCES Tags (tagID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
+
+-- Visitors: Date a dumpster is visited
+CREATE TABLE Visits (
+    dumpsterID INT NOT NULL,
+    visitDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    userID VARCHAR(256) NOT NULL,
+    CONSTRAINT visitsPK PRIMARY KEY Visits(dumpsterID, visitDate, userID),
+    CONSTRAINT visitsFK1 FOREIGN KEY Visits(dumpsterID)
+        REFERENCES Dumpsters(dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT visitsFK2 FOREIGN KEY Visits(userID)
+        REFERENCES Users(userID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
+    );

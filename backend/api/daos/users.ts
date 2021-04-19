@@ -1,4 +1,6 @@
 import { MyModels } from "../models";
+import { literal, Transaction } from "sequelize";
+import { UserAttributes } from "../models/Users";
 import {ConflictError, InvalidKeyError, NotFoundError} from "../types/errors";
 import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
 

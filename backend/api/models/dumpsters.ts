@@ -11,7 +11,6 @@ import {
 import { Categories } from "./Categories";
 import { UserAttributes, UserCreationAttributes } from "./Users";
 
-
 export interface DumpsterAttributes {
     revisionID: number;
     dumpsterID: number;
@@ -35,8 +34,7 @@ export interface DumpsterCreationAttributes
         "revisionID" | "dateAdded" | "dateUpdated"
     > {}
 
-class Dumpsters
-    extends Model<DumpsterAttributes, DumpsterCreationAttributes>
+class Dumpsters extends Model<DumpsterAttributes, DumpsterCreationAttributes>
     implements DumpsterAttributes {
     revisionID!: number;
     dumpsterID!: number;
@@ -129,7 +127,7 @@ export function associate({
     StoreTypes,
     DumpsterCategories,
     DumpsterPositions,
-    Users
+    Users,
 }: {
     DumpsterTypes: ModelStatic<
         Model<DumpsterTypeAttributes, DumpsterTypeCreationAttributes>
@@ -142,7 +140,6 @@ export function associate({
     >;
     Users: ModelStatic<Model<UserAttributes, UserCreationAttributes>>;
     DumpsterCategories: ModelStatic<Model<any, any>>;
-
 }) {
     // do associations like
     // Thing.hasMany()

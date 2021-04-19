@@ -13,14 +13,13 @@ import { useTranslation } from "react-i18next";
  * @param onPress  What should happen when the callout/marker is tapped
  */
 export default function({
-    dumpster: { name, storeType, dumpsterType, position },
+    dumpster: { name, storeType, dumpsterType, position, visits },
     onPress,
 }: {
     dumpster: Dumpster;
     onPress: () => void;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("common");
-    const visitors = 5;
     return (
         <Marker coordinate={position}>
             <Callout onPress={onPress}>
@@ -29,7 +28,7 @@ export default function({
                     <Text>{t(`storeType:${storeType}`)}</Text>
                     <Text>{t(`dumpsterType:${dumpsterType}`)}</Text>
                     <Text>
-                        {t("visit:part1")} {visitors} {t("visit:part2")}
+                        {t("visit:part1")} {visits} {t("visit:part2")}
                     </Text>
                 </View>
             </Callout>
