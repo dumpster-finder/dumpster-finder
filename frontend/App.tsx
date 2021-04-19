@@ -49,7 +49,12 @@ const InnerApp = () => {
     const dateInterval = subDays(
         new Date(),
         visitDate === 0 ? 1 : visitDate === 1 ? 3 : 7,
-    );
+    )
+        .toISOString()
+        .split("T")[0]
+        .replace("-", "/")
+        .replace("-", "/");
+    console.log(dateInterval);
 
     useEffect(() => {
         // Do some state-independent resets and fetches at app load

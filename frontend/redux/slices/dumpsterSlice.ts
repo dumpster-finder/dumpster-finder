@@ -29,7 +29,7 @@ export const fetchNearbyDumpsters = createAsyncThunk(
     }: {
         position: Position;
         radius: number;
-        dateInterval: Date;
+        dateInterval: string;
     }) => {
         // the error is handled outside of this thunk
         return await DumpsterService.getNearbyDumpsters(

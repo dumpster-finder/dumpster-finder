@@ -204,12 +204,9 @@ export default function({
                     ],
                     [
                         literal(
-                            `(SELECT COUNT(*) from Visits as v where v.dumpsterID = Dumpsters.dumpsterID AND v.visitDate > ${escape(
-                                dateInterval
-                                    .toString()
-                                    .replace("%3A", ":")
-                                    .replace("%3A", ":"),
-                            )})`,
+                            `(SELECT COUNT(*) from Visits as v where v.dumpsterID = Dumpsters.dumpsterID AND v.visitDate > CONVERT(DATETIME,'${escape(
+                                dateInterval,
+                            )}',111) )`,
                         ),
                         "visits",
                     ],
