@@ -190,7 +190,7 @@ export default function({
             latitude,
             longitude,
             radius,
-            dateInterval,
+            visitSinceDate,
         }: PositionParams) =>
             Dumpsters.findAll({
                 attributes: [
@@ -207,7 +207,7 @@ export default function({
                     [
                         literal(
                             `(SELECT COUNT(*) from Visits as v where v.dumpsterID = Dumpsters.dumpsterID AND v.visitDate > CONVERT('${escape(
-                                dateInterval,
+                                visitSinceDate,
                             )}',DATETIME) )`,
                         ),
                         "visits",

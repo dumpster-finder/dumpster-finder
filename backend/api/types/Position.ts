@@ -7,7 +7,7 @@ export interface PositionParams {
     latitude: number;
     longitude: number;
     radius: number;
-    dateInterval: string;
+    visitSinceDate: string;
 }
 
 export interface GeoJSONPoint {
