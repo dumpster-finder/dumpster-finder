@@ -24,7 +24,8 @@
         "add": "Add",
         "save": "Save",
         "remove": "Remove",
-        "back": "Back"
+        "back": "Back",
+        "km": "km"
     },
 
     "advice": {

@@ -6,6 +6,7 @@ import { StarIcon, LockIcon } from "../basicComponents/Icons";
 import { useSelector } from "react-redux";
 import { positionSelector } from "../../redux/slices/configSlice";
 import { useTranslation } from "react-i18next";
+import { calcOrUseDistance } from "../../utils/distance";
 
 export default function DumpsterListCards({
     dumpster,
@@ -51,7 +52,13 @@ export default function DumpsterListCards({
                                 alignItems: "flex-start",
                             }}
                         >
-                            <Text>{setDistance()} km</Text>
+                            <Text>
+                                {calcOrUseDistance(
+                                    currentPosition,
+                                    dumpster,
+                                ).toFixed(1)}{" "}
+                                {t("km")}
+                            </Text>
                         </View>
                         <View
                             style={{
@@ -93,32 +100,6 @@ export default function DumpsterListCards({
             </View>
         </Card>
     );
-
-    function setDistance() {
-        const earthRadiusKm = 6371;
-
-        const dLat =
-            ((currentPosition.latitude - dumpster.position.latitude) *
-                Math.PI) /
-            180;
-        const dLon =
-            ((currentPosition.longitude - dumpster.position.longitude) *
-                Math.PI) /
-            180;
-
-        const lat1 = (currentPosition.latitude * Math.PI) / 180;
-        const lat2 = (dumpster.position.latitude * Math.PI) / 180;
-
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.sin(dLon / 2) *
-                Math.sin(dLon / 2) *
-                Math.cos(lat1) *
-                Math.cos(lat2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = earthRadiusKm * c;
-        return distance.toFixed(1);
-    }
 }
 
 const styles = StyleSheet.create({
