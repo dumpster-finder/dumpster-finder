@@ -48,13 +48,12 @@ const InnerApp = () => {
     const ratedComments = useSelector(ratedCommentsSelector);
     const visitDate = useSelector(visitsSelector);
 
-    const dateInterval = subDays(
+    const visitSinceDate = subDays(
         new Date(),
         visitDate === 0 ? 1 : visitDate === 1 ? 3 : 7,
     )
         .toISOString()
-        .replace("T", " ");
-    console.log(dateInterval);
+        .split("T")[0];
 
     useEffect(() => {
         // Do some state-independent resets and fetches at app load
@@ -74,7 +73,7 @@ const InnerApp = () => {
         store.dispatch(setDumpsters([]));
         // Fetch dumpsters each time position, visits or radius changes
         store.dispatch(
-            fetchNearbyDumpsters({ position, radius, dateInterval }),
+            fetchNearbyDumpsters({ position, radius, visitSinceDate }),
         );
     }, [position, radius, visitDate]);
 

@@ -52,6 +52,7 @@
  *                 latitude: 63.422407
  *                 longitude: 10.394954
  *                 radius: 6000
+ *                 visitSinceDate: "2021-01-01"
  *
  *         PostDumpster:
  *             type: object
@@ -259,6 +260,8 @@ export default function({ Models }: RouteDependencies) {
      *         name: values
      *         required: true
      *         description: Date to calculate visits
+     *         example:
+     *             visitSinceDate: "2021-01-01"
      *     responses:
      *       "200":
      *         description: The requested dumpster

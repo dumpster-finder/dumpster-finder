@@ -22,7 +22,7 @@ export const locationParams = {
         latitude,
         longitude,
         radius: Joi.number().optional(),
-        dateInterval: Joi.string().required(),
+        visitSinceDate: Joi.string().required(),
     }),
 };
 

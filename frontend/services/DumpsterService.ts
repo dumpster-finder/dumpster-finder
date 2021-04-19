@@ -43,7 +43,7 @@ export default class DumpsterService {
     getNearbyDumpsters(
         position: Position,
         radius: number,
-        dateInterval: string,
+        visitSinceDate: string,
     ) {
         console.log(
             `Fetched dumpsters ${radius} meters around (${position.latitude}, ${position.latitude})`,
@@ -53,7 +53,7 @@ export default class DumpsterService {
                 params: {
                     ...position,
                     radius,
-                    dateInterval,
+                    visitSinceDate,
                 },
             })
             .then(response => response.data);

@@ -19,6 +19,8 @@ import { DumpsterService, VisitService } from "../services";
 import { useAppDispatch } from "../redux/store";
 import usePhotos from "../hooks/usePhotos";
 import { useState } from "react";
+import { subDays } from "date-fns";
+import { visitsSelector } from "../redux/slices/configSlice";
 
 export default function DetailsScreen({
     navigation,
@@ -26,6 +28,7 @@ export default function DetailsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const dispatch = useAppDispatch();
+    const visitDate = useSelector(visitsSelector);
     const { t }: { t: (s: string) => string } = useTranslation("details");
     const dumpster = useSelector(currentDumpsterSelector);
     const photos = usePhotos();
@@ -127,7 +130,12 @@ export default function DetailsScreen({
     }
 
     async function getDumpster() {
-        const visitSinceDate = "ds";
+        const visitSinceDate = subDays(
+            new Date(),
+            visitDate === 0 ? 1 : visitDate === 1 ? 3 : 7,
+        )
+            .toISOString()
+            .split("T")[0];
         if (dumpster) {
             try {
                 const updatedDumpster = await DumpsterService.getDumpster(
