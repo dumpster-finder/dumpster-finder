@@ -20,38 +20,23 @@ export default function DumpsterListCards({
     const pic =
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
     return (
-        <Card onPress={onPress}>
-            <View style={styles.footerContainer}>
+        <Card onPress={onPress} style={styles.card}>
+            <View style={styles.insideContainer}>
                 <Image
-                    style={{
-                        width: "40%",
-                        height: "100%",
-                    }}
+                    style={styles.photo}
                     source={{
                         uri: pic,
                     }}
                 />
 
-                <View style={{ width: "60%", height: "100%", marginLeft: 5 }}>
+                <View style={styles.right}>
                     <Text category="h6">{dumpster.name}</Text>
                     <Text>{t(`${dumpster.storeType}`)}</Text>
                     <Text>
                         {t("visit:part1")} {dumpster.visits} {t("visit:part2")}
                     </Text>
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "flex-end",
-                        }}
-                    >
-                        <View
-                            style={{
-                                width: "33%",
-                                alignItems: "flex-start",
-                            }}
-                        >
+                    <View style={styles.bottomContainer}>
+                        <View style={styles.distanceContainer}>
                             <Text>
                                 {calcOrUseDistance(
                                     currentPosition,
@@ -60,14 +45,7 @@ export default function DumpsterListCards({
                                 {t("km")}
                             </Text>
                         </View>
-                        <View
-                            style={{
-                                width: "33%",
-                                flex: 1,
-                                flexDirection: "row",
-                                alignItems: "flex-end",
-                            }}
-                        >
+                        <View style={styles.ratingContainer}>
                             <View
                                 style={{
                                     width: "50%",
@@ -85,15 +63,10 @@ export default function DumpsterListCards({
                                 <Text>{dumpster.rating.toFixed(1)}</Text>
                             </View>
                         </View>
-                        <View
-                            style={{
-                                width: "33%",
-                                alignItems: "flex-end",
-                            }}
-                        >
-                            {dumpster.locked ? (
-                                <LockIcon size="medium" />
-                            ) : null}
+                        <View style={styles.lockContainer}>
+                            {dumpster.locked && (
+                                <LockIcon size="medium" color="faded" />
+                            )}
                         </View>
                     </View>
                 </View>
@@ -104,19 +77,38 @@ export default function DumpsterListCards({
 
 const styles = StyleSheet.create({
     card: {
-        flexDirection: "row",
-        justifyContent: "center",
+        marginHorizontal: 6,
+        marginVertical: 4,
     },
-    footerContainer: {
-        flex: 1,
+    insideContainer: {
         flexDirection: "row",
         justifyContent: "flex-end",
     },
-    footerControl: {
-        marginHorizontal: 2,
+    photo: {
+        width: "40%",
     },
-    icon: {
-        width: 32,
-        height: 32,
+    right: {
+        width: "60%",
+        marginLeft: 12,
+    },
+    bottomContainer: {
+        paddingTop: 2,
+        flexDirection: "row",
+    },
+    distanceContainer: {
+        flex: 1, // This is actually sensible usage of flex: 1
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    ratingContainer: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    lockContainer: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: "center",
     },
 });

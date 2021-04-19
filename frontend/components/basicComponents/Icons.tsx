@@ -170,8 +170,8 @@ const styles: Record<string, any> = StyleSheet.create({
         height: 16,
     },
     medium: {
-        width: 24,
-        height: 24,
+        width: 22,
+        height: 22,
     },
     large: {
         width: 32,
