@@ -1,5 +1,6 @@
 {
     "common": {
+        "all": "Alle",
         "rating": "Vurdering",
         "cleanliness": "Renhet",
         "locked": "Låst",
@@ -23,6 +24,7 @@
         "add": "Legg til",
         "save": "Lagre",
         "remove": "Fjern",
+        "filter": "Filtrer",
         "back": "Tilbake",
         "km": "km"
     },

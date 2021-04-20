@@ -11,6 +11,8 @@ import {
 import { useSelector } from "react-redux";
 import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
+import FilterModal from "../components/FilterModal";
+import { useState } from "react";
 import { calcOrUseDistance } from "../utils/distance";
 import { positionSelector } from "../redux/slices/configSlice";
 import {
@@ -27,6 +29,7 @@ export default function ListScreen({
 }) {
     const dispatch = useAppDispatch();
     const dumpsters = useSelector(allDumpstersSelector);
+    const [filter, setFilter] = useState(false);
     const dumpsterMap = useSelector(dumpsterMapSelector);
     const p = useSelector(positionSelector);
     const coverPhotos = useSelector(coverPhotoMapSelector);
@@ -58,7 +61,11 @@ export default function ListScreen({
                             screen: "AddPositionScreen",
                         });
                     }}
+                    onPressFilter={() => setFilter(true)}
                 />
+                {filter && (
+                    <FilterModal visible={filter} setVisible={setFilter} />
+                )}
                 {dumpsters
                     .sort(
                         (a, b) =>

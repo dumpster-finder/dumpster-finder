@@ -1,6 +1,7 @@
 {
     "common": {
-        "rating": "Rating",
+        "all": "All",
+        "rating": "Rating:",
         "cleanliness": "Cleanliness",
         "locked": "Locked",
         "unlocked": "Unlocked",
@@ -24,6 +25,7 @@
         "add": "Add",
         "save": "Save",
         "remove": "Remove",
+        "filter": "Apply filter",
         "back": "Back",
         "km": "km"
     },
