@@ -122,6 +122,8 @@ export const {
 
 export default dumpsterSlice.reducer;
 
+export const dumpsterMapSelector = (state: RootState) =>
+    state.dumpsters.dumpsters;
 export const allDumpstersSelector = ({ dumpsters: { dumpsters } }: RootState) =>
     Object.values(dumpsters).filter(Boolean);
 

@@ -84,7 +84,8 @@
         "flag": "Report dumpster",
         "revision": "Revision history",
         "editDumpster": "Edit dumpster",
-        "editContent": "Edit content"
+        "editContent": "Edit content",
+        "gallery": "Photo gallery"
     },
 
     "revision": {
