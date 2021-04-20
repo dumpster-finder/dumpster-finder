@@ -63,8 +63,7 @@ export default function SettingsScreen({
     const [nicknameFieldText, setNicknameFieldText] = useState(nickname);
 
     const [showVis, setShowVis] = useState(false);
-    const [visitInterval, setVisitInterval] = useState(visit || 2);
-
+    const [visitInterval, setVisitInterval] = useState(visit);
     if (!radius) {
         dispatch(setRadius(1000));
     }
