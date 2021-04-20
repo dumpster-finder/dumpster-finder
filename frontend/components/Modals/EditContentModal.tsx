@@ -19,6 +19,8 @@ import { formatDate } from "../../utils/date";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
+import { AirbnbRating } from "react-native-ratings";
+import { number } from "yup";
 
 export default function EditContentModal({
     visible,
@@ -51,13 +53,24 @@ export default function EditContentModal({
                         amount: selectedContent.amount
                             ? selectedContent.amount.toString()
                             : "",
+                        quality: selectedContent.quality || 0,
                     }}
                     validationSchema={Yup.object().shape({
-                        amount: Yup.number(),
+                        amount: Yup.number().positive(),
+                        quality: Yup.number()
+                            .min(0)
+                            .max(5)
+                            .optional(),
                     })}
                     onSubmit={save}
                 >
-                    {({ handleChange, handleSubmit, values, errors }) => (
+                    {({
+                        handleChange,
+                        setFieldValue,
+                        handleSubmit,
+                        values,
+                        errors,
+                    }) => (
                         <Card
                             disabled={true}
                             style={{
@@ -95,6 +108,19 @@ export default function EditContentModal({
                                 >
                                     {selectedContent.unit || ""}
                                 </Text>
+                            </View>
+                            <View style={styles.row}>
+                                <Text style={styles.boldText}>
+                                    {t("contents:quality")}:{" "}
+                                </Text>
+                                <AirbnbRating
+                                    size={20}
+                                    showRating={false}
+                                    defaultRating={selectedContent.quality || 0}
+                                    onFinishRating={change =>
+                                        setFieldValue("quality", change)
+                                    }
+                                />
                             </View>
 
                             {selectedContent.expiryDate && (
@@ -168,11 +194,13 @@ export default function EditContentModal({
         </View>
     );
 
-    function save({ amount }: { amount: string }) {
+    function save({ amount, quality }: { amount: string; quality: number }) {
+        console.log(quality);
         onSave(
             new Content({
                 ...selectedContent,
                 amount: parseFloat(amount),
+                quality: quality || undefined,
             }),
         );
     }
@@ -188,7 +216,6 @@ export default function EditContentModal({
 
 const styles = StyleSheet.create({
     row: {
-        flex: 1,
         flexDirection: "row",
         paddingVertical: 2,
     },
@@ -197,7 +224,11 @@ const styles = StyleSheet.create({
     },
     input: {
         alignSelf: "center",
-        maxWidth: "40%",
-        minWidth: "40%",
+        maxWidth: "70%",
+        minWidth: "70%",
+    },
+    boldText: {
+        alignSelf: "flex-start",
+        fontWeight: "bold",
     },
 });
