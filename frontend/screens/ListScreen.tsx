@@ -5,6 +5,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useAppDispatch } from "../redux/store";
 import {
     allDumpstersSelector,
+    dumpsterMapSelector,
     setCurrentDumpster,
 } from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
@@ -26,19 +27,27 @@ export default function ListScreen({
 }) {
     const dispatch = useAppDispatch();
     const dumpsters = useSelector(allDumpstersSelector);
+    const dumpsterMap = useSelector(dumpsterMapSelector);
     const p = useSelector(positionSelector);
     const coverPhotos = useSelector(coverPhotoMapSelector);
 
     useEffect(() => {
         dumpsters.forEach(({ dumpsterID }) => {
-            if (!coverPhotos[dumpsterID])
+            if (coverPhotos[dumpsterID] === undefined)
+                // if it has never been fetched before
                 PhotoService.getCoverPhoto(dumpsterID)
                     .then(photo =>
                         dispatch(setCoverPhoto({ dumpsterID, photo })),
                     )
-                    .catch(e => console.error(e)); // can be ignored, probably
+                    .catch(e => {
+                        if (e.message === "Request failed with status code 404")
+                            dispatch(
+                                setCoverPhoto({ dumpsterID, photo: null }),
+                            );
+                        else console.error(e);
+                    }); // standard 404 can be ignored
         });
-    }, [dumpsters]);
+    }, [dumpsterMap]);
 
     return (
         <Layout style={styles.container}>

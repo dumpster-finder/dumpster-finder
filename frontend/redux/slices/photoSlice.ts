@@ -7,7 +7,7 @@ import { RawPhoto } from "../../models/Photo";
  */
 interface SliceState {
     photos: Record<string, RawPhoto[]>;
-    coverPhotos: Record<string, RawPhoto>;
+    coverPhotos: Record<string, RawPhoto | null>;
     uploadURI: string;
 }
 
@@ -56,7 +56,9 @@ export const photoSlice = createSlice({
         },
         setCoverPhoto: (
             { coverPhotos },
-            { payload }: { payload: { dumpsterID: number; photo: RawPhoto } },
+            {
+                payload,
+            }: { payload: { dumpsterID: number; photo: RawPhoto | null } },
         ) => {
             coverPhotos[payload.dumpsterID] = payload.photo;
         },
