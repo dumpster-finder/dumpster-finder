@@ -20,11 +20,16 @@ export default class DumpsterService {
      * TODO Retrieves the dumpster from the cache if it is present
      *
      * @param dumpsterID ID of the dumpster to fetch
+     * @param visitSinceDate date limit for calculating visits
      */
-    getDumpster(dumpsterID: number) {
+    getDumpster(dumpsterID: number, visitSinceDate: string) {
         console.log("Fetched dumpster with ID", dumpsterID);
         return this.axios
-            .get(`/dumpsters/${dumpsterID}`)
+            .get(`/dumpsters/${dumpsterID}`, {
+                params: {
+                    visitSinceDate,
+                },
+            })
             .then(response => response.data);
     }
 
@@ -35,7 +40,11 @@ export default class DumpsterService {
      * @param radius   How far around the location a dumpster can be
      * @return         A promise which resolves to a list of dumpsters
      */
-    getNearbyDumpsters(position: Position, radius: number) {
+    getNearbyDumpsters(
+        position: Position,
+        radius: number,
+        visitSinceDate: string,
+    ) {
         console.log(
             `Fetched dumpsters ${radius} meters around (${position.latitude}, ${position.latitude})`,
         );
@@ -44,6 +53,7 @@ export default class DumpsterService {
                 params: {
                     ...position,
                     radius,
+                    visitSinceDate,
                 },
             })
             .then(response => response.data);
