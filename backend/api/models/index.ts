@@ -13,6 +13,8 @@ import * as Ratings from "./Ratings";
 import * as StandardTags from "./StandardTags";
 import * as Tags from "./Tags";
 import * as DumpsterTags from "./DumpsterTags";
+import * as Users from "./Users";
+import * as Visits from "./Visits";
 
 /**
  * Sequelize Boilerplate: Simple Edition
@@ -21,6 +23,7 @@ import * as DumpsterTags from "./DumpsterTags";
 const Models = {
     sequelize,
     DumpsterTypes: DumpsterTypes.init(sequelize),
+    Users: Users.init(sequelize),
     DumpsterPositions: DumpsterPositions.init(sequelize),
     StoreTypes: StoreTypes.init(sequelize),
     Categories: Categories.init(sequelize),
@@ -34,9 +37,11 @@ const Models = {
     Ratings: Ratings.init(sequelize),
     StandardTags: StandardTags.init(sequelize),
     DumpsterTags: DumpsterTags.init(sequelize),
+    Visits: Visits.init(sequelize),
 };
 
 DumpsterTypes.associate(Models);
+Users.associate(Models);
 DumpsterPositions.associate(Models);
 StoreTypes.associate(Models);
 Dumpsters.associate(Models);
@@ -50,6 +55,7 @@ Ratings.associate(Models);
 StandardTags.associate(Models);
 Tags.associate(Models);
 DumpsterTags.associate(Models);
+Visits.associate(Models);
 
 export default Models;
 

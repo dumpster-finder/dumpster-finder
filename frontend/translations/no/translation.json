@@ -24,8 +24,9 @@
         "add": "Legg til",
         "save": "Lagre",
         "remove": "Fjern",
-        "filter": "Filtrer"
-
+        "filter": "Filtrer",
+        "back": "Tilbake",
+        "km": "km"
     },
     "advice": {
         "title": "Råd for dumpster diving",
@@ -36,7 +37,7 @@
         "nr5": "5. Rydd opp etter deg"
     },
     "iconDesc": {
-        "title": "Forklaring av ikoner:",
+        "title": "Forklaring av ikoner",
         "rating": "Vurdering av søppelkassen",
         "locked": "Er søppeøkassen låst",
         "emptySchedule": "Tømmeplan for søppelkassen",
@@ -58,29 +59,30 @@
         "es": "Spansk"
     },
     "details": {
-        "rating": "Vurdering:",
+        "rating": "Vurdering",
         "cleanliness": "Renhet",
         "locked": "Låst",
         "unlocked": "Åpen",
-        "view": "Butikkens syn på søppeldykkere:",
-        "negative": "Negativ",
-        "neutral": "Nøytral",
-        "positive": "Positiv",
-        "emptyingSchedule": "Tømmeplan:",
-        "categories": "Kategorier",
-        "content": "Se innhold",
+        "view": "Butikkens syn på søppeldykkere",
+        "negative": "Negativt",
+        "neutral": "Nøytralt",
+        "positive": "Positivt",
+        "emptyingSchedule": "Tømmeplan",
+        "categories": "Her kan du finne",
+        "content": "Se andres funn",
         "comments": "Se kommentarer",
-        "setRating": "Vurdér meg:",
-        "storeType": "Butikktype:",
-        "dumpsterType": "Type søppelkasse:",
+        "setRating": "Vurder meg",
+        "storeType": "Butikktype",
+        "dumpsterType": "Type søppelkasse",
         "extraInfo": "Ekstra info"
     },
 
     "menu": {
-        "flag": "Rapportér søppelkasse",
+        "flag": "Rapporter søppelkasse",
         "revision": "Revisjonshistorikk",
         "editDumpster": "Rediger søppelkasse",
-        "editContent": "Rediger innhold"
+        "editContent": "Rediger innhold",
+        "gallery": "Se bilder"
     },
 
     "revision": {
@@ -215,18 +217,28 @@
         "Electronics Store": "Elektronikk",
         "Bakery": "Bakeri",
         "Furniture Store": "Møbelbutikk",
+        "General Store": "Dagligvarebutikk",
         "Miscellaneous": "Blandet"
     },
 
 
     "categories": {
         "Dairy": "Meieriprodukter",
-        "Batteries": "Batterier",
+        "Bread": "Brød",
         "Vegetables": "Grønnsaker",
         "Meat": "Kjøtt",
-        "Tools": "Verktøy",
+        "Fruit": "Frukt",
         "Pastries": "Bakevarer",
         "Seafood": "Sjømat",
+        "Chocolate": "Sjokolade",
+        "Candy": "Godteri",
+        "Nuts": "Nøtter",
+        "Rice": "Ris",
+        "Pasta": "Pasta",
+        "Fish": "Fisk",
+        "Cereals": "Frokostblanding",
+        "Noodles": "Nudler",
+        "Eggs": "Egg",
         "unknown": "Ukjent"
     },
 
@@ -261,6 +273,32 @@
         "edit": "Rediger dumpster",
         "info": "Informasjon",
         "settings": "Innstillinger",
-        "yourPos": "Sett posisjon"
+        "yourPos": "Sett posisjon",
+        "gallery": "Bildegalleri",
+        "display": "Bilde",
+        "addPhoto": "Legg til bilde"
+    },
+
+    "visit": {
+        "visitbtn":"Jeg var her",
+        "part1": "Besøkt",
+        "time": "gang",
+        "times": "ganger",
+        "dayText": "den siste dagen",
+        "daysText": "de siste tre dagene",
+        "weekText": "de siste 7 dagene",
+        "visitInterval": "Sett besøkintervall",
+        "day": "dag",
+        "days": "3 dager",
+        "week": "7 dager",
+        "disabled": "Du må vente litt med å registrere deg igjen"
+    },
+
+    "photo": {
+        "upload": "Last opp bilde",
+        "take": "Ta bilde",
+        "photo": "Bilde",
+        "delete" : "Slett bilde",
+        "add": "Legg til bide"
     }
 }

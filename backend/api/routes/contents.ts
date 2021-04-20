@@ -44,7 +44,7 @@
  *
  * tags:
  *   - name: Contents
- *     description: Contents API
+ *     description: Things users have found in dumpsters
  */
 
 import { Request, Router } from "express";
@@ -60,7 +60,7 @@ import {
 import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
 import { APIError, NotFoundError, UnknownError } from "../types/errors";
 
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
     const contentDAO = ContentDAO(Models);
 

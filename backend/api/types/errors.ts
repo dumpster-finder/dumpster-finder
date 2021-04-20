@@ -65,7 +65,7 @@ export class UnknownError extends APIError {
 }
 
 /**
- * Error tied to the 422 status code,
+ * Error tied to the 500 status code,
  * for use when you don't know exactly what went wrong,
  * and you're pretty sure it's *your* fault
  */

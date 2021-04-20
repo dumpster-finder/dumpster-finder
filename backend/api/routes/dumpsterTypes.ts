@@ -16,7 +16,7 @@
  *                 name: "Devil's Trash Can"
  * tags:
  *   - name: DumpsterTypes
- *     description: Dumpster type API
+ *     description: Types of dumpsters (container, compressor, etc.)
  */
 
 import { RouteDependencies } from "../types";
@@ -24,7 +24,7 @@ import { Router } from "express";
 import DumpsterTypeDAO from "../daos/dumpsterTypes";
 import { standardLimiter } from "../middleware/rateLimiter";
 
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const router = Router();
     const dumpsterTypeDAO = DumpsterTypeDAO(Models);
 

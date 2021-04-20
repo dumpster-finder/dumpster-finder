@@ -14,7 +14,7 @@ import {
     dumpsterTypesSelector,
     storeTypesSelector,
 } from "../redux/slices/constantsSlice";
-import SingleMultiSelect from "./SingleMultiSelect";
+import SingleMultiSelect from "../components/selects/SingleMultiSelect";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import MultiSliderComp from "./MultiSliderComp";

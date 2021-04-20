@@ -1,9 +1,11 @@
 import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 import { PhotoAttributes, PhotoCreationAttributes } from "./Photos";
+import { UserAttributes, UserCreationAttributes } from "./Users";
 
 export interface PhotoReportAttributes {
     photoReportID: number;
     photoID: number;
+    userID: string | null;
     reason: string;
     date: string;
 }
@@ -16,6 +18,7 @@ export class PhotoReports
     implements PhotoReportAttributes {
     public photoReportID!: number;
     public photoID!: number;
+    public userID!: string | null;
     public reason!: string;
     public date!: string;
 }
@@ -32,6 +35,9 @@ export function init(sequelize: Sequelize) {
             photoID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 allowNull: false,
+            },
+            userID: {
+                type: DataTypes.STRING,
             },
             reason: {
                 type: DataTypes.STRING,
@@ -54,8 +60,10 @@ export function init(sequelize: Sequelize) {
 // The type is not defined yet, so use a substitute
 export function associate({
                               Photos,
+    Users
                           }: {
     Photos: ModelStatic<Model<PhotoAttributes, PhotoCreationAttributes>>;
+    Users: ModelStatic<Model<UserAttributes, UserCreationAttributes>>;
 }) {
     // do associations like
     // Thing.hasMany()

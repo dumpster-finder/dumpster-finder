@@ -9,6 +9,7 @@ import {
     DumpsterPositionCreationAttributes,
 } from "./DumpsterPositions";
 import { Categories } from "./Categories";
+import { UserAttributes, UserCreationAttributes } from "./Users";
 
 export interface DumpsterAttributes {
     revisionID: number;
@@ -33,8 +34,7 @@ export interface DumpsterCreationAttributes
         "revisionID" | "dateAdded" | "dateUpdated"
     > {}
 
-class Dumpsters
-    extends Model<DumpsterAttributes, DumpsterCreationAttributes>
+class Dumpsters extends Model<DumpsterAttributes, DumpsterCreationAttributes>
     implements DumpsterAttributes {
     revisionID!: number;
     dumpsterID!: number;
@@ -127,6 +127,7 @@ export function associate({
     StoreTypes,
     DumpsterCategories,
     DumpsterPositions,
+    Users,
 }: {
     DumpsterTypes: ModelStatic<
         Model<DumpsterTypeAttributes, DumpsterTypeCreationAttributes>
@@ -137,6 +138,7 @@ export function associate({
     DumpsterPositions: ModelStatic<
         Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>
     >;
+    Users: ModelStatic<Model<UserAttributes, UserCreationAttributes>>;
     DumpsterCategories: ModelStatic<Model<any, any>>;
 }) {
     // do associations like

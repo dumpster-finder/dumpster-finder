@@ -1,36 +1,58 @@
 import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
-import { Button, Layout, Text, Divider } from "@ui-kitten/components";
+import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
+import {
+    addDumpster,
+    currentDumpsterSelector,
+    setCurrentDumpster,
+} from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
-import PhotoDisplay from "../components/PhotoDisplay";
-import DumpsterInfo from "../components/DumpsterInfo";
+import PhotoDisplay from "../components/compoundComponents/PhotoDisplay";
 import { useTranslation } from "react-i18next";
+import CategoryInfo from "../components/dumpsterInfo/CategoryInfo";
+import ExtraInfo from "../components/dumpsterInfo/ExtraInfo";
+import InfoRow from "../components/dumpsterInfo/InfoRow";
+import GeneralInfo from "../components/dumpsterInfo/GeneralInfo";
+import { DumpsterService, VisitService } from "../services";
+import { useAppDispatch } from "../redux/store";
+import usePhotos from "../hooks/usePhotos";
+import { useState } from "react";
+import { subDays, subHours } from "date-fns";
+import {
+    registeredVisitsSelector,
+    visitsSelector,
+} from "../redux/slices/configSlice";
 
 export default function DetailsScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const dispatch = useAppDispatch();
+    const visitDate = useSelector(visitsSelector);
     const { t }: { t: (s: string) => string } = useTranslation("details");
     const dumpster = useSelector(currentDumpsterSelector);
-    const photos = [
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-    ];
+    const photos = usePhotos();
+    const [visits, setVisits] = useState(dumpster ? dumpster.visits : 0);
+    let lastVisit = new Date();
+
+    if (dumpster) {
+        lastVisit = useSelector(registeredVisitsSelector)[dumpster.dumpsterID];
+    }
+
+    const [disabled, setDisabled] = useState(
+        subHours(new Date(), 4) <= lastVisit || false,
+    );
 
     if (!dumpster) {
         return (
-            <View style={styles.container}>
+            <Layout style={styles.container}>
                 <Text category="h1">{t("somethingWrong")}</Text>
-            </View>
+            </Layout>
         );
     } else {
-        const { categories } = dumpster;
-
         return (
             <Layout style={styles.container}>
                 <ScrollView style={styles.scrollView}>
@@ -43,50 +65,44 @@ export default function DetailsScreen({
 
                     <View style={{ alignItems: "center" }}>
                         <Text category="h6">
+                            {t(`dumpsterType:${dumpster.dumpsterType}`)}
+                            {" – "}
                             {t(`storeType:${dumpster.storeType}`)}
                         </Text>
                     </View>
+                    <View style={{ height: 150, marginVertical: 5 }}>
+                        <PhotoDisplay
+                            photoList={photos}
+                            onPress={() =>
+                                navigation.navigate("PhotoGalleryScreen")
+                            }
+                        />
+                    </View>
 
                     {/*TODO this might end badly on really small screens!*/}
-                    <View style={{ height: 150, marginVertical: 5 }}>
-                        <PhotoDisplay photoList={photos} />
-                    </View>
-                    <DumpsterInfo dumpster={dumpster} />
 
-                    <Text style={{ alignSelf: "center" }}>
-                        {t("categories")}
-                    </Text>
-                    <View style={styles.tagRow}>
-                        {categories.map((category, index) => (
-                            <Layout level="3" key={index} style={styles.tagBox}>
-                                <Text>{t(`categories:${category}`)}</Text>
-                            </Layout>
-                        ))}
-                    </View>
+                    <CategoryInfo dumpster={dumpster} />
+                    <GeneralInfo dumpster={dumpster} />
+                    <InfoRow dumpster={dumpster} />
+                    <ExtraInfo dumpster={dumpster} />
 
-                    <View style={styles.row}>
-                        <View style={styles.buttons}>
-                            <Button
-                                style={{ width: "80%" }}
-                                size="small"
-                                onPress={() =>
-                                    navigation.navigate("ContentScreen")
-                                }
-                            >
-                                {t("content")}
-                            </Button>
-                        </View>
-                        <View style={styles.buttons}>
-                            <Button
-                                style={{ width: "80%" }}
-                                size="small"
-                                onPress={() =>
-                                    navigation.navigate("CommentScreen")
-                                }
-                            >
-                                {t("comments")}
-                            </Button>
-                        </View>
+                    <View style={styles.buttonRow}>
+                        <Button
+                            style={styles.button}
+                            size="small"
+                            status="info"
+                            onPress={() => navigation.navigate("ContentScreen")}
+                        >
+                            {t("content")}
+                        </Button>
+                        <Button
+                            style={styles.button}
+                            size="small"
+                            status="info"
+                            onPress={() => navigation.navigate("CommentScreen")}
+                        >
+                            {t("comments")}
+                        </Button>
                     </View>
 
                     <Text style={{ alignSelf: "center" }}>
@@ -102,9 +118,59 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
+                    {disabled && (
+                        <Text
+                            style={{ marginVertical: 5, alignSelf: "center" }}
+                        >
+                            {t("visit:disabled")}
+                        </Text>
+                    )}
+                    <Button
+                        disabled={disabled}
+                        style={{
+                            alignSelf: "center",
+                        }}
+                        size="small"
+                        onPress={visit}
+                    >
+                        {t("visit:visitbtn")}
+                    </Button>
                 </ScrollView>
             </Layout>
         );
+    }
+
+    async function visit() {
+        setVisits(visits + 1);
+        if (dumpster) {
+            await VisitService.addOne(dumpster.dumpsterID, "temp1")
+                .then(getDumpster)
+                // TODO not use ts-ignore here. Maybe fix useState
+                // @ts-ignore
+                .then(setDisabled(true));
+        }
+    }
+
+    async function getDumpster() {
+        const visitSinceDate = subDays(
+            new Date(),
+            visitDate === 0 ? 1 : visitDate === 1 ? 3 : 7,
+        )
+            .toISOString()
+            .split("T")[0];
+        if (dumpster) {
+            try {
+                const updatedDumpster = await DumpsterService.getDumpster(
+                    dumpster.dumpsterID,
+                    visitSinceDate,
+                );
+                // TODO calc distance here (fix-list has stuff)
+                dispatch(setCurrentDumpster(updatedDumpster));
+                dispatch(addDumpster(updatedDumpster));
+            } catch (e) {
+                console.error("Could not add visit", e);
+            }
+        }
     }
 }
 
@@ -114,54 +180,22 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     scrollView: {
-        width: "100%",
+        paddingHorizontal: 12,
+        minHeight: "100%",
     },
     row: {
         flexDirection: "row",
     },
-    buttons: {
-        paddingVertical: 10,
-        width: "50%",
-        alignItems: "center",
-    },
-    infoRow: {
-        display: "flex",
+    buttonRow: {
+        marginVertical: 10,
         flexDirection: "row",
-        paddingVertical: 5,
-        marginHorizontal: 5,
-        flexWrap: "wrap",
+        justifyContent: "center",
     },
-    infoText: {
-        paddingLeft: 5,
-        flexWrap: "wrap",
+    button: {
+        marginHorizontal: 10,
     },
-
-    tagRow: {
-        width: "100%",
+    view: {
         flexDirection: "row",
         alignItems: "center",
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        flexWrap: "wrap",
-    },
-    box: {
-        display: "flex",
-        flexWrap: "wrap",
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        paddingHorizontal: 5,
-    },
-
-    boxRow: {
-        flexDirection: "row",
-        paddingHorizontal: 5,
-    },
-    tagBox: {
-        paddingBottom: 5,
-        paddingTop: 3,
-        paddingHorizontal: 7,
-        borderRadius: 15,
-        marginRight: 3,
-        marginBottom: 4,
     },
 });

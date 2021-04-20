@@ -1,7 +1,12 @@
 import { AxiosInstance } from "axios";
 import Position from "../models/Position";
-import Dumpster, { RevDumpster } from "../models/Dumpster";
+import Dumpster, {
+    PostDumpster,
+    UpdatedDumpster,
+    RevDumpster,
+} from "../models/Dumpster";
 import { testDumpsters } from "../constants/TestData";
+import Comments, { RawComment } from "../models/Comment";
 
 export default class DumpsterService {
     readonly axios;
@@ -15,10 +20,17 @@ export default class DumpsterService {
      * TODO Retrieves the dumpster from the cache if it is present
      *
      * @param dumpsterID ID of the dumpster to fetch
+     * @param visitSinceDate date limit for calculating visits
      */
-    getDumpster(dumpsterID: number) {
+    getDumpster(dumpsterID: number, visitSinceDate: string) {
         console.log("Fetched dumpster with ID", dumpsterID);
-        return this.axios.get(`/dumpsters/${dumpsterID}`);
+        return this.axios
+            .get(`/dumpsters/${dumpsterID}`, {
+                params: {
+                    visitSinceDate,
+                },
+            })
+            .then(response => response.data);
     }
 
     /**
@@ -28,7 +40,11 @@ export default class DumpsterService {
      * @param radius   How far around the location a dumpster can be
      * @return         A promise which resolves to a list of dumpsters
      */
-    getNearbyDumpsters(position: Position, radius: number) {
+    getNearbyDumpsters(
+        position: Position,
+        radius: number,
+        visitSinceDate: string,
+    ) {
         console.log(
             `Fetched dumpsters ${radius} meters around (${position.latitude}, ${position.latitude})`,
         );
@@ -37,6 +53,7 @@ export default class DumpsterService {
                 params: {
                     ...position,
                     radius,
+                    visitSinceDate,
                 },
             })
             .then(response => response.data);
@@ -47,7 +64,7 @@ export default class DumpsterService {
      *
      * @param dumpster An edited version of an existing dumpster
      */
-    updateDumpster(dumpster: Omit<Dumpster, "rating">): Promise<Dumpster> {
+    updateDumpster(dumpster: Dumpster): Promise<Dumpster> {
         console.log("Updated dumpster:", dumpster);
         return this.axios
             .put(`/dumpsters/${dumpster.dumpsterID}`, dumpster)
@@ -59,9 +76,7 @@ export default class DumpsterService {
      *
      * @param dumpster A dumpster object without ID or rating
      */
-    addDumpster(
-        dumpster: Omit<Dumpster, "dumpsterID" | "rating">,
-    ): Promise<Dumpster> {
+    addDumpster(dumpster: PostDumpster): Promise<Dumpster> {
         console.log("Posted dumpster:", dumpster);
         return this.axios
             .post("/dumpsters", dumpster)

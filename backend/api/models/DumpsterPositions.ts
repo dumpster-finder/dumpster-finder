@@ -4,7 +4,7 @@ import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
 export interface DumpsterPositionAttributes {
     dumpsterID: number;
     position: object;
-    revisionID?: number;
+    revisionID?: number | null;
 }
 
 export interface DumpsterPositionCreationAttributes
@@ -18,7 +18,7 @@ class DumpsterPositions
     implements DumpsterPositionAttributes {
     dumpsterID!: number;
     position!: object;
-    revisionID?: number;
+    revisionID?: number | null;
 }
 
 // Inject Sequelize

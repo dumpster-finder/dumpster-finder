@@ -52,6 +52,7 @@
  *                 latitude: 63.422407
  *                 longitude: 10.394954
  *                 radius: 6000
+ *                 visitSinceDate: "2021-01-01"
  *
  *         PostDumpster:
  *             type: object
@@ -175,9 +176,9 @@
  *
  * tags:
  *   - name: Dumpsters
- *     description: Dumpster API
+ *     description: Data about things that contain trash
  *   - name: Revisions
- *     description: Dumpster revision API
+ *     description: Edit history of dumpsters
  */
 
 import { Request, Router } from "express";
@@ -195,10 +196,7 @@ import { PositionParams } from "../types/Position";
 import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
 import { NotFoundError } from "../types/errors";
 
-//TODO add validation and models, and DAO for the key ones
-//TODO change storetype and dumpstertype to String primary key and foreign key
-//     (really?)
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
 
@@ -253,7 +251,13 @@ export default function ({ Models }: RouteDependencies) {
      *         schema:
      *           type: integer
      *         required: true
-     *         description: Dumpster ID
+     *         description: visitSinceDate
+     *       - in: query
+     *         name: values
+     *         required: true
+     *         description: Date to calculate visits
+     *         example:
+     *             visitSinceDate: "2021-01-01"
      *     responses:
      *       "200":
      *         description: The requested dumpster
@@ -272,10 +276,15 @@ export default function ({ Models }: RouteDependencies) {
         "/:dumpsterID(\\d+)",
         standardLimiter,
         validate(getDumpster),
-        async (req, res, next) => {
+        async (
+            req: Request & { query: { visitSinceDate: string } },
+            res,
+            next,
+        ) => {
             try {
                 const dumpster = await dumpsterDAO.getOne(
                     parseInt(req.params.dumpsterID),
+                    req.query.visitSinceDate,
                 );
                 if (dumpster) {
                     res.status(200).json(dumpster);
