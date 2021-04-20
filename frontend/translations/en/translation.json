@@ -288,11 +288,16 @@
     "visit": {
         "visitbtn":"I was here",
         "part1": "Visited",
-        "part2": "times",
+        "time": "time",
+        "times": "times",
+        "dayText": "the last day",
+        "daysText": "the last three days",
+        "weekText": "the last 7 days",
         "visitInterval": "Set visit interval",
-        "day": "Day",
-        "month": "month",
-        "year": "year"
+        "day": "day",
+        "days": "3 days",
+        "week": "7 days",
+        "disabled": "You have to wait a bit to register again"
     },
 
     "photo": {
@@ -301,5 +306,6 @@
         "photo": "Photo",
         "delete" : "Delete photo",
         "add": "Add photo"
+
     }
 }
