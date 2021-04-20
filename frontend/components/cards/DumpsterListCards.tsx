@@ -24,7 +24,6 @@ export default function DumpsterListCards({
     const visitWindow = useSelector(visitsSelector);
     const coverPhoto = useSelector(coverPhotoSelector(dumpster.dumpsterID));
     const placeholder =
-    const pic =
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
 
     return (
@@ -49,7 +48,7 @@ export default function DumpsterListCards({
                             ? t("visit:dayText")
                             : visitWindow === 1
                             ? t("visit:daysText")
-                            : t("visit:weekSelector")}
+                            : t("visit:weekText")}
                     </Text>
                     <View style={styles.bottomContainer}>
                         <View style={styles.distanceContainer}>

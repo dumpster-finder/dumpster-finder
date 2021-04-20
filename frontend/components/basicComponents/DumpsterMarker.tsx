@@ -37,7 +37,7 @@ export default function({
                             ? t("visit:dayText")
                             : visitWindow === 1
                             ? t("visit:daysText")
-                            : t("visit:weekSelector")}
+                            : t("visit:weekText")}
                     </Text>
                 </View>
             </Callout>
