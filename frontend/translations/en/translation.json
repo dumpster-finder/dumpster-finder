@@ -288,11 +288,15 @@
     "visit": {
         "visitbtn":"I was here",
         "part1": "Visited",
-        "part2": "times",
+        "time": "time",
+        "times": "times",
+        "dayText": "the last day",
+        "daysText": "the last three days",
+        "weekText": "the last 7 days",
         "visitInterval": "Set visit interval",
         "day": "day",
         "days": "3 days",
-        "week": "week",
+        "week": "7 days",
         "disabled": "You have to wait a bit to register again"
     },
 

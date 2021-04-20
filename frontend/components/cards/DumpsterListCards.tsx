@@ -4,7 +4,10 @@ import { Image, StyleSheet, View } from "react-native";
 import Dumpster from "../../models/Dumpster";
 import { StarIcon, LockIcon } from "../basicComponents/Icons";
 import { useSelector } from "react-redux";
-import { positionSelector } from "../../redux/slices/configSlice";
+import {
+    positionSelector,
+    visitsSelector,
+} from "../../redux/slices/configSlice";
 import { useTranslation } from "react-i18next";
 import { calcOrUseDistance } from "../../utils/distance";
 
@@ -17,6 +20,7 @@ export default function DumpsterListCards({
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("storeType");
     const currentPosition = useSelector(positionSelector);
+    const visitWindow = useSelector(visitsSelector);
     const pic =
         "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
     return (
@@ -33,7 +37,15 @@ export default function DumpsterListCards({
                     <Text category="h6">{dumpster.name}</Text>
                     <Text>{t(`${dumpster.storeType}`)}</Text>
                     <Text>
-                        {t("visit:part1")} {dumpster.visits} {t("visit:part2")}
+                        {t("visit:part1")} {dumpster.visits}{" "}
+                        {dumpster.visits === 1
+                            ? t("visit:time")
+                            : t("visit:times")}{" "}
+                        {visitWindow === 0
+                            ? t("visit:dayText")
+                            : visitWindow === 1
+                            ? t("visit:daysText")
+                            : t("visit:weekSelector")}
                     </Text>
                     <View style={styles.bottomContainer}>
                         <View style={styles.distanceContainer}>

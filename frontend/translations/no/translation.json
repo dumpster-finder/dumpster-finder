@@ -279,12 +279,15 @@
     "visit": {
         "visitbtn":"Jeg var her",
         "part1": "Besøkt",
-        "part2": "ganger",
-
+        "time": "gang",
+        "times": "ganger",
+        "dayText": "den siste dagen",
+        "daysText": "de siste tre dagene",
+        "weekText": "de siste 7 dagene",
         "visitInterval": "Sett besøkintervall",
         "day": "dag",
         "days": "3 dager",
-        "week": "uke",
+        "week": "7 dager",
         "disabled": "Du må vente litt med å registrere deg igjen"
     },
 

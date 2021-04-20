@@ -4,6 +4,8 @@ import Dumpster from "../../models/Dumpster";
 import { View } from "react-native";
 import { Text } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { visitsSelector } from "../../redux/slices/configSlice";
 
 /**
  * Displays a dumpster as a marker on a map
@@ -20,6 +22,7 @@ export default function({
     onPress: () => void;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("common");
+    const visitWindow = useSelector(visitsSelector);
     return (
         <Marker coordinate={position}>
             <Callout onPress={onPress}>
@@ -28,7 +31,13 @@ export default function({
                     <Text>{t(`storeType:${storeType}`)}</Text>
                     <Text>{t(`dumpsterType:${dumpsterType}`)}</Text>
                     <Text>
-                        {t("visit:part1")} {visits} {t("visit:part2")}
+                        {t("visit:part1")} {visits}{" "}
+                        {visits === 1 ? t("visit:time") : t("visit:times")}{" "}
+                        {visitWindow === 0
+                            ? t("visit:dayText")
+                            : visitWindow === 1
+                            ? t("visit:daysText")
+                            : t("visit:weekSelector")}
                     </Text>
                 </View>
             </Callout>

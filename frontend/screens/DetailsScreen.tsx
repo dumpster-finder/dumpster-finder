@@ -22,7 +22,6 @@ import { useState } from "react";
 import { subDays, subHours } from "date-fns";
 import {
     registeredVisitsSelector,
-    setRegisteredVisits,
     visitsSelector,
 } from "../redux/slices/configSlice";
 
@@ -43,7 +42,7 @@ export default function DetailsScreen({
         lastVisit = useSelector(registeredVisitsSelector)[dumpster.dumpsterID];
     }
 
-    const [pending, setPending] = useState(
+    const [disabled, setDisabled] = useState(
         subHours(new Date(), 4) <= lastVisit || false,
     );
 
@@ -119,7 +118,7 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
-                    {pending && (
+                    {disabled && (
                         <Text
                             style={{ marginVertical: 5, alignSelf: "center" }}
                         >
@@ -127,7 +126,7 @@ export default function DetailsScreen({
                         </Text>
                     )}
                     <Button
-                        disabled={pending}
+                        disabled={disabled}
                         style={{
                             alignSelf: "center",
                         }}
@@ -148,7 +147,7 @@ export default function DetailsScreen({
                 .then(getDumpster)
                 // TODO not use ts-ignore here. Maybe fix useState
                 // @ts-ignore
-                .then(setPending(true));
+                .then(setDisabled(true));
         }
     }
 
