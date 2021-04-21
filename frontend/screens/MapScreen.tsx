@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import MapView, { Region, UrlTile } from "react-native-maps";
 import { StackNavigationProp } from "@react-navigation/stack";
-import DumpsterMarker from "../components/DumpsterMarker";
+import DumpsterMarker from "../components/basicComponents/DumpsterMarker";
 import { useAppDispatch } from "../redux/store";
 import {
     allDumpstersSelector,
@@ -14,8 +14,9 @@ import {
     positionSelector,
 } from "../redux/slices/configSlice";
 import { useEffect, useState } from "react";
-import SearchHeader from "../components/SearchHeader";
+import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
+import FilterModal from "../components/FilterModal";
 
 export default function MapScreen({
     navigation,
@@ -31,6 +32,7 @@ export default function MapScreen({
         longitudeDelta: 0.0421,
     });
     const dumpsters = useSelector(allDumpstersSelector);
+    const [filter, setFilter] = useState(false);
 
     useEffect(() => {
         if (!firstTime) setRegion({ ...region, ...position });
@@ -44,7 +46,9 @@ export default function MapScreen({
                         screen: "AddPositionScreen",
                     });
                 }}
+                onPressFilter={() => setFilter(true)}
             />
+            {filter && <FilterModal visible={filter} setVisible={setFilter} />}
             <MapView
                 provider={null}
                 initialRegion={{

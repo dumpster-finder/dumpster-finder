@@ -1,5 +1,6 @@
-import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import dumpsterReducer from "./slices/dumpsterSlice";
+import photoReducer from "./slices/photoSlice";
 import { useDispatch } from "react-redux";
 import { combineReducers } from "redux";
 import configReducer from "./slices/configSlice";
@@ -14,7 +15,7 @@ import {
     PURGE,
     REGISTER,
 } from "redux-persist";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import constantsReducer from "./slices/constantsSlice";
 
 /**
@@ -28,6 +29,7 @@ const store = configureStore({
         },
         combineReducers({
             dumpsters: dumpsterReducer,
+            photos: photoReducer,
             constants: constantsReducer,
             config: configReducer,
             editor: editorReducer,
@@ -35,9 +37,9 @@ const store = configureStore({
     ),
     middleware: getDefaultMiddleware({
         serializableCheck: {
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-        }
-    })
+            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+    }),
 });
 
 // type extraction

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Layout } from "@ui-kitten/components";
-import DumpsterDropdownCard from "../components/DumpsterDropdownCard";
+import { Layout, Text } from "@ui-kitten/components";
+import DumpsterRevisionCard from "../components/cards/DumpsterRevisionCard";
 import { useSelector } from "react-redux";
 import {
     addDumpster,
@@ -14,12 +14,14 @@ import { DumpsterService } from "../services";
 import { useAppDispatch } from "../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { formatDate } from "../utils/date";
+import { useTranslation } from "react-i18next";
 
 export default function RevisionScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("common");
     const dispatch = useAppDispatch();
     const dumpster = useSelector(currentDumpsterSelector);
     const [dumpsterList, setDumpsterList] = useState<RevDumpster[]>([]);
@@ -30,13 +32,17 @@ export default function RevisionScreen({
                 .catch(e => console.error("Could not fetch revisions", e));
     }, []);
     if (dumpster === null) {
-        return <View>Cry</View>;
+        return (
+            <Layout style={styles.container}>
+                <Text category="h1">{t("somethingWrong")}</Text>
+            </Layout>
+        );
     } else {
         return (
             <Layout style={styles.container}>
                 <ScrollView>
                     {dumpsterList.map((value, index) => (
-                        <DumpsterDropdownCard
+                        <DumpsterRevisionCard
                             key={index}
                             text={formatDate(new Date(value.dateUpdated))}
                             dumpster={value}

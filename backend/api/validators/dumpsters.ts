@@ -22,6 +22,7 @@ export const locationParams = {
         latitude,
         longitude,
         radius: Joi.number().optional(),
+        visitSinceDate: Joi.string().required(),
     }),
 };
 
@@ -64,6 +65,9 @@ export const dumpsterIDParam = Joi.object({
  */
 export const getDumpster = {
     params: dumpsterIDParam,
+    query: Joi.object({
+        visitSinceDate: Joi.string().required(),
+    }),
 };
 
 /**
@@ -78,7 +82,10 @@ export const postDumpster = {
  */
 export const putDumpster = {
     params: dumpsterIDParam,
-    body: baseDumpster,
+    body: baseDumpster.keys({
+        rating: Joi.number(),
+        visits: Joi.number().integer(),
+    }),
 };
 
 export const patchRevision = {

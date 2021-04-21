@@ -15,6 +15,7 @@
   "dependencies": {
     "@eva-design/eva": "^2.0.0",
     "@expo/vector-icons": "^12.0.0",
+    "@ptomasroos/react-native-multi-slider": "git://github.com/ptomasroos/react-native-multi-slider.git#38eb8100d667908c591a19cdd8f08a3e92252112",
     "@react-native-async-storage/async-storage": "^1.13.4",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.1",
@@ -28,8 +29,10 @@
     "date-fns": "^2.20.0",
     "expo": "~40.0.0",
     "expo-asset": "~8.2.1",
+    "expo-camera": "~9.1.0",
     "expo-constants": "~9.3.0",
     "expo-font": "~8.4.0",
+    "expo-image-picker": "~9.2.0",
     "expo-linking": "~2.0.0",
     "expo-splash-screen": "~0.8.0",
     "expo-status-bar": "~1.0.3",

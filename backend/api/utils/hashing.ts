@@ -1,9 +1,9 @@
-import {logger} from "../server";
 
 const userNameStop = 4; //how many words the username should be
 const iterations = 25000;
+const keylen = 100;
+const digest = 'sha512';
 const crypto = require('crypto');
-
 
 export function hashUser(userId : string){
     let userName = getUserName(userId);
@@ -26,6 +26,14 @@ export function generateSalt(){
 }
 
 export function hashPassword(salt : string, password : string){
-    let userName = crypto.pbkdf2Sync(password, salt, iterations,100, "sha512")
-    return userName.toString("hex");
+    return new Promise<string>((resolve, reject) => {
+
+        crypto.pbkdf2(password, salt, iterations, keylen, digest, (err : Object, key :Buffer) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(key.toString('hex'));
+            }
+        })
+    });
 }

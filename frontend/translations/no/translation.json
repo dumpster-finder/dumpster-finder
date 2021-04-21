@@ -1,5 +1,6 @@
 {
     "common": {
+        "all": "Alle",
         "rating": "Vurdering",
         "cleanliness": "Renhet",
         "locked": "Låst",
@@ -22,8 +23,10 @@
         "cancel": "Avbryt",
         "add": "Legg til",
         "save": "Lagre",
-        "remove": "Fjern"
-
+        "remove": "Fjern",
+        "filter": "Filtrer",
+        "back": "Tilbake",
+        "km": "km"
     },
     "advice": {
         "title": "Råd for dumpster diving",
@@ -68,17 +71,18 @@
         "categories": "Her kan du finne",
         "content": "Se andres funn",
         "comments": "Se kommentarer",
-        "setRating": "Vurdér meg",
+        "setRating": "Vurder meg",
         "storeType": "Butikktype",
         "dumpsterType": "Type søppelkasse",
         "extraInfo": "Ekstra info"
     },
 
     "menu": {
-        "flag": "Rapportér søppelkasse",
+        "flag": "Rapporter søppelkasse",
         "revision": "Revisjonshistorikk",
         "editDumpster": "Rediger søppelkasse",
-        "editContent": "Rediger innhold"
+        "editContent": "Rediger innhold",
+        "gallery": "Se bilder"
     },
 
     "revision": {
@@ -213,6 +217,7 @@
         "Electronics Store": "Elektronikk",
         "Bakery": "Bakeri",
         "Furniture Store": "Møbelbutikk",
+        "General Store": "Dagligvarebutikk",
         "Miscellaneous": "Blandet"
     },
 
@@ -268,6 +273,32 @@
         "edit": "Rediger dumpster",
         "info": "Informasjon",
         "settings": "Innstillinger",
-        "yourPos": "Sett posisjon"
+        "yourPos": "Sett posisjon",
+        "gallery": "Bildegalleri",
+        "display": "Bilde",
+        "addPhoto": "Legg til bilde"
+    },
+
+    "visit": {
+        "visitbtn":"Jeg var her",
+        "part1": "Besøkt",
+        "time": "gang",
+        "times": "ganger",
+        "dayText": "den siste dagen",
+        "daysText": "de siste tre dagene",
+        "weekText": "de siste 7 dagene",
+        "visitInterval": "Sett besøkintervall",
+        "day": "dag",
+        "days": "3 dager",
+        "week": "7 dager",
+        "disabled": "Du må vente litt med å registrere deg igjen"
+    },
+
+    "photo": {
+        "upload": "Last opp bilde",
+        "take": "Ta bilde",
+        "photo": "Bilde",
+        "delete" : "Slett bilde",
+        "add": "Legg til bide"
     }
 }

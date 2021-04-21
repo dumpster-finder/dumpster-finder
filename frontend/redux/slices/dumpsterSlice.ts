@@ -22,9 +22,21 @@ interface SliceState {
  */
 export const fetchNearbyDumpsters = createAsyncThunk(
     "dumpsters/fetchNearbyDumpsters",
-    async ({ position, radius }: { position: Position; radius: number }) => {
+    async ({
+        position,
+        radius,
+        visitSinceDate,
+    }: {
+        position: Position;
+        radius: number;
+        visitSinceDate: string;
+    }) => {
         // the error is handled outside of this thunk
-        return await DumpsterService.getNearbyDumpsters(position, radius);
+        return await DumpsterService.getNearbyDumpsters(
+            position,
+            radius,
+            visitSinceDate,
+        );
     },
 );
 
@@ -110,6 +122,8 @@ export const {
 
 export default dumpsterSlice.reducer;
 
+export const dumpsterMapSelector = (state: RootState) =>
+    state.dumpsters.dumpsters;
 export const allDumpstersSelector = ({ dumpsters: { dumpsters } }: RootState) =>
     Object.values(dumpsters).filter(Boolean);
 
