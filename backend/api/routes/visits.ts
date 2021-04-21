@@ -2,15 +2,6 @@
  * @swagger
  * components:
  *   schemas:
- *     PostVisit:
- *       type: object
- *       required:
- *         - userID
- *       properties:
- *         userID:
- *           type: string
- *       example:
- *         userID: 'temp1'
  * tags:
  *   - name: Visits
  *     description: Visits API
@@ -21,6 +12,8 @@ import { validate } from "express-validation";
 import { RouteDependencies } from "../types";
 import { postVisit } from "../validators/visits";
 import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
+import { JwtMiddleware } from "../middleware/tokenMiddleware";
+
 
 export default function({ Models }: RouteDependencies) {
     const visitDAO = VisitDAO(Models);
@@ -39,11 +32,13 @@ export default function({ Models }: RouteDependencies) {
      *             type: integer
      *           required: true
      *           description: Dumpster ID
-     *       requestBody:
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#components/schemas/PostVisit'
+     *         - in: header
+     *           name: JWTToken
+     *           schema:
+     *             type: string
+     *           format: uuid
+     *           required: true
+     *           description: JWT for authentication
      *       responses:
      *          "201":
      *              description: Added a new visit
@@ -51,6 +46,7 @@ export default function({ Models }: RouteDependencies) {
     router.post(
         "/",
         updateLimiter,
+        JwtMiddleware,
         validate(postVisit),
         async (
             req: Request & {
@@ -62,7 +58,7 @@ export default function({ Models }: RouteDependencies) {
             try {
                 const result = await visitDAO.addOne(
                     req.params.dumpsterID,
-                    req.body.userID,
+                    res.locals.session.id,
                 );
                 res.status(201).json(result);
             } catch (e) {

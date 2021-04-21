@@ -1,3 +1,6 @@
+/**
+ * Largely from https://nozzlegear.com/blog/implementing-a-jwt-auth-system-with-typescript-and-node
+ */
 
 import { Request, Response, NextFunction } from "express";
 import {decodeToken, encodeToken, DecodeResult, ExpirationStatus, Session, checkTokenTime} from "../utils/token"
@@ -43,9 +46,7 @@ export function JwtMiddleware(request: Request, response: Response, next: NextFu
             ...decodedSession.session,
         };
 
-        response.cookie("JWTCookie", token, {
-            "httpOnly" : true
-        } );
+        response.header("JWT-Renewed", token);
     } else {
         session = decodedSession.session;
     }

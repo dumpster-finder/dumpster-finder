@@ -6,7 +6,4 @@ export const postVisit = {
             .pattern(/(\d)+/)
             .required(),
     }),
-    body: Joi.object({
-        userID: Joi.number().required(),
-    }),
 };

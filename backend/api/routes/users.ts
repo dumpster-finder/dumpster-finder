@@ -12,8 +12,9 @@ import { validateUser } from "../validators/users";
 import { RouteDependencies } from "../types";
 import {generateUserID} from "../utils/IdGeneration";
 import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
-import {encodeToken, JwtMiddleware} from "../utils/token";
+import {encodeToken} from "../utils/token";
 import {standardLimiter} from "../middleware/rateLimiter";
+import {JwtMiddleware} from "../middleware/tokenMiddleware";
 import {logger} from "../server";
 
 export default function({ Models }: RouteDependencies) {
@@ -79,9 +80,7 @@ export default function({ Models }: RouteDependencies) {
                     req.params.userID
                 );
                 if (userExists) {
-                    res.cookie("JWTCookie", encodeToken(userExists), {
-                        "httpOnly" : true
-                    } );
+                    res.header("JWTToken", encodeToken(userExists));
                     res.status(200).json({
                         statusCode: 200,
                         message: "User exists, validation complete"

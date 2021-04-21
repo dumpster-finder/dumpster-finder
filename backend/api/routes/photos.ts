@@ -57,8 +57,6 @@ export default function({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
     const photoDAO = PhotoDAO(Models);
 
-    // a middleware sub-stack shows request info for any type of HTTP request to the /user/:id path
-    router.use('/protected', JwtMiddleware );
 
     /**
      * @swagger
@@ -105,7 +103,7 @@ export default function({ Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/{dumpsterID}/photos/protected:
+     * /dumpsters/{dumpsterID}/photos/:
      *   post:
      *     summary: Add a photo to a dumpster
      *     description: |
@@ -119,6 +117,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: JWTToken
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *       content:
      *         application/json:
@@ -135,8 +140,9 @@ export default function({ Models }: RouteDependencies) {
      *         description: Invalid data (e.g. the URL leads to a host we don't accept)
      */
     router.post(
-        "/protected",
+        "/",
         updateLimiter,
+        JwtMiddleware,
         validate(postPhotos),
         async (
             req: Request & { params: { dumpsterID: number }; body: PostPhoto },
