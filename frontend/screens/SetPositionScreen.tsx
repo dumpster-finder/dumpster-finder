@@ -2,10 +2,11 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import { useAppDispatch } from "../redux/store";
-import { setPosition } from "../redux/slices/configSlice";
+import { positionSelector, setPosition } from "../redux/slices/configSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
-import Place from "../models/Place";
 import LocationSearcher from "../components/compoundComponents/LocationSearcher";
+import Position from "../models/Position";
+import { useSelector } from "react-redux";
 
 export default function SetPositionScreen({
     navigation,
@@ -13,15 +14,16 @@ export default function SetPositionScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const dispatch = useAppDispatch();
+    const position = useSelector(positionSelector);
 
     return (
         <Layout style={styles.container}>
-            <LocationSearcher onSubmit={onSubmit} />
+            <LocationSearcher initialPosition={position} onSubmit={onSubmit} />
         </Layout>
     );
 
-    function onSubmit(place: Place) {
-        dispatch(setPosition(place.position));
+    function onSubmit(position: Position) {
+        dispatch(setPosition(position));
         navigation.pop();
     }
 }
@@ -32,6 +34,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "flex-start",
-        paddingTop: "4%",
+        paddingVertical: 8,
     },
 });

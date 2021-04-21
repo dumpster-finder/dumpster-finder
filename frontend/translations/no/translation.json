@@ -183,9 +183,14 @@
 
     "position": {
         "save": "Sett posision",
+        "help": "Trykk på kartet eller dra markøren for å velge",
         "none": "Ingen posisjon valgt",
-        "yourPos": "Din posisjon",
-        "pos": "f.eks. Paris"
+        "unknown": "Ukjent sted",
+        "searchBox": {
+            "label":  "Søk etter et sted",
+            "placeholder": "f.eks. Paris",
+            "pending": "Leter etter steder …"
+        }
     },
 
     "placeholders": {

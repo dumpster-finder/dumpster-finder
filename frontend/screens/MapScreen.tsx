@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
-import MapView, { Region, UrlTile } from "react-native-maps";
+import MapView from "react-native-maps";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterMarker from "../components/map/DumpsterMarker";
 import { useAppDispatch } from "../redux/store";
@@ -17,7 +17,6 @@ import { useEffect, useState } from "react";
 import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
 import PositionMarker from "../components/map/PositionMarker";
-import MapTileSet from "../components/map/MapTileSet";
 import CustomMapView from "../components/map/CustomMapView";
 
 export default function MapScreen({

@@ -8,6 +8,7 @@ import Position from "../../models/Position";
 interface MapProps {
     initialPosition: Position;
     setRef?: LegacyRef<MapView> | undefined;
+    onPress?: (p: Position) => void;
     style: StyleProp<ViewStyle>;
 }
 
@@ -16,6 +17,7 @@ export default function CustomMapView({
     initialPosition,
     style,
     setRef,
+    onPress,
 }: PropsWithChildren<MapProps>) {
     return (
         <MapView
@@ -34,6 +36,7 @@ export default function CustomMapView({
                 right: 0,
                 bottom: 0,
             }}
+            onPress={onPress && (e => onPress(e.nativeEvent.coordinate))}
         >
             {children}
             <MapTileSet />
