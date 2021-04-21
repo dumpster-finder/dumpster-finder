@@ -13,8 +13,10 @@ import { useTranslation } from "react-i18next";
 
 export default function SearchHeader({
     onPressPlus,
+    onPressFilter,
 }: {
     onPressPlus: () => void;
+    onPressFilter: () => void;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("common");
     const [text, setText] = useState("");
@@ -56,6 +58,7 @@ export default function SearchHeader({
                 appearance="ghost"
                 size={"medium"}
                 accessoryLeft={FilterIcon}
+                onPress={onPressFilter}
             />
         </View>
     );

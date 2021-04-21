@@ -15,7 +15,7 @@ const photo: PostPhoto = {
 };
 
 describe("getAll", () => {
-    it("should return all photos for a given dumpster", async () => {
+    it("should return all photos of a given dumpster", async () => {
         const photos = await photoDAO.getAll(1);
         expect(photos.map(p => p.url)).toEqual([
             "https://upload.wikimedia.org/wikipedia/commons/4/4c/Dumpster-non.JPG",
@@ -30,6 +30,25 @@ describe("getAll", () => {
     it("should reject if a dumpster does not exist", async () => {
         await expect(photoDAO.getAll(832052))
             .rejects.toEqual(new NotFoundError("No such dumpster"));
+    });
+});
+
+describe("getOne", () => {
+    it("should return the most recent photo of a given dumpster", async () => {
+        const photo = await photoDAO.getOne(1);
+        expect(photo.url).toEqual(
+            "https://upload.wikimedia.org/wikipedia/commons/4/4c/Dumpster-non.JPG",
+        );
+    });
+
+    it("should reject if a dumpster does not exist", async () => {
+        await expect(photoDAO.getOne(832052))
+            .rejects.toEqual(new NotFoundError("No such dumpster"));
+    });
+
+    it("should reject if a dumpster has no photo", async () => {
+        await expect(photoDAO.getOne(7))
+            .rejects.toEqual(new NotFoundError("No photos for this dumpster"));
     });
 });
 

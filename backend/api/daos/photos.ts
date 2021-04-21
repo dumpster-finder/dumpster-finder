@@ -33,6 +33,29 @@ export default function({ Photos, DumpsterPositions, sequelize }: MyModels) {
             }),
 
         /**
+         * Get most recent photo for a given dumpster
+         *
+         * @param dumpsterID
+         */
+        getOne: (dumpsterID: number) =>
+            sequelize.transaction(async t => {
+                const dumpster = await DumpsterPositions.findOne({
+                    where: { dumpsterID },
+                    transaction: t,
+                });
+                if (!dumpster) throw new NotFoundError("No such dumpster");
+
+                const photo = await Photos.findOne({
+                    where: { dumpsterID },
+                    order: [["dateAdded", "DESC"]],
+                    transaction: t,
+                });
+                if (!photo)
+                    throw new NotFoundError("No photos for this dumpster");
+                return photo;
+            }),
+
+        /**
          * Add a photo to a dumpster
          *
          * @param dumpsterID
@@ -50,7 +73,9 @@ export default function({ Photos, DumpsterPositions, sequelize }: MyModels) {
                 ).catch(e => {
                     // Throw a more precise error if possible
                     if (e instanceof ForeignKeyConstraintError) {
-                        if (e.message.includes("REFERENCES `DumpsterPositions`"))
+                        if (
+                            e.message.includes("REFERENCES `DumpsterPositions`")
+                        )
                             throw new NotFoundError("No such dumpster");
                         else throw new InvalidKeyError("No such user ID");
                     }

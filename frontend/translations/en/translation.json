@@ -1,6 +1,7 @@
 {
     "common": {
-        "rating": "Rating",
+        "all": "All",
+        "rating": "Rating:",
         "cleanliness": "Cleanliness",
         "locked": "Locked",
         "unlocked": "Unlocked",
@@ -24,6 +25,7 @@
         "add": "Add",
         "save": "Save",
         "remove": "Remove",
+        "filter": "Apply filter",
         "back": "Back",
         "km": "km"
     },
@@ -84,7 +86,8 @@
         "flag": "Report dumpster",
         "revision": "Revision history",
         "editDumpster": "Edit dumpster",
-        "editContent": "Edit content"
+        "editContent": "Edit content",
+        "gallery": "Photo gallery"
     },
 
     "revision": {
@@ -288,11 +291,16 @@
     "visit": {
         "visitbtn":"I was here",
         "part1": "Visited",
-        "part2": "times",
+        "time": "time",
+        "times": "times",
+        "dayText": "the last day",
+        "daysText": "the last three days",
+        "weekText": "the last 7 days",
         "visitInterval": "Set visit interval",
-        "day": "Day",
-        "month": "month",
-        "year": "year"
+        "day": "day",
+        "days": "3 days",
+        "week": "7 days",
+        "disabled": "You have to wait a bit to register again"
     },
 
     "photo": {
@@ -301,5 +309,6 @@
         "photo": "Photo",
         "delete" : "Delete photo",
         "add": "Add photo"
+
     }
 }
