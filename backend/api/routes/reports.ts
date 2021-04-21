@@ -10,7 +10,7 @@
  *         userID:
  *           type: string
  *         reason:
- *           type: string | undefined
+ *           type: string
  *         example:
  *           userID: 'temp1'
  *           reason: 'It does not exist'

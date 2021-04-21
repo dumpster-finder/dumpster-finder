@@ -8,6 +8,12 @@ export default class VisitService {
         this.axios = axios;
     }
 
+    /**
+     * Add a visit to a given dumpster
+     *
+     * @param dumpsterID ID of the dumpster that is visited
+     * @param userID ID of the user who has visited
+     */
     addOne(dumpsterID: number, userID: string): Promise<Visit> {
         return this.axios
             .post(`/dumpsters/${dumpsterID}/visits`, {
