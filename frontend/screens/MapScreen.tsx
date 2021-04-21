@@ -44,6 +44,7 @@ export default function MapScreen({
                         screen: "AddPositionScreen",
                     });
                 }}
+                onPressFilter={() => console.log("filter")}
             />
             <MapView
                 provider={null}

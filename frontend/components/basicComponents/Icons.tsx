@@ -86,6 +86,10 @@ export const SearchInputIcon = (props: IconProps) => (
     <Icon {...props} name="search" />
 );
 
+export const FlagButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="flag" />
+);
+
 /* These should not */
 
 export const RefreshIcon = (props: IconProps) => (

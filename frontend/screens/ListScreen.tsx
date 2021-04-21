@@ -58,6 +58,7 @@ export default function ListScreen({
                             screen: "AddPositionScreen",
                         });
                     }}
+                    onPressFilter={() => console.log("filter")}
                 />
                 {dumpsters
                     .sort(

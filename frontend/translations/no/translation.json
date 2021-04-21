@@ -274,7 +274,8 @@
         "yourPos": "Sett posisjon",
         "gallery": "Bildegalleri",
         "display": "Bilde",
-        "addPhoto": "Legg til bilde"
+        "addPhoto": "Legg til bilde",
+        "flag": "Raporter søppeldunk"
     },
 
     "visit": {
@@ -298,5 +299,12 @@
         "photo": "Bilde",
         "delete" : "Slett bilde",
         "add": "Legg til bide"
+    },
+    "report": {
+        "report": "Rapporter denne søppelkassen",
+        "text": "Rapporter søppelkassen dersom den ikke eksisterer, er ulovlig å gå i osv. Dersom det er feil ved informasjonen til dumpsteren så kan du endre dette i redigering",
+        "reason": "Grunn (Valgfritt)",
+        "alreadyReport": "Du har allerede rapporter denne dumpsteren",
+        "justReport": "Vi har registrert din rapport"
     }
 }

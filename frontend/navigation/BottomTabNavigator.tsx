@@ -36,6 +36,7 @@ import PhotoGalleryScreen from "../screens/PhotoGalleryScreen";
 import PhotoDisplayScreen from "../screens/PhotoDisplayScreen";
 import AddPhotoHeader from "../components/basicComponents/AddPhotoHeader";
 import AddPhotoScreen from "../screens/AddPhotoScreen";
+import FlagScreen from "../screens/FlagScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -198,6 +199,11 @@ function MapTabNavigator() {
                     headerTitle: t("addPhoto"),
                 }}
             />
+            <MapTabStack.Screen
+                name="FlagScreen"
+                component={FlagScreen}
+                options={{ headerTitle: t("flag") }}
+            />
         </MapTabStack.Navigator>
     );
 }
@@ -273,6 +279,13 @@ function ListTabNavigator() {
                 component={AddPhotoScreen}
                 options={{
                     headerTitle: t("addPhoto"),
+                }}
+            />
+            <ListTabStack.Screen
+                name="FlagScreen"
+                component={FlagScreen}
+                options={{
+                    headerTitle: t("flag"),
                 }}
             />
         </ListTabStack.Navigator>

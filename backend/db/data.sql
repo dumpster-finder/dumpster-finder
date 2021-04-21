@@ -40,7 +40,9 @@ VALUES
     (4, Point(63.409747, 10.438794), NULL),
     (5, Point(63.412930, 10.431018), NULL),
     (6, Point(63.361335, 10.379476), NULL),
-    (7, Point(63.429731, 10.394115), NULL);
+    (7, Point(63.429731, 10.394115), NULL),
+    (8, Point(63.443608, 10.379993), NULL);
+
 
 INSERT INTO Dumpsters(dumpsterID, revisionID, position, name, dumpsterTypeID, storeTypeID, locked, positiveStoreViewOnDiving, cleanliness, emptyingSchedule, info, dateAdded, dateUpdated)
 VALUES
@@ -59,6 +61,7 @@ VALUES
     (6, 6, Point(63.361335, 10.379476), 'City Syd Tiller', 2, 5, FALSE, NULL, 4, 'Mondays at 13pm', 'A bit hard to find. It is hidden under a roof', '2020-10-10', '2020-10-10'),
     (7, 79, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where the deliveries are', '2020-05-17', '2020-05-17'),
     (7, 7, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where goods are delivered', '2020-05-17', '2020-06-03');
+
 
 INSERT INTO Comments(commentID, dumpsterID, nickname, comment, rating, date)
 VALUES
@@ -234,3 +237,12 @@ VALUES
 (5,'temp2'),
 (5,'temp3'),
 (5,'temp4');
+
+INSERT INTO DumpsterReports(dumpsterID, userID, reason) VALUES
+(7, 'temp2', 'Does not exist'),
+(7, 'temp3', 'It is a troll'),
+(1, 'temp1', null),
+(2, 'temp1', 'Is illegal'),
+(2, 'temp4', ''),
+(7, 'temp4', null);
+
