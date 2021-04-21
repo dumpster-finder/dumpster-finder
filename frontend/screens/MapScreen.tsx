@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import MapView, { Region, UrlTile } from "react-native-maps";
 import { StackNavigationProp } from "@react-navigation/stack";
-import DumpsterMarker from "../components/basicComponents/DumpsterMarker";
+import DumpsterMarker from "../components/map/DumpsterMarker";
 import { useAppDispatch } from "../redux/store";
 import {
     allDumpstersSelector,
@@ -16,6 +16,9 @@ import {
 import { useEffect, useState } from "react";
 import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
+import PositionMarker from "../components/map/PositionMarker";
+import MapTileSet from "../components/map/MapTileSet";
+import CustomMapView from "../components/map/CustomMapView";
 
 export default function MapScreen({
     navigation,
@@ -45,8 +48,7 @@ export default function MapScreen({
                     });
                 }}
             />
-            <MapView
-                provider={null}
+            <CustomMapView
                 initialRegion={{
                     ...position, // Expands to latitude and longitude
                     latitudeDelta: 0.0922,
@@ -58,18 +60,9 @@ export default function MapScreen({
                         firstTime ||
                         setRegion(r) /* the check prevents looping */
                 }
-                style={{
-                    flex: 9,
-                    width: "100%",
-                }}
-                showsPointsOfInterest={false}
-                mapPadding={{
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                }}
+                style={styles.map}
             >
+                <PositionMarker position={position} />
                 {dumpsters.map(dumpster => (
                     <DumpsterMarker
                         key={dumpster.dumpsterID}
@@ -83,24 +76,7 @@ export default function MapScreen({
                         }}
                     />
                 ))}
-                <UrlTile
-                    /**
-                     * The url template of the tile server. The patterns {x} {y} {z} will be replaced at runtime
-                     * For example, http://c.tile.openstreetmap.org/{z}/{x}/{y}.png
-                     */
-                    urlTemplate="http://c.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    /**
-                     * The maximum zoom level for this tile overlay. Corresponds to the maximumZ setting in
-                     * MKTileOverlay. iOS only.
-                     */
-                    maximumZ={19}
-                    /**
-                     * flipY allows tiles with inverted y coordinates (origin at bottom left of map)
-                     * to be used. Its default value is false.
-                     */
-                    flipY={false}
-                />
-            </MapView>
+            </CustomMapView>
         </Layout>
     );
 }
@@ -119,5 +95,9 @@ const styles = StyleSheet.create({
         marginVertical: 30,
         height: 1,
         width: "80%",
+    },
+    map: {
+        flex: 9,
+        width: "100%",
     },
 });
