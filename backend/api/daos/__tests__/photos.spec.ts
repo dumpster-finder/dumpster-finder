@@ -47,7 +47,7 @@ describe("getOne", () => {
     });
 
     it("should reject if a dumpster has no photo", async () => {
-        await expect(photoDAO.getOne(8))
+        await expect(photoDAO.getOne(7))
             .rejects.toEqual(new NotFoundError("No photos for this dumpster"));
     });
 });
