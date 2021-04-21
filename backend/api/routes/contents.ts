@@ -59,6 +59,7 @@ import {
 } from "../validators/contents";
 import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
 import { APIError, NotFoundError, UnknownError } from "../types/errors";
+import {JwtMiddleware} from "../middleware/tokenMiddleware";
 
 export default function({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
@@ -118,6 +119,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: JWTToken
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *       content:
      *         application/json:
@@ -134,6 +142,7 @@ export default function({ Models }: RouteDependencies) {
     router.post(
         "/",
         updateLimiter,
+        JwtMiddleware,
         validate(postContent),
         async (
             req: Request & { params: { dumpsterID: number } },
@@ -178,6 +187,13 @@ export default function({ Models }: RouteDependencies) {
      *           format: date
      *         required: true
      *         description: Found date
+     *       - in: header
+     *         name: JWTToken
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *       content:
      *         application/json:
@@ -194,6 +210,7 @@ export default function({ Models }: RouteDependencies) {
     router.put(
         "/:contentType-:foundDate",
         updateLimiter,
+        JwtMiddleware,
         validate(putContent),
         async (
             req: Request & {
@@ -253,6 +270,13 @@ export default function({ Models }: RouteDependencies) {
      *           format: date
      *         required: true
      *         description: Found date
+     *       - in: header
+     *         name: JWTToken
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     responses:
      *       "204":
      *         description: Successful removal
@@ -260,6 +284,7 @@ export default function({ Models }: RouteDependencies) {
     router.delete(
         "/:contentType-:foundDate",
         updateLimiter,
+        JwtMiddleware,
         validate(deleteContent),
         async (
             req: Request & {

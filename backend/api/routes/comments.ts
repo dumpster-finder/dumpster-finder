@@ -67,6 +67,8 @@ import {
     updateLimiter,
     voteLimiter,
 } from "../middleware/rateLimiter";
+import {JwtMiddleware} from "../middleware/tokenMiddleware";
+
 
 export default function({ Models }: RouteDependencies) {
     const commentDAO = CommentDAO(Models);
@@ -147,6 +149,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: JWTToken
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -163,6 +172,7 @@ export default function({ Models }: RouteDependencies) {
     router.post(
         "/",
         updateLimiter,
+        JwtMiddleware,
         validate(postComment),
         async (req, res, next) => {
             try {
@@ -193,6 +203,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Comment ID
+     *       - in: header
+     *         name: JWTToken
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -214,6 +231,7 @@ export default function({ Models }: RouteDependencies) {
     router.patch(
         "/:commentID",
         voteLimiter,
+        JwtMiddleware,
         validate(updateComment),
         async (req: Request & { params: { commentID: number } }, res, next) => {
             try {

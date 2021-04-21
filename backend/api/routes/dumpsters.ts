@@ -194,6 +194,8 @@ import { RouteDependencies } from "../types";
 import { PositionParams } from "../types/Position";
 import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
 import { NotFoundError } from "../types/errors";
+import {JwtMiddleware} from "../middleware/tokenMiddleware";
+
 
 export default function({ Models }: RouteDependencies) {
     const router = Router();
@@ -292,6 +294,14 @@ export default function({ Models }: RouteDependencies) {
      *   post:
      *     summary: Post a new dumpster
      *     tags: [Dumpsters]
+     *     parameters:
+     *       - in: header
+     *         name: JWTToken
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -308,6 +318,7 @@ export default function({ Models }: RouteDependencies) {
     router.post(
         "/",
         updateLimiter,
+        JwtMiddleware,
         validate(postDumpster),
         async (req, res, next) => {
             try {
@@ -332,6 +343,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: JWTToken
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -348,6 +366,7 @@ export default function({ Models }: RouteDependencies) {
     router.put(
         "/:dumpsterID(\\d+)",
         updateLimiter,
+        JwtMiddleware,
         validate(putDumpster),
         async (req, res, next) => {
             try {
@@ -418,6 +437,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: JWTToken
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -435,6 +461,7 @@ export default function({ Models }: RouteDependencies) {
     router.patch(
         "/:dumpsterID(\\d+)/revisions",
         updateLimiter,
+        JwtMiddleware,
         validate(patchRevision),
         async (
             req: Request & { params: { dumpsterID: number } },

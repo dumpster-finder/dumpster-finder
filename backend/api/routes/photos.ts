@@ -6,17 +6,12 @@
  *       type: object
  *       required:
  *         - url
- *         - userID
  *       properties:
  *         url:
  *           type: string
  *           description: URL to the photo. Must be in our photo server.
- *         userID:
- *           type: string
- *           description: Your user ID
  *       example:
  *         url: "https://example.com/photos/gry08ht0248thg08h0wgh4g42g2.jpg"
- *         userID: "four wide strides of water"
  *     Photo:
  *       type: object
  *       required:
@@ -163,6 +158,7 @@ export default function({ Models }: RouteDependencies) {
                 const result = await photoDAO.addOne(
                     req.params.dumpsterID,
                     req.body,
+                    res.locals.session.id
                 );
                 res.status(201).json(result);
             } catch (e) {

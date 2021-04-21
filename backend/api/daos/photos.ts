@@ -38,12 +38,13 @@ export default function({ Photos, DumpsterPositions, sequelize }: MyModels) {
          * @param dumpsterID
          * @param photo
          */
-        addOne: (dumpsterID: number, photo: PostPhoto) =>
+        addOne: (dumpsterID: number, photo: PostPhoto, userID: number) =>
             sequelize.transaction(async t => {
                 await Photos.create(
                     {
                         dumpsterID,
                         ...photo,
+                        userID
                     },
                     { transaction: t },
                 ).catch(e => {
@@ -60,6 +61,7 @@ export default function({ Photos, DumpsterPositions, sequelize }: MyModels) {
                     where: {
                         dumpsterID,
                         ...photo,
+                        userID
                     },
                     transaction: t,
                 });
