@@ -1,7 +1,8 @@
 #!/bin/bash
+# Usage: ./setup.sh init constants (data)
 source ../api/.env # fetch variables
 
-for script in init data
+for script in "$@"
 do
     echo "Running $script..."
     mysql --host="${DB_HOST:-127.0.0.1}" \

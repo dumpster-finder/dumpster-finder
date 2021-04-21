@@ -22,11 +22,12 @@ CREATE FUNCTION SPHERICAL_DISTANCE(`pt1` POINT, `pt2` POINT) RETURNS
     DECIMAL(10,2)
 DETERMINISTIC
 BEGIN
+    SET @DIAMETER_OF_EARTH = 12742000;
     SET @lat1 = ST_X(pt1) * pi()/180;
     SET @long1 = ST_Y(pt1) * pi()/180;
     SET @lat2 = ST_X(pt2) * pi()/180;
     SET @long2 = ST_Y(pt2) * pi()/180;
-    RETURN 12742000 * ASIN(SQRT(
+    RETURN @DIAMETER_OF_EARTH * ASIN(SQRT(
             POWER(SIN((@lat2 - @lat1)/2), 2)
             + COS(@lat1) * COS(@lat2) * POWER(SIN((@long1 - @long2)/2), 2)
     ));
