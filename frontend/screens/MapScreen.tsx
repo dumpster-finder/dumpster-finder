@@ -16,6 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
+import FilterModal from "../components/FilterModal";
 
 export default function MapScreen({
     navigation,
@@ -31,6 +32,7 @@ export default function MapScreen({
         longitudeDelta: 0.0421,
     });
     const dumpsters = useSelector(allDumpstersSelector);
+    const [filter, setFilter] = useState(false);
 
     useEffect(() => {
         if (!firstTime) setRegion({ ...region, ...position });
@@ -44,8 +46,9 @@ export default function MapScreen({
                         screen: "AddPositionScreen",
                     });
                 }}
-                onPressFilter={() => console.log("filter")}
+                onPressFilter={() => setFilter(true)}
             />
+            {filter && <FilterModal visible={filter} setVisible={setFilter} />}
             <MapView
                 provider={null}
                 initialRegion={{

@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
 import Content from "../../models/Content";
 import { PendingButtonIcon, SaveButtonIcon } from "../basicComponents/Icons";
+import { AirbnbRating } from "react-native-ratings";
 
 export default function AddContentModal({
     visible,
@@ -42,6 +43,7 @@ export default function AddContentModal({
                     name: "",
                     amount: "",
                     unit: "",
+                    quality: 0,
                     expiryDate: null,
                 }}
                 validationSchema={Yup.object().shape({
@@ -50,6 +52,10 @@ export default function AddContentModal({
                         .required(),
                     amount: Yup.number(),
                     unit: Yup.string().max(12),
+                    quality: Yup.number()
+                        .min(0)
+                        .max(5)
+                        .optional(),
                     expiryDate: Yup.date().nullable(),
                 })}
                 onSubmit={add}
@@ -105,6 +111,26 @@ export default function AddContentModal({
                                 caption={errors.unit && t("unit.errorLong")}
                             />
                         </View>
+                        <View
+                            style={{ flexDirection: "row", marginVertical: 5 }}
+                        >
+                            <Text
+                                style={{
+                                    alignSelf: "center",
+                                }}
+                            >
+                                {t("contents:quality")}:
+                            </Text>
+                            <AirbnbRating
+                                size={20}
+                                showRating={false}
+                                defaultRating={0}
+                                onFinishRating={change =>
+                                    setFieldValue("quality", change)
+                                }
+                            />
+                        </View>
+
                         <Datepicker
                             style={styles.input}
                             label={t("expiryDate.label")}
@@ -147,17 +173,20 @@ export default function AddContentModal({
         name,
         amount,
         unit,
+        quality,
         expiryDate,
     }: {
         name: string;
         amount: string;
         unit: string;
+        quality: number;
         expiryDate: Date | null;
     }) {
         await onAdd({
             name,
             amount: parseFloat(amount) || undefined,
             unit: unit || undefined,
+            quality: quality || undefined,
             expiryDate: expiryDate || undefined,
         });
     }
@@ -174,7 +203,6 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
     row: {
-        flex: 1,
         flexDirection: "row",
         justifyContent: "center",
         paddingVertical: 2,
