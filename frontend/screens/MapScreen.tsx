@@ -28,15 +28,14 @@ export default function MapScreen({
     const dispatch = useAppDispatch();
     const position = useSelector(positionSelector);
     const firstTime = useSelector(firstTimeSelector);
-    const [region, setRegion] = useState<Region>({
-        ...position,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-    });
     const dumpsters = useSelector(allDumpstersSelector);
+    const [mapView, setMapView] = useState<MapView | null>(null);
 
     useEffect(() => {
-        if (!firstTime) setRegion({ ...region, ...position });
+        if (mapView && !firstTime)
+            mapView.animateCamera({
+                center: position,
+            });
     }, [position]);
 
     return (
@@ -49,17 +48,8 @@ export default function MapScreen({
                 }}
             />
             <CustomMapView
-                initialRegion={{
-                    ...position, // Expands to latitude and longitude
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                }}
-                region={region}
-                onRegionChangeComplete={
-                    r =>
-                        firstTime ||
-                        setRegion(r) /* the check prevents looping */
-                }
+                initialPosition={position}
+                setRef={setMapView}
                 style={styles.map}
             >
                 <PositionMarker position={position} />
