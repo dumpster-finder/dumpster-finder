@@ -14,7 +14,7 @@ describe("addOne", () => {
             .getOne(1)
             // @ts-ignore
             .then(data => data.visits);
-        const visit = await visitsDAO.addOne(1, "temp1");
+        const visit = await visitsDAO.addOne(1, 1);
         const visitsAfter = await dumpsterDAO
             .getOne(1)
             // @ts-ignore
