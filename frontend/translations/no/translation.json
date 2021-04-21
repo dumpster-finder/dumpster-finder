@@ -183,7 +183,7 @@
 
     "position": {
         "save": "Sett posision",
-        "help": "Trykk på kartet eller dra markøren for å velge",
+        "help": "Trykk på kartet eller dra markøren for å presisere sted",
         "none": "Ingen posisjon valgt",
         "unknown": "Ukjent sted",
         "searchBox": {

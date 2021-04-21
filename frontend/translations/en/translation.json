@@ -189,7 +189,7 @@
     "position": {
         "save": "Set location",
         "none": "No position set",
-        "help": "Tap the map or drag the marker to choose",
+        "help": "Tap the map or drag the marker to specify a precise location",
         "unknown": "Unknown location",
         "searchBox": {
             "label":  "Search for a location",
