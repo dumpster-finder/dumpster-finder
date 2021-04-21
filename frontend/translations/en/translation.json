@@ -298,13 +298,13 @@
         "part1": "Visited",
         "time": "time",
         "times": "times",
-        "dayText": "the last day",
-        "daysText": "the last three days",
-        "weekText": "the last 7 days",
+        "dayText": "the past day",
+        "daysText": "the past three days",
+        "weekText": "the past week",
         "visitInterval": "Set visit interval",
         "day": "day",
         "days": "3 days",
-        "week": "7 days",
+        "week": "week",
         "disabled": "You have to wait a bit to register again"
     },
 

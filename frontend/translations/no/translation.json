@@ -289,13 +289,13 @@
         "part1": "Besøkt",
         "time": "gang",
         "times": "ganger",
-        "dayText": "den siste dagen",
+        "dayText": "det siste døgnet",
         "daysText": "de siste tre dagene",
-        "weekText": "de siste 7 dagene",
+        "weekText": "den siste uka",
         "visitInterval": "Sett besøkintervall",
-        "day": "dag",
+        "day": "døgn",
         "days": "3 dager",
-        "week": "7 dager",
+        "week": "uke",
         "disabled": "Du må vente litt med å registrere deg igjen"
     },
 

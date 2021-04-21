@@ -1,10 +1,5 @@
 import * as React from "react";
-import {
-    Autocomplete,
-    AutocompleteItem,
-    Button,
-    Layout,
-} from "@ui-kitten/components";
+import { Autocomplete, AutocompleteItem, Button } from "@ui-kitten/components";
 import Place from "../../models/Place";
 import { useCallback, useEffect, useState } from "react";
 import { Text } from "@ui-kitten/components";
@@ -93,11 +88,12 @@ export default function LocationSearcher({
                     onChange={setPosition}
                 />
             </CustomMapView>
-            <Text style={styles.text}>
-                {place
-                    ? `(${place.position.latitude.toFixed(
-                          2,
-                      )}, ${place.position.longitude.toFixed(2)})`
+            <Text style={styles.text} category="s2">
+                {place // Four decimal places seems adequate
+                    ? // (see https://gis.stackexchange.com/a/8674)
+                      `(${place.position.latitude.toFixed(
+                          4,
+                      )}, ${place.position.longitude.toFixed(4)})`
                     : ""}
             </Text>
             <Button
@@ -128,6 +124,6 @@ export default function LocationSearcher({
 const styles = StyleSheet.create({
     map: { width: "100%", flex: 4 },
     autocomplete: { width: "80%" },
-    placeName: { marginBottom: 4 },
+    placeName: { fontWeight: "bold" },
     text: { marginVertical: 4 },
 });
