@@ -55,8 +55,8 @@ export function associate({
     Ratings,
     Comments,
     Photos,
-    DumpsterTags,
-    Tags,
+    DumpsterContents,
+    ContentTypes,
     DumpsterCategories,
 }: {
     Dumpsters: ModelStatic<
@@ -66,8 +66,8 @@ export function associate({
     Ratings: ModelStatic<Model<any, any>>;
     Comments: ModelStatic<Model<any, any>>;
     Photos: ModelStatic<Model<any, any>>;
-    DumpsterTags: ModelStatic<Model<any, any>>;
-    Tags: ModelStatic<Model<any, any>>;
+    DumpsterContents: ModelStatic<Model<any, any>>;
+    ContentTypes: ModelStatic<Model<any, any>>;
     DumpsterCategories: ModelStatic<Model<any, any>>;
 }) {
     // do associations like
@@ -78,8 +78,8 @@ export function associate({
     DumpsterPositions.hasMany(Ratings, { foreignKey: "dumpsterID" });
     DumpsterPositions.hasMany(Comments, { foreignKey: "dumpsterID" });
     DumpsterPositions.hasMany(Photos, { foreignKey: "dumpsterID" });
-    DumpsterPositions.hasMany(DumpsterTags, {
-        as: "dumpsterTags",
+    DumpsterPositions.hasMany(DumpsterContents, {
+        as: "dumpsterContents",
         foreignKey: "dumpsterID",
     });
     // DumpsterPositions.hasMany(Tags, { foreignKey: "dumpsterID" }); // TODO eeeeh?

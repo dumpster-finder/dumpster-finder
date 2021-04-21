@@ -5,7 +5,7 @@ SET foreign_key_checks = 0;
 -- DROP 'EM ALL! (╯°□°）╯︵ ┻━┻
 DROP TABLE IF EXISTS
     PhotoReports, Photos,
-    DumpsterTags, StandardTags, Tags,
+    DumpsterContents, StandardContentTypes, ContentTypes,
     DumpsterCategories, Categories,
     Ratings, Comments,
     DumpsterReports,  Dumpsters, DumpsterPositions,
@@ -206,20 +206,20 @@ CREATE TABLE DumpsterCategories (
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
--- Tags are *specific* content types
-CREATE TABLE Tags (
-    tagID INT PRIMARY KEY AUTO_INCREMENT,
+-- "Contents" are *specific* content types
+CREATE TABLE ContentTypes (
+    contentID INT PRIMARY KEY AUTO_INCREMENT,
     categoryID INT NOT NULL REFERENCES Categories(categoryID),
     name VARCHAR(24) NOT NULL,
-    FOREIGN KEY Tags(categoryID)
+    FOREIGN KEY ContentTypes(categoryID)
         REFERENCES Categories (categoryID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Contains data about the particular instance of the content type
-CREATE TABLE DumpsterTags (
+CREATE TABLE DumpsterContents (
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
-    tagID INT NOT NULL REFERENCES Tags(tagID),
+    contentID INT NOT NULL REFERENCES ContentTypes(contentID),
 
     -- Composite amount:
     amount FLOAT,
@@ -233,20 +233,20 @@ CREATE TABLE DumpsterTags (
     expiryDate TIMESTAMP,
     INDEX (foundDate),
     INDEX (expiryDate),
-    CONSTRAINT dumpsterTagsPK PRIMARY KEY DumpsterTags(dumpsterID, tagID, foundDate),
-    CONSTRAINT dumpsterTagsFK1 FOREIGN KEY DumpsterTags(dumpsterID)
+    CONSTRAINT dumpsterContentsPK PRIMARY KEY DumpsterContents(dumpsterID, contentID, foundDate),
+    CONSTRAINT dumpsterContentsFK1 FOREIGN KEY DumpsterContents(dumpsterID)
         REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT dumpsterTagsFK2 FOREIGN KEY DumpsterTags(tagID)
-        REFERENCES Tags (tagID)
+    CONSTRAINT dumpsterContentsFK2 FOREIGN KEY DumpsterContents(contentID)
+        REFERENCES ContentTypes(contentID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Collection of foreign keys
-CREATE TABLE StandardTags (
-    tagID INT PRIMARY KEY REFERENCES Tags(tagID),
-    FOREIGN KEY StandardTags(tagID)
-        REFERENCES Tags (tagID)
+CREATE TABLE StandardContentTypes (
+    contentID INT PRIMARY KEY REFERENCES ContentTypes(contentID),
+    FOREIGN KEY StandardContentTypes(contentID)
+        REFERENCES ContentTypes (contentID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
