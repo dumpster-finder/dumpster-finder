@@ -82,12 +82,6 @@ const dumpsterAttributes: (string | any)[] = [
         ),
         "rating",
     ],
-    [
-        literal(
-            "(SELECT COUNT(*) from Visits where dumpsterID = Dumpsters.dumpsterID)",
-        ),
-        "visits",
-    ],
 ];
 
 /**
@@ -192,7 +186,12 @@ export default function({
          * @param radius
          * @return The dumpsters that fit the query
          */
-        getAll: ({ latitude, longitude, radius }: PositionParams) =>
+        getAll: ({
+            latitude,
+            longitude,
+            radius,
+            visitSinceDate,
+        }: PositionParams) =>
             Dumpsters.findAll({
                 attributes: [
                     ...dumpsterAttributes,
@@ -204,6 +203,14 @@ export default function({
                             )} ${escape(longitude.toString())})'), position)`,
                         ),
                         "distance",
+                    ],
+                    [
+                        literal(
+                            `(SELECT COUNT(*) from Visits as v where v.dumpsterID = Dumpsters.dumpsterID AND v.visitDate > CONVERT('${escape(
+                                visitSinceDate,
+                            )}',DATETIME) )`,
+                        ),
+                        "visits",
                     ],
                 ],
                 include: [
@@ -234,9 +241,19 @@ export default function({
          * @param dumpsterID
          * @return null if not found, a dumpster if found
          */
-        getOne: (dumpsterID: number) =>
+        getOne: (dumpsterID: number, visitSinceDate: string) =>
             Dumpsters.findOne({
-                attributes: dumpsterAttributes,
+                attributes: [
+                    ...dumpsterAttributes,
+                    [
+                        literal(
+                            `(SELECT COUNT(*) from Visits as v where v.dumpsterID = Dumpsters.dumpsterID AND v.visitDate > CONVERT('${escape(
+                                visitSinceDate,
+                            )}',DATETIME) )`,
+                        ),
+                        "visits",
+                    ],
+                ],
                 include: [
                     {
                         // @ts-ignore

@@ -18,6 +18,7 @@ import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
 import PositionMarker from "../components/map/PositionMarker";
 import CustomMapView from "../components/map/CustomMapView";
+import FilterModal from "../components/FilterModal";
 
 export default function MapScreen({
     navigation,
@@ -29,6 +30,7 @@ export default function MapScreen({
     const firstTime = useSelector(firstTimeSelector);
     const dumpsters = useSelector(allDumpstersSelector);
     const [mapView, setMapView] = useState<MapView | null>(null);
+    const [showFilter, setShowFilter] = useState(false);
 
     useEffect(() => {
         if (mapView && !firstTime)
@@ -45,7 +47,11 @@ export default function MapScreen({
                         screen: "AddPositionScreen",
                     });
                 }}
+                onPressFilter={() => setShowFilter(true)}
             />
+            {showFilter && (
+                <FilterModal visible={showFilter} setVisible={setShowFilter} />
+            )}
             <CustomMapView
                 initialPosition={position}
                 setRef={setMapView}

@@ -4,6 +4,8 @@ import Dumpster from "../../models/Dumpster";
 import { View, TextStyle } from "react-native";
 import { Text, useTheme } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { visitsSelector } from "../../redux/slices/configSlice";
 const lockedIcon = require("../../assets/images/dumpster-marker-locked.png");
 const unlockedIcon = require("../../assets/images/dumpster-marker-unlocked.png");
 
@@ -22,6 +24,7 @@ export default function ({
     onPress: () => void;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("common");
+    const visitWindow = useSelector(visitsSelector);
     const theme = useTheme();
     const textStyle: TextStyle = { color: theme["color-basic-800"] };
     return (
@@ -43,8 +46,14 @@ export default function ({
                     <Text style={textStyle}>
                         {t(`dumpsterType:${dumpsterType}`)}
                     </Text>
-                    <Text style={textStyle}>
-                        {t("visit:part1")} {visits} {t("visit:part2")}
+                    <Text>
+                        {t("visit:part1")} {visits}{" "}
+                        {visits === 1 ? t("visit:time") : t("visit:times")}{" "}
+                        {visitWindow === 0
+                            ? t("visit:dayText")
+                            : visitWindow === 1
+                            ? t("visit:daysText")
+                            : t("visit:weekText")}
                     </Text>
                 </View>
             </Callout>

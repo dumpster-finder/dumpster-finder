@@ -52,6 +52,7 @@
  *                 latitude: 63.422407
  *                 longitude: 10.394954
  *                 radius: 6000
+ *                 visitSinceDate: "2021-01-01"
  *
  *         PostDumpster:
  *             type: object
@@ -250,7 +251,13 @@ export default function({ Models }: RouteDependencies) {
      *         schema:
      *           type: integer
      *         required: true
-     *         description: Dumpster ID
+     *         description: visitSinceDate
+     *       - in: query
+     *         name: values
+     *         required: true
+     *         description: Date to calculate visits
+     *         example:
+     *             visitSinceDate: "2021-01-01"
      *     responses:
      *       "200":
      *         description: The requested dumpster
@@ -269,10 +276,15 @@ export default function({ Models }: RouteDependencies) {
         "/:dumpsterID(\\d+)",
         standardLimiter,
         validate(getDumpster),
-        async (req, res, next) => {
+        async (
+            req: Request & { query: { visitSinceDate: string } },
+            res,
+            next,
+        ) => {
             try {
                 const dumpster = await dumpsterDAO.getOne(
                     parseInt(req.params.dumpsterID),
+                    req.query.visitSinceDate,
                 );
                 if (dumpster) {
                     res.status(200).json(dumpster);
