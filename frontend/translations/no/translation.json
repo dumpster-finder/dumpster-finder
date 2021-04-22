@@ -20,6 +20,7 @@
         "searchPlaceholder": "Søk etter noe",
         "somethingWrong": "Noe gikk galt.",
         "areYouSure": "Er du sikker?",
+        "retry": "Prøv på nytt",
         "cancel": "Avbryt",
         "add": "Legg til",
         "save": "Lagre",
@@ -279,6 +280,11 @@
         "gallery": "Bildegalleri",
         "display": "Bilde",
         "addPhoto": "Legg til bilde"
+    },
+
+    "intro": {
+        "generatingUserID": "Genererer bruker-ID …",
+        "userIDFailed": "Kunne ikke generere bruker-ID"
     },
 
     "visit": {

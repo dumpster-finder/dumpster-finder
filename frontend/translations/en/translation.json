@@ -21,6 +21,7 @@
         "searchPlaceholder": "Place your text",
         "somethingWrong": "Something went wrong.",
         "areYouSure": "Are you sure?",
+        "retry": "Retry",
         "cancel": "Cancel",
         "add": "Add",
         "save": "Save",
@@ -288,6 +289,11 @@
         "gallery": "Photo gallery",
         "display": "Photo",
         "addPhoto": "Add photo"
+    },
+
+    "intro": {
+        "generatingUserID": "Generating user ID …",
+        "userIDFailed": "Failed to generate user ID"
     },
 
     "visit": {

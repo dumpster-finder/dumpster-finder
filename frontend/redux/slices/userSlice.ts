@@ -110,3 +110,4 @@ export default userSlice.reducer;
 
 export const userIDSelector = (state: RootState) => state.user.userID;
 export const tokenSelector = (state: RootState) => state.user.token;
+export const userStatusSelector = (state: RootState) => state.user.status;

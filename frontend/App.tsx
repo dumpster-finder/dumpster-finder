@@ -84,8 +84,9 @@ const InnerApp = () => {
     useEffect(() => {
         if (!userID) {
             // should be the case only when you *first* open the app
-            // TODO retry if it did not work
             store.dispatch(getUserID()).catch(e => console.error(e));
+            // User will have to press a retry button if it did not work
+            // (for the time being)
         } else if (!token) {
             store.dispatch(refreshToken(userID));
         } else {

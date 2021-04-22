@@ -33,7 +33,8 @@ import DropdownCard from "../components/cards/DropdownCard";
 import ButtonGroupDisplay from "../components/basicComponents/ButtonGroupDisplay";
 import { useTranslation } from "react-i18next";
 import ToggleSwitch from "../components/basicComponents/ToggleSwitch";
-import { userIDSelector } from "../redux/slices/userSlice";
+import { userIDSelector, setUserID } from "../redux/slices/userSlice";
+import Constants from "expo-constants";
 
 export default function SettingsScreen({
     navigation,
@@ -190,9 +191,16 @@ export default function SettingsScreen({
                         onChange={v => dispatch(setHideNegativeRating(v))}
                     />
                 </Card>
-                <Button onPress={() => dispatch(setFirstTime(true))}>
-                    Reset
-                </Button>
+                {Constants.manifest.extra.nodeEnv === "development" && (
+                    <>
+                        <Button onPress={() => dispatch(setFirstTime(true))}>
+                            It's my first time!
+                        </Button>
+                        <Button onPress={() => dispatch(setUserID(""))}>
+                            Reset user ID
+                        </Button>
+                    </>
+                )}
             </ScrollView>
         </Layout>
     );
