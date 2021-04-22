@@ -68,7 +68,7 @@ import {
     updateLimiter,
     voteLimiter,
 } from "../middleware/rateLimiter";
-import {JwtMiddleware} from "../middleware/tokenMiddleware";
+import { JwtMiddleware } from "../middleware/tokenMiddleware";
 import { APIError, NotFoundError } from "../types/errors";
 
 export default function({ Models }: RouteDependencies) {
@@ -266,20 +266,21 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Comment ID
-     *       - in: path
-     *         name: userID
+     *       - in: header
+     *         name: JWTToken
      *         schema:
      *           type: string
+     *         format: uuid
      *         required: true
-     *         description: userID
+     *         description: JWT for authentication
      *     responses:
      *       "204":
      *         description: Number of affected rows
      */
-    // TODO Not have userID here
     router.delete(
-        "/:commentID/:userID",
+        "/:commentID",
         updateLimiter,
+        JwtMiddleware,
         validate(deleteComment),
         async (
             req: Request & { params: { commentID: number; userID: string } },
@@ -289,7 +290,7 @@ export default function({ Models }: RouteDependencies) {
             try {
                 const result = await commentDAO.removeOne(
                     req.params.commentID,
-                    req.params.userID,
+                    res.locals.session.userID,
                 );
                 if (result > 1)
                     throw new APIError("More than one comment deleted", 500);
