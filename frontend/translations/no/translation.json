@@ -26,7 +26,8 @@
         "remove": "Fjern",
         "filter": "Filtrer",
         "back": "Tilbake",
-        "km": "km"
+        "km": "km",
+        "delete": "Slett"
     },
     "advice": {
         "title": "Råd for dumpster diving",
@@ -93,7 +94,8 @@
     "comment": {
         "add": "Publisér kommentar",
         "comment": "Kommentar",
-        "yourPos": "Din posisjon"
+        "yourPos": "Din posisjon",
+        "delComment": "Sikker på at du vil slette kommentaren?"
     },
 
     "editor": {

@@ -60,19 +60,6 @@ VALUES
     (7, 79, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where the deliveries are', '2020-05-17', '2020-05-17'),
     (7, 7, Point(63.429731, 10.394115), 'Trondheim Torg', 2, 5, FALSE, NULL, 4, 'Don\'t  know', 'It is behind the building where goods are delivered', '2020-05-17', '2020-06-03');
 
-INSERT INTO Comments(commentID, dumpsterID, nickname, comment, rating, date)
-VALUES
-    (1, 1, 'Tore på sporet', 'Found some great pastries.', 5, '2021-02-22 12:50:05'),
-    (2, 1, 'TrashBin', 'Would anyone join for a dive here?', 6, '2021-02-28 15:40:45'),
-    (3, 1, 'Trash panda', 'Please leave some for others as well', 2, '2021-03-01 22:34:49'),
-    (4, 2, 'Trash panda', 'Mostly food here, but some other stuff as well', 0, '2021-01-02 23:32:23'),
-    (5, 3, 'Diver', 'I never find anything here', 3, '2021-01-15 14:36:45'),
-    (6, 5, 'TheDive', 'This dumpster is locked. Remember that breaking locks is illegal.', 3, '2021-01-17 13:36:34'),
-    (7, 6, 'trOLlhaUgEn', 'haha dumpster go brrr', -10, '2021-03-24 14:52:30'),
-    (8, 6, 'Stephan', 'Fantastic dumpster! There\'s always something to find here', 12, '2021-01-02 23:09:51'),
-    (9, 6, 'Frodo', 'Found lots of fresh vegetables here last time.', 7, '2021-02-14 21:40:00'),
-    (10, 6, 'Surpomp', 'Bacheloren deres suger', -5, '2020-12-24 12:21:00');
-
 UPDATE DumpsterPositions SET revisionID = 1 WHERE dumpsterID = 1;
 UPDATE DumpsterPositions SET revisionID = 2 WHERE dumpsterID = 2;
 UPDATE DumpsterPositions SET revisionID = 3 WHERE dumpsterID = 3;
@@ -234,3 +221,16 @@ VALUES
 (5,'temp2'),
 (5,'temp3'),
 (5,'temp4');
+
+INSERT INTO Comments(commentID, dumpsterID, nickname, userID, comment, rating, date)
+VALUES
+(1, 1, 'Tore på sporet', 'temp1','Found some great pastries.', 5, '2021-02-22 12:50:05'),
+(2, 1, 'TrashBin', 'temp2','Would anyone join for a dive here?', 6, '2021-02-28 15:40:45'),
+(3, 1, 'Trash panda', 'temp3','Please leave some for others as well', 2, '2021-03-01 22:34:49'),
+(4, 2, 'Trash panda', 'temp4','Mostly food here, but some other stuff as well', 0, '2021-01-02 23:32:23'),
+(5, 3, 'Diver', 'temp5','I never find anything here', 3, '2021-01-15 14:36:45'),
+(6, 5, 'TheDive', 'temp1','This dumpster is locked. Remember that breaking locks is illegal.', 3, '2021-01-17 13:36:34'),
+(7, 6, 'trOLlhaUgEn', 'temp1','haha dumpster go brrr', -10, '2021-03-24 14:52:30'),
+(8, 6, 'Stephan', 'temp1','Fantastic dumpster! There\'s always something to find here', 12, '2021-01-02 23:09:51'),
+(9, 6, 'Frodo', 'temp1','Found lots of fresh vegetables here last time.', 7, '2021-02-14 21:40:00'),
+(10, 6, 'Surpomp', 'temp1','Bacheloren deres suger', -5, '2020-12-24 12:21:00');
