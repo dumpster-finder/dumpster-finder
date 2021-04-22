@@ -60,4 +60,10 @@ export default class CommentService {
             .patch(`/dumpsters/${dumpsterID}/comments/${commentID}`, { vote })
             .then(response => response.data);
     }
+
+    deleteOne(dumpsterID: number, commentID: number, userID: string) {
+        return this.axios
+            .delete(`/dumpsters/${dumpsterID}/comments/${commentID}/${userID}`)
+            .then(response => response.data);
+    }
 }

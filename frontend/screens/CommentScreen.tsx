@@ -26,6 +26,7 @@ export default function CommentScreen() {
     const [pending, setPending] = useState(false);
     const dumpster = useSelector(currentDumpsterSelector);
     const nickname = useSelector(nicknameSelector);
+    const myUserID = "temp1";
 
     useEffect(() => {
         if (dumpster)
@@ -63,11 +64,19 @@ export default function CommentScreen() {
                         comment={value}
                         key={value.commentID}
                         voted={ratedComments[value.commentID]}
+                        mine={value.userID === myUserID}
+                        onDelete={removeComment}
                     />
                 ))}
             </ScrollView>
         </Layout>
     );
+
+    function removeComment(commentID: number) {
+        setCommentList(oldArray =>
+            [...oldArray].filter(comment => comment.commentID !== commentID),
+        );
+    }
 
     async function handleSave() {
         if (comment !== "" && dumpster) {
@@ -77,13 +86,14 @@ export default function CommentScreen() {
             > = {
                 dumpsterID: dumpster.dumpsterID,
                 nickname: nickname,
+                userID: myUserID,
                 comment: comment,
             };
             try {
                 setPending(true);
                 await CommentService.addOne(newComment)
                     .then(data =>
-                        setCommentList(oldArray => [...oldArray, data]),
+                        setCommentList(oldArray => [data, ...oldArray]),
                     )
                     .then(() => setPending(false))
                     .then(() => setComment(""));

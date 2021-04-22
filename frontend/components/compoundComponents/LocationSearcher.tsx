@@ -1,27 +1,43 @@
 import * as React from "react";
 import { Autocomplete, AutocompleteItem, Button } from "@ui-kitten/components";
 import Place from "../../models/Place";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Text } from "@ui-kitten/components";
 import _ from "lodash";
 import { PlaceService } from "../../services";
-import { SaveButtonIcon, SearchInputIcon } from "../basicComponents/Icons";
+import {
+    PendingButtonIcon,
+    SaveButtonIcon,
+    SearchInputIcon,
+} from "../basicComponents/Icons";
 import { useTranslation } from "react-i18next";
+import MapView from "react-native-maps";
+import CustomMapView from "../map/CustomMapView";
+import PositionMarker from "../map/PositionMarker";
+import { StyleSheet } from "react-native";
+import Position from "../../models/Position";
 
 export default function LocationSearcher({
     onSubmit,
+    initialPosition = { latitude: 63.43, longitude: 10.4 },
 }: {
-    onSubmit: (place: Place) => void;
+    onSubmit: (position: Position) => void;
+    initialPosition?: Position;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("position");
-    const [suggestions, setSuggestions] = useState<Place[]>([
-        new Place({
-            position: { latitude: 0, longitude: 0 },
-            name: "", // just to get Kitten to work, an element has to be present in the autocomplete list
-        }),
-    ]);
+    const [suggestions, setSuggestions] = useState<Place[]>([]);
     const [query, setQuery] = useState("");
     const [place, setPlace] = useState<Place | null>(null);
+    const [mapView, setMapView] = useState<MapView | null>(null);
+    const setPosition = (position: Position) =>
+        setPlace(new Place({ ...place, position }));
+
+    useEffect(() => {
+        if (mapView && place)
+            mapView.animateCamera({
+                center: place.position,
+            });
+    }, [place]);
 
     // Create a debounced version of the search function
     // to prevent delay
@@ -33,35 +49,57 @@ export default function LocationSearcher({
     return (
         <>
             <Autocomplete
-                placeholder={t("pos")}
-                label={t("yourPos")}
+                label={t("searchBox.label")}
+                placeholder={t("searchBox.placeholder")}
                 value={query}
                 size="large"
                 onChangeText={handleChange}
                 onSelect={i => setPlace(suggestions[i])}
-                style={{ width: "80%" }}
+                style={styles.autocomplete}
                 accessoryLeft={SearchInputIcon}
             >
-                {suggestions.map(s => (
+                {suggestions.length > 0 ? (
+                    suggestions.map(s => (
+                        <AutocompleteItem
+                            key={s.name}
+                            title={s.toString()}
+                            onPress={() => setPlace(s)}
+                        />
+                    ))
+                ) : (
                     <AutocompleteItem
-                        key={s.name}
-                        title={s.toString()}
-                        onPress={() => setPlace(s)}
+                        title={t("searchBox.pending")}
+                        accessoryLeft={PendingButtonIcon}
                     />
-                ))}
+                )}
             </Autocomplete>
-            <Text>{place ? place.toString() : t("none")}</Text>
-            <Text>
-                {place
-                    ? `(${place.position.latitude.toFixed(
-                          2,
-                      )}, ${place.position.longitude.toFixed(2)})`
+            <Text style={styles.placeName}>
+                {place ? place.toString() || t("unknown") : t("none")}
+            </Text>
+            <Text style={styles.text}>{t("help")}</Text>
+            <CustomMapView
+                initialPosition={initialPosition}
+                setRef={setMapView}
+                style={styles.map}
+                onPress={setPosition}
+            >
+                <PositionMarker
+                    position={place ? place.position : initialPosition}
+                    onChange={setPosition}
+                />
+            </CustomMapView>
+            <Text style={styles.text} category="s2">
+                {place // Four decimal places seems adequate
+                    ? // (see https://gis.stackexchange.com/a/8674)
+                      `(${place.position.latitude.toFixed(
+                          4,
+                      )}, ${place.position.longitude.toFixed(4)})`
                     : ""}
             </Text>
             <Button
                 status="primary"
                 accessoryLeft={SaveButtonIcon}
-                onPress={() => place && onSubmit(place)}
+                onPress={() => place && onSubmit(place.position)}
                 disabled={!place}
             >
                 {t("save")}
@@ -82,3 +120,10 @@ export default function LocationSearcher({
         }
     }
 }
+
+const styles = StyleSheet.create({
+    map: { width: "100%", flex: 4 },
+    autocomplete: { width: "80%" },
+    placeName: { fontWeight: "bold" },
+    text: { marginVertical: 4 },
+});

@@ -26,7 +26,8 @@
         "remove": "Fjern",
         "filter": "Filtrer",
         "back": "Tilbake",
-        "km": "km"
+        "km": "km",
+        "delete": "Slett"
     },
     "advice": {
         "title": "Råd for dumpster diving",
@@ -93,7 +94,8 @@
     "comment": {
         "add": "Publisér kommentar",
         "comment": "Kommentar",
-        "yourPos": "Din posisjon"
+        "yourPos": "Din posisjon",
+        "delComment": "Sikker på at du vil slette kommentaren?"
     },
 
     "editor": {
@@ -186,9 +188,14 @@
 
     "position": {
         "save": "Sett posision",
+        "help": "Trykk på kartet eller dra markøren for å presisere sted",
         "none": "Ingen posisjon valgt",
-        "yourPos": "Din posisjon",
-        "pos": "f.eks. Paris"
+        "unknown": "Ukjent sted",
+        "searchBox": {
+            "label":  "Søk etter et sted",
+            "placeholder": "f.eks. Paris",
+            "pending": "Leter etter steder …"
+        }
     },
 
     "placeholders": {
@@ -285,13 +292,13 @@
         "part1": "Besøkt",
         "time": "gang",
         "times": "ganger",
-        "dayText": "den siste dagen",
+        "dayText": "det siste døgnet",
         "daysText": "de siste tre dagene",
-        "weekText": "de siste 7 dagene",
+        "weekText": "den siste uka",
         "visitInterval": "Sett besøkintervall",
-        "day": "dag",
+        "day": "døgn",
         "days": "3 dager",
-        "week": "7 dager",
+        "week": "uke",
         "disabled": "Du må vente litt med å registrere deg igjen"
     },
 

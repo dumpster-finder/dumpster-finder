@@ -141,12 +141,16 @@ CREATE TABLE Comments (
     commentID INT PRIMARY KEY AUTO_INCREMENT,
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     nickname VARCHAR(24) NOT NULL,
+    userID VARCHAR(256) NOT NULL,
     comment TEXT NOT NULL,
     rating INTEGER NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (date),
-    FOREIGN KEY Comments(dumpsterID)
-        REFERENCES DumpsterPositions (dumpsterID)
+    CONSTRAINT commentsFK1 FOREIGN KEY Comments(dumpsterID)
+        REFERENCES DumpsterPositions(dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT commentsFK2 FOREIGN KEY Comments(userID)
+        REFERENCES Users (userID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 
 );

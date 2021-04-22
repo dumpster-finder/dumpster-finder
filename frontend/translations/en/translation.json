@@ -27,7 +27,8 @@
         "remove": "Remove",
         "filter": "Apply filter",
         "back": "Back",
-        "km": "km"
+        "km": "km",
+        "delete": "Delete"
     },
 
     "advice": {
@@ -98,7 +99,8 @@
     "comment": {
         "add": "Add comment",
         "comment": "Comment",
-        "yourPos": "Your position"
+        "yourPos": "Your position",
+        "delComment": "Are you sure you want to delete this comment?"
     },
 
     "editor": {
@@ -192,8 +194,13 @@
     "position": {
         "save": "Set location",
         "none": "No position set",
-        "yourPos": "Your location",
-        "pos": "e.g. Paris"
+        "help": "Tap the map or drag the marker to specify a precise location",
+        "unknown": "Unknown location",
+        "searchBox": {
+            "label":  "Search for a location",
+            "placeholder": "e.g. Paris",
+            "pending": "Searching …"
+        }
     },
 
     "placeholders": {
@@ -294,13 +301,13 @@
         "part1": "Visited",
         "time": "time",
         "times": "times",
-        "dayText": "the last day",
-        "daysText": "the last three days",
-        "weekText": "the last 7 days",
+        "dayText": "the past day",
+        "daysText": "the past three days",
+        "weekText": "the past week",
         "visitInterval": "Set visit interval",
         "day": "day",
         "days": "3 days",
-        "week": "7 days",
+        "week": "week",
         "disabled": "You have to wait a bit to register again"
     },
 
