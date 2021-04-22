@@ -51,6 +51,7 @@ describe("addOne", () => {
         const comment = await commentDAO.addOne({
             dumpsterID: 1,
             nickname: "FreeFood",
+            userID: "temp3",
             comment: "I love free food",
         });
         const commentAfter = await commentDAO.getAllForDumpster(1);
