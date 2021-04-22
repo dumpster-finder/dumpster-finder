@@ -13,6 +13,7 @@ import { useAppDispatch } from "../../redux/store";
 import { setRatedComments } from "../../redux/slices/configSlice";
 import { formatDate } from "../../utils/date";
 import { useTranslation } from "react-i18next";
+import Message from "../../utils/Message";
 
 export default function CommentCard({
     comment,
@@ -113,68 +114,47 @@ export default function CommentCard({
         </Card>
     );
 
-    function up() {
+    async function up() {
         if (votedUp === -1) {
-            setRating(rating + 2);
-            setVotedUp(1);
-            handleSave(2).then(r => r);
-            dispatch(
-                setRatedComments({ commentID: comment.commentID, rated: 1 }),
-            );
+            await handleSave(2, 1);
         } else if (votedUp === 0) {
-            setRating(rating + 1);
-            setVotedUp(1);
-            handleSave(1).then(r => r);
-            dispatch(
-                setRatedComments({ commentID: comment.commentID, rated: 1 }),
-            );
+            await handleSave(1, 1);
         } else {
-            setRating(rating - 1);
-            setVotedUp(0);
-            handleSave(-1).then(r => r);
-            dispatch(
-                setRatedComments({ commentID: comment.commentID, rated: 0 }),
-            );
+            await handleSave(-1, 0);
         }
     }
 
-    function down() {
+    async function down() {
         if (votedUp === 1) {
-            setRating(rating - 2);
-            setVotedUp(-1);
-            handleSave(-2).then(r => r);
-            dispatch(
-                setRatedComments({ commentID: comment.commentID, rated: -1 }),
-            );
+            await handleSave(-2, -1);
         } else if (votedUp === 0) {
-            setRating(rating - 1);
-            setVotedUp(-1);
-            handleSave(-1).then(r => r);
-            dispatch(
-                setRatedComments({ commentID: comment.commentID, rated: -1 }),
-            );
+            await handleSave(-1, -1);
         } else {
-            setRating(rating + 1);
-            setVotedUp(0);
-            handleSave(1).then(r => r);
-            dispatch(
-                setRatedComments({ commentID: comment.commentID, rated: 0 }),
-            );
+            await handleSave(1, 0);
         }
     }
 
-    async function handleSave(vote: number) {
-        if (vote != 0 && vote < 3 && vote > -3) {
+    async function handleSave(voteDelta: number, rated: number) {
+        if (voteDelta != 0 && voteDelta < 3 && voteDelta > -3) {
+            const oldRating = rating;
+            const oldVotedUp = votedUp;
+            // Set local state before submitting
+            setRating(rating + voteDelta);
+            setVotedUp(rated);
             try {
                 const updatedComment = await CommentService.updateOne(
                     comment.dumpsterID,
                     comment.commentID,
-                    vote,
+                    voteDelta,
                 );
-                console.log(updatedComment);
+                dispatch(
+                    setRatedComments({ commentID: comment.commentID, rated }),
+                );
             } catch (e) {
-                // TODO Replace with better error handling
-                console.error("Could not update this comment:", e);
+                // Reset local state if the request failed
+                setRating(oldRating);
+                setVotedUp(oldVotedUp);
+                Message.error(e, "Could not update this comment");
             }
         }
     }

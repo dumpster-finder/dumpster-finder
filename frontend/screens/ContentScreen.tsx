@@ -10,6 +10,7 @@ import EditContentModal from "../components/Modals/EditContentModal";
 import AddContentModal from "../components/Modals/AddContentModal";
 import { useTranslation } from "react-i18next";
 import { ContentService } from "../services";
+import Message from "../utils/Message";
 
 export default function ContentScreen() {
     const dumpster = useSelector(currentDumpsterSelector);
@@ -27,7 +28,7 @@ export default function ContentScreen() {
         if (dumpster)
             ContentService.getContents(dumpster.dumpsterID)
                 .then(cs => setContents(cs))
-                .catch(e => console.error("Could not fetch contents", e));
+                .catch(e => Message.error(e, "Could not fetch contents"));
     }, [dumpster]);
 
     if (!dumpster) {
@@ -101,7 +102,7 @@ export default function ContentScreen() {
             setContents([addedContent, ...contents]);
             setVisibleAdd(false);
         } catch (e) {
-            console.error("Couldn't add content", e);
+            Message.error(e, "Couldn't add content");
         }
         setPendingAdd(false);
     }
@@ -121,7 +122,7 @@ export default function ContentScreen() {
             );
             setVisibleEdit(false);
         } catch (e) {
-            console.error("Couldn't edit content", e);
+            Message.error(e, "Couldn't edit content");
         }
         setPendingEdit(false);
     }
@@ -136,7 +137,7 @@ export default function ContentScreen() {
             );
             setVisibleEdit(false);
         } catch (e) {
-            console.error("Couldn't delete content", e);
+            Message.error(e, "Couldn't delete content");
         }
         setPendingEdit(false);
     }

@@ -27,7 +27,9 @@
         "filter": "Filtrer",
         "back": "Tilbake",
         "km": "km",
-        "delete": "Slett"
+        "delete": "Slett",
+        "tapToSeeMore": "Trykk for mer info",
+        "yourPosition": "Din posisjon"
     },
     "advice": {
         "title": "Råd for dumpster diving",
@@ -303,7 +305,7 @@
     },
 
     "photo": {
-        "upload": "Last opp bilde",
+        "upload": "Velg bilde",
         "take": "Ta bilde",
         "photo": "Bilde",
         "delete" : "Slett bilde",

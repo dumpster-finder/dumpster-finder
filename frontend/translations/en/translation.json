@@ -28,7 +28,9 @@
         "filter": "Apply filter",
         "back": "Back",
         "km": "km",
-        "delete": "Delete"
+        "delete": "Delete",
+        "tapToSeeMore": "Tap to see more",
+        "yourPosition": "Your position"
     },
 
     "advice": {
@@ -312,12 +314,11 @@
     },
 
     "photo": {
-        "upload": "Upload photo",
+        "upload": "Choose photo",
         "take": "Take Photo",
         "photo": "Photo",
         "delete" : "Delete photo",
         "add": "Add photo"
-
     },
 
     "report": {

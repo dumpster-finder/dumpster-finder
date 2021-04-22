@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
@@ -37,6 +37,7 @@ import { fetchAllConstants } from "./redux/slices/constantsSlice";
 import { FontAwesome5Pack } from "./constants/FontAwesome5";
 import i18n from "./i18n";
 import { subDays } from "date-fns";
+import Message from "./utils/Message";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
@@ -83,7 +84,9 @@ const InnerApp = () => {
 
     useEffect(() => {
         // Change language if language has changed (hahaha)
-        i18n.changeLanguage(language).catch(e => console.error(e));
+        i18n.changeLanguage(language).catch(e =>
+            Message.error(e, "Could not change language"),
+        );
     }, [language]);
 
     return (

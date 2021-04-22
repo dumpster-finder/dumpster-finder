@@ -24,6 +24,7 @@ import {
     registeredVisitsSelector,
     visitsSelector,
 } from "../redux/slices/configSlice";
+import Message from "../utils/Message";
 
 export default function DetailsScreen({
     navigation,
@@ -143,9 +144,13 @@ export default function DetailsScreen({
     async function visit() {
         setVisits(visits + 1);
         if (dumpster) {
-            await VisitService.addOne(dumpster.dumpsterID, "temp1")
-                .then(getDumpster)
-                .then(() => setDisabled(true));
+            try {
+                await VisitService.addOne(dumpster.dumpsterID, "temp1");
+                await getDumpster();
+                setDisabled(true);
+            } catch (e) {
+                Message.error(e, "Could not register visit");
+            }
         }
     }
 
@@ -166,7 +171,7 @@ export default function DetailsScreen({
                 dispatch(setCurrentDumpster(updatedDumpster));
                 dispatch(addDumpster(updatedDumpster));
             } catch (e) {
-                console.error("Could not add visit", e);
+                Message.error(e, "Could not add visit");
             }
         }
     }

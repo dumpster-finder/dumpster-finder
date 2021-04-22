@@ -2,6 +2,12 @@ import * as React from "react";
 import Burgermenu from "./Burgermenu";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import {
+    EditButtonIcon,
+    PhotoButtonIcon,
+    ReportButtonIcon,
+    RevisionButtonIcon,
+} from "./Icons";
 
 export default function({}: { tintColor?: string }) {
     const navigation = useNavigation();
@@ -11,6 +17,12 @@ export default function({}: { tintColor?: string }) {
         <Burgermenu
             onSelect={menuSelect}
             values={[t("gallery"), t("editDumpster"), t("revision"), t("flag")]}
+            icons={[
+                PhotoButtonIcon,
+                EditButtonIcon,
+                RevisionButtonIcon,
+                ReportButtonIcon,
+            ]}
         />
     );
 

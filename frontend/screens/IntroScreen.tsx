@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     positionSetting: {
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "flex-end",
-        paddingTop: "10%",
+        paddingTop: 20,
+        minHeight: "90%",
     },
 });
