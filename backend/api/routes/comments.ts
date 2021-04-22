@@ -249,10 +249,17 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Comment ID
+     *       - in: path
+     *         name: userID
+     *         schema:
+     *           type: string
+     *         required: true
+     *         description: userID
      *     responses:
      *       "204":
      *         description: Number of affected rows
      */
+    // TODO Not have userID here
     router.delete(
         "/:commentID/:userID",
         updateLimiter,
