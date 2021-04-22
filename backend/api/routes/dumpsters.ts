@@ -186,6 +186,7 @@ import { validate } from "express-validation";
 import DumpsterDAO from "../daos/dumpsters";
 import {
     getDumpster,
+    getRevisions,
     locationParams,
     patchRevision,
     postDumpster,
@@ -195,8 +196,7 @@ import { RouteDependencies } from "../types";
 import { PositionParams } from "../types/Position";
 import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
 import { NotFoundError } from "../types/errors";
-import {JwtMiddleware} from "../middleware/tokenMiddleware";
-
+import { JwtMiddleware } from "../middleware/tokenMiddleware";
 
 export default function({ Models }: RouteDependencies) {
     const router = Router();
@@ -419,7 +419,7 @@ export default function({ Models }: RouteDependencies) {
     router.get(
         "/:dumpsterID(\\d+)/revisions",
         standardLimiter,
-        validate(getDumpster),
+        validate(getRevisions),
         async (
             req: Request & { params: { dumpsterID: number } },
             res,
