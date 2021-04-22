@@ -1,12 +1,6 @@
 import { AxiosInstance } from "axios";
 import Position from "../models/Position";
-import Dumpster, {
-    PostDumpster,
-    UpdatedDumpster,
-    RevDumpster,
-} from "../models/Dumpster";
-import { testDumpsters } from "../constants/TestData";
-import Comments, { RawComment } from "../models/Comment";
+import Dumpster, { PostDumpster, RevDumpster } from "../models/Dumpster";
 
 export default class DumpsterService {
     readonly axios;

@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
+// @ts-ignore
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { IconProps } from "@ui-kitten/components";
 

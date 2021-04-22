@@ -12,7 +12,8 @@
     "typedocOptions": {
         "entryPoints": [
             "App.tsx",
-            "types.tsx",
+            "types.ts",
+            "i18n.ts",
             "screens",
             "redux",
             "navigation",
