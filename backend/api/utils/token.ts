@@ -1,4 +1,4 @@
-import {encode, decode, TAlgorithm} from "jwt-simple";
+import { encode, decode, TAlgorithm } from "jwt-simple";
 
 /** mostly from:
  * https://nozzlegear.com/blog/implementing-a-jwt-auth-system-with-typescript-and-node
@@ -15,75 +15,87 @@ export interface Session {
 
 export type DecodeResult =
     | {
-    type: "valid";
-    session: Session;
-}
+          type: "valid";
+          session: Session;
+      }
     | {
-    type: "integrity-error";
-}
+          type: "integrity-error";
+      }
     | {
-    type: "invalid-token";
-};
+          type: "invalid-token";
+      };
 
 export type ExpirationStatus = "expired" | "active" | "grace";
 
-export function encodeToken(userID : number){
-        // Always use HS512 to sign the token
-        // Determine when the token should expire
-        const issued = Date.now();
-        const thirtyMinutesInMs = 30 * 60 * 1000;
-        const expires = issued + thirtyMinutesInMs;
-        const session:Session={
-            id: userID,
-            expires: expires
-        }
-        let token = encode(session, process.env.TOKEN_SECRET || "you should get a token secret", algorithm);
-        return token
-
+export function encodeToken(userID: number) {
+    // Always use HS512 to sign the token
+    // Determine when the token should expire
+    const issued = Date.now();
+    const thirtyMinutesInMs = 30 * 60 * 1000;
+    const expires = issued + thirtyMinutesInMs;
+    const session: Session = {
+        id: userID,
+        expires: expires,
+    };
+    let token = encode(
+        session,
+        process.env.TOKEN_SECRET || "you should get a token secret",
+        algorithm,
+    );
+    return token;
 }
 
-export function decodeToken(token : string): DecodeResult{
+export function decodeToken(token: string): DecodeResult {
     let session: Session;
     try {
-        session = decode(token,process.env.TOKEN_SECRET || "you should still get a token secret", false, algorithm )
-    }
-    catch (_e) {
+        session = decode(
+            token,
+            process.env.TOKEN_SECRET || "you should still get a token secret",
+            false,
+            algorithm,
+        );
+    } catch (_e) {
         const e: Error = _e;
+
+        console.error(e);
 
         // These error strings can be found here:
         // https://github.com/hokaccha/node-jwt-simple/blob/c58bfe5e5bb049015fcd55be5fc1b2d5c652dbcd/lib/jwt.js
-        if (e.message === "No token supplied" || e.message === "Not enough or too many segments") {
+        if (
+            e.message === "No token supplied" ||
+            e.message === "Not enough or too many segments"
+        ) {
             return {
-                type: "invalid-token"
+                type: "invalid-token",
             };
         }
 
-        if (e.message === "Signature verification failed" || e.message === "Algorithm not supported") {
+        if (
+            e.message === "Signature verification failed" ||
+            e.message === "Algorithm not supported"
+        ) {
             return {
-                type: "integrity-error"
+                type: "integrity-error",
             };
         }
 
         // Handle json parse errors, thrown when the payload is nonsense
         if (e.message.indexOf("Unexpected token") === 0) {
             return {
-                type: "invalid-token"
+                type: "invalid-token",
             };
         }
 
         throw e;
     }
 
-    return{
+    return {
         type: "valid",
-        session: session
-    }
-
-
-
+        session: session,
+    };
 }
 
-export function checkTokenTime(session: Session):ExpirationStatus{
+export function checkTokenTime(session: Session): ExpirationStatus {
     const now = Date.now();
 
     if (session.expires > now) return "active";

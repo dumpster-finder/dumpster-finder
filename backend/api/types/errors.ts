@@ -19,6 +19,17 @@ export class InvalidDataError extends APIError {
 }
 
 /**
+ * Error tied to the 401 status code,
+ * for use when a user is not authorized to perform the request
+ */
+export class UnauthorizedError extends APIError {
+    constructor(message: string) {
+        super(message, 401);
+        this.name = "UnauthorizedError";
+    }
+}
+
+/**
  * Error tied to the 404 status code,
  * for use when there is no such resource (or no such *parent* resource)
  */

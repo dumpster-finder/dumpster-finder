@@ -4,17 +4,17 @@ import { Layout, Text } from "@ui-kitten/components";
 import { useAppDispatch } from "../redux/store";
 import {
     editorDumpsterSelector,
-    editorPositionSelector,
     resetEditor,
 } from "../redux/slices/editorSlice";
 import { addDumpster } from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
-import Dumpster, { UpdatedDumpster } from "../models/Dumpster";
+import { UpdatedDumpster } from "../models/Dumpster";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import { DumpsterService } from "../services";
 import { StackActions } from "@react-navigation/native";
 import { useState } from "react";
+import useToken from "../hooks/useToken";
 
 export default function AddInfoScreen({
     navigation,
@@ -24,6 +24,7 @@ export default function AddInfoScreen({
     const dispatch = useAppDispatch();
     const dumpster = useSelector(editorDumpsterSelector);
     const [pending, setPending] = useState(false);
+    const { token, onTokenFailure } = useToken();
 
     if (dumpster === null) {
         return (
@@ -52,6 +53,7 @@ export default function AddInfoScreen({
             setPending(true);
             const postedDumpster = await DumpsterService.addDumpster(
                 restDumpster,
+                token,
             );
             // Add this dumpster to the list of dumpsters!
             dispatch(addDumpster(postedDumpster));

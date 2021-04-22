@@ -40,6 +40,7 @@ import { subDays } from "date-fns";
 import {
     getUserID,
     refreshToken,
+    setToken,
     tokenSelector,
     userIDSelector,
 } from "./redux/slices/userSlice";
@@ -82,6 +83,11 @@ const InnerApp = () => {
     }, []);
 
     useEffect(() => {
+        // Clear token when the app loads!
+        store.dispatch(setToken(""));
+    }, []);
+
+    useEffect(() => {
         if (!userID) {
             // should be the case only when you *first* open the app
             store.dispatch(getUserID()).catch(e => console.error(e));
@@ -89,8 +95,10 @@ const InnerApp = () => {
             // (for the time being)
         } else if (!token) {
             store.dispatch(refreshToken(userID));
+            console.log("Refreshing token for the first time …");
         } else {
-            setTimeout(() => store.dispatch(refreshToken(userID)), 30 * 60000); // timeout in 1/2 hour
+            // TODO handle timeout loop, if at all
+            // setTimeout(() => store.dispatch(refreshToken(userID)), 60000); // timeout in a minute
         }
     }, [userID, token]);
 

@@ -1,12 +1,7 @@
 import { AxiosInstance } from "axios";
 import Position from "../models/Position";
-import Dumpster, {
-    PostDumpster,
-    UpdatedDumpster,
-    RevDumpster,
-} from "../models/Dumpster";
-import { testDumpsters } from "../constants/TestData";
-import Comments, { RawComment } from "../models/Comment";
+import Dumpster, { PostDumpster, RevDumpster } from "../models/Dumpster";
+import { packToken } from "../utils/token";
 
 export default class DumpsterService {
     readonly axios;
@@ -63,11 +58,16 @@ export default class DumpsterService {
      * Updates a dumpster
      *
      * @param dumpster An edited version of an existing dumpster
+     * @param token    The current token
      */
-    updateDumpster(dumpster: Dumpster): Promise<Dumpster> {
+    updateDumpster(dumpster: Dumpster, token: string): Promise<Dumpster> {
         console.log("Updated dumpster:", dumpster);
         return this.axios
-            .put(`/dumpsters/${dumpster.dumpsterID}`, dumpster)
+            .put(
+                `/dumpsters/${dumpster.dumpsterID}`,
+                dumpster,
+                packToken(token),
+            )
             .then(response => response.data);
     }
 
@@ -75,11 +75,12 @@ export default class DumpsterService {
      * Adds a dumpster
      *
      * @param dumpster A dumpster object without ID or rating
+     * @param token    The current token
      */
-    addDumpster(dumpster: PostDumpster): Promise<Dumpster> {
+    addDumpster(dumpster: PostDumpster, token: string): Promise<Dumpster> {
         console.log("Posted dumpster:", dumpster);
         return this.axios
-            .post("/dumpsters", dumpster)
+            .post("/dumpsters", dumpster, packToken(token))
             .then(response => response.data);
     }
 
@@ -89,9 +90,13 @@ export default class DumpsterService {
             .then(response => response.data.map((rev: RevDumpster) => rev));
     }
 
-    setRevision(dumpsterID: number, revisionID: number) {
+    setRevision(dumpsterID: number, revisionID: number, token: string) {
         return this.axios
-            .patch(`/dumpsters/${dumpsterID}/revisions`, { revisionID })
+            .patch(
+                `/dumpsters/${dumpsterID}/revisions`,
+                { revisionID },
+                packToken(token),
+            )
             .then(response => response.data);
     }
 }

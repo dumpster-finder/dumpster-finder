@@ -1,8 +1,8 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import Dumpster, { UpdatedDumpster } from "../models/Dumpster";
+import { UpdatedDumpster } from "../models/Dumpster";
 import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import {
     addDumpster,
@@ -15,6 +15,7 @@ import { resetEditor } from "../redux/slices/editorSlice";
 import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import useToken from "../hooks/useToken";
 
 export default function EditDumpsterScreen({
     navigation,
@@ -25,6 +26,7 @@ export default function EditDumpsterScreen({
     const dispatch = useAppDispatch();
     const actualDumpster = useSelector(currentDumpsterSelector);
     const [pending, setPending] = useState(false);
+    const { token, onTokenFailure } = useToken();
 
     if (actualDumpster === null) {
         return (
@@ -50,11 +52,14 @@ export default function EditDumpsterScreen({
         try {
             setPending(true);
             // Update the dumpster
-            const updatedDumpster = await DumpsterService.updateDumpster({
-                ...dumpster,
-                rating: actualDumpster.rating,
-                visits: actualDumpster.visits,
-            });
+            const updatedDumpster = await DumpsterService.updateDumpster(
+                {
+                    ...dumpster,
+                    rating: actualDumpster.rating,
+                    visits: actualDumpster.visits,
+                },
+                token,
+            );
             // Add this dumpster to the list of dumpsters!
             dispatch(addDumpster(updatedDumpster));
             dispatch(setCurrentDumpster(updatedDumpster));

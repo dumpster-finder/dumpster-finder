@@ -29,7 +29,9 @@ export const getUserID = createAsyncThunk("user/getUserID", async () => {
 export const refreshToken = createAsyncThunk(
     "user/refreshToken",
     async (userID: string) => {
-        return await UserService.authenticate(userID);
+        const token = await UserService.authenticate(userID);
+        if (!token) throw new Error("Token was found but it is undefined");
+        return token;
     },
 );
 
