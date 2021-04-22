@@ -8,6 +8,7 @@ export interface CommentAttributes {
     commentID: number;
     dumpsterID: number;
     nickname: string;
+    userID: string;
     comment: string;
     rating: number;
     date: Date;
@@ -22,6 +23,7 @@ export class Comments
     commentID!: number;
     dumpsterID!: number;
     nickname!: string;
+    userID!: string;
     comment!: string;
     rating!: number;
     date!: Date;
@@ -41,6 +43,10 @@ export function init(sequelize: Sequelize) {
                 allowNull: false,
             },
             nickname: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            userID: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },

@@ -14,9 +14,8 @@ export default class CommentService {
     ): Promise<Comments[]> {
         return this.axios
             .get(
-                `/dumpsters/${dumpsterID}/comments?showNegative=${
-                    showNegative || false
-                }`,
+                `/dumpsters/${dumpsterID}/comments?showNegative=${showNegative ||
+                    false}`,
             )
             .then(response =>
                 response.data.map(
@@ -40,6 +39,12 @@ export default class CommentService {
     ): Promise<Comments> {
         return this.axios
             .patch(`/dumpsters/${dumpsterID}/comments/${commentID}`, { vote })
+            .then(response => response.data);
+    }
+
+    deleteOne(dumpsterID: number, commentID: number, userID: string) {
+        return this.axios
+            .delete(`/dumpsters/${dumpsterID}/comments/${commentID}/${userID}`)
             .then(response => response.data);
     }
 }
