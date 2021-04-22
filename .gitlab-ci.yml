@@ -18,20 +18,6 @@ api_deps:
     paths:
       - backend/api/node_modules
 
-frontend_deps:
-  stage: install_deps
-  script:
-    - cd frontend
-    - npm ci
-    - npm install expo-cli
-  artifacts:
-    paths:
-      - frontend/node_modules
-  # limited to develop for now (only build step)
-  only:
-    - develop
-    - master
-
 test_api:
   stage: test
   services:
@@ -93,6 +79,7 @@ build_app:
   stage: deploy
   script:
     - cd frontend
+    - npm install expo-cli
     - npx expo login --non-interactive -u "$EXPO_CLI_USERNAME" # password is env var
     - npx expo publish --non-interactive
   only:
