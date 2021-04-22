@@ -18,6 +18,7 @@ import errorHandler, { notFoundHandler } from "./middleware/errorHandler";
 import { readWordsFromFile } from "./utils/IdGeneration";
 import photos from "./routes/photos";
 import visits from "./routes/visits";
+import reports from "./routes/reports";
 
 (async () => {
     await connectToDatabase();
@@ -54,6 +55,7 @@ app.use("/api/dumpsters/:dumpsterID(\\d+)/comments", comments(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/contents", contents(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/photos", photos(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/visits", visits(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/reports", reports(dependencies));
 
 app.use("/api/categories", categories(dependencies));
 app.use("/api/content-types", contentTypes(dependencies));

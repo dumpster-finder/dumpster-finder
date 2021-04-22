@@ -88,7 +88,6 @@ export default function CameraScreen({
             dispatch(setUploadURI(uri));
             navigation.goBack();
         }
-        console.log("Camera not ready…");
     }
 }
 

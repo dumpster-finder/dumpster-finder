@@ -16,6 +16,7 @@ import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import useToken from "../hooks/useToken";
+import Message from "../utils/Message";
 
 export default function EditDumpsterScreen({
     navigation,
@@ -68,8 +69,7 @@ export default function EditDumpsterScreen({
             // And navigate back to where you were before!
             navigation.pop();
         } catch (e) {
-            // TODO Replace with better error handling
-            console.error("Could not update this dumpster:", e);
+            Message.error(e, "Could not update this dumpster");
             setPending(false);
         }
     }

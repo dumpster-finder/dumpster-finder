@@ -3,7 +3,10 @@ import {
     DumpsterCategoryAttributes,
     DumpsterCategoryCreationAttributes,
 } from "./DumpsterCategories";
-import { TagAttributes, TagCreationAttributes } from "./Tags";
+import {
+    ContentTypeAttributes,
+    ContentTypeCreationAttributes,
+} from "./ContentTypes";
 import { DumpsterAttributes, DumpsterCreationAttributes } from "./dumpsters";
 
 export interface CategoryAttributes {
@@ -47,7 +50,7 @@ export function init(sequelize: Sequelize) {
 export function associate({
     DumpsterCategories,
     Dumpsters,
-    Tags,
+    ContentTypes,
 }: {
     DumpsterCategories: ModelStatic<
         Model<DumpsterCategoryAttributes, DumpsterCategoryCreationAttributes>
@@ -55,7 +58,9 @@ export function associate({
     Dumpsters: ModelStatic<
         Model<DumpsterAttributes, DumpsterCreationAttributes>
     >;
-    Tags: ModelStatic<Model<TagAttributes, TagCreationAttributes>>;
+    ContentTypes: ModelStatic<
+        Model<ContentTypeAttributes, ContentTypeCreationAttributes>
+    >;
 }) {
     // do associations like
     // Thing.hasMany()

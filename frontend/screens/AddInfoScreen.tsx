@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { useAppDispatch } from "../redux/store";
@@ -13,8 +14,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import { DumpsterService } from "../services";
 import { StackActions } from "@react-navigation/native";
-import { useState } from "react";
 import useToken from "../hooks/useToken";
+import Message from "../utils/Message";
 
 export default function AddInfoScreen({
     navigation,
@@ -62,8 +63,7 @@ export default function AddInfoScreen({
             // And navigate back to where you were before!
             navigation.dispatch(StackActions.popToTop());
         } catch (e) {
-            // TODO Replace with better error handling
-            console.error("Could not add this dumpster:", e);
+            Message.error(e, "Could not add this dumpster");
             setPending(false);
         }
     }

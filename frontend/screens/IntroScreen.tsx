@@ -79,8 +79,8 @@ export default function IntroScreen({
                 </Layout>
                 <Layout style={styles.positionSetting}>
                     <LocationSearcher
-                        onSubmit={place => {
-                            dispatch(setPosition(place.position));
+                        onSubmit={position => {
+                            dispatch(setPosition(position));
                             dispatch(setFirstTime(false));
                             navigation.dispatch(StackActions.popToTop);
                         }}
@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
     positionSetting: {
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "flex-end",
-        paddingTop: "10%",
+        paddingTop: 20,
+        minHeight: "90%",
     },
     userIDDisplay: {
         justifyContent: "center",

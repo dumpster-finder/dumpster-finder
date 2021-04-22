@@ -5,7 +5,7 @@ SET foreign_key_checks = 0;
 -- DROP 'EM ALL! (╯°□°）╯︵ ┻━┻
 DROP TABLE IF EXISTS
     PhotoReports, Photos,
-    DumpsterTags, StandardTags, Tags,
+    DumpsterContents, StandardContentTypes, ContentTypes,
     DumpsterCategories, Categories,
     Ratings, Comments,
     DumpsterReports,  Dumpsters, DumpsterPositions,
@@ -22,11 +22,12 @@ CREATE FUNCTION SPHERICAL_DISTANCE(`pt1` POINT, `pt2` POINT) RETURNS
     DECIMAL(10,2)
 DETERMINISTIC
 BEGIN
+    SET @DIAMETER_OF_EARTH = 12742000;
     SET @lat1 = ST_X(pt1) * pi()/180;
     SET @long1 = ST_Y(pt1) * pi()/180;
     SET @lat2 = ST_X(pt2) * pi()/180;
     SET @long2 = ST_Y(pt2) * pi()/180;
-    RETURN 12742000 * ASIN(SQRT(
+    RETURN @DIAMETER_OF_EARTH * ASIN(SQRT(
             POWER(SIN((@lat2 - @lat1)/2), 2)
             + COS(@lat1) * COS(@lat2) * POWER(SIN((@long1 - @long2)/2), 2)
     ));
@@ -102,13 +103,13 @@ ALTER TABLE DumpsterPositions ADD FOREIGN KEY (revisionID) references Dumpsters(
 
 
 
--- Dumpster may not exist, or there might be misinformation in the data.
+-- Dumpster may not exist
 -- This should be reported.
 CREATE TABLE DumpsterReports (
     dumpsterReportID INT PRIMARY KEY AUTO_INCREMENT,
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     userID INT,
-    reason TEXT NOT NULL,
+    reason TEXT,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (dumpsterID),
     CONSTRAINT dumpsterReportFK1 FOREIGN KEY DumpsterReports(dumpsterID)
@@ -142,12 +143,16 @@ CREATE TABLE Comments (
     commentID INT PRIMARY KEY AUTO_INCREMENT,
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
     nickname VARCHAR(24) NOT NULL,
+    userID INT NOT NULL,
     comment TEXT NOT NULL,
     rating INTEGER NOT NULL DEFAULT 0, -- upvotes increment, downvotes decrement
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (date),
-    FOREIGN KEY Comments(dumpsterID)
-        REFERENCES DumpsterPositions (dumpsterID)
+    CONSTRAINT commentsFK1 FOREIGN KEY Comments(dumpsterID)
+        REFERENCES DumpsterPositions(dumpsterID)
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT commentsFK2 FOREIGN KEY Comments(userID)
+        REFERENCES Users (userID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 
 );
@@ -207,20 +212,20 @@ CREATE TABLE DumpsterCategories (
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
--- Tags are *specific* content types
-CREATE TABLE Tags (
-    tagID INT PRIMARY KEY AUTO_INCREMENT,
+-- "Contents" are *specific* content types
+CREATE TABLE ContentTypes (
+    contentID INT PRIMARY KEY AUTO_INCREMENT,
     categoryID INT NOT NULL REFERENCES Categories(categoryID),
     name VARCHAR(24) NOT NULL,
-    FOREIGN KEY Tags(categoryID)
+    FOREIGN KEY ContentTypes(categoryID)
         REFERENCES Categories (categoryID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Contains data about the particular instance of the content type
-CREATE TABLE DumpsterTags (
+CREATE TABLE DumpsterContents (
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
-    tagID INT NOT NULL REFERENCES Tags(tagID),
+    contentID INT NOT NULL REFERENCES ContentTypes(contentID),
 
     -- Composite amount:
     amount FLOAT,
@@ -234,20 +239,20 @@ CREATE TABLE DumpsterTags (
     expiryDate TIMESTAMP,
     INDEX (foundDate),
     INDEX (expiryDate),
-    CONSTRAINT dumpsterTagsPK PRIMARY KEY DumpsterTags(dumpsterID, tagID, foundDate),
-    CONSTRAINT dumpsterTagsFK1 FOREIGN KEY DumpsterTags(dumpsterID)
+    CONSTRAINT dumpsterContentsPK PRIMARY KEY DumpsterContents(dumpsterID, contentID, foundDate),
+    CONSTRAINT dumpsterContentsFK1 FOREIGN KEY DumpsterContents(dumpsterID)
         REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT dumpsterTagsFK2 FOREIGN KEY DumpsterTags(tagID)
-        REFERENCES Tags (tagID)
+    CONSTRAINT dumpsterContentsFK2 FOREIGN KEY DumpsterContents(contentID)
+        REFERENCES ContentTypes(contentID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 -- Collection of foreign keys
-CREATE TABLE StandardTags (
-    tagID INT PRIMARY KEY REFERENCES Tags(tagID),
-    FOREIGN KEY StandardTags(tagID)
-        REFERENCES Tags (tagID)
+CREATE TABLE StandardContentTypes (
+    contentID INT PRIMARY KEY REFERENCES ContentTypes(contentID),
+    FOREIGN KEY StandardContentTypes(contentID)
+        REFERENCES ContentTypes (contentID)
         ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 

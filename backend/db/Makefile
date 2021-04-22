@@ -10,7 +10,11 @@ wsl:
 	sudo /etc/init.d/mysql start
 
 tables:
-	cat setup.sh | tr -d '\r' | bash
+	./setup.sh init constants
+
+# Test data as well as initialization
+data:
+	./setup.sh init constants data
 
 clean:
 	docker container stop db

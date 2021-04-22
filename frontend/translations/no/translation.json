@@ -27,7 +27,10 @@
         "remove": "Fjern",
         "filter": "Filtrer",
         "back": "Tilbake",
-        "km": "km"
+        "km": "km",
+        "delete": "Slett",
+        "tapToSeeMore": "Trykk for mer info",
+        "yourPosition": "Din posisjon"
     },
     "advice": {
         "title": "Råd for dumpster diving",
@@ -96,7 +99,8 @@
     "comment": {
         "add": "Publisér kommentar",
         "comment": "Kommentar",
-        "yourPos": "Din posisjon"
+        "yourPos": "Din posisjon",
+        "delComment": "Sikker på at du vil slette kommentaren?"
     },
 
     "editor": {
@@ -189,9 +193,14 @@
 
     "position": {
         "save": "Sett posision",
+        "help": "Trykk på kartet eller dra markøren for å presisere sted",
         "none": "Ingen posisjon valgt",
-        "yourPos": "Din posisjon",
-        "pos": "f.eks. Paris"
+        "unknown": "Ukjent sted",
+        "searchBox": {
+            "label":  "Søk etter et sted",
+            "placeholder": "f.eks. Paris",
+            "pending": "Leter etter steder …"
+        }
     },
 
     "placeholders": {
@@ -279,7 +288,8 @@
         "yourPos": "Sett posisjon",
         "gallery": "Bildegalleri",
         "display": "Bilde",
-        "addPhoto": "Legg til bilde"
+        "addPhoto": "Legg til bilde",
+        "flag": "Raporter søppeldunk"
     },
 
     "intro": {
@@ -292,21 +302,28 @@
         "part1": "Besøkt",
         "time": "gang",
         "times": "ganger",
-        "dayText": "den siste dagen",
+        "dayText": "det siste døgnet",
         "daysText": "de siste tre dagene",
-        "weekText": "de siste 7 dagene",
+        "weekText": "den siste uka",
         "visitInterval": "Sett besøkintervall",
-        "day": "dag",
+        "day": "døgn",
         "days": "3 dager",
-        "week": "7 dager",
+        "week": "uke",
         "disabled": "Du må vente litt med å registrere deg igjen"
     },
 
     "photo": {
-        "upload": "Last opp bilde",
+        "upload": "Velg bilde",
         "take": "Ta bilde",
         "photo": "Bilde",
         "delete" : "Slett bilde",
         "add": "Legg til bide"
+    },
+    "report": {
+        "report": "Rapporter denne søppelkassen",
+        "text": "Rapporter søppelkassen dersom den ikke eksisterer, er ulovlig å gå i osv. Dersom det er feil ved informasjonen til dumpsteren så kan du endre dette i redigering",
+        "reason": "Grunn (Valgfritt)",
+        "alreadyReport": "Du har allerede rapporter denne dumpsteren",
+        "justReport": "Vi har registrert din rapport"
     }
 }
