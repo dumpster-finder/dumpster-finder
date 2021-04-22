@@ -98,12 +98,4 @@ describe("removeOne", () => {
         const result = await commentDAO.removeOne(9, "temp1");
         expect(result).toEqual(1);
     });
-    it("should not delete a comment with wrong userID", async () => {
-        const result = await commentDAO.removeOne(10, "temp4");
-        expect(result).toEqual(0);
-    });
-    it("should not delete a comment that does not exist", async () => {
-        const result = await commentDAO.removeOne(15, "temp1");
-        expect(result).toEqual(0);
-    });
 });
