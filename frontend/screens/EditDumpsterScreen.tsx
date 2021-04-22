@@ -69,6 +69,7 @@ export default function EditDumpsterScreen({
             // And navigate back to where you were before!
             navigation.pop();
         } catch (e) {
+            onTokenFailure(e);
             Message.error(e, "Could not update this dumpster");
             setPending(false);
         }

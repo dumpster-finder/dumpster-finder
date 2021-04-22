@@ -111,7 +111,7 @@ export default function({ Models }: RouteDependencies) {
             try {
                 const result = await reportDAO.addOne(
                     req.params.dumpsterID,
-                    res.locals.session.userID,
+                    res.locals.session.id,
                     req.body.reason,
                 );
                 res.status(201).json(result);

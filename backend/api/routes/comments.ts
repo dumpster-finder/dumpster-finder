@@ -177,7 +177,11 @@ export default function({ Models }: RouteDependencies) {
         validate(postComment),
         async (req, res, next) => {
             try {
-                const result = await commentDAO.addOne(req.body);
+                console.log("aaaaaaaaaaaaaaaaa", res.locals);
+                const result = await commentDAO.addOne({
+                    ...req.body,
+                    userID: res.locals.session.id,
+                });
                 res.status(201).json(result);
             } catch (e) {
                 next(e);
@@ -282,15 +286,11 @@ export default function({ Models }: RouteDependencies) {
         updateLimiter,
         JwtMiddleware,
         validate(deleteComment),
-        async (
-            req: Request & { params: { commentID: number; userID: string } },
-            res,
-            next,
-        ) => {
+        async (req: Request & { params: { commentID: number } }, res, next) => {
             try {
                 const result = await commentDAO.removeOne(
                     req.params.commentID,
-                    res.locals.session.userID,
+                    res.locals.session.id,
                 );
                 if (result > 1)
                     throw new APIError("More than one comment deleted", 500);

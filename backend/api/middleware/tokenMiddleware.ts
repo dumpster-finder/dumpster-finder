@@ -29,12 +29,10 @@ export function JwtMiddleware(
 
     const header = request.header(requestHeader);
 
-    if (!header) {
+    if (!header || header === "undefined") {
         unauthorized(`Required ${requestHeader} header not found.`);
         return;
     }
-
-    logger.info(`Token ${header}`);
 
     const decodedSession: DecodeResult = decodeToken(header);
 

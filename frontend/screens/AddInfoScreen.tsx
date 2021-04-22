@@ -63,6 +63,7 @@ export default function AddInfoScreen({
             // And navigate back to where you were before!
             navigation.dispatch(StackActions.popToTop());
         } catch (e) {
+            onTokenFailure(e);
             Message.error(e, "Could not add this dumpster");
             setPending(false);
         }

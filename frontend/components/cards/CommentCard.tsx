@@ -14,6 +14,7 @@ import { setRatedComments } from "../../redux/slices/configSlice";
 import { formatDate } from "../../utils/date";
 import { useTranslation } from "react-i18next";
 import Message from "../../utils/Message";
+import useToken from "../../hooks/useToken";
 
 export default function CommentCard({
     comment,
@@ -31,6 +32,8 @@ export default function CommentCard({
     const [rating, setRating] = useState(comment.rating);
     const [votedUp, setVotedUp] = useState(voted || 0);
     const [modalVis, setModalVis] = useState(false);
+    const { token, onTokenFailure } = useToken();
+
     return (
         <Card style={{ width: "100%", marginVertical: 5 }}>
             <View style={styles.row}>
@@ -146,6 +149,7 @@ export default function CommentCard({
                     comment.dumpsterID,
                     comment.commentID,
                     voteDelta,
+                    token,
                 );
                 dispatch(
                     setRatedComments({ commentID: comment.commentID, rated }),
@@ -154,6 +158,7 @@ export default function CommentCard({
                 // Reset local state if the request failed
                 setRating(oldRating);
                 setVotedUp(oldVotedUp);
+                onTokenFailure(e);
                 Message.error(e, "Could not update this comment");
             }
         }
@@ -164,12 +169,13 @@ export default function CommentCard({
             const updatedComment = await CommentService.deleteOne(
                 comment.dumpsterID,
                 comment.commentID,
-                comment.userID,
-            ).then(() => onDelete(comment.commentID));
+                token,
+            );
+            onDelete(comment.commentID);
             console.log(updatedComment);
         } catch (e) {
-            // TODO Replace with better error handling
-            console.error("Could not delete this comment", e);
+            onTokenFailure(e);
+            Message.error(e, "Could not delete this comment");
         }
     }
 }

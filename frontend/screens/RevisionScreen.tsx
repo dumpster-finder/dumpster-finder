@@ -80,7 +80,10 @@ export default function RevisionScreen({
                     );
                     navigation.navigate("DetailsScreen");
                 })
-                .catch(e => Message.error(e, "Could not reset revisions"));
+                .catch(e => {
+                    onTokenFailure(e);
+                    Message.error(e, "Could not reset revisions");
+                });
     }
 }
 
