@@ -16,17 +16,18 @@ const unlockedIcon = require("../../assets/images/dumpster-marker-unlocked.png")
  * @param dumpster The dumpster to display
  * @param onPress  What should happen when the callout/marker is tapped
  */
-export default function ({
+export default function({
     dumpster: { name, storeType, dumpsterType, position, visits, locked },
     onPress,
 }: {
     dumpster: Dumpster;
     onPress: () => void;
 }) {
-    const { t }: { t: (s: string) => string } = useTranslation("common");
+    const { t }: { t: (s: string) => string } = useTranslation();
     const visitWindow = useSelector(visitsSelector);
     const theme = useTheme();
     const textStyle: TextStyle = { color: theme["color-basic-800"] };
+    const centered: TextStyle = { textAlign: "center" };
     return (
         <Marker
             coordinate={position}
@@ -46,7 +47,7 @@ export default function ({
                     <Text style={textStyle}>
                         {t(`dumpsterType:${dumpsterType}`)}
                     </Text>
-                    <Text>
+                    <Text style={textStyle}>
                         {t("visit:part1")} {visits}{" "}
                         {visits === 1 ? t("visit:time") : t("visit:times")}{" "}
                         {visitWindow === 0
@@ -54,6 +55,19 @@ export default function ({
                             : visitWindow === 1
                             ? t("visit:daysText")
                             : t("visit:weekText")}
+                    </Text>
+                    <Text
+                        style={[
+                            textStyle,
+                            centered,
+                            {
+                                marginVertical: 3,
+                                backgroundColor: theme["color-basic-300"],
+                            },
+                        ]}
+                        category="h6"
+                    >
+                        {t("tapToSeeMore")}
                     </Text>
                 </View>
             </Callout>

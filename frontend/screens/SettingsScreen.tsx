@@ -122,7 +122,7 @@ export default function SettingsScreen({
                     onClick={newValue => setShowDist(newValue)}
                 />
                 {showDist && (
-                    <View style={{ width: "98%", alignItems: "center" }}>
+                    <View style={styles.buttonGroupContainer}>
                         <ButtonGroupDisplay
                             value={radiusDistance}
                             values={distances}
@@ -153,7 +153,7 @@ export default function SettingsScreen({
                     onClick={newValue => setShowVis(newValue)}
                 />
                 {showVis && (
-                    <View style={{ width: "98%", alignItems: "center" }}>
+                    <View style={styles.buttonGroupContainer}>
                         <ButtonGroupDisplay
                             value={visitInterval}
                             values={intervalValue}
@@ -223,7 +223,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginVertical: 5,
     },
-
+    buttonGroupContainer: {
+        alignItems: "center",
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+    },
     dropdownView: {
         padding: 10,
     },

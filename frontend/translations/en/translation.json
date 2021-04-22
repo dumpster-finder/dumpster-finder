@@ -27,7 +27,9 @@
         "remove": "Remove",
         "filter": "Apply filter",
         "back": "Back",
-        "km": "km"
+        "km": "km",
+        "tapToSeeMore": "Tap to see more",
+        "yourPosition": "Your position"
     },
 
     "advice": {
