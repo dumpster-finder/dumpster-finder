@@ -79,10 +79,10 @@ describe("addOne()", () => {
             quality: 4,
             expiryDate: new Date("2021-04-01"),
         });
-        const match = await Models.Tags.findOne({ where: { name } });
+        const match = await Models.ContentTypes.findOne({ where: { name } });
         expect(match).not.toBeNull();
         expect(match?.name).toBe(name);
-        expect(match?.tagID).toBeGreaterThan(2);
+        expect(match?.contentID).toBeGreaterThan(2);
     });
 });
 

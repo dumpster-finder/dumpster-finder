@@ -3,11 +3,14 @@ import {
     DumpsterPositionAttributes,
     DumpsterPositionCreationAttributes,
 } from "./DumpsterPositions";
-import { TagAttributes, TagCreationAttributes } from "./Tags";
+import {
+    ContentTypeAttributes,
+    ContentTypeCreationAttributes,
+} from "./ContentTypes";
 
-export interface DumpsterTagAttributes {
+export interface DumpsterContentsAttributes {
     dumpsterID: number;
-    tagID: number;
+    contentID: number;
     amount?: number | null;
     unit?: string | null;
     quality?: number | null;
@@ -15,14 +18,17 @@ export interface DumpsterTagAttributes {
     expiryDate?: Date | null;
 }
 
-export interface DumpsterTagCreationAttributes
-    extends Optional<DumpsterTagAttributes, "dumpsterID" | "foundDate"> {}
+export interface DumpsterContentsCreationAttributes
+    extends Optional<DumpsterContentsAttributes, "dumpsterID" | "foundDate"> {}
 
-export class DumpsterTags
-    extends Model<DumpsterTagAttributes, DumpsterTagCreationAttributes>
-    implements DumpsterTagAttributes {
+export class DumpsterContents
+    extends Model<
+        DumpsterContentsAttributes,
+        DumpsterContentsCreationAttributes
+    >
+    implements DumpsterContentsAttributes {
     dumpsterID!: number;
-    tagID!: number;
+    contentID!: number;
     amount?: number | null;
     unit?: string | null;
     quality?: number | null;
@@ -32,14 +38,14 @@ export class DumpsterTags
 
 // Inject Sequelize
 export function init(sequelize: Sequelize) {
-    DumpsterTags.init(
+    DumpsterContents.init(
         {
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 primaryKey: true,
                 allowNull: false,
             },
-            tagID: {
+            contentID: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 primaryKey: true,
                 allowNull: false,
@@ -64,22 +70,26 @@ export function init(sequelize: Sequelize) {
         },
         {
             sequelize,
-            tableName: "DumpsterTags",
+            tableName: "DumpsterContents",
         },
     );
-    return DumpsterTags;
+    return DumpsterContents;
 }
 
 // The type is not defined yet, so use a substitute
 export function associate({
     DumpsterPositions,
-    Tags,
+    ContentTypes,
 }: {
     DumpsterPositions: ModelStatic<
         Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>
     >;
-    Tags: ModelStatic<Model<TagAttributes, TagCreationAttributes>>;
+    ContentTypes: ModelStatic<
+        Model<ContentTypeAttributes, ContentTypeCreationAttributes>
+    >;
 }) {
-    // DumpsterTags.belongsTo(DumpsterPositions, { foreignKey: "dumpsterID" });
-    DumpsterTags.belongsTo(Tags, { as: "tag", foreignKey: "tagID" });
+    DumpsterContents.belongsTo(ContentTypes, {
+        as: "contentType",
+        foreignKey: "contentID",
+    });
 }

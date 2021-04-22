@@ -1,36 +1,7 @@
-INSERT INTO Categories(categoryID, name)
-VALUES
-    (1, 'Dairy'),
-    (2, 'Bread'),
-    (3, 'Vegetables'),
-    (4, 'Meat'),
-    (5, 'Fruit'),
-    (6, 'Pastries'),
-    (7, 'Seafood'),
-    (8, 'Chocolate'),
-    (9, 'Candy'),
-    (10, 'Nuts'),
-    (11, 'Rice'),
-    (12, 'Pasta'),
-    (13, 'Fish'),
-    (14, 'Cereals'),
-    (15, 'Noodles'),
-    (16, 'Eggs');
+-- ♪♫ It doesn't even matter if there is no hope ♪♫
+-- ♪♫ As the madness of the system grows ♪♫
 
-INSERT INTO StoreTypes(storeTypeID, name)
-VALUES
-    (1, 'Grocery Store'),
-    (2, 'General Store'),
-    (3, 'Bakery'),
-    (4, 'Furniture Store'),
-    (5, 'Miscellaneous');
-
-INSERT INTO DumpsterTypes(dumpsterTypeID , name)
-VALUES
-    (1, 'Compressor'),
-    (2, 'Large Container'),
-    (3, 'Small Container'),
-    (4, 'Trash Bin');
+-- Glorious test data! I summon you!
 
 INSERT INTO DumpsterPositions(dumpsterID, position, revisionID)
 VALUES
@@ -166,23 +137,8 @@ VALUES
     ('temp5', 7, 2),
     ('temp6', 7, 3);
 
-INSERT INTO Tags(tagID, categoryID, name)
-VALUES
-    (1, 1, 'Cheese'),
-    (2, 1, 'Milk'),
-    (3, 3, 'Squash'),
-    (4, 3, 'Potatoes'),
-    (5, 7, 'Oysters'),
-    (6, 4, 'Steamed ham'),
-    (7, 6, 'Bread'),
-    (8, 8, 'Milk chocolate');
-
-INSERT INTO StandardTags(tagID)
-VALUES
-    (1), (2), (4), (7), (8);
-
-INSERT INTO DumpsterTags
-    (dumpsterID, tagID, amount, unit, quality, expiryDate, foundDate)
+INSERT INTO DumpsterContents
+    (dumpsterID, contentID, amount, unit, quality, expiryDate, foundDate)
 VALUES
     (1, 1, 23, 'pieces', 3, '2023-04-30', '2021-02-18'), -- cheese
     (1, 2, 23, 'liters', 3, '2021-03-30', '2021-03-20'), -- Milk
@@ -209,7 +165,7 @@ VALUES
     (6, 6, 'https://images.unsplash.com/photo-1599691823377-545103b0137c?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24'),
     (61, 6, 'https://images.unsplash.com/photo-1560543899-58ce3bc3c8fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24');
 
-INSERT INTO Visits (dumpsterID,  userID)
+INSERT INTO Visits (dumpsterID, userID)
 VALUES
 (1,'temp'),
 (1,'temp2'),

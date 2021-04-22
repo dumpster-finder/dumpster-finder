@@ -14,5 +14,5 @@ global.afterAll(async () => {
 });
 
 export async function setupTestData() {
-    await exec("bash ./setup.sh", { cwd: "../db" });
+    await exec("bash ./setup.sh init constants data", { cwd: "../db" });
 }
