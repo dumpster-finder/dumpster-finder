@@ -1,13 +1,17 @@
-/**
- * Show a snackbar with info
- *
- * @param message
- */
-const info = (message: string) => console.log(message);
-// TODO actually have a snackbar
+import { Alert } from "react-native";
 
 /**
- * Show a snackbar with an error message
+ * Show a <something> with info
+ *
+ * @param message - A message
+ */
+const info = (message: string) => {
+    console.log(message);
+    Alert.alert(message);
+};
+
+/**
+ * Show a <something> with an error message
  * (and log it to the console as well)
  *
  * @param err     - The error
@@ -15,7 +19,8 @@ const info = (message: string) => console.log(message);
  */
 const error = (err: Error, message?: string) => {
     console.error(message, error);
-    // TODO actually have a snackbar
+    Alert.alert(message || "An error occurred", err.message);
+    // TODO actually have some better-looking thing
 };
 
 export default {

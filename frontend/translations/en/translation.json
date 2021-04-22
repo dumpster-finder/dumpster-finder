@@ -304,11 +304,10 @@
     },
 
     "photo": {
-        "upload": "Upload photo",
+        "upload": "Choose photo",
         "take": "Take Photo",
         "photo": "Photo",
         "delete" : "Delete photo",
         "add": "Add photo"
-
     }
 }

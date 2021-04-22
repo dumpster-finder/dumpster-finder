@@ -61,23 +61,21 @@ export default function RevisionScreen({
                 newDumpster.dumpsterID,
                 newDumpster.revisionID,
             )
-                .then(() =>
+                .then(() => {
                     dispatch(
                         setCurrentDumpster({
                             ...restDumpster,
                             rating: dumpster.rating,
                         }),
-                    ),
-                )
-                .then(() =>
+                    );
                     dispatch(
                         addDumpster({
                             ...restDumpster,
                             rating: dumpster.rating,
                         }),
-                    ),
-                )
-                .then(() => navigation.navigate("DetailsScreen"))
+                    );
+                    navigation.navigate("DetailsScreen");
+                })
                 .catch(e => Message.error(e, "Could not reset revisions"));
     }
 }

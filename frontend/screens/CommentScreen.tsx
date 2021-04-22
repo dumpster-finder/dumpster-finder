@@ -17,6 +17,7 @@ import {
     PendingButtonIcon,
 } from "../components/basicComponents/Icons";
 import { useTranslation } from "react-i18next";
+import Message from "../utils/Message";
 
 export default function CommentScreen() {
     const { t }: { t: (s: string) => string } = useTranslation("comment");
@@ -33,7 +34,7 @@ export default function CommentScreen() {
                 showNegative: !hideNegativeRating,
             })
                 .then(data => setCommentList(data))
-                .catch(e => console.error("Could not fetch comments", e));
+                .catch(e => Message.error(e, "Could not fetch comments"));
     }, [dumpster, hideNegativeRating]);
 
     const [comment, setComment] = useState("");
@@ -81,15 +82,12 @@ export default function CommentScreen() {
             };
             try {
                 setPending(true);
-                await CommentService.addOne(newComment)
-                    .then(data =>
-                        setCommentList(oldArray => [...oldArray, data]),
-                    )
-                    .then(() => setPending(false))
-                    .then(() => setComment(""));
+                const data = await CommentService.addOne(newComment);
+                setCommentList(oldArray => [...oldArray, data]);
+                setPending(false);
+                setComment("");
             } catch (e) {
-                // TODO Replace with better error handling
-                console.error("Could not add this comment:", e);
+                Message.error(e, "Could not add this comment:");
                 setPending(false);
             }
         }

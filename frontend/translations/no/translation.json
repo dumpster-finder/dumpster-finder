@@ -295,7 +295,7 @@
     },
 
     "photo": {
-        "upload": "Last opp bilde",
+        "upload": "Velg bilde",
         "take": "Ta bilde",
         "photo": "Bilde",
         "delete" : "Slett bilde",

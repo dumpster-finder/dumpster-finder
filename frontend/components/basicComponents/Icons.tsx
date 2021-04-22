@@ -62,8 +62,17 @@ export const PendingButtonIcon = (props: IconProps) => (
     <Icon {...props} name="loader-outline" animation="pulse" />
 );
 
+export const EditButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="edit" />
+);
+
 export const DeleteButtonIcon = (props: IconProps) => (
     <Icon {...props} name="trash" />
+);
+
+// TODO this might be duplicate
+export const ReportButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="flag" />
 );
 
 export const CameraButtonIcon = (props: IconProps) => (
@@ -76,6 +85,10 @@ export const PhotoButtonIcon = (props: IconProps) => (
 
 export const FlipButtonIcon = (props: IconProps) => (
     <Icon {...props} name="flip-2-outline" />
+);
+
+export const RevisionButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="clock" />
 );
 
 export const TrashInputIcon = (props: IconProps) => (
