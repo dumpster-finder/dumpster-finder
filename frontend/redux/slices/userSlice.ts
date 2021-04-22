@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { UserService } from "../../services";
-import { useSelector } from "react-redux";
 
 /**
  * State with bookkeeping for token
@@ -25,12 +24,14 @@ export const getUserID = createAsyncThunk("user/getUserID", async () => {
 /**
  * Fetch dumpsters around the given coordinate
  *
- * Usage: dispatch(refreshToken())
+ * Usage: dispatch(refreshToken("duck speaking mountain quack))
  */
-export const refreshToken = createAsyncThunk("user/refreshToken", async () => {
-    const userID = useSelector(userIDSelector);
-    return await UserService.authenticate(userID);
-});
+export const refreshToken = createAsyncThunk(
+    "user/refreshToken",
+    async (userID: string) => {
+        return await UserService.authenticate(userID);
+    },
+);
 
 export const userSlice = createSlice({
     name: "user",

@@ -19,7 +19,7 @@ export default class UserService {
      */
     authenticate(userID: string): Promise<string> {
         return this.axios
-            .get(`/users/authenticate/${userID}`)
+            .get(`/users/validation/${userID}`)
             .then(response => response.headers["JWTToken"]);
     }
 }

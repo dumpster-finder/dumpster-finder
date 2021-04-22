@@ -87,9 +87,9 @@ const InnerApp = () => {
             // TODO retry if it did not work
             store.dispatch(getUserID()).catch(e => console.error(e));
         } else if (!token) {
-            store.dispatch(refreshToken());
+            store.dispatch(refreshToken(userID));
         } else {
-            setTimeout(() => store.dispatch(refreshToken()), 30 * 60000); // timeout in 1/2 hour
+            setTimeout(() => store.dispatch(refreshToken(userID)), 30 * 60000); // timeout in 1/2 hour
         }
     }, [userID, token]);
 

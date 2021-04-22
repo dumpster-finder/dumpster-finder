@@ -10,12 +10,12 @@ import { validate } from "express-validation";
 import UserDAO from "../daos/users";
 import { validateUser } from "../validators/users";
 import { RouteDependencies } from "../types";
-import {generateUserID} from "../utils/IdGeneration";
-import {hashUser, generateSalt, hashPassword} from "../utils/hashing";
-import {encodeToken} from "../utils/token";
-import {standardLimiter} from "../middleware/rateLimiter";
-import {JwtMiddleware} from "../middleware/tokenMiddleware";
-import {logger} from "../server";
+import { generateUserID } from "../utils/IdGeneration";
+import { hashUser, generateSalt, hashPassword } from "../utils/hashing";
+import { encodeToken } from "../utils/token";
+import { standardLimiter } from "../middleware/rateLimiter";
+import { JwtMiddleware } from "../middleware/tokenMiddleware";
+import { logger } from "../server";
 
 export default function({ Models }: RouteDependencies) {
     const router = Router();
@@ -35,21 +35,20 @@ export default function({ Models }: RouteDependencies) {
      *             schema:
      *               type: string
      */
-        router.get("/",
-            standardLimiter,
-            async (req, res, next) => {
-            try {
-                const userName : string = await generateUserID();
-                const userHash = hashUser(userName);
-                const salt = generateSalt()
-                const passwordHash = await hashPassword(salt, userName);
-                const success = await userDAO.postOne( userHash, salt, passwordHash);
-                res.status(200).json(userName);
-            } catch (e) {
-                logger.error(e, "that user already exists, send new request");
-                next(e);
-            }
-        });
+    router.get("/", standardLimiter, async (req, res, next) => {
+        try {
+            const userName: string = await generateUserID();
+            const userHash = hashUser(userName);
+            const salt = generateSalt();
+            const passwordHash = await hashPassword(salt, userName);
+            console.log(userName, passwordHash);
+            const success = await userDAO.postOne(userHash, salt, passwordHash);
+            res.status(200).json(userName);
+        } catch (e) {
+            logger.error(e, "that user already exists, send new request");
+            next(e);
+        }
+    });
 
     /**
      * @swagger
@@ -76,20 +75,20 @@ export default function({ Models }: RouteDependencies) {
         validate(validateUser),
         async (req, res, next) => {
             try {
-                const userExists : number = await userDAO.getOne(
-                    req.params.userID
+                const userExists: number = await userDAO.getOne(
+                    req.params.userID,
                 );
                 if (userExists) {
                     res.header("JWTToken", encodeToken(userExists));
                     res.status(200).json({
                         statusCode: 200,
-                        message: "User exists, validation complete"
+                        message: "User exists, validation complete",
                     });
                 } else {
                     res.status(404).json({
                         statusCode: 404,
-                        message: "user doesn't exist"
-                })
+                        message: "user doesn't exist",
+                    });
                 }
             } catch (e) {
                 logger.error(e, "Something went wrong!");
