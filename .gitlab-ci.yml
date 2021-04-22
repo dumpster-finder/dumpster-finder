@@ -9,7 +9,7 @@ stages:
   - test
   - deploy
 
-install_deps_backend:
+api_deps:
   stage: install_deps
   script:
     - cd backend/api
@@ -18,7 +18,21 @@ install_deps_backend:
     paths:
       - backend/api/node_modules
 
-test_backend:
+frontend_deps:
+  stage: install_deps
+  script:
+    - cd frontend
+    - npm ci
+    - npm install expo-cli
+  artifacts:
+    paths:
+      - frontend/node_modules
+  # limited to develop for now (only build step)
+  only:
+    - develop
+    - master
+
+test_api:
   stage: test
   services:
     - name: mariadb
@@ -48,7 +62,7 @@ pages:
     - develop
     - master
 
-deploy:
+deploy_api:
   stage: deploy
   script:
     # Copy SSH credentials from CI file variables
@@ -75,13 +89,12 @@ deploy:
     - develop
     - master
 
-build:
+build_app:
   stage: deploy
   script:
     - cd frontend
-    - npm install expo-cli
     - npx expo login --non-interactive -u "$EXPO_CLI_USERNAME" # password is env var
     - npx expo publish --non-interactive
-#  only:
-#    - develop
-#    - master
+  only:
+    - develop
+    - master

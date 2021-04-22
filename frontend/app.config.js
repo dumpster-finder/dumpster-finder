@@ -7,6 +7,7 @@ import "dotenv/config";
 export default {
     name: "Dumpster Finder",
     slug: "dumpster-finder",
+    description: "An app for dumpster divers",
     version: "0.1.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
