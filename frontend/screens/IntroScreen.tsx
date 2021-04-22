@@ -51,8 +51,8 @@ export default function IntroScreen({
                 </Layout>
                 <Layout style={styles.positionSetting}>
                     <LocationSearcher
-                        onSubmit={place => {
-                            dispatch(setPosition(place.position));
+                        onSubmit={position => {
+                            dispatch(setPosition(position));
                             dispatch(setFirstTime(false));
                             navigation.dispatch(StackActions.popToTop);
                         }}
