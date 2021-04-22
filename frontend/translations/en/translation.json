@@ -49,6 +49,8 @@
 
     "settings": {
         "setPos": "Set position",
+        "userID": "Your user ID",
+        "aboutUserID": "This ID identifies you uniquely. Do not share it with others.",
         "changeNick": "Change nickname",
         "nick": "Nickname",
         "saveNick": "Save nickname",

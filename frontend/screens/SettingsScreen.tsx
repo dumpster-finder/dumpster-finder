@@ -33,6 +33,7 @@ import DropdownCard from "../components/cards/DropdownCard";
 import ButtonGroupDisplay from "../components/basicComponents/ButtonGroupDisplay";
 import { useTranslation } from "react-i18next";
 import ToggleSwitch from "../components/basicComponents/ToggleSwitch";
+import { userIDSelector } from "../redux/slices/userSlice";
 
 export default function SettingsScreen({
     navigation,
@@ -46,6 +47,7 @@ export default function SettingsScreen({
     const intervalValue = [t("visit:day"), t("visit:days"), t("visit:week")];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
+    const userID = useSelector(userIDSelector);
     const nickname = useSelector(nicknameSelector);
     const language = useSelector(languageSelector);
     const visit = useSelector(visitsSelector);
@@ -54,6 +56,8 @@ export default function SettingsScreen({
     const [newLanguage, setNewLanguage] = useState(
         language ? languages.indexOf(language) : 0,
     );
+
+    const [showUserID, setShowUserID] = useState(false);
     const [showNick, setShowNick] = useState(false);
     const [showDist, setShowDist] = useState(false);
     const [showLanguage, setShowLanguage] = useState(false);
@@ -92,9 +96,20 @@ export default function SettingsScreen({
                     </View>
                 </Card>
                 <DropdownCard
+                    value={showUserID}
+                    text={t("userID")}
+                    onClick={setShowUserID}
+                />
+                {showUserID && (
+                    <View style={styles.userIDContainer}>
+                        <Text category="h5">{userID}</Text>
+                        <Text category="c1">{t("aboutUserID")}</Text>
+                    </View>
+                )}
+                <DropdownCard
                     value={showNick}
                     text={t("changeNick")}
-                    onClick={newValue => setShowNick(newValue)}
+                    onClick={setShowNick}
                 />
                 {showNick && (
                     <View style={styles.columnBorder}>
@@ -203,6 +218,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
+    },
+    userIDContainer: {
+        paddingVertical: 6,
+        alignItems: "center",
     },
     scrollView: {
         width: "100%",

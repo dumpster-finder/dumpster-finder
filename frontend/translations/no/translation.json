@@ -45,6 +45,8 @@
     },
     "settings": {
         "setPos": "Sett posisjon",
+        "userID": "Din bruker-ID",
+        "aboutUserID": "Denne ID-en knyttes til endringer du gjør. Ikke del den med noen.",
         "changeNick": "Endre kallenavn",
         "nick": "Kallenavn",
         "saveNick": "Lagre kallenavn",
