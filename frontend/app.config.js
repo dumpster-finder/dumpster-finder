@@ -5,9 +5,9 @@ import "dotenv/config";
  * Place dynamic globals in the `extra` property
  */
 export default {
-    name: "frontend",
-    slug: "frontend",
-    version: "1.0.0",
+    name: "Dumpster Finder",
+    slug: "dumpster-finder",
+    version: "0.1.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: "myapp",
@@ -30,6 +30,7 @@ export default {
             backgroundColor: "#FFFFFF",
         },
         softwareKeyboardLayoutMode: "pan",
+        package: "org.dumpsterfire.dumpsterfinder",
     },
     web: {
         favicon: "./assets/images/favicon.png",

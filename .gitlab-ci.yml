@@ -74,3 +74,14 @@ deploy:
     # so the develop branch must be included
     - develop
     - master
+
+build:
+  stage: deploy
+  script:
+    - cd frontend
+    - npm install expo-cli
+    - npx expo login --non-interactive -u "$EXPO_CLI_USERNAME" # password is env var
+    - npx expo publish --non-interactive
+#  only:
+#    - develop
+#    - master
