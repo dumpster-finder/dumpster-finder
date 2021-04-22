@@ -37,6 +37,13 @@ import { fetchAllConstants } from "./redux/slices/constantsSlice";
 import { FontAwesome5Pack } from "./constants/FontAwesome5";
 import i18n from "./i18n";
 import { subDays } from "date-fns";
+import {
+    getUserID,
+    refreshToken,
+    tokenSelector,
+    userIDSelector,
+} from "./redux/slices/userSlice";
+import { UserService } from "./services";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
@@ -50,6 +57,8 @@ const InnerApp = () => {
     const ratedComments = useSelector(ratedCommentsSelector);
     const visitDate = useSelector(visitsSelector);
     const registeredVisits = useSelector(registeredVisitsSelector);
+    const userID = useSelector(userIDSelector);
+    const token = useSelector(tokenSelector);
 
     const visitSinceDate = subDays(
         new Date(),
@@ -71,6 +80,18 @@ const InnerApp = () => {
             // unset firstTime only AFTER the intro page has been shown!
         }
     }, []);
+
+    useEffect(() => {
+        if (!userID) {
+            // should be the case only when you *first* open the app
+            // TODO retry if it did not work
+            store.dispatch(getUserID()).catch(e => console.error(e));
+        } else if (!token) {
+            store.dispatch(refreshToken());
+        } else {
+            setTimeout(() => store.dispatch(refreshToken()), 30 * 60000); // timeout in 1/2 hour
+        }
+    }, [userID, token]);
 
     useEffect(() => {
         // TODO reconsider the 1st part

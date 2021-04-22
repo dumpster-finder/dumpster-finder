@@ -8,6 +8,7 @@ import CommentServiceClass from "./CommentService";
 import ContentServiceClass from "./ContentService";
 import PhotoServiceClass from "./PhotoService";
 import VisitServiceClass from "./VisitService";
+import UserServiceClass from "./UserService";
 import Constants from "expo-constants";
 
 // Create one single instance of Axios
@@ -28,6 +29,7 @@ const CommentService = new CommentServiceClass(axiosInstance);
 const ContentService = new ContentServiceClass(axiosInstance);
 const PhotoService = new PhotoServiceClass(axiosInstance);
 const VisitService = new VisitServiceClass(axiosInstance);
+const UserService = new UserServiceClass(axiosInstance);
 
 // and export them
 export {
@@ -40,4 +42,5 @@ export {
     ContentService,
     PhotoService,
     VisitService,
+    UserService,
 };
