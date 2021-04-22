@@ -128,7 +128,8 @@ const styles = StyleSheet.create({
         flex: 4,
         // TODO remove this
         //      when the issue w/intro has been fixed
-        minHeight: "60%",
+        //      (this being 60% caused an actual issue earlier, where the button could not be pressed!)
+        minHeight: "50%",
     },
     autocomplete: {
         width: "80%",
