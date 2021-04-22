@@ -123,8 +123,20 @@ export default function LocationSearcher({
 }
 
 const styles = StyleSheet.create({
-    map: { width: "100%", flex: 4 },
-    autocomplete: { width: "80%" },
-    placeName: { fontWeight: "bold" },
-    text: { marginVertical: 4 },
+    map: {
+        width: "100%",
+        flex: 4,
+        // TODO remove this
+        //      when the issue w/intro has been fixed
+        minHeight: "60%",
+    },
+    autocomplete: {
+        width: "80%",
+    },
+    placeName: {
+        fontWeight: "bold",
+    },
+    text: {
+        marginVertical: 4,
+    },
 });
