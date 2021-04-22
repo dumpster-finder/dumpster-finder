@@ -3,7 +3,7 @@ import Burgermenu from "./Burgermenu";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
-export default function({  }: { tintColor?: string }) {
+export default function({}: { tintColor?: string }) {
     const navigation = useNavigation();
     const { t }: { t: (s: string) => string } = useTranslation("menu");
 
@@ -30,7 +30,7 @@ export default function({  }: { tintColor?: string }) {
                 });
                 break;
             case 3:
-                console.log("flag");
+                navigation.navigate("FlagScreen");
                 break;
             default:
                 console.log(menuIndex);

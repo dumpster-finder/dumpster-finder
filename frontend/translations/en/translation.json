@@ -292,7 +292,8 @@
         "yourPos": "Set position",
         "gallery": "Photo gallery",
         "display": "Photo",
-        "addPhoto": "Add photo"
+        "addPhoto": "Add photo",
+        "flag": "Flag dumpster"
     },
 
     "visit": {
@@ -317,5 +318,13 @@
         "delete" : "Delete photo",
         "add": "Add photo"
 
+    },
+
+    "report": {
+        "report": "Report this dumpster",
+        "text": "Use reporting of a dumpster if it does not exist, it is illegal to dive in etc. If the information about the dumpster is wrong, you can change this by editing the information about the dumpster.",
+        "reason": "Reason (Optional)",
+        "alreadyReport": "You have already reported this dumpster",
+        "justReport": "We have registered your report"
     }
 }

@@ -8,6 +8,12 @@ export default class CommentService {
         this.axios = axios;
     }
 
+    /**
+     * Fetches all comments for a dumpster
+     *
+     * @param dumpsterID ID of the dumpster
+     * @param showNegative boolean to tell if negative rated comments should be shown
+     */
     getAllForDumpster(
         dumpsterID: number,
         { showNegative = false },
@@ -24,6 +30,12 @@ export default class CommentService {
             );
     }
 
+    /**
+     * Adds a comment from a given user
+     *
+     * @param comment A comment with the data sent by the user
+
+     */
     addOne(
         comment: Omit<Comments, "commentID" | "date" | "rating">,
     ): Promise<Comments> {
@@ -32,6 +44,13 @@ export default class CommentService {
             .then(response => new Comments(response.data));
     }
 
+    /**
+     * Fetches all reports for given dumpster
+     *
+     * @param dumpsterID ID of the dumpster the comment belongs to
+     * @param commentID ID of the comment that is rated
+     * @param vote The number the registered rating should be changed with
+     */
     updateOne(
         dumpsterID: number,
         commentID: number,

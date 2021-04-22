@@ -145,9 +145,7 @@ export default function DetailsScreen({
         if (dumpster) {
             await VisitService.addOne(dumpster.dumpsterID, "temp1")
                 .then(getDumpster)
-                // TODO not use ts-ignore here. Maybe fix useState
-                // @ts-ignore
-                .then(setDisabled(true));
+                .then(() => setDisabled(true));
         }
     }
 
