@@ -2,7 +2,11 @@ import * as React from "react";
 import Comments from "../../models/Comment";
 import { Button, Card, Divider, Modal, Text } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
-import { RateDownIcon, RateUpIcon, TrashIcon } from "../basicComponents/Icons";
+import {
+    DeleteButtonIcon,
+    RateDownIcon,
+    RateUpIcon,
+} from "../basicComponents/Icons";
 import { useState } from "react";
 import { CommentService } from "../../services";
 import { useAppDispatch } from "../../redux/store";
@@ -26,7 +30,6 @@ export default function CommentCard({
     const [rating, setRating] = useState(comment.rating);
     const [votedUp, setVotedUp] = useState(voted || 0);
     const [modalVis, setModalVis] = useState(false);
-    console.log(comment);
     return (
         <Card style={{ width: "100%", marginVertical: 5 }}>
             <View style={styles.row}>
@@ -68,7 +71,7 @@ export default function CommentCard({
                             appearance="outline"
                             size={"small"}
                             status={"danger"}
-                            accessoryLeft={TrashIcon}
+                            accessoryLeft={DeleteButtonIcon}
                             onPress={() => setModalVis(true)}
                         />
                     </View>
