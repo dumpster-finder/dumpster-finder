@@ -19,6 +19,7 @@ export default function FlagScreen({
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("report");
     const dumpster = useSelector(currentDumpsterSelector);
+    const [fetchFlags, setFetchFlags] = useState(false);
     const [hasFlagged, setHasFlagged] = useState(false);
     const [justFlagged, setJustFlagged] = useState(false);
     const [reason, setReason] = useState("");
@@ -32,6 +33,7 @@ export default function FlagScreen({
                         data.userID === myUserID ? setHasFlagged(true) : null;
                     }),
                 )
+                .then(() => setFetchFlags(true))
                 .catch(e => console.error("Could not fetch comments", e));
         }
     }, [dumpster]);
@@ -53,7 +55,7 @@ export default function FlagScreen({
                     <Button
                         status={"danger"}
                         size={"giant"}
-                        disabled={pending}
+                        disabled={pending || !fetchFlags}
                         accessoryLeft={
                             pending ? PendingButtonIcon : FlagButtonIcon
                         }
@@ -90,8 +92,7 @@ export default function FlagScreen({
         if (dumpster) {
             await ReportService.addOne(dumpster.dumpsterID, myUserID, reason)
                 .then(() => setJustFlagged(true))
-                .then(() => setHasFlagged(true))
-                .then(response => console.log(response));
+                .then(() => setHasFlagged(true));
         }
     }
 }

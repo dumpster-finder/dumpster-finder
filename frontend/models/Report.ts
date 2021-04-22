@@ -3,7 +3,7 @@ interface Report {
     dumpsterID: number;
     userID: string;
     reason: string;
-    date: Date;
+    date: string;
 }
 
 export default Report;
