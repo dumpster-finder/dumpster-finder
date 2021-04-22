@@ -8,7 +8,7 @@ import {
 export interface ReportsAttributes {
     dumpsterReportID: number;
     dumpsterID: number;
-    userID: string;
+    userID: number;
     reason: string;
     date: string;
 }
@@ -23,7 +23,7 @@ export class Reports extends Model<ReportsAttributes, ReportsCreationAttributes>
     implements ReportsAttributes {
     public dumpsterReportID!: number;
     public dumpsterID!: number;
-    public userID!: string;
+    public userID!: number;
     public reason!: string;
     public date!: string;
 }
@@ -41,7 +41,7 @@ export function init(sequelize: Sequelize) {
                 allowNull: false,
             },
             userID: {
-                type: DataTypes.STRING,
+                type: DataTypes.INTEGER.UNSIGNED,
                 allowNull: false,
             },
             reason: {
