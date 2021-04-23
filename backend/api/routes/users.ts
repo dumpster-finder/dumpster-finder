@@ -42,8 +42,8 @@ export default function({ Models }: RouteDependencies) {
             const salt = generateSalt();
             const passwordHash = await hashPassword(salt, userName);
             console.log(userName, passwordHash);
-            const success = await userDAO.postOne(userHash, salt, passwordHash);
-            res.status(200).json(userName);
+            const userID = await userDAO.postOne(userHash, salt, passwordHash);
+            res.status(200).json({userName, userID});
         } catch (e) {
             logger.error(e, "that user already exists, send new request");
             next(e);

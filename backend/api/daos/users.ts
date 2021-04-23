@@ -12,7 +12,7 @@ export default function({ Users, sequelize }: MyModels) {
          * @param userName
          * @param salt
          * @param passwordHash
-         * @return true or false depending on if it worked
+         * @return the created userID
          */
         postOne: async (
             userName: string,
@@ -20,7 +20,7 @@ export default function({ Users, sequelize }: MyModels) {
             passwordHash: string,
         ) => {
             // Perform transaction
-            const dumpsterPosition = await Users.create({
+            const user = await Users.create({
                 passwordHash,
                 userName,
                 salt,
@@ -32,7 +32,7 @@ export default function({ Users, sequelize }: MyModels) {
                 else throw e;
             });
             //this is probably redundant, but it's here now
-            return dumpsterPosition !== null;
+            return user.userID;
         },
         /**
          * validates the user input to see if it's accurate

@@ -13,10 +13,10 @@ export interface UserCreationAttributes
 class Users
     extends Model<UserAttributes, UserCreationAttributes>
     implements UserAttributes {
-    public userID!: number;
+    userID!: number;
     passwordHash!: string;
-    public userName!: string;
-    public salt!: string;
+    userName!: string;
+    salt!: string;
 }
 
 
@@ -25,8 +25,9 @@ export function init(sequelize: Sequelize) {
     Users.init(
         {
             userID : {
-                type: DataTypes.STRING,
+                type: DataTypes.NUMBER,
                 primaryKey: true,
+                autoIncrement: true,
             },
             passwordHash : {
                 type: DataTypes.STRING,
