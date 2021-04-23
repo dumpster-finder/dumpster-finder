@@ -84,8 +84,8 @@ const InnerApp = () => {
     }, []);
 
     useEffect(() => {
-        // Clear token when the app loads!
-        store.dispatch(setToken(""));
+        // Refresh token when the app loads!
+        if (userID) store.dispatch(refreshToken(userID));
     }, []);
 
     useEffect(() => {

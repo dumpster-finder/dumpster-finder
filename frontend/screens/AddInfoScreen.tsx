@@ -14,7 +14,6 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import { DumpsterService } from "../services";
 import { StackActions } from "@react-navigation/native";
-import useToken from "../hooks/useToken";
 import Message from "../utils/Message";
 
 export default function AddInfoScreen({
@@ -25,7 +24,6 @@ export default function AddInfoScreen({
     const dispatch = useAppDispatch();
     const dumpster = useSelector(editorDumpsterSelector);
     const [pending, setPending] = useState(false);
-    const { token, onTokenFailure } = useToken();
 
     if (dumpster === null) {
         return (
@@ -54,7 +52,6 @@ export default function AddInfoScreen({
             setPending(true);
             const postedDumpster = await DumpsterService.addDumpster(
                 restDumpster,
-                token,
             );
             // Add this dumpster to the list of dumpsters!
             dispatch(addDumpster(postedDumpster));
@@ -63,7 +60,6 @@ export default function AddInfoScreen({
             // And navigate back to where you were before!
             navigation.dispatch(StackActions.popToTop());
         } catch (e) {
-            onTokenFailure(e);
             Message.error(e, "Could not add this dumpster");
             setPending(false);
         }

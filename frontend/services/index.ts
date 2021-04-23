@@ -11,12 +11,21 @@ import VisitServiceClass from "./VisitService";
 import UserServiceClass from "./UserService";
 import ReportServiceClass from "./ReportService";
 import Constants from "expo-constants";
+import {
+    addTokenHeader,
+    handleTokenError,
+    handleTokenResponse,
+} from "../redux/tokenInterceptors";
 
 // Create one single instance of Axios
 const axiosInstance = axios.create({
     baseURL: Constants.manifest.extra.apiURL || "http://localhost:3000/api/",
     timeout: 1000,
 });
+
+// Add some interceptors for tokens
+axiosInstance.interceptors.request.use(addTokenHeader);
+axiosInstance.interceptors.response.use(handleTokenResponse, handleTokenError);
 
 console.log(`Server address is ${axiosInstance.defaults.baseURL}`);
 

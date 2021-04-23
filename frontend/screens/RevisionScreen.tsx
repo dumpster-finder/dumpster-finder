@@ -15,7 +15,6 @@ import { useAppDispatch } from "../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { formatDate } from "../utils/date";
 import { useTranslation } from "react-i18next";
-import useToken from "../hooks/useToken";
 import Message from "../utils/Message";
 
 export default function RevisionScreen({
@@ -27,7 +26,6 @@ export default function RevisionScreen({
     const dispatch = useAppDispatch();
     const dumpster = useSelector(currentDumpsterSelector);
     const [dumpsterList, setDumpsterList] = useState<RevDumpster[]>([]);
-    const { token, onTokenFailure } = useToken();
 
     useEffect(() => {
         if (dumpster)
@@ -63,7 +61,6 @@ export default function RevisionScreen({
             DumpsterService.setRevision(
                 newDumpster.dumpsterID,
                 newDumpster.revisionID,
-                token,
             )
                 .then(() => {
                     dispatch(
@@ -81,7 +78,6 @@ export default function RevisionScreen({
                     navigation.navigate("DetailsScreen");
                 })
                 .catch(e => {
-                    onTokenFailure(e);
                     Message.error(e, "Could not reset revisions");
                 });
     }

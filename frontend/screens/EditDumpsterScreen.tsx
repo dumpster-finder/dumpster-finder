@@ -15,7 +15,6 @@ import { resetEditor } from "../redux/slices/editorSlice";
 import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import useToken from "../hooks/useToken";
 import Message from "../utils/Message";
 
 export default function EditDumpsterScreen({
@@ -27,7 +26,6 @@ export default function EditDumpsterScreen({
     const dispatch = useAppDispatch();
     const actualDumpster = useSelector(currentDumpsterSelector);
     const [pending, setPending] = useState(false);
-    const { token, onTokenFailure } = useToken();
 
     if (actualDumpster === null) {
         return (
@@ -53,14 +51,11 @@ export default function EditDumpsterScreen({
         try {
             setPending(true);
             // Update the dumpster
-            const updatedDumpster = await DumpsterService.updateDumpster(
-                {
-                    ...dumpster,
-                    rating: actualDumpster.rating,
-                    visits: actualDumpster.visits,
-                },
-                token,
-            );
+            const updatedDumpster = await DumpsterService.updateDumpster({
+                ...dumpster,
+                rating: actualDumpster.rating,
+                visits: actualDumpster.visits,
+            });
             // Add this dumpster to the list of dumpsters!
             dispatch(addDumpster(updatedDumpster));
             dispatch(setCurrentDumpster(updatedDumpster));
@@ -69,7 +64,6 @@ export default function EditDumpsterScreen({
             // And navigate back to where you were before!
             navigation.pop();
         } catch (e) {
-            onTokenFailure(e);
             Message.error(e, "Could not update this dumpster");
             setPending(false);
         }

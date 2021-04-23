@@ -62,7 +62,7 @@ export const userSlice = createSlice({
          * @param payload The token
          */
         setToken: (state, { payload }: { payload: string }) => {
-            state.userID = payload;
+            state.token = payload;
         },
     },
     extraReducers: builder => {

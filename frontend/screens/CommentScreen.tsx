@@ -18,7 +18,6 @@ import {
 } from "../components/basicComponents/Icons";
 import { useTranslation } from "react-i18next";
 import Message from "../utils/Message";
-import useToken from "../hooks/useToken";
 
 export default function CommentScreen() {
     const { t }: { t: (s: string) => string } = useTranslation("comment");
@@ -29,7 +28,6 @@ export default function CommentScreen() {
     const dumpster = useSelector(currentDumpsterSelector);
     const nickname = useSelector(nicknameSelector);
     const myUserID = "temp1"; // TODO this userID is not a string & where do we fetch it?
-    const { token, onTokenFailure } = useToken();
 
     useEffect(() => {
         if (dumpster)
@@ -94,12 +92,11 @@ export default function CommentScreen() {
             };
             try {
                 setPending(true);
-                const data = await CommentService.addOne(newComment, token);
+                const data = await CommentService.addOne(newComment);
                 setCommentList(oldArray => [data, ...oldArray]);
                 setPending(false);
                 setComment("");
             } catch (e) {
-                onTokenFailure(e);
                 Message.error(e, "Could not add this comment:");
                 setPending(false);
             }

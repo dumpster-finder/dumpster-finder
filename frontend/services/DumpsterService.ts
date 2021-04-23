@@ -1,7 +1,6 @@
 import { AxiosInstance } from "axios";
 import Position from "../models/Position";
 import Dumpster, { PostDumpster, RevDumpster } from "../models/Dumpster";
-import { packToken } from "../utils/token";
 
 export default class DumpsterService {
     readonly axios;
@@ -58,16 +57,11 @@ export default class DumpsterService {
      * Updates a dumpster
      *
      * @param dumpster An edited version of an existing dumpster
-     * @param token    The current token
      */
-    updateDumpster(dumpster: Dumpster, token: string): Promise<Dumpster> {
+    updateDumpster(dumpster: Dumpster): Promise<Dumpster> {
         console.log("Updated dumpster:", dumpster);
         return this.axios
-            .put(
-                `/dumpsters/${dumpster.dumpsterID}`,
-                dumpster,
-                packToken(token),
-            )
+            .put(`/dumpsters/${dumpster.dumpsterID}`, dumpster)
             .then(response => response.data);
     }
 
@@ -75,12 +69,11 @@ export default class DumpsterService {
      * Adds a dumpster
      *
      * @param dumpster A dumpster object without ID or rating
-     * @param token    The current token
      */
-    addDumpster(dumpster: PostDumpster, token: string): Promise<Dumpster> {
+    addDumpster(dumpster: PostDumpster): Promise<Dumpster> {
         console.log("Posted dumpster:", dumpster);
         return this.axios
-            .post("/dumpsters", dumpster, packToken(token))
+            .post("/dumpsters", dumpster)
             .then(response => response.data);
     }
 
@@ -90,13 +83,9 @@ export default class DumpsterService {
             .then(response => response.data.map((rev: RevDumpster) => rev));
     }
 
-    setRevision(dumpsterID: number, revisionID: number, token: string) {
+    setRevision(dumpsterID: number, revisionID: number) {
         return this.axios
-            .patch(
-                `/dumpsters/${dumpsterID}/revisions`,
-                { revisionID },
-                packToken(token),
-            )
+            .patch(`/dumpsters/${dumpsterID}/revisions`, { revisionID })
             .then(response => response.data);
     }
 }
