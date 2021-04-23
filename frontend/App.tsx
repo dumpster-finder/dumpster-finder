@@ -95,9 +95,6 @@ const InnerApp = () => {
         } else if (!token) {
             store.dispatch(refreshToken(userName));
             console.log("Refreshing token for the first time …");
-        } else {
-            // TODO handle timeout loop, if at all
-            // setTimeout(() => store.dispatch(refreshToken(userName)), 60000); // timeout in a minute
         }
     }, [userName, token]);
 

@@ -103,7 +103,9 @@ export default function SettingsScreen({
                 />
                 {showUserID && (
                     <View style={styles.userIDContainer}>
-                        <Text category="h5">{userName}</Text>
+                        <Text style={styles.centeredText} category="h5">
+                            {userName}
+                        </Text>
                         <Text category="c1">{t("aboutUserID")}</Text>
                     </View>
                 )}
@@ -115,14 +117,16 @@ export default function SettingsScreen({
                 {showNick && (
                     <View style={styles.columnBorder}>
                         <Input
-                            style={{ width: "90%" }}
                             size="large"
                             placeholder={t("nick")}
                             value={nicknameFieldText}
                             onChangeText={s => setNicknameFieldText(s)}
                         />
+                        <Text style={styles.centeredText} category="c1">
+                            {t("aboutNick")}
+                        </Text>
                         <Button
-                            style={{ width: "50%", marginTop: 5 }}
+                            style={{ minWidth: "53%", marginTop: 5 }}
                             onPress={() =>
                                 dispatch(setNickname(nicknameFieldText))
                             }
@@ -144,6 +148,9 @@ export default function SettingsScreen({
                             values={distances}
                             onSelect={setNewRadius}
                         />
+                        <Text style={styles.centeredText} category="c1">
+                            {t("aboutDist")}
+                        </Text>
                     </View>
                 )}
 
@@ -154,7 +161,7 @@ export default function SettingsScreen({
                 />
                 {showLanguage && (
                     <RadioGroup
-                        style={{ padding: 10 }}
+                        style={styles.languageButtons}
                         selectedIndex={newLanguage}
                         onChange={index => setNewLang(index)}
                     >
@@ -165,7 +172,7 @@ export default function SettingsScreen({
                 )}
                 <DropdownCard
                     value={showVis}
-                    text={t("visit:visitInterval")}
+                    text={t("visitInterval")}
                     onClick={newValue => setShowVis(newValue)}
                 />
                 {showVis && (
@@ -175,6 +182,9 @@ export default function SettingsScreen({
                             values={intervalValue}
                             onSelect={setInterval}
                         />
+                        <Text style={styles.centeredText} category="c1">
+                            {t("aboutVisitInterval")}
+                        </Text>
                     </View>
                 )}
                 <Card>
@@ -229,7 +239,11 @@ const styles = StyleSheet.create({
     },
     userIDContainer: {
         paddingVertical: 6,
+        paddingHorizontal: 8,
         alignItems: "center",
+    },
+    centeredText: {
+        textAlign: "center",
     },
     scrollView: {
         width: "100%",
@@ -246,9 +260,9 @@ const styles = StyleSheet.create({
     columnBorder: {
         flex: 1,
         flexDirection: "column",
-        width: "98%",
+        paddingHorizontal: 14,
         alignItems: "center",
-        marginVertical: 5,
+        marginVertical: 6,
     },
     buttonGroupContainer: {
         alignItems: "center",
@@ -257,5 +271,9 @@ const styles = StyleSheet.create({
     },
     dropdownView: {
         padding: 10,
+    },
+    languageButtons: {
+        paddingVertical: 10,
+        paddingHorizontal: 15,
     },
 });

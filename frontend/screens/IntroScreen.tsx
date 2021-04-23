@@ -40,7 +40,7 @@ export default function IntroScreen({
                         style={{ alignSelf: "center", paddingTop: 5 }}
                         category="h3"
                     >
-                        Dumpster Finder
+                        {t("appName")}
                     </Text>
                     <View style={styles.infoDisplay}>
                         <Advice />
@@ -51,7 +51,7 @@ export default function IntroScreen({
                         style={{ alignSelf: "center", paddingTop: 5 }}
                         category="h3"
                     >
-                        Dumpster Finder
+                        {t("appName")}
                     </Text>
                     <ScrollView>
                         <View style={styles.infoDisplay}>
@@ -67,7 +67,9 @@ export default function IntroScreen({
                             ? t("userIDFailed")
                             : t("generatingUserID")}
                     </Text>
-                    <Text category="c1">{t("settings:aboutUserID")}</Text>
+                    <Text style={styles.centered} category="c1">
+                        {t("settings:aboutUserID")}
+                    </Text>
                     <Button
                         status="primary"
                         style={styles.retryButton}
@@ -85,6 +87,9 @@ export default function IntroScreen({
                             navigation.dispatch(StackActions.popToTop);
                         }}
                     />
+                    <View style={styles.locationBlurb}>
+                        <Text category="c1">{t("locationBlurb")}</Text>
+                    </View>
                 </Layout>
             </ViewPager>
             <Layout style={styles.container}>
@@ -129,5 +134,12 @@ const styles = StyleSheet.create({
     retryButton: {
         minWidth: "25%",
         marginTop: 8,
+    },
+    centered: {
+        textAlign: "center",
+    },
+    locationBlurb: {
+        paddingVertical: 8,
+        paddingHorizontal: 20,
     },
 });

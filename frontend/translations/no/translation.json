@@ -48,14 +48,18 @@
         "view": "Butikkens syn på søppeldykkere"
     },
     "settings": {
-        "setPos": "Sett posisjon",
+        "setPos": "Din posisjon",
         "userID": "Din bruker-ID",
         "aboutUserID": "Denne ID-en knyttes til endringer du gjør. Ikke del den med noen.",
-        "changeNick": "Endre kallenavn",
+        "changeNick": "Kallenavn",
         "nick": "Kallenavn",
+        "aboutNick": "Kallenavnet ditt vises kun på kommentarer du legger til",
         "saveNick": "Lagre kallenavn",
-        "setDist": "Sett avstand (km)",
-        "changeLang": "Endre språk",
+        "setDist": "Maksavstand til dumpsterne (km)",
+        "aboutDist": "Hvor langt unna din posisjon du vil se dumpstere",
+        "changeLang": "Språk",
+        "visitInterval": "Besøkintervall",
+        "aboutVisitInterval": "Hvor langt tidsrom du vil se antall besøkende innenfor",
         "darkMode": "Mørkt tema",
         "hide": "Sjul kommentarer med negativ vurdering",
         "en": "Engelsk",
@@ -294,7 +298,8 @@
 
     "intro": {
         "generatingUserID": "Genererer bruker-ID …",
-        "userIDFailed": "Kunne ikke generere bruker-ID"
+        "userIDFailed": "Kunne ikke generere bruker-ID",
+        "locationBlurb": "Plasseringen din lagres kun lokalt på enheten. Den sendes til serveren vår når dumpstere hentes. Vi deler den ikke med tredjeparter – men dessverre måtte vi bruke en kartløsning som spør Google Maps om informasjon og kart over steder. Vi satser på å unngå dette senere."
     },
 
     "visit": {
@@ -305,7 +310,6 @@
         "dayText": "det siste døgnet",
         "daysText": "de siste tre dagene",
         "weekText": "den siste uka",
-        "visitInterval": "Sett besøkintervall",
         "day": "døgn",
         "days": "3 dager",
         "week": "uke",
