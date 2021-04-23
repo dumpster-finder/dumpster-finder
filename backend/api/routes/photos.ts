@@ -43,7 +43,7 @@ import { validate } from "express-validation";
 import PhotoDAO from "../daos/photos";
 import { RouteDependencies } from "../types";
 import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
-import { JwtMiddleware} from "../middleware/tokenMiddleware";
+import { JwtMiddleware } from "../middleware/tokenMiddleware";
 import { getPhotos, postPhotos } from "../validators/photos";
 import { PostPhoto } from "../types/Photo";
 import { InvalidDataError } from "../types/errors";
@@ -51,7 +51,6 @@ import { InvalidDataError } from "../types/errors";
 export default function({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
     const photoDAO = PhotoDAO(Models);
-
 
     /**
      * @swagger
@@ -195,12 +194,10 @@ export default function({ Models }: RouteDependencies) {
                     throw new InvalidDataError(
                         `Untrusted photo host ${req.body.url}`,
                     );
-                // TODO treat that userID …
-                const result = await photoDAO.addOne(
-                    req.params.dumpsterID,
-                    req.body,
-                    res.locals.session.id
-                );
+                const result = await photoDAO.addOne(req.params.dumpsterID, {
+                    url: req.body.url,
+                    userID: parseInt(res.locals.session.id),
+                });
                 res.status(201).json(result);
             } catch (e) {
                 next(e);

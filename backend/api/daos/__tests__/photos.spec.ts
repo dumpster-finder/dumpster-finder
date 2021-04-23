@@ -12,6 +12,7 @@ const photoProperties = ["photoID", "url", "dateAdded"];
 
 const photo: PostPhoto = {
     url: "https://nowhere.com/pic/hgwuohgworhgwrgwrg.jpg",
+    userID: 1,
 };
 
 describe("getAll", () => {
@@ -54,14 +55,14 @@ describe("getOne", () => {
 
 describe("addOne", () => {
     it("should add a valid photo", async () => {
-        const result = await photoDAO.addOne(2, photo, 1);
+        const result = await photoDAO.addOne(2, photo);
         expect(result).not.toBeUndefined();
         expect(result?.userID).toEqual(1);
         expect(result?.url).toEqual(photo.url);
     });
 
     it("should not add a photo to a nonexistent dumpster", async () => {
-        await expect(photoDAO.addOne(2091855, photo, 1))
+        await expect(photoDAO.addOne(2091855, photo))
             .rejects.toBeInstanceOf(APIError);
     });
 });

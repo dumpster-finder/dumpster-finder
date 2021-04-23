@@ -43,7 +43,7 @@ export function init(sequelize: Sequelize) {
                 allowNull: false,
             },
             userID: {
-                type: DataTypes.NUMBER,
+                type: DataTypes.INTEGER.UNSIGNED,
             },
             dateAdded: {
                 type: DataTypes.DATE,
@@ -61,16 +61,18 @@ export function init(sequelize: Sequelize) {
 
 // The type is not defined yet, so use a substitute
 export function associate({
-                              DumpsterPositions,
+    DumpsterPositions,
     PhotoReports,
-    Users
+    Users,
 }: {
-    DumpsterPositions: ModelStatic<Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>>;
+    DumpsterPositions: ModelStatic<
+        Model<DumpsterPositionAttributes, DumpsterPositionCreationAttributes>
+    >;
     Users: ModelStatic<Model<UserAttributes, UserCreationAttributes>>;
     PhotoReports: ModelStatic<Model<any, any>>;
 }) {
     // do associations like
     // Thing.hasMany()
     // using the supplied Models object
-    Photos.hasMany(PhotoReports, { foreignKey: "photoID"});
+    Photos.hasMany(PhotoReports, { foreignKey: "photoID" });
 }

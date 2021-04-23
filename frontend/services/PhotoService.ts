@@ -69,7 +69,6 @@ export default class PhotoService {
             `/dumpsters/${dumpsterID}/photos`,
             {
                 url: `${PHOTO_URL}${response.data.filename}`,
-                userID: "temp",
             },
         );
         return data;

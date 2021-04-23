@@ -6,4 +6,5 @@ export default interface Photo {
 
 export interface PostPhoto {
     url: string;
+    userID: number;
 }
