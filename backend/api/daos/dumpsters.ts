@@ -104,7 +104,8 @@ export default function ({
      */
     const createDumpsterRevision = async (
         dumpsterID: number,
-        dumpster: Omit<Dumpster, "dumpsterID" | "rating" | "visits">,
+        dumpster: Omit<Dumpster, "dumpsterID" | "rating" | "visits"> &
+            Partial<Dumpster>,
         position: GeoJSONPoint,
         t: Transaction,
     ) => {
@@ -170,6 +171,9 @@ export default function ({
             storeType: dumpster.storeType,
             dumpsterType: dumpster.dumpsterType,
             categories: dumpster.categories,
+            // Also override these...
+            rating: dumpster.rating || 2.5,
+            visits: dumpster.visits || 0,
         };
     };
 
@@ -276,7 +280,7 @@ export default function ({
                 attributes: [
                     ...dumpsterAttributes.slice(
                         0,
-                        dumpsterAttributes.length - 1,
+                        dumpsterAttributes.length - 2,
                     ),
                     "dateUpdated",
                     "revisionID",
