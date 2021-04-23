@@ -9,7 +9,7 @@ export interface RatingAttributes {
 }
 
 export interface RatingCreationAttributes
-    extends Optional<RatingAttributes, "userID" | "dumpsterID"> {}
+    extends Optional<RatingAttributes, "date"> {}
 
 export class Ratings
     extends Model<RatingAttributes, RatingCreationAttributes>

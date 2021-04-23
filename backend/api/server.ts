@@ -59,7 +59,7 @@ app.use("/api/content-types", contentTypes(dependencies));
 app.use("/api/store-types", storeTypes(dependencies));
 app.use("/api/dumpster-types", dumpsterTypes(dependencies));
 app.use("/api/users", users(dependencies));
-app.use("/api/ratings", ratings(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/ratings", ratings(dependencies));
 
 
 // Mount Swagger docs at /api

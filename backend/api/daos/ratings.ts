@@ -1,5 +1,5 @@
 import { MyModels } from "../models";
-import { literal, Transaction } from "sequelize";
+import {literal, Sequelize, Transaction} from "sequelize";
 import Rating from "../types/Rating";
 import { RatingAttributes } from "../models/Ratings";
 import Position, { GeoJSONPoint, PositionParams } from "../types/Position";
@@ -31,7 +31,7 @@ export default function ({
             return await sequelize.transaction(async t => {
                 const dumpsterPosition = await Ratings.create(
                     {
-                        position,
+                        ...rating
                     },
                     {transaction: t},
                 ).catch(_ => {
@@ -40,6 +40,42 @@ export default function ({
                     );
                 });
 
+            });
+        },
+        /**
+         * update a rating to a dumpster, returning the inserted entity
+         *
+         * @param rating
+         */
+
+        updateOne: async (userID : number, dumpsterID : number, rating : number) => {
+            return sequelize.transaction(async t => {
+                // Check that the pair of revision and dumpster ID is valid
+                const match = await Ratings.findOne({
+                    where: {
+                        userID,
+                        dumpsterID,
+                    },
+                    transaction: t,
+                });
+
+                if (!match)
+                    throw new InvalidKeyError(
+                        "There is no rating for this dumpster from this user",
+                    );
+                return await Ratings.update(
+                    {
+                        rating,
+                        date : Sequelize.fn('NOW').toString(),
+                    },
+                    {
+                        where: {
+                            userID,
+                            dumpsterID,
+                        },
+                        transaction: t,
+                    },
+                );
             });
         },
     }
