@@ -321,8 +321,11 @@
     },
     "report": {
         "report": "Rapporter denne søppelkassen",
-        "text": "Rapporter søppelkassen dersom den ikke eksisterer, er ulovlig å gå i osv. Dersom det er feil ved informasjonen til dumpsteren så kan du endre dette i redigering",
-        "reason": "Grunn (Valgfritt)",
+        "text": "Rapporter søppelkassen dersom den ikke eksisterer, er ulovlig å dumpstre i osv. Dersom det er noe feil med informasjonen om dumpsteren så kan du endre den selv",
+        "reason": {
+            "label": "Grunn (valgfritt)",
+            "placeholder": "f.eks. Jeg har sett grundig etter og finner den ikke."
+        },
         "alreadyReport": "Du har allerede rapporter denne dumpsteren",
         "justReport": "Vi har registrert din rapport"
     }

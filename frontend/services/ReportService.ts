@@ -15,14 +15,9 @@ export default class ReportService {
      * @param userID ID of the user who reports the dumpster
      * @param reason Optional reason for the report
      */
-    addOne(
-        dumpsterID: number,
-        userID: string,
-        reason: string | undefined,
-    ): Promise<Report> {
+    addOne(dumpsterID: number, reason: string | undefined): Promise<Report> {
         return this.axios
             .post(`/dumpsters/${dumpsterID}/reports`, {
-                userID,
                 reason,
             })
             .then(response => response.data);

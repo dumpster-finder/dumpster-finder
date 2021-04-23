@@ -11,6 +11,8 @@ import {
 } from "../components/basicComponents/Icons";
 import { useTranslation } from "react-i18next";
 import { ReportService } from "../services";
+import Message from "../utils/Message";
+import { userIDSelector } from "../redux/slices/userSlice";
 
 export default function FlagScreen({
     navigation,
@@ -24,17 +26,18 @@ export default function FlagScreen({
     const [justFlagged, setJustFlagged] = useState(false);
     const [reason, setReason] = useState("");
     const [pending, setPending] = useState(false);
-    const myUserID = "temp1";
+    const myUserID = useSelector(userIDSelector);
+
     useEffect(() => {
         if (dumpster) {
             ReportService.getAll(dumpster.dumpsterID)
-                .then(data =>
-                    data.map(data => {
+                .then(data => {
+                    data.forEach(data => {
                         data.userID === myUserID ? setHasFlagged(true) : null;
-                    }),
-                )
-                .then(() => setFetchFlags(true))
-                .catch(e => console.error("Could not fetch comments", e));
+                    });
+                    setFetchFlags(true);
+                })
+                .catch(e => Message.error(e, "Could not fetch reports"));
         }
     }, [dumpster]);
     return (
@@ -46,8 +49,8 @@ export default function FlagScreen({
                     </View>
                     <Input
                         style={styles.input}
-                        placeholder={t("reason")}
-                        label={t("reason")}
+                        placeholder={t("reason.placeholder")}
+                        label={t("reason.label")}
                         textStyle={{ minHeight: 64 }}
                         onChangeText={change => setReason(change)}
                         multiline={true}
@@ -76,7 +79,7 @@ export default function FlagScreen({
                     <Button
                         style={{ marginVertical: 15, minWidth: "40%" }}
                         status={"basic"}
-                        onPress={() => navigation.navigate("DetailsScreen")}
+                        onPress={() => navigation.goBack()}
                         size={"giant"}
                     >
                         {t("back")}
@@ -90,9 +93,14 @@ export default function FlagScreen({
         setPending(true);
         // TODO reason get registered as empty string. Not null
         if (dumpster) {
-            await ReportService.addOne(dumpster.dumpsterID, myUserID, reason)
-                .then(() => setJustFlagged(true))
-                .then(() => setHasFlagged(true));
+            try {
+                await ReportService.addOne(dumpster.dumpsterID, reason);
+                setHasFlagged(true);
+                setJustFlagged(true);
+            } catch (e) {
+                Message.error(e, "Could not report dumpster");
+                setPending(false);
+            }
         }
     }
 }
@@ -102,6 +110,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
+        padding: 6,
     },
     view: {
         width: "95%",

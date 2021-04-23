@@ -68,7 +68,7 @@ export default function CommentScreen() {
                         comment={value}
                         key={value.commentID}
                         voted={ratedComments[value.commentID]}
-                        mine={value.userID == myUserID}
+                        mine={value.userID === myUserID}
                         onDelete={removeComment}
                     />
                 ))}
