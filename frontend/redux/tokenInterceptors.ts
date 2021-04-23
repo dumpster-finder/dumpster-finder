@@ -40,14 +40,16 @@ export const handleTokenResponse = (response: AxiosResponse) => {
  * @param error Error to inspect
  */
 export const handleTokenError = (error: AxiosError) => {
-    // TODO decide if we should await this dispatch or not
     if (error.code === "401") {
         // If authorization failed, get a new token
         console.log("401 occurred, refreshing token …");
         const userName = userNameSelector(store.getState());
+        // Don't wait for the dispatch to finish
         store
             .dispatch(refreshToken(userName))
             .catch(e => Message.error(e, "Failed to refresh token"));
     }
-    return error;
+
+    // Make sure Axios *still* treats the error as an error
+    return Promise.reject(error);
 };
