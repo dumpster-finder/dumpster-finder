@@ -59,4 +59,18 @@ const errorHandler = (logger: Logger) => (
     res.json({ error: err.message, statusCode: res.statusCode, ...extras });
 };
 
+export const notFoundHandler = (logger: Logger) => (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    logger.error(
+        `Someone tried to access ${req.url}, which is not part of any routes`,
+    );
+    res.status(404).json({
+        error: "Invalid URL or resource does not exist",
+        statusCode: 404,
+    });
+};
+
 export default errorHandler;

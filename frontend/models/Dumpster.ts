@@ -14,11 +14,12 @@ export interface RevDumpster {
     storeType: string;
     categories: string[];
     info: string;
+    visits: number;
     dateUpdated: string;
     isActive: boolean;
 }
 
-class Dumpster {
+export default class Dumpster {
     dumpsterID: number;
     name: string;
     position: Position;
@@ -31,6 +32,8 @@ class Dumpster {
     storeType: string;
     categories: string[];
     info: string;
+    visits: number;
+    distance?: number;
 
     constructor({
         dumpsterID,
@@ -45,6 +48,8 @@ class Dumpster {
         storeType,
         categories,
         info,
+        visits,
+        distance,
     }: {
         dumpsterID: number;
         name: string;
@@ -58,6 +63,8 @@ class Dumpster {
         storeType: string;
         categories: string[];
         info: string;
+        visits: number;
+        distance?: number;
     }) {
         this.dumpsterID = dumpsterID;
         this.name = name;
@@ -71,7 +78,10 @@ class Dumpster {
         this.storeType = storeType;
         this.categories = categories;
         this.info = info;
+        this.visits = visits;
+        this.distance = distance;
     }
 }
 
-export default Dumpster;
+export type UpdatedDumpster = Omit<Dumpster, "rating" | "visits">; // wait, what sense does this make?
+export type PostDumpster = Omit<Dumpster, "dumpsterID" | "rating" | "visits">;

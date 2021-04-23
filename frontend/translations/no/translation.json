@@ -22,8 +22,9 @@
         "cancel": "Avbryt",
         "add": "Legg til",
         "save": "Lagre",
-        "remove": "Fjern"
-
+        "remove": "Fjern",
+        "back": "Tilbake",
+        "km": "km"
     },
     "advice": {
         "title": "Råd for dumpster diving",
@@ -213,6 +214,7 @@
         "Electronics Store": "Elektronikk",
         "Bakery": "Bakeri",
         "Furniture Store": "Møbelbutikk",
+        "General Store": "Dagligvarebutikk",
         "Miscellaneous": "Blandet"
     },
 
@@ -268,6 +270,27 @@
         "edit": "Rediger dumpster",
         "info": "Informasjon",
         "settings": "Innstillinger",
-        "yourPos": "Sett posisjon"
+        "yourPos": "Sett posisjon",
+        "gallery": "Bildegalleri",
+        "display": "Bilde",
+        "addPhoto": "Legg til bilde"
+    },
+
+    "visit": {
+        "visitbtn":"Jeg var her",
+        "part1": "Besøkt",
+        "part2": "ganger",
+        "visitInterval": "Sett besøksintervall",
+        "day": "Dag",
+        "month": "Måned",
+        "year": "År"
+    },
+
+    "photo": {
+        "upload": "Last opp bilde",
+        "take": "Ta bilde",
+        "photo": "Bilde",
+        "delete" : "Slett bilde",
+        "add": "Legg til bide"
     }
 }

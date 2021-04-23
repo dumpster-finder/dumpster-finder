@@ -2,8 +2,8 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import Dumpster from "../models/Dumpster";
-import DumpsterEditor from "../components/DumpsterEditor";
+import Dumpster, { UpdatedDumpster } from "../models/Dumpster";
+import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import {
     addDumpster,
     currentDumpsterSelector,
@@ -14,28 +14,30 @@ import { setCurrentDumpster } from "../redux/slices/dumpsterSlice";
 import { resetEditor } from "../redux/slices/editorSlice";
 import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function EditDumpsterScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("common");
     const dispatch = useAppDispatch();
-    const dumpster = useSelector(currentDumpsterSelector);
+    const actualDumpster = useSelector(currentDumpsterSelector);
     const [pending, setPending] = useState(false);
 
-    if (dumpster === null) {
+    if (actualDumpster === null) {
         return (
-            <View style={styles.container}>
-                <Text>CRY</Text>
-            </View>
+            <Layout style={styles.container}>
+                <Text category="h1">{t("somethingWrong")}</Text>
+            </Layout>
         );
     } else {
         return (
             <Layout style={styles.container}>
                 <DumpsterEditor
                     mode="edit"
-                    dumpster={dumpster}
+                    dumpster={actualDumpster}
                     onSave={handleSave}
                     pending={pending}
                 />
@@ -43,13 +45,16 @@ export default function EditDumpsterScreen({
         );
     }
 
-    async function handleSave(dumpster: Omit<Dumpster, "rating">) {
+    async function handleSave(dumpster: UpdatedDumpster) {
+        if (!actualDumpster) return; // there was no dumpster to edit in the first place
         try {
             setPending(true);
             // Update the dumpster
-            const updatedDumpster = await DumpsterService.updateDumpster(
-                dumpster,
-            );
+            const updatedDumpster = await DumpsterService.updateDumpster({
+                ...dumpster,
+                rating: actualDumpster.rating,
+                visits: actualDumpster.visits,
+            });
             // Add this dumpster to the list of dumpsters!
             dispatch(addDumpster(updatedDumpster));
             dispatch(setCurrentDumpster(updatedDumpster));

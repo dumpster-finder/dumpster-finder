@@ -5,10 +5,16 @@ import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
-import PhotoDisplay from "../components/PhotoDisplay";
-import DumpsterInfo from "../components/DumpsterInfo";
+import PhotoDisplay from "../components/compoundComponents/PhotoDisplay";
 import { useTranslation } from "react-i18next";
-import { CommentButtonIcon } from "../components/Icons";
+import CategoryInfo from "../components/dumpsterInfo/CategoryInfo";
+import ExtraInfo from "../components/dumpsterInfo/ExtraInfo";
+import InfoRow from "../components/dumpsterInfo/InfoRow";
+import GeneralInfo from "../components/dumpsterInfo/GeneralInfo";
+import { DumpsterService, VisitService } from "../services";
+import { useAppDispatch } from "../redux/store";
+import usePhotos from "../hooks/usePhotos";
+import { useState } from "react";
 
 export default function DetailsScreen({
     navigation,
@@ -17,17 +23,14 @@ export default function DetailsScreen({
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("details");
     const dumpster = useSelector(currentDumpsterSelector);
-    const photos = [
-        "https://images1.westword.com/imager/u/745xauto/11871566/cover_no_copy.jpg",
-        "https://cdn.shopify.com/s/files/1/1133/3328/products/dumpster-2020_600x.jpg?v=1594250607",
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg",
-    ];
+    const photos = usePhotos();
+    const [visits, setVisits] = useState(dumpster ? dumpster.visits : 0);
 
     if (!dumpster) {
         return (
-            <View style={styles.container}>
+            <Layout style={styles.container}>
                 <Text category="h1">{t("somethingWrong")}</Text>
-            </View>
+            </Layout>
         );
     } else {
         return (
@@ -47,12 +50,29 @@ export default function DetailsScreen({
                             {t(`storeType:${dumpster.storeType}`)}
                         </Text>
                     </View>
+                    <View style={{ height: 150, marginVertical: 5 }}>
+                        <PhotoDisplay
+                            photoList={photos}
+                            onPress={() =>
+                                navigation.navigate("PhotoGalleryScreen")
+                            }
+                        />
+                    </View>
 
                     {/*TODO this might end badly on really small screens!*/}
-                    <View style={{ height: 150, marginVertical: 5 }}>
-                        <PhotoDisplay photoList={photos} />
-                    </View>
-                    <DumpsterInfo dumpster={dumpster} />
+
+                    <CategoryInfo dumpster={dumpster} />
+                    <GeneralInfo dumpster={dumpster} />
+                    <Text
+                        style={{
+                            justifyContent: "flex-start",
+                        }}
+                    >
+                        {t("visit:part1")} {visits} {t("visit:part2")}
+                    </Text>
+                    <InfoRow dumpster={dumpster} />
+
+                    <ExtraInfo dumpster={dumpster} />
 
                     <View style={styles.buttonRow}>
                         <Button
@@ -86,9 +106,42 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
+                    <Button
+                        style={{
+                            alignSelf: "center",
+                        }}
+                        size="small"
+                        onPress={visit}
+                    >
+                        {t("visit:visitbtn")}
+                    </Button>
                 </ScrollView>
             </Layout>
         );
+    }
+
+    async function visit() {
+        setVisits(visits + 1);
+        if (dumpster) {
+            await VisitService.addOne(dumpster.dumpsterID, "temp1").then(
+                getDumpster,
+            );
+        }
+    }
+
+    async function getDumpster() {
+        if (dumpster) {
+            try {
+                const updatedDumpster = await DumpsterService.getDumpster(
+                    dumpster.dumpsterID,
+                );
+                // TODO calc distance here (fix-list has stuff)
+                dispatch(setCurrentDumpster(updatedDumpster));
+                dispatch(addDumpster(updatedDumpster));
+            } catch (e) {
+                console.error("Could not add visit", e);
+            }
+        }
     }
 }
 
@@ -111,5 +164,9 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: 10,
+    },
+    view: {
+        flexDirection: "row",
+        alignItems: "center",
     },
 });
