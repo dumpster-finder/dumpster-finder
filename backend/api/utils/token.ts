@@ -4,6 +4,8 @@ import { encode, decode, TAlgorithm } from "jwt-simple";
  * https://nozzlegear.com/blog/implementing-a-jwt-auth-system-with-typescript-and-node
  */
 const algorithm: TAlgorithm = "HS512";
+const ThirtyMinutesInMs = 30 * 60 * 1000;
+const OneHourInMs = 1 * 60 * 60 * 1000;
 
 export interface Session {
     id: number;
@@ -31,8 +33,7 @@ export function encodeToken(userID: number) {
     // Always use HS512 to sign the token
     // Determine when the token should expire
     const issued = Date.now();
-    const thirtyMinutesInMs = 30 * 60 * 1000;
-    const expires = issued + thirtyMinutesInMs;
+    const expires = issued + ThirtyMinutesInMs;
     const session: Session = {
         id: userID,
         expires: expires,
@@ -101,8 +102,7 @@ export function checkTokenTime(session: Session): ExpirationStatus {
     if (session.expires > now) return "active";
 
     // Find the timestamp for the end of the token's grace period
-    const oneHourInMs = 1 * 60 * 60 * 1000;
-    const oneHourAfterExpiration = session.expires + oneHourInMs;
+    const oneHourAfterExpiration = session.expires + OneHourInMs;
 
     if (oneHourAfterExpiration > now) return "grace";
 
