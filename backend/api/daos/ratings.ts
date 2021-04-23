@@ -22,15 +22,17 @@ export default function ({
          * Adds a rating to a dumpster, returning the inserted entity
          *
          * @param rating
+         * @param rating
          */
 
-        addOne: async (rating: Omit<Rating, "date">) => {
+        addOne: async (dumpsterID : number, rating: Omit<Rating, "date" | "dumpsterID">) => {
             // Rewrite position data to GeoJSON format
 
             // Perform transaction
             return await sequelize.transaction(async t => {
-                const dumpsterPosition = await Ratings.create(
+                return await Ratings.create(
                     {
+                        dumpsterID,
                         ...rating
                     },
                     {transaction: t},

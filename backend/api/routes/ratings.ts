@@ -16,9 +16,8 @@
  *                     description: the rating value
  *             example:
  *                 userID: crawl daring message team lamp develop
- *                 dumpsterID: 1
  *                 rating: 4
- * ratings:
+ * tags:
  *   - name: Ratings
  *     description: Ratings API
  */
@@ -56,20 +55,23 @@ export default function ({ Models }: RouteDependencies) {
      *         content:
      *           application/json:
      */
-    router.post("/", standardLimiter, async (req, res, next) => {
+    router.post("/",
+        standardLimiter,
+        async (req, res, next) => {
         try {
-            const rating = await ratingDAO.addOne(req.body);
+            const rating = await ratingDAO.addOne(req.params.userID, req.body);
             res.status(201).json(rating);
         } catch (e) {
             next(e);
         }
-    });
+        },
+    );
 
-    return router;
+
     /**
      * @swagger
      * /dumpsters/:dumpsterID(\d+)/ratings/:
-     *   PUT:
+     *   put:
      *     summary: Updates a rating
      *     tags: [Ratings]
      *     parameters:
@@ -86,18 +88,21 @@ export default function ({ Models }: RouteDependencies) {
      *               $ref: '#/components/schemas/Rating'
      *     responses:
      *       "201":
-     *         description: Rating successfully written
+     *         description: Rating successfully Overwritten
      *         content:
      *           application/json:
      */
-    router.put("/", standardLimiter, async (req, res, next) => {
-        try {
-            const rating = await ratingDAO.addOne(req.body);
-            res.status(201).json(rating);
-        } catch (e) {
-            next(e);
-        }
-    });
+    router.put("/",
+        standardLimiter,
+        async (req, res, next) => {
+            try {
+                const rating = await ratingDAO.updateOne(req.body);
+                res.status(201).json(rating);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
 
     return router;
 }
