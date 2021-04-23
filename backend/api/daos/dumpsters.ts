@@ -89,7 +89,7 @@ const dumpsterAttributes: (string | any)[] = [
  *
  * @param Models - All defined Sequelize models
  */
-export default function ({
+export default function({
     DumpsterPositions,
     Dumpsters,
     DumpsterCategories,
@@ -280,7 +280,7 @@ export default function ({
                 attributes: [
                     ...dumpsterAttributes.slice(
                         0,
-                        dumpsterAttributes.length - 2,
+                        dumpsterAttributes.length - 1,
                     ),
                     "dateUpdated",
                     "revisionID",
@@ -350,7 +350,9 @@ export default function ({
          * @param dumpster
          * @return The newly posted data, with an ID
          */
-        addOne: async (dumpster: Omit<Dumpster, "dumpsterID" | "rating" | "visits">) => {
+        addOne: async (
+            dumpster: Omit<Dumpster, "dumpsterID" | "rating" | "visits">,
+        ) => {
             // Rewrite position data to GeoJSON format
             const position = translateToGeoJSONPoint(dumpster.position);
 
