@@ -40,11 +40,9 @@ import { subDays } from "date-fns";
 import {
     getUserID,
     refreshToken,
-    setToken,
     tokenSelector,
-    userIDSelector,
+    userNameSelector,
 } from "./redux/slices/userSlice";
-import { UserService } from "./services";
 import Message from "./utils/Message";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
@@ -59,7 +57,7 @@ const InnerApp = () => {
     const ratedComments = useSelector(ratedCommentsSelector);
     const visitDate = useSelector(visitsSelector);
     const registeredVisits = useSelector(registeredVisitsSelector);
-    const userID = useSelector(userIDSelector);
+    const userName = useSelector(userNameSelector);
     const token = useSelector(tokenSelector);
 
     const visitSinceDate = subDays(
@@ -85,23 +83,23 @@ const InnerApp = () => {
 
     useEffect(() => {
         // Refresh token when the app loads!
-        if (userID) store.dispatch(refreshToken(userID));
+        if (userName) store.dispatch(refreshToken(userName));
     }, []);
 
     useEffect(() => {
-        if (!userID) {
+        if (!userName) {
             // should be the case only when you *first* open the app
             store.dispatch(getUserID()).catch(e => console.error(e));
             // User will have to press a retry button if it did not work
             // (for the time being)
         } else if (!token) {
-            store.dispatch(refreshToken(userID));
+            store.dispatch(refreshToken(userName));
             console.log("Refreshing token for the first time …");
         } else {
             // TODO handle timeout loop, if at all
-            // setTimeout(() => store.dispatch(refreshToken(userID)), 60000); // timeout in a minute
+            // setTimeout(() => store.dispatch(refreshToken(userName)), 60000); // timeout in a minute
         }
-    }, [userID, token]);
+    }, [userName, token]);
 
     useEffect(() => {
         // TODO reconsider the 1st part

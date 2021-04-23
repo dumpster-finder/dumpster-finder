@@ -13,7 +13,7 @@ import { StackActions } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import {
     getUserID,
-    userIDSelector,
+    userNameSelector,
     userStatusSelector,
 } from "../redux/slices/userSlice";
 import { useTranslation } from "react-i18next";
@@ -25,7 +25,7 @@ export default function IntroScreen({
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("intro");
     const dispatch = useAppDispatch();
-    const userID = useSelector(userIDSelector);
+    const userID = useSelector(userNameSelector);
     const userIDStatus = useSelector(userStatusSelector);
     const buttons = ["1", "2", "3", "4"];
     const [selectedIndex, setSelectedIndex] = useState(0);

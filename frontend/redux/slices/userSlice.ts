@@ -6,7 +6,8 @@ import { UserService } from "../../services";
  * State with bookkeeping for token
  */
 interface SliceState {
-    userID: string; // The actual plain text version of the user ID
+    userName: string; // The actual plain text version of the user ID
+    userID: number; // The surrogate key, useful for checking if a comment is your own
     token: string;
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
@@ -28,8 +29,8 @@ export const getUserID = createAsyncThunk("user/getUserID", async () => {
  */
 export const refreshToken = createAsyncThunk(
     "user/refreshToken",
-    async (userID: string) => {
-        const token = await UserService.authenticate(userID);
+    async (userName: string) => {
+        const token = await UserService.authenticate(userName);
         if (!token) throw new Error("Token was found but it is undefined");
         return token;
     },
@@ -38,7 +39,8 @@ export const refreshToken = createAsyncThunk(
 export const userSlice = createSlice({
     name: "user",
     initialState: {
-        userID: "",
+        userName: "",
+        userID: 0,
         token: "",
         status: "idle",
         error: null,
@@ -47,11 +49,21 @@ export const userSlice = createSlice({
         /**
          * Sets the user ID
          *
-         * Usage: dispatch(setUserID("two fellow people on a road"));
+         * Usage: dispatch(setUserName("two fellow people on a road"));
          *
          * @param payload The user ID
          */
-        setUserID: (state, { payload }: { payload: string }) => {
+        setUserName: (state, { payload }: { payload: string }) => {
+            state.userName = payload;
+        },
+        /**
+         * Sets the numeric user ID
+         *
+         * Usage: dispatch(setUserID(23));
+         *
+         * @param payload The user ID
+         */
+        setUserID: (state, { payload }: { payload: number }) => {
             state.userID = payload;
         },
         /**
@@ -73,7 +85,8 @@ export const userSlice = createSlice({
             getUserID.fulfilled,
             (state: SliceState, { payload }) => {
                 state.status = "succeeded";
-                state.userID = payload;
+                state.userName = payload.userName;
+                state.userID = payload.userID;
             },
         );
         builder.addCase(getUserID.rejected, (state: SliceState, { error }) => {
@@ -106,10 +119,11 @@ export const userSlice = createSlice({
     },
 });
 
-export const { setToken, setUserID } = userSlice.actions;
+export const { setToken, setUserName, setUserID } = userSlice.actions;
 
 export default userSlice.reducer;
 
 export const userIDSelector = (state: RootState) => state.user.userID;
+export const userNameSelector = (state: RootState) => state.user.userName;
 export const tokenSelector = (state: RootState) => state.user.token;
 export const userStatusSelector = (state: RootState) => state.user.status;

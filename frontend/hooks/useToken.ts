@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import {
     refreshToken,
     tokenSelector,
-    userIDSelector,
+    userNameSelector,
 } from "../redux/slices/userSlice";
 import { useAppDispatch } from "../redux/store";
 import { AxiosError } from "axios";
@@ -13,7 +13,7 @@ import { AxiosError } from "axios";
 export default function() {
     const dispatch = useAppDispatch();
     const token = useSelector(tokenSelector);
-    const userID = useSelector(userIDSelector);
+    const userID = useSelector(userNameSelector);
     const onTokenFailure = (e: AxiosError) => {
         if (e.code === "401")
             // Only refresh if this was an auth error

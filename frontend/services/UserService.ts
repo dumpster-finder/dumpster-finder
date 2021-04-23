@@ -1,5 +1,10 @@
 import { AxiosInstance } from "axios";
 
+interface UserResponse {
+    userID: number;
+    userName: string;
+}
+
 export default class UserService {
     axios: AxiosInstance;
 
@@ -10,7 +15,7 @@ export default class UserService {
     /**
      * Fetches a user ID from the API server
      */
-    getUserID(): Promise<string> {
+    getUserID(): Promise<UserResponse> {
         return this.axios.get("/users").then(response => response.data);
     }
 

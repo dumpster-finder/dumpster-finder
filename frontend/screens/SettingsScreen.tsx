@@ -33,7 +33,7 @@ import DropdownCard from "../components/cards/DropdownCard";
 import ButtonGroupDisplay from "../components/basicComponents/ButtonGroupDisplay";
 import { useTranslation } from "react-i18next";
 import ToggleSwitch from "../components/basicComponents/ToggleSwitch";
-import { userIDSelector, setUserID } from "../redux/slices/userSlice";
+import { userNameSelector, setUserName } from "../redux/slices/userSlice";
 import Constants from "expo-constants";
 
 export default function SettingsScreen({
@@ -48,7 +48,7 @@ export default function SettingsScreen({
     const intervalValue = [t("visit:day"), t("visit:days"), t("visit:week")];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
-    const userID = useSelector(userIDSelector);
+    const userName = useSelector(userNameSelector);
     const nickname = useSelector(nicknameSelector);
     const language = useSelector(languageSelector);
     const visit = useSelector(visitsSelector);
@@ -103,7 +103,7 @@ export default function SettingsScreen({
                 />
                 {showUserID && (
                     <View style={styles.userIDContainer}>
-                        <Text category="h5">{userID}</Text>
+                        <Text category="h5">{userName}</Text>
                         <Text category="c1">{t("aboutUserID")}</Text>
                     </View>
                 )}
@@ -196,7 +196,7 @@ export default function SettingsScreen({
                         <Button onPress={() => dispatch(setFirstTime(true))}>
                             It's my first time!
                         </Button>
-                        <Button onPress={() => dispatch(setUserID(""))}>
+                        <Button onPress={() => dispatch(setUserName(""))}>
                             Reset user ID
                         </Button>
                     </>

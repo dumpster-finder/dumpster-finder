@@ -18,6 +18,7 @@ import {
 } from "../components/basicComponents/Icons";
 import { useTranslation } from "react-i18next";
 import Message from "../utils/Message";
+import { userIDSelector } from "../redux/slices/userSlice";
 
 export default function CommentScreen() {
     const { t }: { t: (s: string) => string } = useTranslation("comment");
@@ -27,7 +28,9 @@ export default function CommentScreen() {
     const [pending, setPending] = useState(false);
     const dumpster = useSelector(currentDumpsterSelector);
     const nickname = useSelector(nicknameSelector);
-    const myUserID = "temp1"; // TODO this userID is not a string & where do we fetch it?
+    const myUserID = useSelector(userIDSelector);
+
+    console.log("hirghrg", myUserID);
 
     useEffect(() => {
         if (dumpster)
@@ -65,8 +68,7 @@ export default function CommentScreen() {
                         comment={value}
                         key={value.commentID}
                         voted={ratedComments[value.commentID]}
-                        // @ts-ignore
-                        mine={value.userID === myUserID /* TODO fix */}
+                        mine={value.userID == myUserID}
                         onDelete={removeComment}
                     />
                 ))}

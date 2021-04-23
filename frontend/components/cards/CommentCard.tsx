@@ -162,12 +162,11 @@ export default function CommentCard({
 
     async function delComment() {
         try {
-            const updatedComment = await CommentService.deleteOne(
+            await CommentService.deleteOne(
                 comment.dumpsterID,
                 comment.commentID,
             );
             onDelete(comment.commentID);
-            console.log(updatedComment);
         } catch (e) {
             Message.error(e, "Could not delete this comment");
         }
