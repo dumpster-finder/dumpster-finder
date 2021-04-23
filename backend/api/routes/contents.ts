@@ -120,7 +120,7 @@ export default function({ Models }: RouteDependencies) {
      *         required: true
      *         description: Dumpster ID
      *       - in: header
-     *         name: JWTToken
+     *         name: x-access-token
      *         schema:
      *           type: string
      *         format: uuid
@@ -188,7 +188,7 @@ export default function({ Models }: RouteDependencies) {
      *         required: true
      *         description: Found date
      *       - in: header
-     *         name: JWTToken
+     *         name: x-access-token
      *         schema:
      *           type: string
      *         format: uuid
@@ -271,7 +271,7 @@ export default function({ Models }: RouteDependencies) {
      *         required: true
      *         description: Found date
      *       - in: header
-     *         name: JWTToken
+     *         name: x-access-token
      *         schema:
      *           type: string
      *         format: uuid

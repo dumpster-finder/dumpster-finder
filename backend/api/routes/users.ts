@@ -79,7 +79,7 @@ export default function({ Models }: RouteDependencies) {
                     req.params.userID,
                 );
                 if (userExists) {
-                    res.header("JWTToken", encodeToken(userExists));
+                    res.header("x-access-token", encodeToken(userExists));
                     res.status(200).json({
                         statusCode: 200,
                         message: "User exists, validation complete",

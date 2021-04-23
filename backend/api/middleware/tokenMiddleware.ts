@@ -14,7 +14,7 @@ import {
 import { logger } from "../server";
 import { UnauthorizedError } from "../types/errors";
 
-const requestHeader = "jwttoken";
+const requestHeader = "x-access-token";
 /**
  * Express middleware, checks for a valid JSON Web Token and returns 401 Unauthorized if one isn't found.
  */

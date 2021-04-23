@@ -1,1 +1,1 @@
-export const packToken = (token: string) => ({ headers: { jwttoken: token } });
+export const packToken = (token: string) => ({ headers: { ['x-access-token']: token } });
