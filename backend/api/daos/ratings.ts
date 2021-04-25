@@ -38,7 +38,7 @@ export default function ({
                     {transaction: t},
                 ).catch(_ => {
                     throw new ConflictError(
-                        "A dumpster already exists at this position",
+                        "A rating already exists for this dumpster by this user",
                     );
                 });
 

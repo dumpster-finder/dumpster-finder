@@ -23,7 +23,7 @@
  */
 
 import { RouteDependencies } from "../types";
-import { Router } from "express";
+import {Request, Router} from "express";
 import RatingDAO from "../daos/ratings";
 import { standardLimiter } from "../middleware/rateLimiter";
 
@@ -33,7 +33,7 @@ export default function ({ Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/:dumpsterID(\d+)/ratings/:
+     * /dumpsters/{dumpsterID}/ratings/:
      *   post:
      *     summary: Post a rating
      *     tags: [Ratings]
@@ -44,7 +44,7 @@ export default function ({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
-     *     requestBody;
+     *     requestBody:
      *       content:
      *         application/json:
      *           schema:
@@ -57,9 +57,13 @@ export default function ({ Models }: RouteDependencies) {
      */
     router.post("/",
         standardLimiter,
-        async (req, res, next) => {
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
         try {
-            const rating = await ratingDAO.addOne(req.params.userID, req.body);
+            const rating = await ratingDAO.addOne(req.params.dumpsterID, req.body);
             res.status(201).json(rating);
         } catch (e) {
             next(e);
@@ -70,7 +74,7 @@ export default function ({ Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/:dumpsterID(\d+)/ratings/:
+     * /dumpsters/{dumpsterID}/ratings/:
      *   put:
      *     summary: Updates a rating
      *     tags: [Ratings]
@@ -81,7 +85,7 @@ export default function ({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
-     *     requestBody;
+     *     requestBody:
      *       content:
      *         application/json:
      *           schema:
@@ -94,9 +98,13 @@ export default function ({ Models }: RouteDependencies) {
      */
     router.put("/",
         standardLimiter,
-        async (req, res, next) => {
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
             try {
-                const rating = await ratingDAO.updateOne(req.body);
+                const rating = await ratingDAO.updateOne(req.body.userID, req.params.dumpsterID, req.body.rating);
                 res.status(201).json(rating);
             } catch (e) {
                 next(e);
