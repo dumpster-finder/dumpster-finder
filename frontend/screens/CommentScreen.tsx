@@ -18,6 +18,7 @@ import {
 } from "../components/basicComponents/Icons";
 import { useTranslation } from "react-i18next";
 import Message from "../utils/Message";
+import { userIDSelector } from "../redux/slices/userSlice";
 
 export default function CommentScreen() {
     const { t }: { t: (s: string) => string } = useTranslation("comment");
@@ -27,7 +28,9 @@ export default function CommentScreen() {
     const [pending, setPending] = useState(false);
     const dumpster = useSelector(currentDumpsterSelector);
     const nickname = useSelector(nicknameSelector);
-    const myUserID = "temp1";
+    const myUserID = useSelector(userIDSelector);
+
+    console.log("hirghrg", myUserID);
 
     useEffect(() => {
         if (dumpster)
@@ -83,11 +86,10 @@ export default function CommentScreen() {
         if (comment !== "" && dumpster) {
             const newComment: Omit<
                 Comments,
-                "commentID" | "date" | "rating"
+                "commentID" | "userID" | "date" | "rating"
             > = {
                 dumpsterID: dumpster.dumpsterID,
                 nickname: nickname,
-                userID: myUserID,
                 comment: comment,
             };
             try {

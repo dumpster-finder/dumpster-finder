@@ -8,14 +8,24 @@ import CommentServiceClass from "./CommentService";
 import ContentServiceClass from "./ContentService";
 import PhotoServiceClass from "./PhotoService";
 import VisitServiceClass from "./VisitService";
+import UserServiceClass from "./UserService";
 import ReportServiceClass from "./ReportService";
 import Constants from "expo-constants";
+import {
+    addTokenHeader,
+    handleTokenError,
+    handleTokenResponse,
+} from "../redux/tokenInterceptors";
 
 // Create one single instance of Axios
 const axiosInstance = axios.create({
     baseURL: Constants.manifest.extra.apiURL || "http://localhost:3000/api/",
     timeout: 1000,
 });
+
+// Add some interceptors for tokens
+axiosInstance.interceptors.request.use(addTokenHeader);
+axiosInstance.interceptors.response.use(handleTokenResponse, handleTokenError);
 
 console.log(`Server address is ${axiosInstance.defaults.baseURL}`);
 
@@ -29,6 +39,7 @@ const CommentService = new CommentServiceClass(axiosInstance);
 const ContentService = new ContentServiceClass(axiosInstance);
 const PhotoService = new PhotoServiceClass(axiosInstance);
 const VisitService = new VisitServiceClass(axiosInstance);
+const UserService = new UserServiceClass(axiosInstance);
 const ReportService = new ReportServiceClass(axiosInstance);
 
 // and export them
@@ -42,5 +53,6 @@ export {
     ContentService,
     PhotoService,
     VisitService,
+    UserService,
     ReportService,
 };

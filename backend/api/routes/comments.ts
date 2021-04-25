@@ -68,6 +68,7 @@ import {
     updateLimiter,
     voteLimiter,
 } from "../middleware/rateLimiter";
+import { JwtMiddleware } from "../middleware/tokenMiddleware";
 import { APIError, NotFoundError } from "../types/errors";
 
 export default function({ Models }: RouteDependencies) {
@@ -149,6 +150,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -165,10 +173,15 @@ export default function({ Models }: RouteDependencies) {
     router.post(
         "/",
         updateLimiter,
+        JwtMiddleware,
         validate(postComment),
         async (req, res, next) => {
             try {
-                const result = await commentDAO.addOne(req.body);
+                console.log("aaaaaaaaaaaaaaaaa", res.locals);
+                const result = await commentDAO.addOne({
+                    ...req.body,
+                    userID: res.locals.session.id,
+                });
                 res.status(201).json(result);
             } catch (e) {
                 next(e);
@@ -195,6 +208,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Comment ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -216,6 +236,7 @@ export default function({ Models }: RouteDependencies) {
     router.patch(
         "/:commentID",
         voteLimiter,
+        JwtMiddleware,
         validate(updateComment),
         async (req: Request & { params: { commentID: number } }, res, next) => {
             try {
@@ -249,30 +270,27 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Comment ID
-     *       - in: path
-     *         name: userID
+     *       - in: header
+     *         name: x-access-token
      *         schema:
      *           type: string
+     *         format: uuid
      *         required: true
-     *         description: userID
+     *         description: JWT for authentication
      *     responses:
      *       "204":
      *         description: Number of affected rows
      */
-    // TODO Not have userID here
     router.delete(
-        "/:commentID/:userID",
+        "/:commentID",
         updateLimiter,
+        JwtMiddleware,
         validate(deleteComment),
-        async (
-            req: Request & { params: { commentID: number; userID: string } },
-            res,
-            next,
-        ) => {
+        async (req: Request & { params: { commentID: number } }, res, next) => {
             try {
                 const result = await commentDAO.removeOne(
                     req.params.commentID,
-                    req.params.userID,
+                    res.locals.session.id,
                 );
                 if (result > 1)
                     throw new APIError("More than one comment deleted", 500);

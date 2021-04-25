@@ -8,7 +8,7 @@ import { UserAttributes, UserCreationAttributes } from "./Users";
 export interface VisitsAttributes {
     dumpsterID: number;
     visitDate: string;
-    userID: string;
+    userID: number;
 }
 
 export interface VisitsCreationAttributes
@@ -18,7 +18,7 @@ export class Visits extends Model<VisitsAttributes, VisitsCreationAttributes>
     implements VisitsAttributes {
     public dumpsterID!: number;
     public visitDate!: string;
-    public userID!: string;
+    public userID!: number;
 }
 
 export function init(sequelize: Sequelize) {
@@ -36,7 +36,7 @@ export function init(sequelize: Sequelize) {
                 primaryKey: true,
             },
             userID: {
-                type: DataTypes.STRING,
+                type: DataTypes.NUMBER,
                 allowNull: false,
                 primaryKey: true,
             },

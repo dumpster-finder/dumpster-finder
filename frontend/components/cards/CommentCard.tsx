@@ -31,6 +31,7 @@ export default function CommentCard({
     const [rating, setRating] = useState(comment.rating);
     const [votedUp, setVotedUp] = useState(voted || 0);
     const [modalVis, setModalVis] = useState(false);
+
     return (
         <Card style={{ width: "100%", marginVertical: 5 }}>
             <View style={styles.row}>
@@ -161,15 +162,13 @@ export default function CommentCard({
 
     async function delComment() {
         try {
-            const updatedComment = await CommentService.deleteOne(
+            await CommentService.deleteOne(
                 comment.dumpsterID,
                 comment.commentID,
-                comment.userID,
-            ).then(() => onDelete(comment.commentID));
-            console.log(updatedComment);
+            );
+            onDelete(comment.commentID);
         } catch (e) {
-            // TODO Replace with better error handling
-            console.error("Could not delete this comment", e);
+            Message.error(e, "Could not delete this comment");
         }
     }
 }

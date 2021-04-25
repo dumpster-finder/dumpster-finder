@@ -1,10 +1,10 @@
 import { MyModels } from "../models";
 
-export default function({ Reports, sequelize }: MyModels) {
+export default function({ Reports }: MyModels) {
     return {
         addOne: (
             dumpsterID: number,
-            userID: string,
+            userID: number,
             reason: string | undefined,
         ) => Reports.create({ dumpsterID, userID, reason }),
 

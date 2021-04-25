@@ -12,7 +12,7 @@ const photoProperties = ["photoID", "url", "dateAdded"];
 
 const photo: PostPhoto = {
     url: "https://nowhere.com/pic/hgwuohgworhgwrgwrg.jpg",
-    userID: "temp1",
+    userID: 1,
 };
 
 describe("getAll", () => {
@@ -57,7 +57,7 @@ describe("addOne", () => {
     it("should add a valid photo", async () => {
         const result = await photoDAO.addOne(2, photo);
         expect(result).not.toBeUndefined();
-        expect(result?.userID).toEqual(photo.userID);
+        expect(result?.userID).toEqual(1);
         expect(result?.url).toEqual(photo.url);
     });
 

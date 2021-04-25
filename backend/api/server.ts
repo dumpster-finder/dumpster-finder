@@ -50,7 +50,6 @@ app.enable("trust proxy");
 
 // TODO find a better way to prepend /api to all routes...
 //      (not a big thing though)
-
 app.use("/api/dumpsters", dumpsters(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/comments", comments(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/contents", contents(dependencies));

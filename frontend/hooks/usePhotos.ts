@@ -38,7 +38,7 @@ export default function() {
                     );
             }
         }
-    }, [dumpster]);
+    }, [dumpster, photoCache]);
 
     return photos;
 }

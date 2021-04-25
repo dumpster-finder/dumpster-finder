@@ -10,14 +10,24 @@ import { useAppDispatch } from "../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
 import LocationSearcher from "../components/compoundComponents/LocationSearcher";
 import { StackActions } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import {
+    getUserID,
+    userNameSelector,
+    userStatusSelector,
+} from "../redux/slices/userSlice";
+import { useTranslation } from "react-i18next";
 
 export default function IntroScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const { t }: { t: (s: string) => string } = useTranslation("intro");
     const dispatch = useAppDispatch();
-    const buttons = ["1", "2", "3"];
+    const userID = useSelector(userNameSelector);
+    const userIDStatus = useSelector(userStatusSelector);
+    const buttons = ["1", "2", "3", "4"];
     const [selectedIndex, setSelectedIndex] = useState(0);
     return (
         <Layout>
@@ -48,6 +58,24 @@ export default function IntroScreen({
                             <IconExplanation />
                         </View>
                     </ScrollView>
+                </Layout>
+                <Layout style={styles.userIDDisplay}>
+                    <Text category="h5">
+                        {userIDStatus === "succeeded"
+                            ? userID
+                            : userIDStatus === "failed"
+                            ? t("userIDFailed")
+                            : t("generatingUserID")}
+                    </Text>
+                    <Text category="c1">{t("settings:aboutUserID")}</Text>
+                    <Button
+                        status="primary"
+                        style={styles.retryButton}
+                        disabled={userIDStatus !== "failed"}
+                        onPress={() => dispatch(getUserID())}
+                    >
+                        {t("retry")}
+                    </Button>
                 </Layout>
                 <Layout style={styles.positionSetting}>
                     <LocationSearcher
@@ -92,5 +120,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingTop: 20,
         minHeight: "90%",
+    },
+    userIDDisplay: {
+        justifyContent: "center",
+        alignItems: "center",
+        height: "90%",
+    },
+    retryButton: {
+        minWidth: "25%",
+        marginTop: 8,
     },
 });

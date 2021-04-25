@@ -26,6 +26,7 @@ export default function RevisionScreen({
     const dispatch = useAppDispatch();
     const dumpster = useSelector(currentDumpsterSelector);
     const [dumpsterList, setDumpsterList] = useState<RevDumpster[]>([]);
+
     useEffect(() => {
         if (dumpster)
             DumpsterService.getRevisions(dumpster.dumpsterID)
@@ -76,7 +77,9 @@ export default function RevisionScreen({
                     );
                     navigation.navigate("DetailsScreen");
                 })
-                .catch(e => Message.error(e, "Could not reset revisions"));
+                .catch(e => {
+                    Message.error(e, "Could not reset revisions");
+                });
     }
 }
 

@@ -14,6 +14,5 @@ export const postPhotos = {
                 scheme: ["http", "https"],
             })
             .required(),
-        userID: Joi.string().required(),
     }),
 };

@@ -17,7 +17,6 @@ export const postComment = {
             .min(1)
             .required(),
         nickname: Joi.string().required(),
-        userID: Joi.string().required(),
         comment: Joi.string().required(),
     }),
 };
@@ -48,6 +47,5 @@ export const deleteComment = {
         commentID: Joi.string()
             .pattern(/(\d)+/)
             .required(),
-        userID: Joi.string().required(),
     }),
 };

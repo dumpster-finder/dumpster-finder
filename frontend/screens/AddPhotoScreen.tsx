@@ -114,9 +114,7 @@ export default function AddPhotoScreen({
                 allowsEditing: false,
             });
 
-            if (response.cancelled) {
-                console.log("User cancelled photo picker");
-            } else {
+            if (!response.cancelled) {
                 dispatch(setUploadURI(response.uri));
             }
         } catch (e) {
@@ -139,8 +137,8 @@ export default function AddPhotoScreen({
             dispatch(setUploadURI(""));
             navigation.goBack();
         } catch (e) {
-            Message.error(e, "Could not upload photo");
             setPending(false);
+            Message.error(e, "Could not upload photo");
         }
     }
 }

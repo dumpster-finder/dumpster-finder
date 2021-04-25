@@ -20,6 +20,7 @@
         "searchPlaceholder": "Søk etter noe",
         "somethingWrong": "Noe gikk galt.",
         "areYouSure": "Er du sikker?",
+        "retry": "Prøv på nytt",
         "cancel": "Avbryt",
         "add": "Legg til",
         "save": "Lagre",
@@ -48,6 +49,8 @@
     },
     "settings": {
         "setPos": "Sett posisjon",
+        "userID": "Din bruker-ID",
+        "aboutUserID": "Denne ID-en knyttes til endringer du gjør. Ikke del den med noen.",
         "changeNick": "Endre kallenavn",
         "nick": "Kallenavn",
         "saveNick": "Lagre kallenavn",
@@ -289,6 +292,11 @@
         "flag": "Raporter søppeldunk"
     },
 
+    "intro": {
+        "generatingUserID": "Genererer bruker-ID …",
+        "userIDFailed": "Kunne ikke generere bruker-ID"
+    },
+
     "visit": {
         "visitbtn":"Jeg var her",
         "part1": "Besøkt",
@@ -313,8 +321,11 @@
     },
     "report": {
         "report": "Rapporter denne søppelkassen",
-        "text": "Rapporter søppelkassen dersom den ikke eksisterer, er ulovlig å gå i osv. Dersom det er feil ved informasjonen til dumpsteren så kan du endre dette i redigering",
-        "reason": "Grunn (Valgfritt)",
+        "text": "Rapporter søppelkassen dersom den ikke eksisterer, er ulovlig å dumpstre i osv. Dersom det er noe feil med informasjonen om dumpsteren så kan du endre den selv",
+        "reason": {
+            "label": "Grunn (valgfritt)",
+            "placeholder": "f.eks. Jeg har sett grundig etter og finner den ikke."
+        },
         "alreadyReport": "Du har allerede rapporter denne dumpsteren",
         "justReport": "Vi har registrert din rapport"
     }

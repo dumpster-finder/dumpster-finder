@@ -2,7 +2,7 @@ export interface RawComment {
     commentID: number;
     dumpsterID: number;
     nickname: string;
-    userID: string;
+    userID: number;
     comment: string;
     rating: number;
     date: string;
@@ -12,7 +12,7 @@ class Comments {
     commentID: number;
     dumpsterID: number;
     nickname: string;
-    userID: string;
+    userID: number;
     comment: string;
     rating: number;
     date: Date;

@@ -1,7 +1,7 @@
 interface Report {
     dumpsterReportID: number;
     dumpsterID: number;
-    userID: string;
+    userID: number;
     reason: string;
     date: string;
 }

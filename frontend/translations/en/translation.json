@@ -21,6 +21,7 @@
         "searchPlaceholder": "Place your text",
         "somethingWrong": "Something went wrong.",
         "areYouSure": "Are you sure?",
+        "retry": "Retry",
         "cancel": "Cancel",
         "add": "Add",
         "save": "Save",
@@ -52,6 +53,8 @@
 
     "settings": {
         "setPos": "Set position",
+        "userID": "Your user ID",
+        "aboutUserID": "This ID identifies you uniquely. Do not share it with others.",
         "changeNick": "Change nickname",
         "nick": "Nickname",
         "saveNick": "Save nickname",
@@ -298,6 +301,11 @@
         "flag": "Flag dumpster"
     },
 
+    "intro": {
+        "generatingUserID": "Generating user ID …",
+        "userIDFailed": "Failed to generate user ID"
+    },
+
     "visit": {
         "visitbtn":"I was here",
         "part1": "Visited",
@@ -323,8 +331,11 @@
 
     "report": {
         "report": "Report this dumpster",
-        "text": "Use reporting of a dumpster if it does not exist, it is illegal to dive in etc. If the information about the dumpster is wrong, you can change this by editing the information about the dumpster.",
-        "reason": "Reason (Optional)",
+        "text": "Report a dumpster if it does not exist, it is illegal to dive in etc. If the information about the dumpster is wrong, you can change this by editing it.",
+        "reason": {
+            "label": "Reason (optional)",
+            "placeholder": "e.g. I've been there and checked, it does not exist"
+        },
         "alreadyReport": "You have already reported this dumpster",
         "justReport": "We have registered your report"
     }

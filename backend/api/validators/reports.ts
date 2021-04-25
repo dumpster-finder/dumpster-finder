@@ -7,7 +7,6 @@ export const postReport = {
             .required(),
     }),
     body: Joi.object({
-        userID: Joi.string().required(),
         reason: Joi.string()
             .allow("")
             .optional(),

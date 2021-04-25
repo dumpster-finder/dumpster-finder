@@ -18,7 +18,7 @@ const info = (message: string) => {
  * @param message - And optional message to explain it
  */
 const error = (err: Error, message?: string) => {
-    console.error(message, error);
+    console.error(message, err);
     Alert.alert(message || "An error occurred", err.message);
     // TODO actually have some better-looking thing
 };

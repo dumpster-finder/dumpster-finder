@@ -88,8 +88,9 @@ export default function({ Comments, sequelize }: MyModels) {
          * Delete a comment
          *
          * @param commentID ID of the comment the user want to delete
+         * @param userID    ID of the user who wants to delete said comment
          */
-        removeOne: async (commentID: number, userID: string) => {
+        removeOne: async (commentID: number, userID: number) => {
             return await sequelize.transaction(async t => {
                 const match = await Comments.findOne({
                     where: { commentID, userID },

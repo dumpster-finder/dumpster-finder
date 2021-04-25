@@ -132,7 +132,7 @@ export default function({
                 ...dumpster,
                 dumpsterTypeID,
                 storeTypeID,
-                userID: "temp",
+                userID: 1,
                 position,
             },
             { transaction: t },
@@ -280,7 +280,7 @@ export default function({
                 attributes: [
                     ...dumpsterAttributes.slice(
                         0,
-                        dumpsterAttributes.length - 2,
+                        dumpsterAttributes.length - 1,
                     ),
                     "dateUpdated",
                     "revisionID",

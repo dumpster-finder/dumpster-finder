@@ -102,40 +102,42 @@ VALUES
     (7, 7, 15), -- noodles
     (7, 7, 16); -- eggs
 
-INSERT INTO Users(userID, userName, salt)
+INSERT INTO Users(userID, passwordHash, userName, salt)
 VALUES
-    ('temp', 'temp', 'temp'),
-    ('temp1', 'temp2', 'temp2'),
-    ('temp2', 'temp1', 'temp1'),
-    ('temp3', 'temp3', 'temp3'),
-    ('temp4', 'temp4', 'temp4'),
-    ('temp5', 'temp5', 'temp5'),
-    ('temp6', 'temp6', 'temp6'),
-    ('52ca3a47e839d66f419297abde8a1dc7d4507162d9ca308270a8a84879110e75aa8f78ce7c2af2c41c26752a84ad422d79d2a91928b7a99ee47674c3a526fc13c6a550148317aa507c2adc6cd5508b27af2c607e0a8060cfd7cdc6f88e9edce276f08d25',
-      '76f2d41e00708c4644ab2fb4636f0ae741784bb48ff429659b5a79344bec88358df0052f773cefaebcfeaacf9c9c68e9e851f666e007a7e1cbc1e69a03a9efe0',
-      '1c45a7c753a365624c8fafa53e7b70e2');
-    -- crawl daring message team lamp develop
+(1, 'temp', 'temp', 'temp'),
+(2, 'temp1', 'temp2', 'temp2'),
+(3, 'temp2', 'temp1', 'temp1'),
+(4, 'temp3', 'temp3', 'temp3'),
+(5, 'temp4', 'temp4', 'temp4'),
+(6, 'temp5', 'temp5', 'temp5'),
+(7, 'temp6', 'temp6', 'temp6'),
+(8, '52ca3a47e839d66f419297abde8a1dc7d4507162d9ca308270a8a84879110e75aa8f78ce7c2af2c41c26752a84ad422d79d2a91928b7a99ee47674c3a526fc13c6a550148317aa507c2adc6cd5508b27af2c607e0a8060cfd7cdc6f88e9edce276f08d25',
+ '76f2d41e00708c4644ab2fb4636f0ae741784bb48ff429659b5a79344bec88358df0052f773cefaebcfeaacf9c9c68e9e851f666e007a7e1cbc1e69a03a9efe0',
+ '1c45a7c753a365624c8fafa53e7b70e2');
+-- crawl daring message team lamp develop
+
+
 
 INSERT INTO Ratings(userID, dumpsterID, rating)
 VALUES
-    ('temp1', 1, 3),
-    ('temp2', 1, 5),
-    ('temp3', 1, 5),
-    ('temp4', 1, 4),
-    ('temp1', 2, 5),
-    ('temp2', 2, 3),
-    ('temp3', 2, 3),
-    ('temp1', 3, 2),
-    ('temp2', 3, 3),
-    ('temp1', 4, 3),
-    ('temp2', 4, 4),
-    ('temp3', 4, 2),
-    ('temp4', 4, 1),
-    ('temp5', 4, 2),
-    ('temp1', 5, 1),
-    ('temp1', 6, 4),
-    ('temp5', 7, 2),
-    ('temp6', 7, 3);
+    (1, 1, 3),
+    (2, 1, 5),
+    (3, 1, 5),
+    (4, 1, 4),
+    (1, 2, 5),
+    (2, 2, 3),
+    (3, 2, 3),
+    (1, 3, 2),
+    (2, 3, 3),
+    (1, 4, 3),
+    (2, 4, 4),
+    (3, 4, 2),
+    (4, 4, 1),
+    (5, 4, 2),
+    (1, 5, 1),
+    (1, 6, 4),
+    (5, 7, 2),
+    (6, 7, 3);
 
 INSERT INTO DumpsterContents
     (dumpsterID, contentID, amount, unit, quality, expiryDate, foundDate)
@@ -155,48 +157,47 @@ VALUES
 
 INSERT INTO Photos (photoID, dumpsterID, url, userID, dateAdded)
 VALUES
-    (1, 1, 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Dumpster-non.JPG', 'temp1', '2021-03-24'),
-    (11, 1, 'https://upload.wikimedia.org/wikipedia/commons/0/0f/Blue_dumpster.jpg', 'temp1', '2021-02-13'),
-    (12, 1, 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/American_Education_in_Dumpster.jpg/640px-American_Education_in_Dumpster.jpg', 'temp1', '2020-12-13'),
-    (2, 2, 'https://images.unsplash.com/photo-1510251197878-a2e6d2cb590c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', 'temp1', '2021-03-24'),
-    (3, 3, 'https://images.unsplash.com/photo-1607536243899-57a307af22c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80', 'temp1', '2021-03-24'),
-    (4, 4, 'https://images.unsplash.com/photo-1605600659908-0ef719419d41?ixlib=rb-1.2.1&auto=format&fit=crop&w=676&q=80', 'temp1', '2021-03-24'),
-    (5, 5, 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', 'temp1', '2021-03-24'),
-    (6, 6, 'https://images.unsplash.com/photo-1599691823377-545103b0137c?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24'),
-    (61, 6, 'https://images.unsplash.com/photo-1560543899-58ce3bc3c8fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 'temp1', '2021-03-24');
+    (1, 1, 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Dumpster-non.JPG', 2, '2021-03-24'),
+    (11, 1, 'https://upload.wikimedia.org/wikipedia/commons/0/0f/Blue_dumpster.jpg', 2, '2021-02-13'),
+    (12, 1, 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/American_Education_in_Dumpster.jpg/640px-American_Education_in_Dumpster.jpg', 2, '2020-12-13'),
+    (2, 3, 'https://images.unsplash.com/photo-1510251197878-a2e6d2cb590c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', 2, '2021-03-24'),
+    (3, 3, 'https://images.unsplash.com/photo-1607536243899-57a307af22c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80', 2, '2021-03-24'),
+    (4, 4, 'https://images.unsplash.com/photo-1605600659908-0ef719419d41?ixlib=rb-1.2.1&auto=format&fit=crop&w=676&q=80', 2, '2021-03-24'),
+    (5, 5, 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', 2, '2021-03-24'),
+    (6, 6, 'https://images.unsplash.com/photo-1599691823377-545103b0137c?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 2, '2021-03-24');
 
 INSERT INTO Visits (dumpsterID, userID)
 VALUES
-(1,'temp'),
-(1,'temp2'),
-(1,'temp3'),
-(2,'temp'),
-(2,'temp2'),
-(3,'temp'),
-(3,'temp4'),
-(4,'temp3'),
-(5,'temp1'),
-(5,'temp2'),
-(5,'temp3'),
-(5,'temp4');
+(1,1),
+(1,3),
+(1,4),
+(2,1),
+(2,3),
+(3,1),
+(3,5),
+(4,4),
+(5,2),
+(5,3),
+(5,4),
+(5,5);
 
 INSERT INTO DumpsterReports(dumpsterID, userID, reason) VALUES
-(7, 'temp2', 'Does not exist'),
-(7, 'temp3', 'It is a troll'),
-(1, 'temp1', null),
-(2, 'temp1', 'Is illegal'),
-(2, 'temp4', ''),
-(7, 'temp4', null);
+(7, 3, 'Does not exist'),
+(7, 4, 'It is a troll'),
+(1, 2, null),
+(2, 2, 'Is illegal'),
+(2, 5, ''),
+(7, 5, null);
 
 INSERT INTO Comments(commentID, dumpsterID, nickname, userID, comment, rating, date)
 VALUES
-(1, 1, 'Tore på sporet', 'temp1','Found some great pastries.', 5, '2021-02-22 12:50:05'),
-(2, 1, 'TrashBin', 'temp2','Would anyone join for a dive here?', 6, '2021-02-28 15:40:45'),
-(3, 1, 'Trash panda', 'temp3','Please leave some for others as well', 2, '2021-03-01 22:34:49'),
-(4, 2, 'Trash panda', 'temp4','Mostly food here, but some other stuff as well', 0, '2021-01-02 23:32:23'),
-(5, 3, 'Diver', 'temp5','I never find anything here', 3, '2021-01-15 14:36:45'),
-(6, 5, 'TheDive', 'temp1','This dumpster is locked. Remember that breaking locks is illegal.', 3, '2021-01-17 13:36:34'),
-(7, 6, 'trOLlhaUgEn', 'temp1','haha dumpster go brrr', -10, '2021-03-24 14:52:30'),
-(8, 6, 'Stephan', 'temp1','Fantastic dumpster! There\'s always something to find here', 12, '2021-01-02 23:09:51'),
-(9, 6, 'Frodo', 'temp1','Found lots of fresh vegetables here last time.', 7, '2021-02-14 21:40:00'),
-(10, 6, 'Surpomp', 'temp1','Bacheloren deres suger', -5, '2020-12-24 12:21:00');
+(1, 1, 'Tore på sporet', 2,'Found some great pastries.', 5, '2021-02-22 12:50:05'),
+(2, 1, 'TrashBin', 3,'Would anyone join for a dive here?', 6, '2021-02-28 15:40:45'),
+(3, 1, 'Trash panda', 4,'Please leave some for others as well', 2, '2021-03-01 22:34:49'),
+(4, 2, 'Trash panda', 5,'Mostly food here, but some other stuff as well', 0, '2021-01-02 23:32:23'),
+(5, 3, 'Diver', 6,'I never find anything here', 3, '2021-01-15 14:36:45'),
+(6, 5, 'TheDive', 2,'This dumpster is locked. Remember that breaking locks is illegal.', 3, '2021-01-17 13:36:34'),
+(7, 6, 'trOLlhaUgEn', 2,'haha dumpster go brrr', -10, '2021-03-24 14:52:30'),
+(8, 6, 'Stephan', 2,'Fantastic dumpster! There\'s always something to find here', 12, '2021-01-02 23:09:51'),
+(9, 6, 'Frodo', 2,'Found lots of fresh vegetables here last time.', 7, '2021-02-14 21:40:00'),
+(10, 6, 'Surpomp', 2,'Bacheloren deres suger', -5, '2020-12-24 12:21:00');

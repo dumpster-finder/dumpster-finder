@@ -51,7 +51,7 @@ describe("addOne", () => {
         const comment = await commentDAO.addOne({
             dumpsterID: 1,
             nickname: "FreeFood",
-            userID: "temp3",
+            userID: 4,
             comment: "I love free food",
         });
         const commentAfter = await commentDAO.getAllForDumpster(1);
@@ -95,7 +95,7 @@ describe("updateOne", () => {
 
 describe("removeOne", () => {
     it("should delete only one entry", async () => {
-        const result = await commentDAO.removeOne(9, "temp1");
+        const result = await commentDAO.removeOne(9, 2);
         expect(result).toEqual(1);
     });
 });
