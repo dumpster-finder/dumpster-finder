@@ -48,25 +48,35 @@
         "view": "Butikkens syn på søppeldykkere"
     },
     "settings": {
-        "setPos": "Din posisjon",
-        "userID": "Din bruker-ID",
-        "aboutUserID": "Denne ID-en knyttes til endringer du gjør. Ikke del den med noen.",
-        "changeNick": "Kallenavn",
-        "nick": "Kallenavn",
-        "aboutNick": "Kallenavnet ditt vises kun på kommentarer du legger til",
-        "saveNick": "Lagre kallenavn",
-        "setDist": "Maksavstand til dumpsterne (km)",
-        "aboutDist": "Hvor langt unna din posisjon du vil se dumpstere",
-        "changeLang": "Språk",
-        "visitInterval": "Besøkintervall",
-        "aboutVisitInterval": "Hvor langt tidsrom du vil se antall besøkende innenfor",
+        "setPosition": "Din posisjon",
+        "userID": {
+            "title": "Din bruker-ID",
+            "about": "Denne ID-en knyttes til endringer du gjør. Ikke del den med noen."
+        },
+        "nickname": {
+            "title": "Kallenavn",
+            "placeholder": "f.eks. Sitron58",
+            "about": "Kallenavnet ditt vises kun på kommentarer du legger til.",
+            "save": "Lagre kallenavn"
+        },
+        "distance": {
+            "title": "Maksavstand til dumpsterne (km)",
+            "about": "Hvor langt unna din posisjon du vil se dumpstere"
+        },
+        "language": {
+            "title": "Språk",
+            "en": "Engelsk",
+            "no": "Norsk",
+            "de": "Tysk",
+            "fr": "Fransk",
+            "es": "Spansk"
+        },
+        "visitInterval": {
+            "title": "Besøksintervall",
+            "about": "Hvor langt tidsrom du vil se antall besøkende innenfor"
+        },
         "darkMode": "Mørkt tema",
-        "hide": "Sjul kommentarer med negativ vurdering",
-        "en": "Engelsk",
-        "no": "Norsk",
-        "de": "Tysk",
-        "fr": "Fransk",
-        "es": "Spansk"
+        "hideNegativeComments": "Sjul kommentarer med negativ vurdering",
     },
     "details": {
         "rating": "Vurdering",

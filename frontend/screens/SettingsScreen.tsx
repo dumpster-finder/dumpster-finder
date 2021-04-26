@@ -42,7 +42,7 @@ export default function SettingsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("settings");
-    const languages = [t("en"), t("no")];
+    const languages = [t("language.en"), t("language.no")];
     const languageCodes = ["en", "no"];
     const distances = ["2", "5", "10", "25", "50"];
     const intervalValue = [t("visit:day"), t("visit:days"), t("visit:week")];
@@ -89,7 +89,7 @@ export default function SettingsScreen({
                 >
                     <View style={styles.row}>
                         <View style={{ width: "50%" }}>
-                            <Text category={"h6"}>{t("setPos")} </Text>
+                            <Text category={"h6"}>{t("setPosition")} </Text>
                         </View>
                         <View style={{ width: "50%", alignItems: "flex-end" }}>
                             <ArrowRightIcon size="medium" />
@@ -98,7 +98,7 @@ export default function SettingsScreen({
                 </Card>
                 <DropdownCard
                     value={showUserID}
-                    text={t("userID")}
+                    text={t("userID.title")}
                     onClick={setShowUserID}
                 />
                 {showUserID && (
@@ -106,24 +106,24 @@ export default function SettingsScreen({
                         <Text style={styles.centeredText} category="h5">
                             {userName}
                         </Text>
-                        <Text category="c1">{t("aboutUserID")}</Text>
+                        <Text category="c1">{t("userID.about")}</Text>
                     </View>
                 )}
                 <DropdownCard
                     value={showNick}
-                    text={t("changeNick")}
+                    text={t("nickname.title")}
                     onClick={setShowNick}
                 />
                 {showNick && (
                     <View style={styles.columnBorder}>
                         <Input
                             size="large"
-                            placeholder={t("nick")}
+                            placeholder={t("nickname.placeholder")}
                             value={nicknameFieldText}
                             onChangeText={s => setNicknameFieldText(s)}
                         />
                         <Text style={styles.centeredText} category="c1">
-                            {t("aboutNick")}
+                            {t("nickname.about")}
                         </Text>
                         <Button
                             style={{ minWidth: "53%", marginTop: 5 }}
@@ -131,14 +131,14 @@ export default function SettingsScreen({
                                 dispatch(setNickname(nicknameFieldText))
                             }
                         >
-                            {t("saveNick")}
+                            {t("nickname.save")}
                         </Button>
                     </View>
                 )}
 
                 <DropdownCard
                     value={showDist}
-                    text={t("setDist")}
+                    text={t("distance.title")}
                     onClick={newValue => setShowDist(newValue)}
                 />
                 {showDist && (
@@ -149,14 +149,14 @@ export default function SettingsScreen({
                             onSelect={setNewRadius}
                         />
                         <Text style={styles.centeredText} category="c1">
-                            {t("aboutDist")}
+                            {t("distance.about")}
                         </Text>
                     </View>
                 )}
 
                 <DropdownCard
                     value={showLanguage}
-                    text={t("changeLang")}
+                    text={t("language.title")}
                     onClick={newValue => setShowLanguage(newValue)}
                 />
                 {showLanguage && (
@@ -172,7 +172,7 @@ export default function SettingsScreen({
                 )}
                 <DropdownCard
                     value={showVis}
-                    text={t("visitInterval")}
+                    text={t("visitInterval.title")}
                     onClick={newValue => setShowVis(newValue)}
                 />
                 {showVis && (
@@ -183,7 +183,7 @@ export default function SettingsScreen({
                             onSelect={setInterval}
                         />
                         <Text style={styles.centeredText} category="c1">
-                            {t("aboutVisitInterval")}
+                            {t("visitInterval.about")}
                         </Text>
                     </View>
                 )}
@@ -196,7 +196,7 @@ export default function SettingsScreen({
                 </Card>
                 <Card>
                     <ToggleSwitch
-                        name={t("hide")}
+                        name={t("hideNegativeComments")}
                         checked={hideNegativeRating}
                         onChange={v => dispatch(setHideNegativeRating(v))}
                     />

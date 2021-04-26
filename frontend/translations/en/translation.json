@@ -52,25 +52,35 @@
     },
 
     "settings": {
-        "setPos": "Your position",
-        "userID": "Your user ID",
-        "aboutUserID": "This ID identifies you uniquely. Do not share it with others.",
-        "changeNick": "Nickname",
-        "nick": "Nickname",
-        "aboutNick": "Your nickname will be displayed on comments you post",
-        "saveNick": "Save nickname",
-        "setDist": "Maximal distance to dumpsters (km)",
-        "aboutDist": "You will only see dumpsters that are this far from your position",
-        "changeLang": "Language",
-        "visitInterval": "Visit interval",
-        "aboutVisitInterval": "The time frame in which you would like to see how many have visited a dumpster",
+        "setPosition": "Your position",
+        "userID": {
+            "title": "Your user ID",
+            "about": "This ID identifies you uniquely. Do not share it with others."
+        },
+        "nickname": {
+            "title": "Nickname",
+            "placeholder": "e.g. Waffles123",
+            "about": "Your nickname will be displayed on comments you post.",
+            "save": "Save nickname"
+        },
+        "distance": {
+            "title": "Maximal distance to dumpsters (km)",
+            "about": "You will only see dumpsters that are this far from your position."
+        },
+        "language": {
+            "title": "Language",
+            "en": "English",
+            "no": "Norwegian",
+            "de": "German",
+            "fr": "French",
+            "es": "Spanish"
+        },
+        "visitInterval": {
+            "title": "Visit interval",
+            "about": "The time frame in which you would like to see how many have visited a dumpster"
+        },
         "darkMode": "Dark mode",
-        "hide": "Hide negatively rated comments",
-        "en": "English",
-        "no": "Norwegian",
-        "de": "German",
-        "fr": "French",
-        "es": "Spanish"
+        "hideNegativeComments": "Hide negatively rated comments",
     },
 
     "details": {

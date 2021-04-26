@@ -68,7 +68,7 @@ export default function IntroScreen({
                             : t("generatingUserID")}
                     </Text>
                     <Text style={styles.centered} category="c1">
-                        {t("settings:aboutUserID")}
+                        {t("settings:userID.about")}
                     </Text>
                     <Button
                         status="primary"
