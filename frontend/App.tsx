@@ -63,13 +63,6 @@ const InnerApp = () => {
     const token = useSelector(tokenSelector);
     const dumpsterFilter = useSelector(dumpsterFilterSelector);
 
-    const visitSinceDate = subDays(
-        new Date(),
-        visitDate === 0 ? 1 : visitDate === 1 ? 3 : 7,
-    )
-        .toISOString()
-        .split("T")[0];
-
     useEffect(() => {
         // Do some state-independent resets and fetches at app load
         // TODO Remove this when ratedComments is guaranteed to be undefined on our dev devices
@@ -110,6 +103,12 @@ const InnerApp = () => {
         // TODO reconsider the 1st part
         store.dispatch(setDumpsters([]));
         // Fetch dumpsters each time position, visits or radius changes
+        const visitSinceDate = subDays(
+            new Date(),
+            visitDate === 0 ? 1 : visitDate === 1 ? 3 : 7,
+        )
+            .toISOString()
+            .split("T")[0];
         store.dispatch(
             fetchNearbyDumpsters({ position, radius, visitSinceDate }),
         );
