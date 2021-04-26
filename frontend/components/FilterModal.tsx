@@ -25,6 +25,14 @@ import MultiSliderComp from "./MultiSliderComp";
 import { useAppDispatch } from "../redux/store";
 import _ from "lodash";
 
+const transformSelectionToIndexPathArray = (
+    defaults: string[],
+    selection?: string[],
+) =>
+    selection // TODO avoid indexOf
+        ? selection.map(c => new IndexPath(selection.indexOf(c)))
+        : defaults.map((_, i) => new IndexPath(i));
+
 export default function FilterModal({
     visible,
     setVisible,
@@ -39,27 +47,27 @@ export default function FilterModal({
     const categories = useSelector(categoriesSelector);
     const filter = useSelector(dumpsterFilterSelector);
     const lock = ["all", "locked", "unlocked"];
-    const [selectedDumpsters, setSelectedDumpsters] = useState([
-        new IndexPath(0),
-        new IndexPath(1),
-    ]);
-    const [selectedStores, setSelectedStores] = useState([
-        new IndexPath(0),
-        new IndexPath(1),
-    ]);
-    const [selectedCategories, setSelectedCategories] = useState(
-        filter.categories // TODO avoid indexOf
-            ? filter.categories.map(c => new IndexPath(categories.indexOf(c)))
-            : categories.map((_, i) => new IndexPath(i)),
+    const [selectedDumpsters, setSelectedDumpsters] = useState(
+        transformSelectionToIndexPathArray(dumpsterTypes, filter.dumpsterTypes),
     );
-    const [locked, setLocked] = useState(lock[0]);
+    const [selectedStores, setSelectedStores] = useState(
+        transformSelectionToIndexPathArray(storeTypes, filter.storeTypes),
+    );
+    const [selectedCategories, setSelectedCategories] = useState(
+        transformSelectionToIndexPathArray(categories, filter.categories),
+    );
+    const [locked, setLocked] = useState(
+        filter.locked === undefined ? 0 : filter.locked ? 1 : 2,
+    );
     const [rating, setRating] = useState(
         filter.rating ? filter.rating.map(i => i - 1) : [0, 4],
     );
     const [cleanliness, setCleanliness] = useState(
         filter.cleanliness ? filter.cleanliness.map(i => i - 1) : [0, 4],
     );
-    const [view, setView] = useState([0, 2]);
+    const [storeView, setStoreView] = useState(
+        filter.positiveStoreView || [0, 2],
+    );
 
     const ratingLabels = [
         {
@@ -190,8 +198,8 @@ export default function FilterModal({
                         <CheckBox
                             key={index}
                             style={styles.checkbox}
-                            checked={locked === value}
-                            onChange={next => setLocked(value)}
+                            checked={locked === index}
+                            onChange={() => setLocked(index)}
                         >
                             {t(`${value}`)}
                         </CheckBox>
@@ -218,10 +226,10 @@ export default function FilterModal({
                 <View style={styles.slider}>
                     <Text>{t("view")}</Text>
                     <MultiSliderComp
-                        values={view}
+                        values={storeView}
                         max={2}
                         labels={viewLabels}
-                        onChange={setView}
+                        onChange={setStoreView}
                     />
                 </View>
 
@@ -251,18 +259,26 @@ export default function FilterModal({
         | undefined {
         return min === 0 && max === 4 ? undefined : [min + 1, max + 1];
     }
+    function transformSelection(defaults: string[], selection: IndexPath[]) {
+        return selection.length > 0 && !(selection.length === defaults.length)
+            ? selection.map(i => defaults[i.row])
+            : undefined;
+    }
 
     function handleFilter() {
         // Set new filter – make sure to set undefined where it isn't necessary to perform any filtering
         dispatch(
             setDumpsterFilter({
-                categories:
-                    selectedCategories.length > 0 &&
-                    !(selectedCategories.length === categories.length)
-                        ? selectedCategories.map(i => categories[i.row])
-                        : undefined,
+                categories: transformSelection(categories, selectedCategories),
+                dumpsterTypes: transformSelection(
+                    dumpsterTypes,
+                    selectedDumpsters,
+                ),
+                storeTypes: transformSelection(storeTypes, selectedStores),
+                positiveStoreView: transformRating(storeView),
                 cleanliness: transformRating(cleanliness),
                 rating: transformRating(rating),
+                locked: locked === 0 ? undefined : locked === 1,
             }),
         );
         setVisible(false);
