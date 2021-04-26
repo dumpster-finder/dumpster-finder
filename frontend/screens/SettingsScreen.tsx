@@ -26,7 +26,7 @@ import {
     setVisits,
 } from "../redux/slices/configSlice";
 import { useAppDispatch } from "../redux/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRightIcon } from "../components/basicComponents/Icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DropdownCard from "../components/cards/DropdownCard";
@@ -35,6 +35,7 @@ import { useTranslation } from "react-i18next";
 import ToggleSwitch from "../components/basicComponents/ToggleSwitch";
 import { userNameSelector, setUserName } from "../redux/slices/userSlice";
 import Constants from "expo-constants";
+import LanguagePicker from "../components/settings/LanguagePicker";
 
 export default function SettingsScreen({
     navigation,
@@ -42,22 +43,15 @@ export default function SettingsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("settings");
-    const languages = [t("language.en"), t("language.no")];
-    const languageCodes = ["en", "no"];
     const distances = ["2", "5", "10", "25", "50"];
     const intervalValue = [t("visit:day"), t("visit:days"), t("visit:week")];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
     const userName = useSelector(userNameSelector);
     const nickname = useSelector(nicknameSelector);
-    const language = useSelector(languageSelector);
     const visit = useSelector(visitsSelector);
     const hideNegativeRating = useSelector(hideNegativeRatingSelector);
     const radius = Math.round(useSelector(radiusSelector) / 1000);
-    const [newLanguage, setNewLanguage] = useState(
-        language ? languages.indexOf(language) : 0,
-    );
-
     const [showUserID, setShowUserID] = useState(false);
     const [showNick, setShowNick] = useState(false);
     const [showDist, setShowDist] = useState(false);
@@ -66,16 +60,11 @@ export default function SettingsScreen({
         radius ? distances.indexOf(radius.toString()) : 1,
     );
     const [nicknameFieldText, setNicknameFieldText] = useState(nickname);
-
     const [showVis, setShowVis] = useState(false);
     const [visitInterval, setVisitInterval] = useState(visit);
-    if (!radius) {
-        dispatch(setRadius(1000));
-    }
-
-    if (!language) {
-        dispatch(setLanguage("en"));
-    }
+    useEffect(() => {
+        if (!radius) dispatch(setRadius(1000));
+    });
 
     return (
         <Layout style={styles.container}>
@@ -159,17 +148,7 @@ export default function SettingsScreen({
                     text={t("language.title")}
                     onClick={newValue => setShowLanguage(newValue)}
                 />
-                {showLanguage && (
-                    <RadioGroup
-                        style={styles.languageButtons}
-                        selectedIndex={newLanguage}
-                        onChange={index => setNewLang(index)}
-                    >
-                        {languages.map((value, index) => (
-                            <Radio key={index}>{value}</Radio>
-                        ))}
-                    </RadioGroup>
-                )}
+                {showLanguage && <LanguagePicker />}
                 <DropdownCard
                     value={showVis}
                     text={t("visitInterval.title")}
@@ -220,11 +199,6 @@ export default function SettingsScreen({
         dispatch(setRadius(1000 * parseInt(distances[i])));
     }
 
-    function setNewLang(i: number) {
-        setNewLanguage(i);
-        dispatch(setLanguage(languageCodes[i]));
-    }
-
     function setInterval(i: number) {
         setVisitInterval(i);
         dispatch(setVisits(i));
@@ -271,9 +245,5 @@ const styles = StyleSheet.create({
     },
     dropdownView: {
         padding: 10,
-    },
-    languageButtons: {
-        paddingVertical: 10,
-        paddingHorizontal: 15,
     },
 });

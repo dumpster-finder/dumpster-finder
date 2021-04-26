@@ -109,9 +109,10 @@ const InnerApp = () => {
 
     useEffect(() => {
         // Change language if language has changed (hahaha)
-        i18n.changeLanguage(language).catch(e =>
-            Message.error(e, "Could not change language"),
-        );
+        if (language)
+            i18n.changeLanguage(language).catch(e =>
+                Message.error(e, "Could not change language"),
+            );
     }, [language]);
 
     return (

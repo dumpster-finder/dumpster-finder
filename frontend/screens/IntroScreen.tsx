@@ -4,7 +4,6 @@ import { Layout, ViewPager, Text, Button } from "@ui-kitten/components";
 import { useState } from "react";
 import ButtonGroupDisplay from "../components/basicComponents/ButtonGroupDisplay";
 import Advice from "../components/textComponents/Advice";
-import IconExplanation from "../components/textComponents/IconExplanation";
 import { setFirstTime, setPosition } from "../redux/slices/configSlice";
 import { useAppDispatch } from "../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -17,6 +16,7 @@ import {
     userStatusSelector,
 } from "../redux/slices/userSlice";
 import { useTranslation } from "react-i18next";
+import LanguagePicker from "../components/settings/LanguagePicker";
 
 export default function IntroScreen({
     navigation,
@@ -30,34 +30,37 @@ export default function IntroScreen({
     const buttons = ["1", "2", "3", "4"];
     const [selectedIndex, setSelectedIndex] = useState(0);
     return (
-        <Layout>
+        <Layout style={styles.container}>
             <ViewPager
                 selectedIndex={selectedIndex}
                 onSelect={index => setSelectedIndex(index)}
             >
                 <Layout style={styles.tab}>
-                    <Text
-                        style={{ alignSelf: "center", paddingTop: 5 }}
-                        category="h3"
-                    >
+                    <Text style={styles.title} category="h3">
+                        {t("appName")}
+                    </Text>
+                    <View style={styles.infoDisplay}>
+                        <Text category="h5">
+                            {/* TODO should there be a subtitle here? */}
+                        </Text>
+                        <Text>{t("introBlurb")}</Text>
+                    </View>
+                    <View style={styles.divider} />
+                    <View style={styles.languageSetting}>
+                        <Text category="h6">
+                            {t("settings:language.title")}
+                        </Text>
+                        {/* TODO fix: adding more languages results in disappearances */}
+                        <LanguagePicker />
+                    </View>
+                </Layout>
+                <Layout style={styles.tab}>
+                    <Text style={styles.title} category="h3">
                         {t("appName")}
                     </Text>
                     <View style={styles.infoDisplay}>
                         <Advice />
                     </View>
-                </Layout>
-                <Layout style={styles.tab}>
-                    <Text
-                        style={{ alignSelf: "center", paddingTop: 5 }}
-                        category="h3"
-                    >
-                        {t("appName")}
-                    </Text>
-                    <ScrollView>
-                        <View style={styles.infoDisplay}>
-                            <IconExplanation />
-                        </View>
-                    </ScrollView>
                 </Layout>
                 <Layout style={styles.userIDDisplay}>
                     <Text category="h5">
@@ -92,7 +95,7 @@ export default function IntroScreen({
                     </View>
                 </Layout>
             </ViewPager>
-            <Layout style={styles.container}>
+            <Layout style={styles.buttonContainer}>
                 <ButtonGroupDisplay
                     value={selectedIndex}
                     values={buttons}
@@ -105,20 +108,39 @@ export default function IntroScreen({
 
 const styles = StyleSheet.create({
     container: {
+        height: "100%",
+    },
+    buttonContainer: {
+        flex: 1,
         width: "100%",
         height: "10%",
         alignItems: "center",
         justifyContent: "center",
     },
+    title: {
+        alignSelf: "center",
+        paddingTop: 5,
+    },
     tab: {
-        paddingTop: "10%",
-        width: "100%",
         height: "90%",
-        paddingVertical: "10%",
+        paddingTop: 40,
+        paddingBottom: 20,
+        flexDirection: "column",
     },
     infoDisplay: {
-        paddingVertical: 100,
+        flex: 1,
+        marginTop: 100,
+        marginHorizontal: 25,
         alignItems: "center",
+    },
+    divider: {
+        flexGrow: 10,
+    },
+    languageSetting: {
+        flex: 1,
+        alignItems: "center",
+        marginHorizontal: 25,
+        marginBottom: 25,
     },
     positionSetting: {
         flexDirection: "column",
