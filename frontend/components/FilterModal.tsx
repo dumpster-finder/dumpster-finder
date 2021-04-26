@@ -275,7 +275,10 @@ export default function FilterModal({
                     selectedDumpsters,
                 ),
                 storeTypes: transformSelection(storeTypes, selectedStores),
-                positiveStoreView: transformRating(storeView),
+                positiveStoreView:
+                    storeView[0] === 0 && storeView[1] === 2
+                        ? undefined
+                        : [storeView[0], storeView[1]],
                 cleanliness: transformRating(cleanliness),
                 rating: transformRating(rating),
                 locked: locked === 0 ? undefined : locked === 1,
