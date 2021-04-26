@@ -1,4 +1,5 @@
 import { Alert } from "react-native";
+import { AxiosError } from "axios";
 
 /**
  * Show a <something> with info
@@ -10,6 +11,8 @@ const info = (message: string) => {
     Alert.alert(message);
 };
 
+const isAxiosError = (err: Error): err is AxiosError => "isAxiosError" in err;
+
 /**
  * Show a <something> with an error message
  * (and log it to the console as well)
@@ -19,7 +22,12 @@ const info = (message: string) => {
  */
 const error = (err: Error, message?: string) => {
     console.error(message, error);
-    Alert.alert(message || "An error occurred", err.message);
+    let title = message || "An error occured";
+    let details = err.message;
+    if (isAxiosError(err) && err.response && err.response.data.error) {
+        details = err.response.data.error;
+    }
+    Alert.alert(title, details);
     // TODO actually have some better-looking thing
 };
 
