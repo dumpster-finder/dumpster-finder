@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import Content from "../../models/Content";
 import { PendingButtonIcon, SaveButtonIcon } from "../basicComponents/Icons";
 import { AirbnbRating } from "react-native-ratings";
+import { useState } from "react";
 
 export default function AddContentModal({
     visible,
@@ -31,6 +32,7 @@ export default function AddContentModal({
     const { t }: { t: (s: string) => string } = useTranslation(
         "contentsEditor",
     );
+    const [datePicker, setDatePicker] = useState<Datepicker | null>(null);
 
     return (
         <Modal
@@ -133,6 +135,8 @@ export default function AddContentModal({
 
                         <Datepicker
                             style={styles.input}
+                            // @ts-ignore
+                            ref={r => setDatePicker(r)}
                             label={t("expiryDate.label")}
                             placeholder={t("expiryDate.placeholder")}
                             date={values.expiryDate}
@@ -158,7 +162,7 @@ export default function AddContentModal({
                             <Button
                                 style={{ marginHorizontal: 5 }}
                                 status={"basic"}
-                                onPress={() => setVisible(false)}
+                                onPress={onCancel}
                             >
                                 {t("cancel")}
                             </Button>
@@ -168,6 +172,11 @@ export default function AddContentModal({
             </Formik>
         </Modal>
     );
+
+    function onCancel() {
+        if (datePicker) datePicker.hide();
+        setVisible(false);
+    }
 
     async function add({
         name,
@@ -182,6 +191,7 @@ export default function AddContentModal({
         quality: number;
         expiryDate: Date | null;
     }) {
+        if (datePicker) datePicker.hide();
         await onAdd({
             name,
             amount: parseFloat(amount) || undefined,
