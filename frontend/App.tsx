@@ -16,6 +16,9 @@ import {
     resetRatedComments,
     languageSelector,
     ratedCommentsSelector,
+    visitsSelector,
+    registeredVisitsSelector,
+    resetRegisteredVisits,
 } from "./redux/slices/configSlice";
 import {
     fetchNearbyDumpsters,
@@ -33,6 +36,14 @@ import { FontAwesomePack } from "./constants/FontAwesome";
 import { fetchAllConstants } from "./redux/slices/constantsSlice";
 import { FontAwesome5Pack } from "./constants/FontAwesome5";
 import i18n from "./i18n";
+import { subDays } from "date-fns";
+import {
+    getUserID,
+    refreshToken,
+    tokenSelector,
+    userNameSelector,
+} from "./redux/slices/userSlice";
+import Message from "./utils/Message";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
@@ -44,11 +55,23 @@ const InnerApp = () => {
     const radius = useSelector(radiusSelector);
     const language = useSelector(languageSelector);
     const ratedComments = useSelector(ratedCommentsSelector);
+    const visitDate = useSelector(visitsSelector);
+    const registeredVisits = useSelector(registeredVisitsSelector);
+    const userName = useSelector(userNameSelector);
+    const token = useSelector(tokenSelector);
+
+    const visitSinceDate = subDays(
+        new Date(),
+        visitDate === 0 ? 1 : visitDate === 1 ? 3 : 7,
+    )
+        .toISOString()
+        .split("T")[0];
 
     useEffect(() => {
         // Do some state-independent resets and fetches at app load
         // TODO Remove this when ratedComments is guaranteed to be undefined on our dev devices
         if (!ratedComments) store.dispatch(resetRatedComments());
+        if (!registeredVisits) store.dispatch(resetRegisteredVisits());
         store.dispatch(resetPhotos());
         store.dispatch(fetchAllConstants());
         store.dispatch(setEditorDumpster(templateDumpster));
@@ -59,15 +82,39 @@ const InnerApp = () => {
     }, []);
 
     useEffect(() => {
+        // Refresh token when the app loads!
+        if (userName) store.dispatch(refreshToken(userName));
+    }, []);
+
+    useEffect(() => {
+        if (!userName) {
+            // should be the case only when you *first* open the app
+            store.dispatch(getUserID()).catch(e => console.error(e));
+            // User will have to press a retry button if it did not work
+            // (for the time being)
+        } else if (!token) {
+            store.dispatch(refreshToken(userName));
+            console.log("Refreshing token for the first time …");
+        } else {
+            // TODO handle timeout loop, if at all
+            // setTimeout(() => store.dispatch(refreshToken(userName)), 60000); // timeout in a minute
+        }
+    }, [userName, token]);
+
+    useEffect(() => {
         // TODO reconsider the 1st part
         store.dispatch(setDumpsters([]));
-        // Fetch dumpsters each time position or radius changes
-        store.dispatch(fetchNearbyDumpsters({ position, radius }));
-    }, [position, radius]);
+        // Fetch dumpsters each time position, visits or radius changes
+        store.dispatch(
+            fetchNearbyDumpsters({ position, radius, visitSinceDate }),
+        );
+    }, [position, radius, visitDate]);
 
     useEffect(() => {
         // Change language if language has changed (hahaha)
-        i18n.changeLanguage(language).catch(e => console.error(e));
+        i18n.changeLanguage(language).catch(e =>
+            Message.error(e, "Could not change language"),
+        );
     }, [language]);
 
     return (

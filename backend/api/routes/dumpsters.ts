@@ -52,6 +52,7 @@
  *                 latitude: 63.422407
  *                 longitude: 10.394954
  *                 radius: 6000
+ *                 visitSinceDate: "2021-01-01"
  *
  *         PostDumpster:
  *             type: object
@@ -185,6 +186,7 @@ import { validate } from "express-validation";
 import DumpsterDAO from "../daos/dumpsters";
 import {
     getDumpster,
+    getRevisions,
     locationParams,
     patchRevision,
     postDumpster,
@@ -194,6 +196,7 @@ import { RouteDependencies } from "../types";
 import { PositionParams } from "../types/Position";
 import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
 import { NotFoundError } from "../types/errors";
+import { JwtMiddleware } from "../middleware/tokenMiddleware";
 
 export default function({ Models }: RouteDependencies) {
     const router = Router();
@@ -250,7 +253,13 @@ export default function({ Models }: RouteDependencies) {
      *         schema:
      *           type: integer
      *         required: true
-     *         description: Dumpster ID
+     *         description: visitSinceDate
+     *       - in: query
+     *         name: values
+     *         required: true
+     *         description: Date to calculate visits
+     *         example:
+     *             visitSinceDate: "2021-01-01"
      *     responses:
      *       "200":
      *         description: The requested dumpster
@@ -269,10 +278,15 @@ export default function({ Models }: RouteDependencies) {
         "/:dumpsterID(\\d+)",
         standardLimiter,
         validate(getDumpster),
-        async (req, res, next) => {
+        async (
+            req: Request & { query: { visitSinceDate: string } },
+            res,
+            next,
+        ) => {
             try {
                 const dumpster = await dumpsterDAO.getOne(
                     parseInt(req.params.dumpsterID),
+                    req.query.visitSinceDate,
                 );
                 if (dumpster) {
                     res.status(200).json(dumpster);
@@ -292,6 +306,14 @@ export default function({ Models }: RouteDependencies) {
      *   post:
      *     summary: Post a new dumpster
      *     tags: [Dumpsters]
+     *     parameters:
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -308,6 +330,7 @@ export default function({ Models }: RouteDependencies) {
     router.post(
         "/",
         updateLimiter,
+        JwtMiddleware,
         validate(postDumpster),
         async (req, res, next) => {
             try {
@@ -332,6 +355,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -348,6 +378,7 @@ export default function({ Models }: RouteDependencies) {
     router.put(
         "/:dumpsterID(\\d+)",
         updateLimiter,
+        JwtMiddleware,
         validate(putDumpster),
         async (req, res, next) => {
             try {
@@ -388,7 +419,7 @@ export default function({ Models }: RouteDependencies) {
     router.get(
         "/:dumpsterID(\\d+)/revisions",
         standardLimiter,
-        validate(getDumpster),
+        validate(getRevisions),
         async (
             req: Request & { params: { dumpsterID: number } },
             res,
@@ -418,6 +449,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -435,6 +473,7 @@ export default function({ Models }: RouteDependencies) {
     router.patch(
         "/:dumpsterID(\\d+)/revisions",
         updateLimiter,
+        JwtMiddleware,
         validate(patchRevision),
         async (
             req: Request & { params: { dumpsterID: number } },

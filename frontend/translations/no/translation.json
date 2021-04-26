@@ -1,5 +1,6 @@
 {
     "common": {
+        "all": "Alle",
         "rating": "Vurdering",
         "cleanliness": "Renhet",
         "locked": "Låst",
@@ -19,12 +20,17 @@
         "searchPlaceholder": "Søk etter noe",
         "somethingWrong": "Noe gikk galt.",
         "areYouSure": "Er du sikker?",
+        "retry": "Prøv på nytt",
         "cancel": "Avbryt",
         "add": "Legg til",
         "save": "Lagre",
         "remove": "Fjern",
+        "filter": "Filtrer",
         "back": "Tilbake",
-        "km": "km"
+        "km": "km",
+        "delete": "Slett",
+        "tapToSeeMore": "Trykk for mer info",
+        "yourPosition": "Din posisjon"
     },
     "advice": {
         "title": "Råd for dumpster diving",
@@ -43,6 +49,8 @@
     },
     "settings": {
         "setPos": "Sett posisjon",
+        "userID": "Din bruker-ID",
+        "aboutUserID": "Denne ID-en knyttes til endringer du gjør. Ikke del den med noen.",
         "changeNick": "Endre kallenavn",
         "nick": "Kallenavn",
         "saveNick": "Lagre kallenavn",
@@ -69,17 +77,18 @@
         "categories": "Her kan du finne",
         "content": "Se andres funn",
         "comments": "Se kommentarer",
-        "setRating": "Vurdér meg",
+        "setRating": "Vurder meg",
         "storeType": "Butikktype",
         "dumpsterType": "Type søppelkasse",
         "extraInfo": "Ekstra info"
     },
 
     "menu": {
-        "flag": "Rapportér søppelkasse",
+        "flag": "Rapporter søppelkasse",
         "revision": "Revisjonshistorikk",
         "editDumpster": "Rediger søppelkasse",
-        "editContent": "Rediger innhold"
+        "editContent": "Rediger innhold",
+        "gallery": "Se bilder"
     },
 
     "revision": {
@@ -90,7 +99,8 @@
     "comment": {
         "add": "Publisér kommentar",
         "comment": "Kommentar",
-        "yourPos": "Din posisjon"
+        "yourPos": "Din posisjon",
+        "delComment": "Sikker på at du vil slette kommentaren?"
     },
 
     "editor": {
@@ -183,9 +193,14 @@
 
     "position": {
         "save": "Sett posision",
+        "help": "Trykk på kartet eller dra markøren for å presisere sted",
         "none": "Ingen posisjon valgt",
-        "yourPos": "Din posisjon",
-        "pos": "f.eks. Paris"
+        "unknown": "Ukjent sted",
+        "searchBox": {
+            "label":  "Søk etter et sted",
+            "placeholder": "f.eks. Paris",
+            "pending": "Leter etter steder …"
+        }
     },
 
     "placeholders": {
@@ -273,24 +288,45 @@
         "yourPos": "Sett posisjon",
         "gallery": "Bildegalleri",
         "display": "Bilde",
-        "addPhoto": "Legg til bilde"
+        "addPhoto": "Legg til bilde",
+        "flag": "Raporter søppeldunk"
+    },
+
+    "intro": {
+        "generatingUserID": "Genererer bruker-ID …",
+        "userIDFailed": "Kunne ikke generere bruker-ID"
     },
 
     "visit": {
         "visitbtn":"Jeg var her",
         "part1": "Besøkt",
-        "part2": "ganger",
-        "visitInterval": "Sett besøksintervall",
-        "day": "Dag",
-        "month": "Måned",
-        "year": "År"
+        "time": "gang",
+        "times": "ganger",
+        "dayText": "det siste døgnet",
+        "daysText": "de siste tre dagene",
+        "weekText": "den siste uka",
+        "visitInterval": "Sett besøkintervall",
+        "day": "døgn",
+        "days": "3 dager",
+        "week": "uke",
+        "disabled": "Du må vente litt med å registrere deg igjen"
     },
 
     "photo": {
-        "upload": "Last opp bilde",
+        "upload": "Velg bilde",
         "take": "Ta bilde",
         "photo": "Bilde",
         "delete" : "Slett bilde",
         "add": "Legg til bide"
+    },
+    "report": {
+        "report": "Rapporter denne søppelkassen",
+        "text": "Rapporter søppelkassen dersom den ikke eksisterer, er ulovlig å dumpstre i osv. Dersom det er noe feil med informasjonen om dumpsteren så kan du endre den selv",
+        "reason": {
+            "label": "Grunn (valgfritt)",
+            "placeholder": "f.eks. Jeg har sett grundig etter og finner den ikke."
+        },
+        "alreadyReport": "Du har allerede rapporter denne dumpsteren",
+        "justReport": "Vi har registrert din rapport"
     }
 }

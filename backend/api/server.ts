@@ -19,6 +19,7 @@ import errorHandler, { notFoundHandler } from "./middleware/errorHandler";
 import { readWordsFromFile } from "./utils/IdGeneration";
 import photos from "./routes/photos";
 import visits from "./routes/visits";
+import reports from "./routes/reports";
 
 (async () => {
     await connectToDatabase();
@@ -50,12 +51,12 @@ app.enable("trust proxy");
 
 // TODO find a better way to prepend /api to all routes...
 //      (not a big thing though)
-
 app.use("/api/dumpsters", dumpsters(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/comments", comments(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/contents", contents(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/photos", photos(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/visits", visits(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/reports", reports(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/ratings", ratings(dependencies));
 
 app.use("/api/categories", categories(dependencies));
@@ -63,8 +64,6 @@ app.use("/api/content-types", contentTypes(dependencies));
 app.use("/api/store-types", storeTypes(dependencies));
 app.use("/api/dumpster-types", dumpsterTypes(dependencies));
 app.use("/api/users", users(dependencies));
-
-
 
 // Mount Swagger docs at /api/spec
 // to avoid conflicts with other routes

@@ -10,6 +10,7 @@ const params = {
     latitude: 63.411402,
     longitude: 10.434184,
     radius: 5000,
+    visitSinceDate: "2020-01-01",
 };
 
 const invalidDumpster = {
@@ -88,7 +89,7 @@ describe("getAll", () => {
 
 describe("getOne", () => {
     it("should return the correct dumpster", async () => {
-        const dumpster = await dumpsterDAO.getOne(5);
+        const dumpster = await dumpsterDAO.getOne(5, "2020-01-01");
         expect(dumpster).not.toBeNull();
         if (dumpster) {
             expect(dumpster.name).toBe("Bunnpris Moholt");
@@ -96,7 +97,7 @@ describe("getOne", () => {
                 "Somewhat dirty. Watch where you touch.",
             );
             expect(dumpster.emptyingSchedule).toBe("Fridays at 15pm");
-            expect(dumpster.locked).toBeFalsy();
+            expect(dumpster.locked).toBeTruthy();
             expect(dumpster.cleanliness).toBe(3);
             expect(dumpster.position).toEqual({
                 latitude: 63.41293,
@@ -111,12 +112,12 @@ describe("getOne", () => {
     });
 
     it("should return null if the dumpster does not exist", async () => {
-        const dumpster = await dumpsterDAO.getOne(56709);
+        const dumpster = await dumpsterDAO.getOne(56709, "2020-01-01");
         expect(dumpster).toBeNull();
     });
 
     it("should return a dumpster with the usual data", async () => {
-        const dumpster = await dumpsterDAO.getOne(1);
+        const dumpster = await dumpsterDAO.getOne(1, "2020-01-01");
         dumpsterProps.forEach(p => expect(dumpster).toHaveProperty(p));
     });
 });
@@ -206,7 +207,12 @@ describe("addOne", () => {
             positiveStoreViewOnDiving: true,
         };
 
-        const { dumpsterID, rating, visits, ...result} = await dumpsterDAO.addOne(dumpster);
+        const {
+            dumpsterID,
+            rating,
+            visits,
+            ...result
+        } = await dumpsterDAO.addOne(dumpster);
         // Check that the actual data is returned
         expect(result).toEqual(dumpster);
         // Check default values
@@ -294,7 +300,10 @@ describe("updateOne", () => {
         );
 
         // Check that the resulting dumpster matches our update
-        const visibleResult = await dumpsterDAO.getOne(dumpster.dumpsterID);
+        const visibleResult = await dumpsterDAO.getOne(
+            dumpster.dumpsterID,
+            "2020-01-01",
+        );
         expect({
             ...visibleResult,
             rating: undefined,

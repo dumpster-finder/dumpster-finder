@@ -31,6 +31,18 @@ export default class PhotoService {
     }
 
     /**
+     * Fetches cover photo
+     *
+     * @param dumpsterID ID of the dumpster to fetch photos for
+     */
+    getCoverPhoto(dumpsterID: number): Promise<RawPhoto> {
+        console.log("Fetched cover photo for dumpster", dumpsterID);
+        return this.axios
+            .get(`/dumpsters/${dumpsterID}/photos/cover`)
+            .then(response => response.data); // no need to go through photo class since date ain't needed
+    }
+
+    /**
      * Uploads a photo and registers it as a photo of the given dumpster
      * @param dumpsterID
      * @param photoURI
@@ -57,7 +69,6 @@ export default class PhotoService {
             `/dumpsters/${dumpsterID}/photos`,
             {
                 url: `${PHOTO_URL}${response.data.filename}`,
-                userID: "temp",
             },
         );
         return data;

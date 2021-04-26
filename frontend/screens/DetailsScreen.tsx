@@ -3,7 +3,11 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
 import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
+import {
+    addDumpster,
+    currentDumpsterSelector,
+    setCurrentDumpster,
+} from "../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PhotoDisplay from "../components/compoundComponents/PhotoDisplay";
 import { useTranslation } from "react-i18next";
@@ -15,16 +19,33 @@ import { DumpsterService, VisitService } from "../services";
 import { useAppDispatch } from "../redux/store";
 import usePhotos from "../hooks/usePhotos";
 import { useState } from "react";
+import { subDays, subHours } from "date-fns";
+import {
+    registeredVisitsSelector,
+    visitsSelector,
+} from "../redux/slices/configSlice";
+import Message from "../utils/Message";
 
 export default function DetailsScreen({
     navigation,
 }: {
     navigation: StackNavigationProp<any>;
 }) {
+    const dispatch = useAppDispatch();
+    const visitDate = useSelector(visitsSelector);
     const { t }: { t: (s: string) => string } = useTranslation("details");
     const dumpster = useSelector(currentDumpsterSelector);
     const photos = usePhotos();
     const [visits, setVisits] = useState(dumpster ? dumpster.visits : 0);
+    let lastVisit = new Date();
+
+    if (dumpster) {
+        lastVisit = useSelector(registeredVisitsSelector)[dumpster.dumpsterID];
+    }
+
+    const [disabled, setDisabled] = useState(
+        subHours(new Date(), 4) <= lastVisit || false,
+    );
 
     if (!dumpster) {
         return (
@@ -63,15 +84,7 @@ export default function DetailsScreen({
 
                     <CategoryInfo dumpster={dumpster} />
                     <GeneralInfo dumpster={dumpster} />
-                    <Text
-                        style={{
-                            justifyContent: "flex-start",
-                        }}
-                    >
-                        {t("visit:part1")} {visits} {t("visit:part2")}
-                    </Text>
                     <InfoRow dumpster={dumpster} />
-
                     <ExtraInfo dumpster={dumpster} />
 
                     <View style={styles.buttonRow}>
@@ -106,7 +119,15 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
+                    {disabled && (
+                        <Text
+                            style={{ marginVertical: 5, alignSelf: "center" }}
+                        >
+                            {t("visit:disabled")}
+                        </Text>
+                    )}
                     <Button
+                        disabled={disabled}
                         style={{
                             alignSelf: "center",
                         }}
@@ -123,23 +144,34 @@ export default function DetailsScreen({
     async function visit() {
         setVisits(visits + 1);
         if (dumpster) {
-            await VisitService.addOne(dumpster.dumpsterID, "temp1").then(
-                getDumpster,
-            );
+            try {
+                await VisitService.addOne(dumpster.dumpsterID, "temp1");
+                await getDumpster();
+                setDisabled(true);
+            } catch (e) {
+                Message.error(e, "Could not register visit");
+            }
         }
     }
 
     async function getDumpster() {
+        const visitSinceDate = subDays(
+            new Date(),
+            visitDate === 0 ? 1 : visitDate === 1 ? 3 : 7,
+        )
+            .toISOString()
+            .split("T")[0];
         if (dumpster) {
             try {
                 const updatedDumpster = await DumpsterService.getDumpster(
                     dumpster.dumpsterID,
+                    visitSinceDate,
                 );
                 // TODO calc distance here (fix-list has stuff)
                 dispatch(setCurrentDumpster(updatedDumpster));
                 dispatch(addDumpster(updatedDumpster));
             } catch (e) {
-                console.error("Could not add visit", e);
+                Message.error(e, "Could not add visit");
             }
         }
     }

@@ -5,13 +5,22 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useAppDispatch } from "../redux/store";
 import {
     allDumpstersSelector,
+    dumpsterMapSelector,
     setCurrentDumpster,
 } from "../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
 import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
+import FilterModal from "../components/FilterModal";
+import { useState } from "react";
 import { calcOrUseDistance } from "../utils/distance";
 import { positionSelector } from "../redux/slices/configSlice";
+import {
+    coverPhotoMapSelector,
+    setCoverPhoto,
+} from "../redux/slices/photoSlice";
+import { useEffect } from "react";
+import { PhotoService } from "../services";
 
 export default function ListScreen({
     navigation,
@@ -20,7 +29,28 @@ export default function ListScreen({
 }) {
     const dispatch = useAppDispatch();
     const dumpsters = useSelector(allDumpstersSelector);
+    const [filter, setFilter] = useState(false);
+    const dumpsterMap = useSelector(dumpsterMapSelector);
     const p = useSelector(positionSelector);
+    const coverPhotos = useSelector(coverPhotoMapSelector);
+
+    useEffect(() => {
+        dumpsters.forEach(({ dumpsterID }) => {
+            if (coverPhotos[dumpsterID] === undefined)
+                // if it has never been fetched before
+                PhotoService.getCoverPhoto(dumpsterID)
+                    .then(photo =>
+                        dispatch(setCoverPhoto({ dumpsterID, photo })),
+                    )
+                    .catch(e => {
+                        if (e.message === "Request failed with status code 404")
+                            dispatch(
+                                setCoverPhoto({ dumpsterID, photo: null }),
+                            );
+                        else console.error(e);
+                    }); // standard 404 can be ignored
+        });
+    }, [dumpsterMap]);
 
     return (
         <Layout style={styles.container}>
@@ -31,7 +61,11 @@ export default function ListScreen({
                             screen: "AddPositionScreen",
                         });
                     }}
+                    onPressFilter={() => setFilter(true)}
                 />
+                {filter && (
+                    <FilterModal visible={filter} setVisible={setFilter} />
+                )}
                 {dumpsters
                     .sort(
                         (a, b) =>

@@ -15,6 +15,7 @@ import { useAppDispatch } from "../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { formatDate } from "../utils/date";
 import { useTranslation } from "react-i18next";
+import Message from "../utils/Message";
 
 export default function RevisionScreen({
     navigation,
@@ -25,11 +26,12 @@ export default function RevisionScreen({
     const dispatch = useAppDispatch();
     const dumpster = useSelector(currentDumpsterSelector);
     const [dumpsterList, setDumpsterList] = useState<RevDumpster[]>([]);
+
     useEffect(() => {
         if (dumpster)
             DumpsterService.getRevisions(dumpster.dumpsterID)
                 .then(data => setDumpsterList(data))
-                .catch(e => console.error("Could not fetch revisions", e));
+                .catch(e => Message.error(e, "Could not fetch revisions"));
     }, []);
     if (dumpster === null) {
         return (
@@ -60,24 +62,24 @@ export default function RevisionScreen({
                 newDumpster.dumpsterID,
                 newDumpster.revisionID,
             )
-                .then(() =>
+                .then(() => {
                     dispatch(
                         setCurrentDumpster({
                             ...restDumpster,
                             rating: dumpster.rating,
                         }),
-                    ),
-                )
-                .then(() =>
+                    );
                     dispatch(
                         addDumpster({
                             ...restDumpster,
                             rating: dumpster.rating,
                         }),
-                    ),
-                )
-                .then(() => navigation.navigate("DetailsScreen"))
-                .catch(e => console.error("Could not reset revisions", e));
+                    );
+                    navigation.navigate("DetailsScreen");
+                })
+                .catch(e => {
+                    Message.error(e, "Could not reset revisions");
+                });
     }
 }
 

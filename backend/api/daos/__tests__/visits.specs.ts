@@ -11,12 +11,12 @@ beforeAll(setupTestData);
 describe("addOne", () => {
     it("should add a new visit to the database", async () => {
         const visitsBefore = await dumpsterDAO
-            .getOne(1)
+            .getOne(1, "2020-01-01")
             // @ts-ignore
             .then(data => data.visits);
-        const visit = await visitsDAO.addOne(1, "temp1");
+        const visit = await visitsDAO.addOne(1, 2);
         const visitsAfter = await dumpsterDAO
-            .getOne(1)
+            .getOne(1, "2020-01-01")
             // @ts-ignore
             .then(data => data.visits);
         expect(visitsAfter).toBe(visitsBefore + 1);

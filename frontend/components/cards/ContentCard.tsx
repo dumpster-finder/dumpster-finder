@@ -16,55 +16,55 @@ export default function ContentCard({
     const { t }: { t: (s: string) => string } = useTranslation("contents");
     return (
         <Card onPress={onPress}>
-            <View style={styles.view}>
-                <View
-                    style={{
-                        width: "40%",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Text category={"h5"}>{content.name}</Text>
+            <View style={styles.row}>
+                <View style={styles.nameView}>
+                    <Text category={"h5"} style={styles.text}>
+                        {content.name}
+                    </Text>
                 </View>
 
-                <View
-                    style={{
-                        width: "30%",
-                        flex: 1,
-                        flexDirection: "column",
-                    }}
-                >
+                <View style={styles.infoView}>
                     {content.amount && (
-                        <Text>
-                            {t("amount")}: {content.amount}
-                        </Text>
+                        <View style={styles.row}>
+                            <Text style={styles.boldText}>{t("amount")}: </Text>
+                            <Text style={styles.text}>{content.amount}</Text>
+                        </View>
                     )}
                     {content.unit && (
-                        <Text>
-                            {t("unit")}: {content.unit}
-                        </Text>
+                        <View style={styles.row}>
+                            <Text style={styles.boldText}>{t("unit")}: </Text>
+                            <Text style={styles.text}>{content.unit}</Text>
+                        </View>
                     )}
                     {content.quality && (
-                        <Text>
-                            {t("quality")}: {content.quality}
-                        </Text>
+                        <View style={styles.row}>
+                            <Text style={styles.boldText}>
+                                {t("quality")}:{" "}
+                            </Text>
+                            <Text style={styles.text}>{content.quality}/5</Text>
+                        </View>
                     )}
                 </View>
 
-                <View
-                    style={{
-                        width: "30%",
-                    }}
-                >
+                <View style={styles.dateView}>
                     {content.expiryDate && (
-                        <View style={styles.column}>
-                            <Text>{t("expiryDate")}:</Text>
-                            <Text>{formatDate(content.expiryDate)}</Text>
+                        <View>
+                            <Text style={styles.boldText}>
+                                {t("expiryDate")}:
+                            </Text>
+                            <Text style={styles.text}>
+                                {formatDate(content.expiryDate)}
+                            </Text>
                         </View>
                     )}
                     {content.foundDate && (
-                        <View style={styles.column}>
-                            <Text>{t("foundDate")}:</Text>
-                            <Text>{formatDate(content.foundDate)}</Text>
+                        <View>
+                            <Text style={styles.boldText}>
+                                {t("foundDate")}:
+                            </Text>
+                            <Text style={styles.text}>
+                                {formatDate(content.foundDate)}
+                            </Text>
                         </View>
                     )}
                 </View>
@@ -73,12 +73,34 @@ export default function ContentCard({
     );
 }
 const styles = StyleSheet.create({
-    view: {
-        flex: 1,
+    row: {
         flexDirection: "row",
+        flexWrap: "wrap",
     },
     column: {
-        flex: 1,
         flexDirection: "column",
+    },
+    nameView: {
+        width: "33.3%",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        paddingRight: 5,
+    },
+    infoView: {
+        width: "33.3%",
+        flexDirection: "column",
+        paddingHorizontal: 5,
+        alignItems: "flex-start",
+    },
+    dateView: {
+        width: "33.3%",
+        paddingLeft: 5,
+    },
+    text: {
+        alignSelf: "flex-start",
+    },
+    boldText: {
+        alignSelf: "flex-start",
+        fontWeight: "bold",
     },
 });

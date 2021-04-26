@@ -5,7 +5,7 @@ import { UserAttributes, UserCreationAttributes } from "./Users";
 export interface DumpsterReportAttributes {
     dumpsterReportID: number;
     dumpsterID: number;
-    userID: string | null;
+    userID: number | null;
     reason: string;
     date: string;
 }
@@ -18,7 +18,7 @@ export class DumpsterReports
     implements DumpsterReportAttributes {
     dumpsterReportID!: number;
     dumpsterID!: number;
-    userID!: string | null;
+    userID!: number | null;
     reason!: string;
     date!: string;
 }
@@ -37,7 +37,7 @@ export function init(sequelize: Sequelize) {
                 allowNull: false,
             },
             userID: {
-                type: DataTypes.STRING,
+                type: DataTypes.NUMBER,
             },
             reason: {
                 type: DataTypes.STRING,

@@ -6,17 +6,12 @@
  *       type: object
  *       required:
  *         - url
- *         - userID
  *       properties:
  *         url:
  *           type: string
  *           description: URL to the photo. Must be in our photo server.
- *         userID:
- *           type: string
- *           description: Your user ID
  *       example:
  *         url: "https://example.com/photos/gry08ht0248thg08h0wgh4g42g2.jpg"
- *         userID: "four wide strides of water"
  *     Photo:
  *       type: object
  *       required:
@@ -48,6 +43,7 @@ import { validate } from "express-validation";
 import PhotoDAO from "../daos/photos";
 import { RouteDependencies } from "../types";
 import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
+import { JwtMiddleware } from "../middleware/tokenMiddleware";
 import { getPhotos, postPhotos } from "../validators/photos";
 import { PostPhoto } from "../types/Photo";
 import { InvalidDataError } from "../types/errors";
@@ -77,7 +73,7 @@ export default function({ Models }: RouteDependencies) {
      *             schema:
      *               type: array
      *               items:
-     *                   $ref: '#/components/schemas/Photo'
+     *                 $ref: '#/components/schemas/Photo'
      *       "404":
      *         description: Dumpster not found
      */
@@ -101,7 +97,48 @@ export default function({ Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/{dumpsterID}/photos:
+     * /dumpsters/{dumpsterID}/photos/cover:
+     *   get:
+     *     summary: GET the most recent photo of a dumpster
+     *     tags: [Photos]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *     responses:
+     *       "200":
+     *         description: A photo
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Photo'
+     *       "404":
+     *         description: Dumpster not found, or has no photos
+     */
+    router.get(
+        "/cover",
+        standardLimiter,
+        validate(getPhotos),
+        async (
+            req: Request & { params: { dumpsterID: number } },
+            res,
+            next,
+        ) => {
+            try {
+                const photo = await photoDAO.getOne(req.params.dumpsterID);
+                res.status(200).json(photo);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/photos/:
      *   post:
      *     summary: Add a photo to a dumpster
      *     description: |
@@ -115,6 +152,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *       content:
      *         application/json:
@@ -133,6 +177,7 @@ export default function({ Models }: RouteDependencies) {
     router.post(
         "/",
         updateLimiter,
+        JwtMiddleware,
         validate(postPhotos),
         async (
             req: Request & { params: { dumpsterID: number }; body: PostPhoto },
@@ -149,11 +194,10 @@ export default function({ Models }: RouteDependencies) {
                     throw new InvalidDataError(
                         `Untrusted photo host ${req.body.url}`,
                     );
-                // TODO treat that userID …
-                const result = await photoDAO.addOne(
-                    req.params.dumpsterID,
-                    req.body,
-                );
+                const result = await photoDAO.addOne(req.params.dumpsterID, {
+                    url: req.body.url,
+                    userID: parseInt(res.locals.session.id),
+                });
                 res.status(201).json(result);
             } catch (e) {
                 next(e);

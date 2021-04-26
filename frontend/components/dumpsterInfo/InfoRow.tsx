@@ -18,7 +18,7 @@ export default function InfoRow({ dumpster }: { dumpster: Dumpster }) {
                 <View style={styles.boxRow}>
                     <StarIcon size="small" />
                     <Text style={styles.rowText}>
-                        {t("rating")}: {dumpster.rating.toFixed(1)}
+                        {t("rating")}: {dumpster.rating.toFixed(1)}/5
                     </Text>
                 </View>
             )}
@@ -26,7 +26,7 @@ export default function InfoRow({ dumpster }: { dumpster: Dumpster }) {
             <View style={styles.boxRow}>
                 <BrushIcon size="small" />
                 <Text style={styles.rowText}>
-                    {t("cleanliness")}: {dumpster.cleanliness}
+                    {t("cleanliness")}: {dumpster.cleanliness}/5
                 </Text>
             </View>
             <View style={styles.boxRow}>

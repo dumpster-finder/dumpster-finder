@@ -5,7 +5,7 @@ import { InvalidDataError, NotFoundError, ServerError } from "../types/errors";
 
 export const COMMENT_RATING_TRESHOLD = -5;
 
-export default function ({ Comments, sequelize }: MyModels) {
+export default function({ Comments, sequelize }: MyModels) {
     return {
         /**
          * Fetches all comments for a dumpster,
@@ -80,6 +80,26 @@ export default function ({ Comments, sequelize }: MyModels) {
                 return Comments.findOne({
                     where: { commentID },
                     transaction: t,
+                });
+            });
+        },
+
+        /**
+         * Delete a comment
+         *
+         * @param commentID ID of the comment the user want to delete
+         * @param userID    ID of the user who wants to delete said comment
+         */
+        removeOne: async (commentID: number, userID: number) => {
+            return await sequelize.transaction(async t => {
+                const match = await Comments.findOne({
+                    where: { commentID, userID },
+                    transaction: t,
+                });
+                if (!match)
+                    throw new NotFoundError("This comment does not exist");
+                return await Comments.destroy({
+                    where: { commentID: match.commentID, userID: match.userID },
                 });
             });
         },

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Position from "../../models/Position";
 import { RootState } from "../store";
 import RatedComment from "../../models/RatedComment";
+import RegisteredVisits from "../../models/RegisteredVisits";
 
 interface SliceState {
     position: Position;
@@ -12,6 +13,8 @@ interface SliceState {
     language: string;
     ratedComments: Record<string, number>;
     hideNegativeRating: boolean;
+    visits: number;
+    registeredVisits: Record<string, Date>;
     // other settings to come, stay tuned!
 }
 
@@ -29,6 +32,8 @@ export const configSlice = createSlice({
         language: "no",
         ratedComments: {},
         hideNegativeRating: true, // Hide 'em by default
+        visits: 2,
+        registeredVisits: {},
     } as SliceState,
     reducers: {
         setNickname: (state, { payload }: { payload: string }) => {
@@ -53,8 +58,6 @@ export const configSlice = createSlice({
             { ratedComments },
             { payload }: { payload: RatedComment },
         ) => {
-            console.log(payload);
-            console.log(ratedComments);
             ratedComments[payload.commentID] = payload.rated;
         },
         resetRatedComments: state => {
@@ -62,6 +65,18 @@ export const configSlice = createSlice({
         },
         setHideNegativeRating: (state, { payload }: { payload: boolean }) => {
             state.hideNegativeRating = payload;
+        },
+        setVisits: (state, { payload }: { payload: number }) => {
+            state.visits = payload;
+        },
+        setRegisteredVisits: (
+            { registeredVisits },
+            { payload }: { payload: RegisteredVisits },
+        ) => {
+            registeredVisits[payload.dumpsterID] = payload.visitTime;
+        },
+        resetRegisteredVisits: state => {
+            state.registeredVisits = {};
         },
     },
 });
@@ -130,6 +145,12 @@ export const {
     resetRatedComments,
 
     setHideNegativeRating,
+
+    setVisits,
+
+    setRegisteredVisits,
+
+    resetRegisteredVisits,
 } = configSlice.actions;
 
 export const nicknameSelector = (state: RootState) => state.config.nickname;
@@ -142,4 +163,8 @@ export const ratedCommentsSelector = (state: RootState) =>
     state.config.ratedComments;
 export const hideNegativeRatingSelector = (state: RootState) =>
     state.config.hideNegativeRating;
+export const visitsSelector = (state: RootState) => state.config.visits;
+export const registeredVisitsSelector = (state: RootState) =>
+    state.config.registeredVisits;
+
 export default configSlice.reducer;
