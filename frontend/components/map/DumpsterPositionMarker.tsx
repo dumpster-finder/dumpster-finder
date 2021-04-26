@@ -1,14 +1,7 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import { Marker } from "react-native-maps";
-import Position from "../../models/Position";
-const icon = require("../../assets/images/user-marker.png");
-
-export interface DraggableMarkerProps {
-    position: Position;
-    onChange?: (p: Position) => void;
-}
-
-export type DraggableMarker = (props: DraggableMarkerProps) => ReactElement;
+import { DraggableMarkerProps } from "./PositionMarker";
+const icon = require("../../assets/images/dumpster-position-marker.png");
 
 /**
  * Marks your position

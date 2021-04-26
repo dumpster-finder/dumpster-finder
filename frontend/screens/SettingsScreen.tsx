@@ -26,7 +26,7 @@ import {
     setVisits,
 } from "../redux/slices/configSlice";
 import { useAppDispatch } from "../redux/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRightIcon } from "../components/basicComponents/Icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DropdownCard from "../components/cards/DropdownCard";
@@ -35,6 +35,7 @@ import { useTranslation } from "react-i18next";
 import ToggleSwitch from "../components/basicComponents/ToggleSwitch";
 import { userNameSelector, setUserName } from "../redux/slices/userSlice";
 import Constants from "expo-constants";
+import LanguagePicker from "../components/settings/LanguagePicker";
 
 export default function SettingsScreen({
     navigation,
@@ -42,22 +43,15 @@ export default function SettingsScreen({
     navigation: StackNavigationProp<any>;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("settings");
-    const languages = [t("en"), t("no")];
-    const languageCodes = ["en", "no"];
     const distances = ["2", "5", "10", "25", "50"];
     const intervalValue = [t("visit:day"), t("visit:days"), t("visit:week")];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
     const userName = useSelector(userNameSelector);
     const nickname = useSelector(nicknameSelector);
-    const language = useSelector(languageSelector);
     const visit = useSelector(visitsSelector);
     const hideNegativeRating = useSelector(hideNegativeRatingSelector);
     const radius = Math.round(useSelector(radiusSelector) / 1000);
-    const [newLanguage, setNewLanguage] = useState(
-        language ? languages.indexOf(language) : 0,
-    );
-
     const [showUserID, setShowUserID] = useState(false);
     const [showNick, setShowNick] = useState(false);
     const [showDist, setShowDist] = useState(false);
@@ -66,16 +60,11 @@ export default function SettingsScreen({
         radius ? distances.indexOf(radius.toString()) : 1,
     );
     const [nicknameFieldText, setNicknameFieldText] = useState(nickname);
-
     const [showVis, setShowVis] = useState(false);
     const [visitInterval, setVisitInterval] = useState(visit);
-    if (!radius) {
-        dispatch(setRadius(1000));
-    }
-
-    if (!language) {
-        dispatch(setLanguage("en"));
-    }
+    useEffect(() => {
+        if (!radius) dispatch(setRadius(1000));
+    });
 
     return (
         <Layout style={styles.container}>
@@ -89,7 +78,7 @@ export default function SettingsScreen({
                 >
                     <View style={styles.row}>
                         <View style={{ width: "50%" }}>
-                            <Text category={"h6"}>{t("setPos")} </Text>
+                            <Text category={"h6"}>{t("setPosition")} </Text>
                         </View>
                         <View style={{ width: "50%", alignItems: "flex-end" }}>
                             <ArrowRightIcon size="medium" />
@@ -98,43 +87,47 @@ export default function SettingsScreen({
                 </Card>
                 <DropdownCard
                     value={showUserID}
-                    text={t("userID")}
+                    text={t("userID.title")}
                     onClick={setShowUserID}
                 />
                 {showUserID && (
                     <View style={styles.userIDContainer}>
-                        <Text category="h5">{userName}</Text>
-                        <Text category="c1">{t("aboutUserID")}</Text>
+                        <Text style={styles.centeredText} category="h5">
+                            {userName}
+                        </Text>
+                        <Text category="c1">{t("userID.about")}</Text>
                     </View>
                 )}
                 <DropdownCard
                     value={showNick}
-                    text={t("changeNick")}
+                    text={t("nickname.title")}
                     onClick={setShowNick}
                 />
                 {showNick && (
                     <View style={styles.columnBorder}>
                         <Input
-                            style={{ width: "90%" }}
                             size="large"
-                            placeholder={t("nick")}
+                            placeholder={t("nickname.placeholder")}
                             value={nicknameFieldText}
                             onChangeText={s => setNicknameFieldText(s)}
                         />
+                        <Text style={styles.centeredText} category="c1">
+                            {t("nickname.about")}
+                        </Text>
                         <Button
-                            style={{ width: "50%", marginTop: 5 }}
+                            style={{ minWidth: "53%", marginTop: 5 }}
                             onPress={() =>
                                 dispatch(setNickname(nicknameFieldText))
                             }
                         >
-                            {t("saveNick")}
+                            {t("nickname.save")}
                         </Button>
                     </View>
                 )}
 
                 <DropdownCard
                     value={showDist}
-                    text={t("setDist")}
+                    text={t("distance.title")}
                     onClick={newValue => setShowDist(newValue)}
                 />
                 {showDist && (
@@ -144,28 +137,21 @@ export default function SettingsScreen({
                             values={distances}
                             onSelect={setNewRadius}
                         />
+                        <Text style={styles.centeredText} category="c1">
+                            {t("distance.about")}
+                        </Text>
                     </View>
                 )}
 
                 <DropdownCard
                     value={showLanguage}
-                    text={t("changeLang")}
+                    text={t("language.title")}
                     onClick={newValue => setShowLanguage(newValue)}
                 />
-                {showLanguage && (
-                    <RadioGroup
-                        style={{ padding: 10 }}
-                        selectedIndex={newLanguage}
-                        onChange={index => setNewLang(index)}
-                    >
-                        {languages.map((value, index) => (
-                            <Radio key={index}>{value}</Radio>
-                        ))}
-                    </RadioGroup>
-                )}
+                {showLanguage && <LanguagePicker />}
                 <DropdownCard
                     value={showVis}
-                    text={t("visit:visitInterval")}
+                    text={t("visitInterval.title")}
                     onClick={newValue => setShowVis(newValue)}
                 />
                 {showVis && (
@@ -175,6 +161,9 @@ export default function SettingsScreen({
                             values={intervalValue}
                             onSelect={setInterval}
                         />
+                        <Text style={styles.centeredText} category="c1">
+                            {t("visitInterval.about")}
+                        </Text>
                     </View>
                 )}
                 <Card>
@@ -186,7 +175,7 @@ export default function SettingsScreen({
                 </Card>
                 <Card>
                     <ToggleSwitch
-                        name={t("hide")}
+                        name={t("hideNegativeComments")}
                         checked={hideNegativeRating}
                         onChange={v => dispatch(setHideNegativeRating(v))}
                     />
@@ -210,11 +199,6 @@ export default function SettingsScreen({
         dispatch(setRadius(1000 * parseInt(distances[i])));
     }
 
-    function setNewLang(i: number) {
-        setNewLanguage(i);
-        dispatch(setLanguage(languageCodes[i]));
-    }
-
     function setInterval(i: number) {
         setVisitInterval(i);
         dispatch(setVisits(i));
@@ -229,7 +213,11 @@ const styles = StyleSheet.create({
     },
     userIDContainer: {
         paddingVertical: 6,
+        paddingHorizontal: 8,
         alignItems: "center",
+    },
+    centeredText: {
+        textAlign: "center",
     },
     scrollView: {
         width: "100%",
@@ -246,9 +234,9 @@ const styles = StyleSheet.create({
     columnBorder: {
         flex: 1,
         flexDirection: "column",
-        width: "98%",
+        paddingHorizontal: 14,
         alignItems: "center",
-        marginVertical: 5,
+        marginVertical: 6,
     },
     buttonGroupContainer: {
         alignItems: "center",

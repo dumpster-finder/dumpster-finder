@@ -52,21 +52,35 @@
     },
 
     "settings": {
-        "setPos": "Set position",
-        "userID": "Your user ID",
-        "aboutUserID": "This ID identifies you uniquely. Do not share it with others.",
-        "changeNick": "Change nickname",
-        "nick": "Nickname",
-        "saveNick": "Save nickname",
-        "setDist": "Set distance (km)",
-        "changeLang": "Change language",
+        "setPosition": "Your position",
+        "userID": {
+            "title": "Your user ID",
+            "about": "This ID identifies you uniquely. Do not share it with others."
+        },
+        "nickname": {
+            "title": "Nickname",
+            "placeholder": "e.g. Waffles123",
+            "about": "Your nickname will be displayed on comments you post.",
+            "save": "Save nickname"
+        },
+        "distance": {
+            "title": "Maximal distance to dumpsters (km)",
+            "about": "You will only see dumpsters that are this far from your position."
+        },
+        "language": {
+            "title": "Language",
+            "en": "English",
+            "no": "Norwegian",
+            "de": "German",
+            "fr": "French",
+            "es": "Spanish"
+        },
+        "visitInterval": {
+            "title": "Visit interval",
+            "about": "The time frame in which you would like to see how many have visited a dumpster"
+        },
         "darkMode": "Dark mode",
-        "hide": "Hide negatively rated comments",
-        "en": "English",
-        "no": "Norwegian",
-        "de": "German",
-        "fr": "French",
-        "es": "Spanish"
+        "hideNegativeComments": "Hide negatively rated comments"
     },
 
     "details": {
@@ -302,8 +316,11 @@
     },
 
     "intro": {
+        "appName": "Dumpster Finder",
+        "introBlurb": "Welcome to Dumpster Finder, an app for dumpster divers. It will help you find information about dumpsters in your area, and let you inform others of dumpsters you know.",
         "generatingUserID": "Generating user ID …",
-        "userIDFailed": "Failed to generate user ID"
+        "userIDFailed": "Failed to generate user ID",
+        "locationBlurb": "Your location is only stored locally on your device. It will be sent to our server when dumpster data is fetched. It is never shared with any third-party application. However, we had to make do with a map solution that uses Google Maps and may ask for points of interest around the locations showed on the map. We hope to avoid this."
     },
 
     "visit": {
@@ -314,7 +331,6 @@
         "dayText": "the past day",
         "daysText": "the past three days",
         "weekText": "the past week",
-        "visitInterval": "Set visit interval",
         "day": "day",
         "days": "3 days",
         "week": "week",

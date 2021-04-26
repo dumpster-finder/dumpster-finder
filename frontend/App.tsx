@@ -95,9 +95,6 @@ const InnerApp = () => {
         } else if (!token) {
             store.dispatch(refreshToken(userName));
             console.log("Refreshing token for the first time …");
-        } else {
-            // TODO handle timeout loop, if at all
-            // setTimeout(() => store.dispatch(refreshToken(userName)), 60000); // timeout in a minute
         }
     }, [userName, token]);
 
@@ -112,9 +109,10 @@ const InnerApp = () => {
 
     useEffect(() => {
         // Change language if language has changed (hahaha)
-        i18n.changeLanguage(language).catch(e =>
-            Message.error(e, "Could not change language"),
-        );
+        if (language)
+            i18n.changeLanguage(language).catch(e =>
+                Message.error(e, "Could not change language"),
+            );
     }, [language]);
 
     return (

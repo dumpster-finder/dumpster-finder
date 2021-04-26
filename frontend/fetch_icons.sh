@@ -14,3 +14,4 @@ fetch_icon() {
 fetch_icon trash ff3d32 "$1" dumpster-marker-locked
 fetch_icon trash 35c649 "$1" dumpster-marker-unlocked
 fetch_icon user 3366ff "$1" user-marker
+fetch_icon trash 3366ff "$1" dumpster-position-marker
