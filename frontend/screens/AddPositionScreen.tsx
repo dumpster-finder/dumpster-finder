@@ -7,6 +7,7 @@ import { useAppDispatch } from "../redux/store";
 import { setEditorPosition } from "../redux/slices/editorSlice";
 import { Layout } from "@ui-kitten/components";
 import LocationSearcher from "../components/compoundComponents/LocationSearcher";
+import DumpsterPositionMarker from "../components/map/DumpsterPositionMarker";
 
 export default function AddPositionScreen({
     navigation,
@@ -20,6 +21,7 @@ export default function AddPositionScreen({
         <Layout style={styles.container}>
             <LocationSearcher
                 initialPosition={currentPosition}
+                Marker={DumpsterPositionMarker}
                 onSubmit={position => {
                     dispatch(setEditorPosition(position));
                     navigation.navigate("AddInfoScreen", {

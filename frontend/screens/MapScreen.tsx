@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import SearchHeader from "../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
-import PositionMarker from "../components/map/PositionMarker";
+import MapPositionMarker from "../components/map/MapPositionMarker";
 import CustomMapView from "../components/map/CustomMapView";
 import FilterModal from "../components/FilterModal";
 
@@ -57,7 +57,7 @@ export default function MapScreen({
                 setRef={setMapView}
                 style={styles.map}
             >
-                <PositionMarker position={position} />
+                <MapPositionMarker position={position} />
                 {dumpsters.map(dumpster => (
                     <DumpsterMarker
                         key={dumpster.dumpsterID}

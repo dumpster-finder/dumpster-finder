@@ -14,16 +14,18 @@ import { useTranslation } from "react-i18next";
 import Message from "../../utils/Message";
 import MapView from "react-native-maps";
 import CustomMapView from "../map/CustomMapView";
-import PositionMarker from "../map/PositionMarker";
+import PositionMarker, { DraggableMarker } from "../map/PositionMarker";
 import { StyleSheet } from "react-native";
 import Position from "../../models/Position";
 
 export default function LocationSearcher({
     onSubmit,
     initialPosition = { latitude: 63.43, longitude: 10.4 },
+    Marker = PositionMarker,
 }: {
     onSubmit: (position: Position) => void;
     initialPosition?: Position;
+    Marker?: DraggableMarker;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("position");
     const [suggestions, setSuggestions] = useState<Place[]>([]);
@@ -84,7 +86,7 @@ export default function LocationSearcher({
                 style={styles.map}
                 onPress={setPosition}
             >
-                <PositionMarker
+                <Marker
                     position={place ? place.position : initialPosition}
                     onChange={setPosition}
                 />
