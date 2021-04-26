@@ -15,7 +15,7 @@ import Message from "../utils/Message";
  */
 export const addTokenHeader = (config: AxiosRequestConfig) => {
     const token = tokenSelector(store.getState());
-    if (token) config.headers.jwttoken = token;
+    if (token) config.headers["x-access-token"] = token;
     return config;
 };
 
@@ -26,10 +26,10 @@ export const addTokenHeader = (config: AxiosRequestConfig) => {
  */
 export const handleTokenResponse = (response: AxiosResponse) => {
     if (!response || !response.headers) return response; // Avoid "undefined is not an object"
-    if (response.headers.jwttoken) {
+    if (response.headers["x-access-token"]) {
         // If there's a token in the response, set it as the current token
         console.log("Setting new token from response header …");
-        store.dispatch(setToken(response.headers.jwttoken));
+        store.dispatch(setToken(response.headers["x-access-token"]));
     }
     return response;
 };
@@ -40,7 +40,7 @@ export const handleTokenResponse = (response: AxiosResponse) => {
  * @param error Error to inspect
  */
 export const handleTokenError = (error: AxiosError) => {
-    if (error.code === "401") {
+    if (error.response && error.response.data.statusCode === 401) {
         // If authorization failed, get a new token
         console.log("401 occurred, refreshing token …");
         const userName = userNameSelector(store.getState());

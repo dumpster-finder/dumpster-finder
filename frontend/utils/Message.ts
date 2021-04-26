@@ -21,7 +21,7 @@ const isAxiosError = (err: Error): err is AxiosError => "isAxiosError" in err;
  * @param message - And optional message to explain it
  */
 const error = (err: Error, message?: string) => {
-    console.error(message, error);
+    console.error(message, err);
     let title = message || "An error occured";
     let details = err.message;
     if (isAxiosError(err) && err.response && err.response.data.error) {
