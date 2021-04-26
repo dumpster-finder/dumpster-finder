@@ -19,6 +19,8 @@ import {
     visitsSelector,
     registeredVisitsSelector,
     resetRegisteredVisits,
+    dumpsterFilterSelector,
+    setDumpsterFilter,
 } from "./redux/slices/configSlice";
 import {
     fetchNearbyDumpsters,
@@ -59,6 +61,7 @@ const InnerApp = () => {
     const registeredVisits = useSelector(registeredVisitsSelector);
     const userName = useSelector(userNameSelector);
     const token = useSelector(tokenSelector);
+    const dumpsterFilter = useSelector(dumpsterFilterSelector);
 
     const visitSinceDate = subDays(
         new Date(),
@@ -72,6 +75,8 @@ const InnerApp = () => {
         // TODO Remove this when ratedComments is guaranteed to be undefined on our dev devices
         if (!ratedComments) store.dispatch(resetRatedComments());
         if (!registeredVisits) store.dispatch(resetRegisteredVisits());
+        // TODO add setting to persist filter between sessions (can't be default)
+        store.dispatch(setDumpsterFilter({}));
         store.dispatch(resetPhotos());
         store.dispatch(fetchAllConstants());
         store.dispatch(setEditorDumpster(templateDumpster));

@@ -3,6 +3,7 @@ import Position from "../../models/Position";
 import { RootState } from "../store";
 import RatedComment from "../../models/RatedComment";
 import RegisteredVisits from "../../models/RegisteredVisits";
+import { DumpsterFilter } from "../../utils/filter";
 
 interface SliceState {
     position: Position;
@@ -16,6 +17,7 @@ interface SliceState {
     visits: number;
     registeredVisits: Record<string, Date>;
     // other settings to come, stay tuned!
+    dumpsterFilter: DumpsterFilter;
 }
 
 export const configSlice = createSlice({
@@ -34,6 +36,7 @@ export const configSlice = createSlice({
         hideNegativeRating: true, // Hide 'em by default
         visits: 2,
         registeredVisits: {},
+        dumpsterFilter: {},
     } as SliceState,
     reducers: {
         setNickname: (state, { payload }: { payload: string }) => {
@@ -77,6 +80,12 @@ export const configSlice = createSlice({
         },
         resetRegisteredVisits: state => {
             state.registeredVisits = {};
+        },
+        setDumpsterFilter: (
+            state,
+            { payload }: { payload: DumpsterFilter },
+        ) => {
+            state.dumpsterFilter = payload;
         },
     },
 });
@@ -151,6 +160,11 @@ export const {
     setRegisteredVisits,
 
     resetRegisteredVisits,
+
+    /**
+     * Sets the current filter for dumpsters
+     */
+    setDumpsterFilter,
 } = configSlice.actions;
 
 export const nicknameSelector = (state: RootState) => state.config.nickname;
@@ -166,5 +180,7 @@ export const hideNegativeRatingSelector = (state: RootState) =>
 export const visitsSelector = (state: RootState) => state.config.visits;
 export const registeredVisitsSelector = (state: RootState) =>
     state.config.registeredVisits;
+export const dumpsterFilterSelector = (state: RootState) =>
+    state.config.dumpsterFilter;
 
 export default configSlice.reducer;

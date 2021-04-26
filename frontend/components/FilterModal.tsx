@@ -7,17 +7,23 @@ import {
     Modal,
     Text,
 } from "@ui-kitten/components";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import {
     categoriesSelector,
     dumpsterTypesSelector,
     storeTypesSelector,
 } from "../redux/slices/constantsSlice";
+import {
+    dumpsterFilterSelector,
+    setDumpsterFilter,
+} from "../redux/slices/configSlice";
 import SingleMultiSelect from "../components/selects/SingleMultiSelect";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import MultiSliderComp from "./MultiSliderComp";
+import { useAppDispatch } from "../redux/store";
+import _ from "lodash";
 
 export default function FilterModal({
     visible,
@@ -27,9 +33,11 @@ export default function FilterModal({
     setVisible: (newVisible: boolean) => void;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("common");
+    const dispatch = useAppDispatch();
     const dumpsterTypes = useSelector(dumpsterTypesSelector);
     const storeTypes = useSelector(storeTypesSelector);
     const categories = useSelector(categoriesSelector);
+    const filter = useSelector(dumpsterFilterSelector);
     const lock = ["all", "locked", "unlocked"];
     const [selectedDumpsters, setSelectedDumpsters] = useState([
         new IndexPath(0),
@@ -39,13 +47,18 @@ export default function FilterModal({
         new IndexPath(0),
         new IndexPath(1),
     ]);
-    const [selectedCategories, setSelectedCategories] = useState([
-        new IndexPath(0),
-        new IndexPath(1),
-    ]);
+    const [selectedCategories, setSelectedCategories] = useState(
+        filter.categories // TODO avoid indexOf
+            ? filter.categories.map(c => new IndexPath(categories.indexOf(c)))
+            : categories.map((_, i) => new IndexPath(i)),
+    );
     const [locked, setLocked] = useState(lock[0]);
-    const [rating, setRating] = useState([0, 4]);
-    const [cleanliness, setCleanliness] = useState([0, 4]);
+    const [rating, setRating] = useState(
+        filter.rating ? filter.rating.map(i => i - 1) : [0, 4],
+    );
+    const [cleanliness, setCleanliness] = useState(
+        filter.cleanliness ? filter.cleanliness.map(i => i - 1) : [0, 4],
+    );
     const [view, setView] = useState([0, 2]);
 
     const ratingLabels = [
@@ -218,16 +231,42 @@ export default function FilterModal({
                     <Button
                         style={{ marginHorizontal: 5, minWidth: "40%" }}
                         status="basic"
+                        onPress={() => setVisible(false)}
                     >
                         {t("cancel")}
                     </Button>
-                    <Button style={{ marginHorizontal: 5, minWidth: "40%" }}>
+                    <Button
+                        style={{ marginHorizontal: 5, minWidth: "40%" }}
+                        onPress={handleFilter}
+                    >
                         {t("filter")}
                     </Button>
                 </View>
             </Card>
         </Modal>
     );
+
+    function transformRating([min, max, ...rest]: number[]):
+        | [number, number]
+        | undefined {
+        return min === 0 && max === 4 ? undefined : [min + 1, max + 1];
+    }
+
+    function handleFilter() {
+        // Set new filter – make sure to set undefined where it isn't necessary to perform any filtering
+        dispatch(
+            setDumpsterFilter({
+                categories:
+                    selectedCategories.length > 0 &&
+                    !(selectedCategories.length === categories.length)
+                        ? selectedCategories.map(i => categories[i.row])
+                        : undefined,
+                cleanliness: transformRating(cleanliness),
+                rating: transformRating(rating),
+            }),
+        );
+        setVisible(false);
+    }
 }
 
 const styles = StyleSheet.create({
