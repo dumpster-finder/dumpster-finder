@@ -2,11 +2,15 @@ import Dumpster from "../models/Dumpster";
 
 type Filter = (dumpster: Dumpster) => boolean;
 
+/**
+ * A set of filters for dumpsters.
+ * Each value is left undefined if it is not meant to be filtered by.
+ */
 export interface DumpsterFilter {
-    rating?: [number, number];
-    cleanliness?: [number, number];
+    rating?: [number, number]; // From 1 to 5
+    cleanliness?: [number, number]; // From 1 to 5
     locked?: boolean;
-    positiveStoreView?: [number, number];
+    positiveStoreView?: [number, number]; // From 0 to 2
     dumpsterTypes?: string[];
     storeTypes?: string[];
     categories?: string[];

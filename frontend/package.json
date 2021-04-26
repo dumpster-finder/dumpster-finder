@@ -7,10 +7,23 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll",
+    "test:ci": "jest --collect-coverage",
     "docs": "typedoc"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "collectCoverage": true,
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
   },
   "dependencies": {
     "@eva-design/eva": "^2.0.0",
@@ -58,6 +71,7 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@types/jest": "^26.0.23",
     "@types/lodash": "^4.14.168",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
@@ -66,6 +80,7 @@
     "@types/redux-persist": "^4.3.1",
     "dotenv": "^8.2.0",
     "jest-expo": "~40.0.0",
+    "ts-jest": "^26.5.5",
     "typedoc": "^0.20.24",
     "typescript": "~4.0.0"
   },
