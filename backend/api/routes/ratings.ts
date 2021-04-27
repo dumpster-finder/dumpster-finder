@@ -72,15 +72,15 @@ export default function ({ Models }: RouteDependencies) {
             res,
             next,
         ) => {
-        try {
-            logger.info(req.params.dumpsterID);
-            const rating = await ratingDAO.addOne(parseInt(req.params.dumpsterID),
-                req.body.rating,
-                res.locals.session.id);
-            res.status(201).json(rating);
-        } catch (e) {
-            next(e);
-        }
+            try {
+                logger.info(req.params.dumpsterID);
+                const rating = await ratingDAO.addOne(parseInt(req.params.dumpsterID),
+                    req.body.rating,
+                    res.locals.session.id);
+                res.status(201).json(rating);
+            } catch (e) {
+                next(e);
+            }
         },
     );
 
