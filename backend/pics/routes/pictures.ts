@@ -32,8 +32,8 @@ import { getPicture, postPicture } from "../validators/pictures";
 import { APIError, InvalidDataError, NotFoundError } from "../types/errors";
 import multer from "multer";
 import * as fs from "fs";
-
-const UPLOAD_FOLDER = process.env.PIC_FOLDER || "uploads/";
+import { fileFilter, mimetypeMatchesFile } from "../controllers/pictures";
+import { PIC_MAX_SIZE, UPLOAD_FOLDER } from "../config/env";
 
 const extensions: Record<string, string | undefined> = {
     "image/jpeg": "jpg",
@@ -43,24 +43,9 @@ const extensions: Record<string, string | undefined> = {
 const upload = multer({
     dest: UPLOAD_FOLDER,
     limits: {
-        fileSize: process.env.PIC_MAX_SIZE
-            ? parseInt(process.env.PIC_MAX_SIZE)
-            : 4_000_000, // size is in bytes or sth
+        fileSize: PIC_MAX_SIZE, // size is in bytes or sth
     },
-    fileFilter: (req, file, callback) => {
-        if (file.fieldname !== "picture")
-            return callback(
-                new InvalidDataError(`Invalid field ${file.fieldname}`),
-            );
-        if (!["image/png", "image/jpeg"].includes(file.mimetype))
-            return callback(
-                new InvalidDataError(
-                    "File type not allowed (PNG and JPEG are accepted)",
-                ),
-            );
-
-        callback(null, true);
-    },
+    fileFilter,
 });
 
 export default function({ logger }: RouteDependencies) {
@@ -163,29 +148,47 @@ export default function({ logger }: RouteDependencies) {
         updateLimiter,
         validate(postPicture),
         upload.any(),
-        (req, res, next) => {
-            if (!req.files) throw new InvalidDataError("No files uploaded");
-            if (!(req.files instanceof Array))
-                throw new APIError("Something went wrong", 500);
+        async (req, res, next) => {
+            try {
+                if (!req.files) throw new InvalidDataError("No files uploaded");
+                if (!(req.files instanceof Array))
+                    throw new APIError("Something went wrong", 500);
 
-            const picture = req.files.find(f => f.fieldname);
-            if (!picture) throw new InvalidDataError("Invalid field name");
+                const picture = req.files.find(f => f.fieldname);
+                if (!picture) {
+                    req.files.forEach(f =>
+                        fs.rmSync(`${UPLOAD_FOLDER}${f.filename}`),
+                    );
 
-            // Rename file so it has an extension
-            const filename = `${picture.filename}.${extensions[
-                picture.mimetype
-            ] || "jpg"}`;
-            fs.renameSync(
-                `${UPLOAD_FOLDER}${picture.filename}`,
-                `${UPLOAD_FOLDER}${filename}`,
-            );
+                    throw new InvalidDataError("Invalid field name");
+                }
 
-            logger.info(`Successfully stored file ${filename}`);
-            // Send info back
-            res.status(201).send({
-                message: "Picture successfully uploaded",
-                filename,
-            });
+                // Check that it *is* of the same type as its mimetype
+                if (!(await mimetypeMatchesFile(picture))) {
+                    fs.rmSync(`${UPLOAD_FOLDER}${picture.filename}`);
+                    throw new InvalidDataError(
+                        "Invalid or mismatched file type",
+                    );
+                }
+
+                // Rename file so it has an extension
+                const filename = `${picture.filename}.${extensions[
+                    picture.mimetype
+                ] || "jpg"}`;
+                fs.renameSync(
+                    `${UPLOAD_FOLDER}${picture.filename}`,
+                    `${UPLOAD_FOLDER}${filename}`,
+                );
+
+                logger.info(`Successfully stored file ${filename}`);
+                // Send info back
+                res.status(201).send({
+                    message: "Picture successfully uploaded",
+                    filename,
+                });
+            } catch (e) {
+                next(e);
+            }
         },
     );
 
