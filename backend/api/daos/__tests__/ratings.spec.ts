@@ -14,7 +14,7 @@ describe("addOne", () => {
             .getOne(7, "2020-01-01")
             // @ts-ignore
             .then(data => data.rating);
-        const rating = await ratingsDAO.addOne(1, 4, 4);
+        const rating = await ratingsDAO.addOne(7, 4, 4);
         const visitsAfter = await dumpsterDAO
             .getOne(7, "2020-01-01")
             // @ts-ignore
@@ -29,7 +29,7 @@ describe("updateOne", () => {
             .getOne(1, "2020-01-01")
             // @ts-ignore
             .then(data => data.rating);
-        const rating = await ratingsDAO.addOne(1, 4, 2);
+        const rating = await ratingsDAO.updateOne(1, 4, 2);
         const visitsAfter = await dumpsterDAO
             .getOne(1, "2020-01-01")
             // @ts-ignore
