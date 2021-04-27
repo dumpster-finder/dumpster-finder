@@ -198,7 +198,7 @@ import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
 import { NotFoundError } from "../types/errors";
 import { JwtMiddleware } from "../middleware/tokenMiddleware";
 
-export default function({ Models }: RouteDependencies) {
+export default function ({ Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
 
@@ -253,13 +253,23 @@ export default function({ Models }: RouteDependencies) {
      *         schema:
      *           type: integer
      *         required: true
-     *         description: visitSinceDate
+     *         description: Dumpster ID
      *       - in: query
      *         name: values
-     *         required: true
-     *         description: Date to calculate visits
-     *         example:
+     *         schema:
+     *           type: object
+     *           required:
+     *             - visitSinceDate
+     *           properties:
+     *             visitSinceDate:
+     *               type: string
+     *               format: date
+     *               description: Date to count visits from
+     *           example:
      *             visitSinceDate: "2021-01-01"
+     *         required: true
+     *         style: form
+     *         explode: true
      *     responses:
      *       "200":
      *         description: The requested dumpster

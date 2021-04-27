@@ -4,7 +4,7 @@
  *   schemas:
  * tags:
  *   - name: Visits
- *     description: Visits API
+ *     description: Keeps track of how many times each dumpster has been visited
  */
 import { Request, Router } from "express";
 import VisitDAO from "../daos/visits";
@@ -14,8 +14,7 @@ import { postVisit } from "../validators/visits";
 import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
 import { JwtMiddleware } from "../middleware/tokenMiddleware";
 
-
-export default function({ Models }: RouteDependencies) {
+export default function ({ Models }: RouteDependencies) {
     const visitDAO = VisitDAO(Models);
     const router = Router({ mergeParams: true });
 

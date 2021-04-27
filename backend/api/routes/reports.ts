@@ -2,18 +2,36 @@
  * @swagger
  * components:
  *   schemas:
+ *     Report:
+ *       type: object
+ *       properties:
+ *         dumpsterReportID:
+ *           type: number
+ *         dumpsterID:
+ *           type: number
+ *         userID:
+ *           type: number
+ *         reason:
+ *           type: string
+ *         date:
+ *           type: string
+ *           format: date
+ *       example:
+ *         dumpsterReportID: 1
+ *         dumpsterID: 2
+ *         userID: 34
+ *         reason: "It does not exist"
+ *         date: "2021-04-27T10:50:33.000Z"
  *     PostReport:
  *       type: object
  *       properties:
- *         userID:
- *           type: string
  *         reason:
  *           type: string
- *         example:
- *           reason: 'It does not exist'
+ *       example:
+ *         reason: 'It does not exist'
  * tags:
  *   - name: Reports
- *     description: Reports API
+ *     description: Reports of nonexistent or otherwise *wrong* dumpsters
  */
 
 import { RouteDependencies } from "../types";
@@ -24,7 +42,7 @@ import { validate } from "express-validation";
 import { getReport, postReport } from "../validators/reports";
 import { JwtMiddleware } from "../middleware/tokenMiddleware";
 
-export default function({ Models }: RouteDependencies) {
+export default function ({ Models }: RouteDependencies) {
     const reportDAO = ReportDAO(Models);
     const router = Router({ mergeParams: true });
 
@@ -32,7 +50,7 @@ export default function({ Models }: RouteDependencies) {
      * @swagger
      * /dumpsters/{dumpsterID}/reports:
      *   get:
-     *     summary: GET reports of dumpster
+     *     summary: GET reports of a dumpster
      *     tags: [Reports]
      *     parameters:
      *       - in: path
@@ -44,6 +62,12 @@ export default function({ Models }: RouteDependencies) {
      *     responses:
      *       "200":
      *         description: A list of reports
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                 $ref: '#/components/schemas/Report'
      */
     router.get(
         "/",
