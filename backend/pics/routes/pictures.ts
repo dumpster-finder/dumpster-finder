@@ -29,11 +29,15 @@ import { validate } from "express-validation";
 import RouteDependencies from "../types/RouteDependencies";
 import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
 import { getPicture, postPicture } from "../validators/pictures";
-import { APIError, InvalidDataError, NotFoundError } from "../types/errors";
+import {APIError, InvalidDataError, InvalidKeyError, NotFoundError, ServerError} from "../types/errors";
 import multer from "multer";
 import * as fs from "fs";
 import { fileFilter, mimetypeMatchesFile } from "../controllers/pictures";
-import { PIC_MAX_SIZE, UPLOAD_FOLDER } from "../config/env";
+import { PIC_MAX_SIZE } from "../config/env";
+import axios from "axios";
+
+
+const UPLOAD_FOLDER = process.env.PIC_FOLDER || "uploads/";
 
 const extensions: Record<string, string | undefined> = {
     "image/jpeg": "jpg",
@@ -149,15 +153,18 @@ export default function({ logger }: RouteDependencies) {
         validate(postPicture),
         upload.any(),
         async (req, res, next) => {
-            try {
+            try{
+                const axiosApi = axios.create({
+                    baseURL : process.env.API_URL || "http://localhost:3000/api/",
+                    timeout: 1000,
+                });
+                logger.info(req.body.userID)
                 if (!req.files) throw new InvalidDataError("No files uploaded");
-                if (!(req.files instanceof Array))
-                    throw new APIError("Something went wrong", 500);
+                if (!(req.files instanceof Array)) throw new APIError("Something went wrong", 500);
 
                 const picture = req.files.find(f => f.fieldname);
                 if (!picture) {
-                    req.files.forEach(f =>
-                        fs.rmSync(`${UPLOAD_FOLDER}${f.filename}`),
+                    req.files.forEach(f => fs.rmSync(`${UPLOAD_FOLDER}${f.filename}`),
                     );
 
                     throw new InvalidDataError("Invalid field name");
@@ -170,11 +177,22 @@ export default function({ logger }: RouteDependencies) {
                         "Invalid or mismatched file type",
                     );
                 }
+                try{
+                    let validated = await axiosApi.get(`/users/validation/${req.body.userID}`)
+                    if(!validated){
+                        throw new InvalidKeyError("no user with this userID exists");
+                    }
+                }
+                catch (e){
+                    throw new ServerError("Failed to validate userID")
+                }
+
+
+
 
                 // Rename file so it has an extension
                 const filename = `${picture.filename}.${extensions[
-                    picture.mimetype
-                ] || "jpg"}`;
+                    picture.mimetype] || "jpg"}`;
                 fs.renameSync(
                     `${UPLOAD_FOLDER}${picture.filename}`,
                     `${UPLOAD_FOLDER}${filename}`,
@@ -186,11 +204,15 @@ export default function({ logger }: RouteDependencies) {
                     message: "Picture successfully uploaded",
                     filename,
                 });
-            } catch (e) {
-                next(e);
             }
-        },
-    );
+            catch (e){
+                logger.info(e)
+                if(e.statusCode == 500){
+                    e.error = "userID did not get validated"
+                }
+                next(e)
+            }
+        });
 
     return router;
 }

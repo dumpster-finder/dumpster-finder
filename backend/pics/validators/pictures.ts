@@ -5,7 +5,7 @@ export const getPicture = {
         pictureID: Joi.string()
             .regex(/[a-zA-Z0-9]+\.(jpg|png)/)
             .required(),
-        "0": Joi.string(), // WTF???
+        "0": Joi.string(), // WTF??? IDK MAN
     }),
 };
 
