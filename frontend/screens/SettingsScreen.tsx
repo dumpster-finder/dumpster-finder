@@ -64,7 +64,7 @@ export default function SettingsScreen({
     const [visitInterval, setVisitInterval] = useState(visit);
     useEffect(() => {
         if (!radius) dispatch(setRadius(1000));
-    });
+    }, []);
 
     return (
         <Layout style={styles.container}>

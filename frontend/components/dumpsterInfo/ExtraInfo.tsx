@@ -4,6 +4,8 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 
 export default function ExtraInfo({ dumpster }: { dumpster: Dumpster }) {
+    if (!dumpster.info) return null;
+
     return (
         <Layout level="2" style={styles.infoBox}>
             <Text style={{ marginVertical: 2 }}>{dumpster.info}</Text>

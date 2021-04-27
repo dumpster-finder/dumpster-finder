@@ -25,6 +25,7 @@ import {
     visitsSelector,
 } from "../redux/slices/configSlice";
 import Message from "../utils/Message";
+import { userIDSelector } from "../redux/slices/userSlice";
 
 export default function DetailsScreen({
     navigation,
@@ -145,7 +146,7 @@ export default function DetailsScreen({
         setVisits(visits + 1);
         if (dumpster) {
             try {
-                await VisitService.addOne(dumpster.dumpsterID, "temp1");
+                await VisitService.addOne(dumpster.dumpsterID);
                 await getDumpster();
                 setDisabled(true);
             } catch (e) {

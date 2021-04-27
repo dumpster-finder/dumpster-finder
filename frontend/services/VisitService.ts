@@ -12,13 +12,10 @@ export default class VisitService {
      * Add a visit to a given dumpster
      *
      * @param dumpsterID ID of the dumpster that is visited
-     * @param userID ID of the user who has visited
      */
-    addOne(dumpsterID: number, userID: string): Promise<Visit> {
+    addOne(dumpsterID: number): Promise<Visit> {
         return this.axios
-            .post(`/dumpsters/${dumpsterID}/visits`, {
-                userID,
-            })
+            .post(`/dumpsters/${dumpsterID}/visits`)
             .then(response => response.data);
     }
 }
