@@ -51,6 +51,10 @@ const upload = multer({
     },
     fileFilter,
 });
+const axiosApi = axios.create({
+    baseURL : process.env.API_URL || "http://localhost:3000/api/",
+    timeout: 1000,
+});
 
 export default function({ logger }: RouteDependencies) {
     const router = Router();
@@ -154,11 +158,6 @@ export default function({ logger }: RouteDependencies) {
         upload.any(),
         async (req, res, next) => {
             try{
-                const axiosApi = axios.create({
-                    baseURL : process.env.API_URL || "http://localhost:3000/api/",
-                    timeout: 1000,
-                });
-                logger.info(req.body.userID)
                 if (!req.files) throw new InvalidDataError("No files uploaded");
                 if (!(req.files instanceof Array)) throw new APIError("Something went wrong", 500);
 
@@ -179,9 +178,6 @@ export default function({ logger }: RouteDependencies) {
                 }
                 try{
                     let validated = await axiosApi.get(`/users/validation/${req.body.userID}`)
-                    if(!validated){
-                        throw new InvalidKeyError("no user with this userID exists");
-                    }
                 }
                 catch (e){
                     throw new ServerError("Failed to validate userID")
@@ -207,9 +203,7 @@ export default function({ logger }: RouteDependencies) {
             }
             catch (e){
                 logger.info(e)
-                if(e.statusCode == 500){
-                    e.error = "userID did not get validated"
-                }
+
                 next(e)
             }
         });
