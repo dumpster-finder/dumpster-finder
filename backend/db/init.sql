@@ -108,7 +108,7 @@ ALTER TABLE DumpsterPositions ADD FOREIGN KEY (revisionID) references Dumpsters(
 CREATE TABLE DumpsterReports (
     dumpsterReportID INT PRIMARY KEY AUTO_INCREMENT,
     dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
-    userID INT,
+    userID INT REFERENCES Users(userID),
     reason TEXT,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (dumpsterID),
