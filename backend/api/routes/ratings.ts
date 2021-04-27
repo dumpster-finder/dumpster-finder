@@ -22,7 +22,6 @@ import {Request, Router} from "express";
 import RatingDAO from "../daos/ratings";
 import { standardLimiter } from "../middleware/rateLimiter";
 import { JwtMiddleware } from "../middleware/tokenMiddleware";
-import {logger} from "../server";
 import { validate } from "express-validation";
 import {
     addRatings,
@@ -73,7 +72,6 @@ export default function ({ Models }: RouteDependencies) {
             next,
         ) => {
             try {
-                logger.info(req.params.dumpsterID);
                 const rating = await ratingDAO.addOne(parseInt(req.params.dumpsterID),
                     req.body.rating,
                     res.locals.session.id);

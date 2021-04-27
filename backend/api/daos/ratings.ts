@@ -68,7 +68,6 @@ export default function ({
                     throw new InvalidKeyError(
                         "There is no rating for this dumpster from this user",
                     );
-                logger.info(match);
                 const updatedRating = await Ratings.update(
                     {
                         rating,
@@ -81,7 +80,7 @@ export default function ({
                         transaction: t,
                     },
                 );
-                if(!match) return false;
+                if(!updatedRating) return false;
                 else return true;
             });
         },
