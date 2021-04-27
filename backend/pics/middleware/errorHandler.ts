@@ -34,6 +34,9 @@ const errorHandler = (logger: Logger) => (
         else err.message = `File too large`;
         logger.error(err, err.message);
         res.status(400);
+    } else if (err instanceof APIError) {
+        logger.error(err, err.message);
+        res.status(err.statusCode);
     } else {
         logger.error(err, err.message);
         res.status(500);
@@ -42,5 +45,6 @@ const errorHandler = (logger: Logger) => (
     // Send an object with the gathered data
     res.json({ error: err.message, statusCode: res.statusCode, ...extras });
 };
+
 
 export default errorHandler;

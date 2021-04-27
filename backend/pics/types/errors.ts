@@ -40,6 +40,17 @@ export class ConflictError extends APIError {
 }
 
 /**
+ * Error tied to the 422 status code,
+ * for use when e.g. there is no such dumpster type
+ */
+export class InvalidKeyError extends APIError {
+    constructor(message: string) {
+        super(message, 422);
+        this.name = "InvalidKeyError";
+    }
+}
+
+/**
  * Error tied to the 500 status code,
  * for use when you don't know exactly what went wrong,
  * and you're pretty sure it's *your* fault
