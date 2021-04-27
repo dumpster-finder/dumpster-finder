@@ -24,7 +24,7 @@ export interface DumpsterAttributes {
     positiveStoreViewOnDiving: boolean | null;
     emptyingSchedule: string;
     cleanliness: number;
-    userID: string | null;
+    userID: number | null;
     info: string;
 }
 
@@ -48,7 +48,7 @@ class Dumpsters extends Model<DumpsterAttributes, DumpsterCreationAttributes>
     positiveStoreViewOnDiving!: boolean | null;
     emptyingSchedule!: string;
     cleanliness!: number;
-    userID!: string | null;
+    userID!: number | null;
     info!: string;
 }
 
@@ -107,7 +107,7 @@ export function init(sequelize: Sequelize) {
                 allowNull: false,
             },
             userID: {
-                type: DataTypes.STRING,
+                type: DataTypes.NUMBER,
             },
             info: {
                 type: DataTypes.TEXT,

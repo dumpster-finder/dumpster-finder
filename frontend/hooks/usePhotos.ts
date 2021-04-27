@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import { allPhotosSelector, addPhotos } from "../redux/slices/photoSlice";
 import { useAppDispatch } from "../redux/store";
+import Message from "../utils/Message";
 
 export default function() {
     const [photos, setPhotos] = useState<Photo[]>([]);
@@ -30,14 +31,14 @@ export default function() {
                         );
                     })
                     .catch(e =>
-                        console.error(
-                            "Could not find photos for this dumpster",
+                        Message.error(
                             e,
+                            "Could not find photos for this dumpster",
                         ),
                     );
             }
         }
-    }, [dumpster]);
+    }, [dumpster, photoCache]);
 
     return photos;
 }

@@ -58,8 +58,6 @@ export const configSlice = createSlice({
             { ratedComments },
             { payload }: { payload: RatedComment },
         ) => {
-            console.log(payload);
-            console.log(ratedComments);
             ratedComments[payload.commentID] = payload.rated;
         },
         resetRatedComments: state => {
@@ -75,8 +73,6 @@ export const configSlice = createSlice({
             { registeredVisits },
             { payload }: { payload: RegisteredVisits },
         ) => {
-            console.log(payload);
-            console.log(registeredVisits);
             registeredVisits[payload.dumpsterID] = payload.visitTime;
         },
         resetRegisteredVisits: state => {

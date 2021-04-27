@@ -34,6 +34,7 @@ export type ListTabParamList = {
     PhotoGalleryScreen: undefined;
     PhotoDisplayScreen: undefined;
     AddPhotoScreen: undefined;
+    FlagScreen: undefined;
 };
 
 export type MapTabParamList = {
@@ -48,4 +49,5 @@ export type MapTabParamList = {
     PhotoGalleryScreen: undefined;
     PhotoDisplayScreen: undefined;
     AddPhotoScreen: undefined;
+    FlagScreen: undefined;
 };

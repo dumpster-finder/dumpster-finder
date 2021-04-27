@@ -1,8 +1,8 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import Dumpster, { UpdatedDumpster } from "../models/Dumpster";
+import { UpdatedDumpster } from "../models/Dumpster";
 import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
 import {
     addDumpster,
@@ -15,6 +15,7 @@ import { resetEditor } from "../redux/slices/editorSlice";
 import { useAppDispatch } from "../redux/store";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import Message from "../utils/Message";
 
 export default function EditDumpsterScreen({
     navigation,
@@ -63,8 +64,7 @@ export default function EditDumpsterScreen({
             // And navigate back to where you were before!
             navigation.pop();
         } catch (e) {
-            // TODO Replace with better error handling
-            console.error("Could not update this dumpster:", e);
+            Message.error(e, "Could not update this dumpster");
             setPending(false);
         }
     }

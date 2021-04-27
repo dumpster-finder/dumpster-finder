@@ -34,6 +34,8 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     // @ts-ignore
     visits: dumpster.dataValues.visits || 0,
     // @ts-ignore
+    visits: dumpster.dataValues.visits || 0,
+    // @ts-ignore
     distance: dumpster.dataValues.distance,
 });
 
@@ -132,7 +134,7 @@ export default function({
                 ...dumpster,
                 dumpsterTypeID,
                 storeTypeID,
-                userID: "temp",
+                userID: 1,
                 position,
             },
             { transaction: t },
@@ -280,7 +282,7 @@ export default function({
                 attributes: [
                     ...dumpsterAttributes.slice(
                         0,
-                        dumpsterAttributes.length - 2,
+                        dumpsterAttributes.length - 1,
                     ),
                     "dateUpdated",
                     "revisionID",

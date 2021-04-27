@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
@@ -37,6 +37,13 @@ import { fetchAllConstants } from "./redux/slices/constantsSlice";
 import { FontAwesome5Pack } from "./constants/FontAwesome5";
 import i18n from "./i18n";
 import { subDays } from "date-fns";
+import {
+    getUserID,
+    refreshToken,
+    tokenSelector,
+    userNameSelector,
+} from "./redux/slices/userSlice";
+import Message from "./utils/Message";
 
 // Inner component because Redux store needs to be set up outside any usage of its functionality
 // this could be moved to the Navigation component, perhaps
@@ -50,6 +57,8 @@ const InnerApp = () => {
     const ratedComments = useSelector(ratedCommentsSelector);
     const visitDate = useSelector(visitsSelector);
     const registeredVisits = useSelector(registeredVisitsSelector);
+    const userName = useSelector(userNameSelector);
+    const token = useSelector(tokenSelector);
 
     const visitSinceDate = subDays(
         new Date(),
@@ -73,6 +82,26 @@ const InnerApp = () => {
     }, []);
 
     useEffect(() => {
+        // Refresh token when the app loads!
+        if (userName) store.dispatch(refreshToken(userName));
+    }, []);
+
+    useEffect(() => {
+        if (!userName) {
+            // should be the case only when you *first* open the app
+            store.dispatch(getUserID()).catch(e => console.error(e));
+            // User will have to press a retry button if it did not work
+            // (for the time being)
+        } else if (!token) {
+            store.dispatch(refreshToken(userName));
+            console.log("Refreshing token for the first time …");
+        } else {
+            // TODO handle timeout loop, if at all
+            // setTimeout(() => store.dispatch(refreshToken(userName)), 60000); // timeout in a minute
+        }
+    }, [userName, token]);
+
+    useEffect(() => {
         // TODO reconsider the 1st part
         store.dispatch(setDumpsters([]));
         // Fetch dumpsters each time position, visits or radius changes
@@ -83,7 +112,9 @@ const InnerApp = () => {
 
     useEffect(() => {
         // Change language if language has changed (hahaha)
-        i18n.changeLanguage(language).catch(e => console.error(e));
+        i18n.changeLanguage(language).catch(e =>
+            Message.error(e, "Could not change language"),
+        );
     }, [language]);
 
     return (

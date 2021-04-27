@@ -17,6 +17,7 @@ import {
 } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import constantsReducer from "./slices/constantsSlice";
+import userReducer from "./slices/userSlice";
 
 /**
  * Our marvellous, almighty Store of global data
@@ -32,6 +33,7 @@ const store = configureStore({
             photos: photoReducer,
             constants: constantsReducer,
             config: configReducer,
+            user: userReducer,
             editor: editorReducer,
         }),
     ),

@@ -35,9 +35,7 @@ const baseDumpster = Joi.object().keys({
     dumpsterType: Joi.string().required(),
     storeType: Joi.string().required(),
     // TODO this is just a temporary solution
-    categories: Joi.array()
-        .has(Joi.string())
-        .optional(),
+    categories: Joi.array().items(Joi.string()),
     locked: Joi.boolean().required(),
     positiveStoreViewOnDiving: Joi.boolean()
         .allow(null)
@@ -68,6 +66,13 @@ export const getDumpster = {
     query: Joi.object({
         visitSinceDate: Joi.string().required(),
     }),
+};
+
+/**
+ * Validator for a request to get all revisions
+ */
+export const getRevisions = {
+    params: dumpsterIDParam,
 };
 
 /**

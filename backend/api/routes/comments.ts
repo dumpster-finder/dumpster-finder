@@ -61,12 +61,15 @@ import {
     postComment,
     getComments,
     updateComment,
+    deleteComment,
 } from "../validators/comments";
 import {
     standardLimiter,
     updateLimiter,
     voteLimiter,
 } from "../middleware/rateLimiter";
+import { JwtMiddleware } from "../middleware/tokenMiddleware";
+import { APIError, NotFoundError } from "../types/errors";
 
 export default function({ Models }: RouteDependencies) {
     const commentDAO = CommentDAO(Models);
@@ -147,6 +150,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -163,10 +173,15 @@ export default function({ Models }: RouteDependencies) {
     router.post(
         "/",
         updateLimiter,
+        JwtMiddleware,
         validate(postComment),
         async (req, res, next) => {
             try {
-                const result = await commentDAO.addOne(req.body);
+                console.log("aaaaaaaaaaaaaaaaa", res.locals);
+                const result = await commentDAO.addOne({
+                    ...req.body,
+                    userID: res.locals.session.id,
+                });
                 res.status(201).json(result);
             } catch (e) {
                 next(e);
@@ -193,6 +208,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Comment ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *          content:
      *              application/json:
@@ -214,6 +236,7 @@ export default function({ Models }: RouteDependencies) {
     router.patch(
         "/:commentID",
         voteLimiter,
+        JwtMiddleware,
         validate(updateComment),
         async (req: Request & { params: { commentID: number } }, res, next) => {
             try {
@@ -222,6 +245,58 @@ export default function({ Models }: RouteDependencies) {
                     req.body.vote,
                 );
                 res.status(200).json(result);
+            } catch (e) {
+                next(e);
+            }
+        },
+    );
+
+    /**
+     * @swagger
+     * /dumpsters/{dumpsterID}/comments/{commentID}:
+     *   delete:
+     *     summary: delete a comment
+     *     tags: [Comments]
+     *     parameters:
+     *       - in: path
+     *         name: dumpsterID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Dumpster ID
+     *       - in: path
+     *         name: commentID
+     *         schema:
+     *           type: integer
+     *         required: true
+     *         description: Comment ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
+     *     responses:
+     *       "204":
+     *         description: Number of affected rows
+     */
+    router.delete(
+        "/:commentID",
+        updateLimiter,
+        JwtMiddleware,
+        validate(deleteComment),
+        async (req: Request & { params: { commentID: number } }, res, next) => {
+            try {
+                const result = await commentDAO.removeOne(
+                    req.params.commentID,
+                    res.locals.session.id,
+                );
+                if (result > 1)
+                    throw new APIError("More than one comment deleted", 500);
+                if (result < 1)
+                    throw new NotFoundError("No such comment exists");
+                res.status(204).send();
             } catch (e) {
                 next(e);
             }

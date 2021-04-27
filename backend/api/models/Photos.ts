@@ -9,7 +9,7 @@ export interface PhotoAttributes {
     photoID: number;
     dumpsterID: number;
     url: string;
-    userID: string | null;
+    userID: number | null;
     dateAdded: Date;
 }
 
@@ -21,7 +21,7 @@ export class Photos extends Model<PhotoAttributes, PhotoCreationAttributes>
     photoID!: number;
     dumpsterID!: number;
     url!: string;
-    userID!: string | null;
+    userID!: number | null;
     dateAdded!: Date;
 }
 
@@ -43,7 +43,7 @@ export function init(sequelize: Sequelize) {
                 allowNull: false,
             },
             userID: {
-                type: DataTypes.STRING,
+                type: DataTypes.INTEGER.UNSIGNED,
             },
             dateAdded: {
                 type: DataTypes.DATE,
@@ -75,5 +75,4 @@ export function associate({
     // Thing.hasMany()
     // using the supplied Models object
     Photos.hasMany(PhotoReports, { foreignKey: "photoID" });
-    Photos.belongsTo(DumpsterPositions, { foreignKey: "dumpsterID" });
 }

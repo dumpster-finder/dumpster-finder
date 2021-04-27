@@ -2,8 +2,14 @@ import * as React from "react";
 import Burgermenu from "./Burgermenu";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import {
+    EditButtonIcon,
+    PhotoButtonIcon,
+    ReportButtonIcon,
+    RevisionButtonIcon,
+} from "./Icons";
 
-export default function({  }: { tintColor?: string }) {
+export default function({}: { tintColor?: string }) {
     const navigation = useNavigation();
     const { t }: { t: (s: string) => string } = useTranslation("menu");
 
@@ -11,6 +17,12 @@ export default function({  }: { tintColor?: string }) {
         <Burgermenu
             onSelect={menuSelect}
             values={[t("gallery"), t("editDumpster"), t("revision"), t("flag")]}
+            icons={[
+                PhotoButtonIcon,
+                EditButtonIcon,
+                RevisionButtonIcon,
+                ReportButtonIcon,
+            ]}
         />
     );
 
@@ -30,7 +42,7 @@ export default function({  }: { tintColor?: string }) {
                 });
                 break;
             case 3:
-                console.log("flag");
+                navigation.navigate("FlagScreen");
                 break;
             default:
                 console.log(menuIndex);

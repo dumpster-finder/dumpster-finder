@@ -1,11 +1,10 @@
 import * as React from "react";
-import { Button, Layout, Text, Input } from "@ui-kitten/components";
+import { Button, Layout, Text } from "@ui-kitten/components";
 import { Dimensions, Image, StyleSheet, View, Platform } from "react-native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
     CameraButtonIcon,
-    DeleteButtonIcon,
     SaveButtonIcon,
     PhotoButtonIcon,
     PendingButtonIcon,
@@ -21,6 +20,7 @@ import {
     uploadURISelector,
 } from "../redux/slices/photoSlice";
 import { useAppDispatch } from "../redux/store";
+import Message from "../utils/Message";
 
 export default function AddPhotoScreen({
     navigation,
@@ -68,7 +68,7 @@ export default function AddPhotoScreen({
                     {t("take")}
                 </Button>
 
-                {uploadURI ? (
+                {uploadURI ? ( // TODO add placeholder / empty thing here
                     <View style={{ alignItems: "center", marginVertical: 10 }}>
                         <Text category={"h6"}>{t("photo")}:</Text>
                         <Image
@@ -92,33 +92,16 @@ export default function AddPhotoScreen({
                         justifyContent: "center",
                     }}
                 >
-                    <View
-                        style={{
-                            width: "50%",
-                        }}
+                    <Button
+                        style={styles.buttonRow}
+                        disabled={!uploadURI || pending}
+                        accessoryLeft={
+                            pending ? PendingButtonIcon : SaveButtonIcon
+                        }
+                        onPress={upload}
                     >
-                        <Button
-                            style={styles.buttonRow}
-                            status={"danger"}
-                            disabled={!uploadURI || pending}
-                            accessoryLeft={DeleteButtonIcon}
-                        >
-                            {t("delete")}
-                        </Button>
-                    </View>
-
-                    <View style={{ width: "50%" }}>
-                        <Button
-                            style={styles.buttonRow}
-                            disabled={!uploadURI || pending}
-                            accessoryLeft={
-                                pending ? PendingButtonIcon : SaveButtonIcon
-                            }
-                            onPress={upload}
-                        >
-                            {t("add")}
-                        </Button>
-                    </View>
+                        {t("add")}
+                    </Button>
                 </View>
             </View>
         </Layout>
@@ -131,15 +114,13 @@ export default function AddPhotoScreen({
                 allowsEditing: false,
             });
 
-            if (response.cancelled) {
-                console.log("User cancelled photo picker");
-            } else {
+            if (!response.cancelled) {
                 dispatch(setUploadURI(response.uri));
             }
         } catch (e) {
-            console.error(
-                "Couldn't do anything about this image picking, I'm sorry",
+            Message.error(
                 e,
+                "Couldn't do anything about this image picking, I'm sorry",
             );
         }
     }
@@ -156,8 +137,8 @@ export default function AddPhotoScreen({
             dispatch(setUploadURI(""));
             navigation.goBack();
         } catch (e) {
-            console.error(e);
             setPending(false);
+            Message.error(e, "Could not upload photo");
         }
     }
 }

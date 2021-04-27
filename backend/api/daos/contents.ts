@@ -1,5 +1,5 @@
 import { MyModels } from "../models";
-import { DumpsterTagAttributes } from "../models/DumpsterTags";
+import { DumpsterContentsAttributes } from "../models/DumpsterContents";
 import Content from "../types/Content";
 import { NotFoundError, ServerError, UnknownError } from "../types/errors";
 
@@ -22,9 +22,11 @@ const toContent = ({
     quality,
     expiryDate,
     foundDate,
-    tag,
-}: DumpsterTagAttributes & { tag: { name: string } }): Content => ({
-    name: tag.name,
+    contentType,
+}: DumpsterContentsAttributes & {
+    contentType: { name: string };
+}): Content => ({
+    name: contentType.name,
     amount,
     unit,
     quality,
@@ -37,7 +39,13 @@ const toContent = ({
  */
 const createResultToContent = (
     name: string,
-    { amount, unit, quality, expiryDate, foundDate }: DumpsterTagAttributes,
+    {
+        amount,
+        unit,
+        quality,
+        expiryDate,
+        foundDate,
+    }: DumpsterContentsAttributes,
 ): Content => ({
     name,
     amount,
@@ -48,9 +56,9 @@ const createResultToContent = (
 });
 
 export default function ({
-    Tags,
-    DumpsterTags,
-    StandardTags,
+    ContentTypes,
+    DumpsterContents,
+    StandardContentTypes,
     DumpsterPositions,
     sequelize,
 }: MyModels) {
@@ -62,21 +70,22 @@ export default function ({
          * Returns a little more than just the name, in case we *need* more.
          */
         getStandardContentTypes: () =>
-            StandardTags.findAll({
+            StandardContentTypes.findAll({
                 include: {
-                    model: Tags,
-                    as: "tag",
+                    model: ContentTypes,
+                    as: "contentType",
                 },
             }).then(data =>
                 data.map(
                     // @ts-ignore
                     ({
-                        tagID,
-                        tag: { categoryID, name },
+                        contentID,
+                        // @ts-ignore
+                        contentType: { categoryID, name },
                     }: {
-                        tagID: number;
-                        tag: { categoryID: number; name: string };
-                    }) => ({ contentID: tagID, categoryID, name }),
+                        contentID: number;
+                        contentType: { categoryID: number; name: string };
+                    }) => ({ contentID, categoryID, name }),
                 ),
             ),
 
@@ -94,13 +103,13 @@ export default function ({
                 if (!dumpsterPosition)
                     throw new NotFoundError("No such dumpster");
 
-                return await DumpsterTags.findAll({
+                return await DumpsterContents.findAll({
                     where: { dumpsterID },
                     attributes: contentAttributes,
                     include: [
                         {
-                            model: Tags,
-                            as: "tag",
+                            model: ContentTypes,
+                            as: "contentType",
                         },
                     ],
                     order: [["foundDate", "DESC"]],
@@ -120,42 +129,42 @@ export default function ({
 
             return await sequelize.transaction(async t => {
                 // First, check if the content type already exists
-                const match = await Tags.findOne({
+                const match = await ContentTypes.findOne({
                     where: { name },
                     transaction: t,
                 });
 
-                let tagID;
+                let contentID;
                 if (match) {
                     // If it does, we have the content type ID
-                    tagID = match.tagID;
+                    contentID = match.contentID;
                 } else {
                     // Otherwise, we'll have to add a new content type
-                    tagID = (
-                        await Tags.create(
+                    contentID = (
+                        await ContentTypes.create(
                             // TODO either scrap category binding or find a way to set it...
                             { categoryID: 1, name },
                             { transaction: t },
                         )
-                    ).tagID;
+                    ).contentID;
                 }
 
                 // Create the content entry
-                await DumpsterTags.create(
+                await DumpsterContents.create(
                     {
                         dumpsterID,
-                        tagID,
+                        contentID,
                         ...content,
                     },
                     { transaction: t },
                 );
                 // Then fetch the current data to get its date...
                 // (kinda cursed, I know)
-                const result = await DumpsterTags.findOne({
+                const result = await DumpsterContents.findOne({
                     attributes: contentAttributes,
                     where: {
                         dumpsterID,
-                        tagID,
+                        contentID,
                     },
                     order: [["foundDate", "DESC"]],
                     transaction: t,
@@ -171,17 +180,21 @@ export default function ({
         updateOne: async (dumpsterID: number, content: Content) => {
             const { name, foundDate, ...editableAttributes } = content;
             return await sequelize.transaction(async t => {
-                const match = await Tags.findOne({
+                const match = await ContentTypes.findOne({
                     where: { name },
                     transaction: t,
                 });
 
                 if (match) {
-                    const { tagID } = match;
-                    const [numberUpdated, _] = await DumpsterTags.update(
+                    const { contentID } = match;
+                    const [numberUpdated, _] = await DumpsterContents.update(
                         editableAttributes,
                         {
-                            where: { dumpsterID, tagID, foundDate },
+                            where: {
+                                dumpsterID,
+                                contentID,
+                                foundDate,
+                            },
                             transaction: t,
                         },
                     );
@@ -189,9 +202,9 @@ export default function ({
                         throw new ServerError(
                             `Updated ${numberUpdated} content entries, but no more than one should be updated`,
                         );
-                    const result = await DumpsterTags.findOne({
+                    const result = await DumpsterContents.findOne({
                         attributes: contentAttributes,
-                        where: { dumpsterID, tagID, foundDate },
+                        where: { dumpsterID, contentID, foundDate },
                         transaction: t,
                     });
                     if (result) return createResultToContent(name, result);
@@ -216,15 +229,15 @@ export default function ({
             { name, foundDate }: Pick<Content, "name" | "foundDate">,
         ) => {
             return await sequelize.transaction(async t => {
-                const match = await Tags.findOne({
+                const match = await ContentTypes.findOne({
                     where: { name },
                     transaction: t,
                 });
                 if (!match) throw new NotFoundError("No such content type");
-                return await DumpsterTags.destroy({
+                return await DumpsterContents.destroy({
                     where: {
                         dumpsterID,
-                        tagID: match.tagID,
+                        contentID: match.contentID,
                         foundDate,
                     },
                 });

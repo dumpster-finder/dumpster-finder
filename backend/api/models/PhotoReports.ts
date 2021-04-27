@@ -5,7 +5,7 @@ import { UserAttributes, UserCreationAttributes } from "./Users";
 export interface PhotoReportAttributes {
     photoReportID: number;
     photoID: number;
-    userID: string | null;
+    userID: number | null;
     reason: string;
     date: string;
 }
@@ -18,7 +18,7 @@ export class PhotoReports
     implements PhotoReportAttributes {
     public photoReportID!: number;
     public photoID!: number;
-    public userID!: string | null;
+    public userID!: number | null;
     public reason!: string;
     public date!: string;
 }
@@ -37,7 +37,7 @@ export function init(sequelize: Sequelize) {
                 allowNull: false,
             },
             userID: {
-                type: DataTypes.STRING,
+                type: DataTypes.NUMBER,
             },
             reason: {
                 type: DataTypes.STRING,

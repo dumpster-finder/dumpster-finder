@@ -33,6 +33,8 @@ import DropdownCard from "../components/cards/DropdownCard";
 import ButtonGroupDisplay from "../components/basicComponents/ButtonGroupDisplay";
 import { useTranslation } from "react-i18next";
 import ToggleSwitch from "../components/basicComponents/ToggleSwitch";
+import { userNameSelector, setUserName } from "../redux/slices/userSlice";
+import Constants from "expo-constants";
 
 export default function SettingsScreen({
     navigation,
@@ -46,6 +48,7 @@ export default function SettingsScreen({
     const intervalValue = [t("visit:day"), t("visit:days"), t("visit:week")];
     const dispatch = useAppDispatch();
     const darkMode = useSelector(darkModeSelector);
+    const userName = useSelector(userNameSelector);
     const nickname = useSelector(nicknameSelector);
     const language = useSelector(languageSelector);
     const visit = useSelector(visitsSelector);
@@ -54,6 +57,8 @@ export default function SettingsScreen({
     const [newLanguage, setNewLanguage] = useState(
         language ? languages.indexOf(language) : 0,
     );
+
+    const [showUserID, setShowUserID] = useState(false);
     const [showNick, setShowNick] = useState(false);
     const [showDist, setShowDist] = useState(false);
     const [showLanguage, setShowLanguage] = useState(false);
@@ -92,9 +97,20 @@ export default function SettingsScreen({
                     </View>
                 </Card>
                 <DropdownCard
+                    value={showUserID}
+                    text={t("userID")}
+                    onClick={setShowUserID}
+                />
+                {showUserID && (
+                    <View style={styles.userIDContainer}>
+                        <Text category="h5">{userName}</Text>
+                        <Text category="c1">{t("aboutUserID")}</Text>
+                    </View>
+                )}
+                <DropdownCard
                     value={showNick}
                     text={t("changeNick")}
-                    onClick={newValue => setShowNick(newValue)}
+                    onClick={setShowNick}
                 />
                 {showNick && (
                     <View style={styles.columnBorder}>
@@ -122,7 +138,7 @@ export default function SettingsScreen({
                     onClick={newValue => setShowDist(newValue)}
                 />
                 {showDist && (
-                    <View style={{ width: "98%", alignItems: "center" }}>
+                    <View style={styles.buttonGroupContainer}>
                         <ButtonGroupDisplay
                             value={radiusDistance}
                             values={distances}
@@ -153,7 +169,7 @@ export default function SettingsScreen({
                     onClick={newValue => setShowVis(newValue)}
                 />
                 {showVis && (
-                    <View style={{ width: "98%", alignItems: "center" }}>
+                    <View style={styles.buttonGroupContainer}>
                         <ButtonGroupDisplay
                             value={visitInterval}
                             values={intervalValue}
@@ -175,9 +191,16 @@ export default function SettingsScreen({
                         onChange={v => dispatch(setHideNegativeRating(v))}
                     />
                 </Card>
-                <Button onPress={() => dispatch(setFirstTime(true))}>
-                    Reset
-                </Button>
+                {Constants.manifest.extra.nodeEnv === "development" && (
+                    <>
+                        <Button onPress={() => dispatch(setFirstTime(true))}>
+                            It's my first time!
+                        </Button>
+                        <Button onPress={() => dispatch(setUserName(""))}>
+                            Reset user ID
+                        </Button>
+                    </>
+                )}
             </ScrollView>
         </Layout>
     );
@@ -204,6 +227,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
+    userIDContainer: {
+        paddingVertical: 6,
+        alignItems: "center",
+    },
     scrollView: {
         width: "100%",
     },
@@ -223,7 +250,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginVertical: 5,
     },
-
+    buttonGroupContainer: {
+        alignItems: "center",
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+    },
     dropdownView: {
         padding: 10,
     },

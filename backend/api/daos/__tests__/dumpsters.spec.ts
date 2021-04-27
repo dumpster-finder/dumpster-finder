@@ -97,7 +97,7 @@ describe("getOne", () => {
                 "Somewhat dirty. Watch where you touch.",
             );
             expect(dumpster.emptyingSchedule).toBe("Fridays at 15pm");
-            expect(dumpster.locked).toBeFalsy();
+            expect(dumpster.locked).toBeTruthy();
             expect(dumpster.cleanliness).toBe(3);
             expect(dumpster.position).toEqual({
                 latitude: 63.41293,

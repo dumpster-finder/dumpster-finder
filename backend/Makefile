@@ -3,12 +3,11 @@
 all: compose
 
 tables:
-	./tables.sh
+	./tables.sh init constants
 
-local-tables:
-	mysql --user=root \
-	    --password=thecakeisalive \
-	    dumpster < db/init.sql
+# Test data as well as initialization
+data:
+	./tables.sh init constants data
 
 upload:
 	rsync --archive \

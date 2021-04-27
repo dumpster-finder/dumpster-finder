@@ -63,13 +63,15 @@ export default function({ Photos, DumpsterPositions, sequelize }: MyModels) {
          */
         addOne: (dumpsterID: number, photo: PostPhoto) =>
             sequelize.transaction(async t => {
-                await Photos.create(
-                    {
-                        dumpsterID,
-                        ...photo,
-                    },
-                    { transaction: t },
-                ).catch(e => {
+                try {
+                    await Photos.create(
+                        {
+                            dumpsterID,
+                            ...photo,
+                        },
+                        { transaction: t },
+                    );
+                } catch (e) {
                     // Throw a more precise error if possible
                     if (e instanceof ForeignKeyConstraintError) {
                         if (
@@ -79,13 +81,14 @@ export default function({ Photos, DumpsterPositions, sequelize }: MyModels) {
                         else throw new InvalidKeyError("No such user ID");
                     }
                     throw e;
-                });
+                }
                 // Get dateAdded back
                 return await Photos.findOne({
                     where: {
                         dumpsterID,
                         ...photo,
                     },
+                    order: [["dateAdded", "DESC"]],
                     transaction: t,
                 });
             }),
