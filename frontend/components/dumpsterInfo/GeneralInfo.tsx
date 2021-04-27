@@ -19,7 +19,8 @@ export default function GeneralInfo({ dumpster }: { dumpster: Dumpster }) {
             <View style={styles.row}>
                 <TrashIcon size="small" />
                 <Text style={styles.rowText}>
-                    {t("emptyingSchedule")}: {dumpster.emptyingSchedule}
+                    {t("emptyingSchedule")}:{" "}
+                    {dumpster.emptyingSchedule || t("unknown")}
                 </Text>
             </View>
 

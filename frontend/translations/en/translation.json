@@ -31,7 +31,8 @@
         "km": "km",
         "delete": "Delete",
         "tapToSeeMore": "Tap to see more",
-        "yourPosition": "Your position"
+        "yourPosition": "Your position",
+        "unknown": "Unknown"
     },
 
     "advice": {
