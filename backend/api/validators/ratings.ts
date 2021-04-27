@@ -10,6 +10,7 @@ export const addRatings = {
     body: Joi.object({
         rating: Joi.number().min(1)
             .max(5)
+            .integer()
             .required(),
     }),
 };
