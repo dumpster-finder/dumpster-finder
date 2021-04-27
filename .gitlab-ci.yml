@@ -91,7 +91,7 @@ build_app:
     - cd frontend
     - npm install expo-cli
     - npx expo login --non-interactive -u "$EXPO_CLI_USERNAME" # password is env var
-    - npx expo publish --non-interactive
+    - npx expo build:android --non-interactive --no-wait
   only:
     - develop
     - master

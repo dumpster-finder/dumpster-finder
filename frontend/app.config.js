@@ -24,6 +24,7 @@ export default {
     assetBundlePatterns: ["**/*"],
     ios: {
         supportsTablet: true,
+        bundleIdentifier: "org.dumpsterfire.dumpsterfinder",
     },
     android: {
         adaptiveIcon: {
