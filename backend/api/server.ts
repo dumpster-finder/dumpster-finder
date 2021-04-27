@@ -11,6 +11,7 @@ import storeTypes from "./routes/storeTypes";
 import dumpsterTypes from "./routes/dumpsterTypes";
 import comments from "./routes/comments";
 import users from "./routes/users";
+import ratings from "./routes/ratings";
 import { defaultLoggerOptions } from "./config/pino";
 import contents from "./routes/contents";
 import contentTypes from "./routes/contentTypes";
@@ -56,6 +57,7 @@ app.use("/api/dumpsters/:dumpsterID(\\d+)/contents", contents(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/photos", photos(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/visits", visits(dependencies));
 app.use("/api/dumpsters/:dumpsterID(\\d+)/reports", reports(dependencies));
+app.use("/api/dumpsters/:dumpsterID(\\d+)/ratings", ratings(dependencies));
 
 app.use("/api/categories", categories(dependencies));
 app.use("/api/content-types", contentTypes(dependencies));

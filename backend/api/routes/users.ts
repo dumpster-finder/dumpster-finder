@@ -13,7 +13,7 @@ import { RouteDependencies } from "../types";
 import { generateUserID } from "../utils/IdGeneration";
 import { hashUser, generateSalt, hashPassword } from "../utils/hashing";
 import { encodeToken } from "../utils/token";
-import { standardLimiter } from "../middleware/rateLimiter";
+import {standardLimiter, updateLimiter} from "../middleware/rateLimiter";
 import { JwtMiddleware } from "../middleware/tokenMiddleware";
 import { logger } from "../server";
 
@@ -35,7 +35,7 @@ export default function({ Models }: RouteDependencies) {
      *             schema:
      *               type: string
      */
-    router.get("/", standardLimiter, async (req, res, next) => {
+    router.get("/", updateLimiter, async (req, res, next) => {
         try {
             const userName: string = await generateUserID();
             const userHash = hashUser(userName);
