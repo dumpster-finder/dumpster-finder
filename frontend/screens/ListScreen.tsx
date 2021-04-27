@@ -14,13 +14,17 @@ import { Layout } from "@ui-kitten/components";
 import FilterModal from "../components/FilterModal";
 import { useState } from "react";
 import { calcOrUseDistance } from "../utils/distance";
-import { positionSelector } from "../redux/slices/configSlice";
+import {
+    dumpsterFilterSelector,
+    positionSelector,
+} from "../redux/slices/configSlice";
 import {
     coverPhotoMapSelector,
     setCoverPhoto,
 } from "../redux/slices/photoSlice";
 import { useEffect } from "react";
 import { PhotoService } from "../services";
+import useFilter from "../hooks/useFilter";
 
 export default function ListScreen({
     navigation,
@@ -29,10 +33,11 @@ export default function ListScreen({
 }) {
     const dispatch = useAppDispatch();
     const dumpsters = useSelector(allDumpstersSelector);
-    const [filter, setFilter] = useState(false);
+    const [showFilter, setShowFilter] = useState(false);
     const dumpsterMap = useSelector(dumpsterMapSelector);
     const p = useSelector(positionSelector);
     const coverPhotos = useSelector(coverPhotoMapSelector);
+    const filteredDumpsters = useFilter();
 
     useEffect(() => {
         dumpsters.forEach(({ dumpsterID }) => {
@@ -61,12 +66,15 @@ export default function ListScreen({
                             screen: "AddPositionScreen",
                         });
                     }}
-                    onPressFilter={() => setFilter(true)}
+                    onPressFilter={() => setShowFilter(true)}
                 />
-                {filter && (
-                    <FilterModal visible={filter} setVisible={setFilter} />
+                {showFilter && (
+                    <FilterModal
+                        visible={showFilter}
+                        setVisible={setShowFilter}
+                    />
                 )}
-                {dumpsters
+                {filteredDumpsters
                     .sort(
                         (a, b) =>
                             calcOrUseDistance(p, a) - calcOrUseDistance(p, b),

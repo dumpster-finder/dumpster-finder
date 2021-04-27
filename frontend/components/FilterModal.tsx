@@ -7,17 +7,31 @@ import {
     Modal,
     Text,
 } from "@ui-kitten/components";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import {
     categoriesSelector,
     dumpsterTypesSelector,
     storeTypesSelector,
 } from "../redux/slices/constantsSlice";
+import {
+    dumpsterFilterSelector,
+    setDumpsterFilter,
+} from "../redux/slices/configSlice";
 import SingleMultiSelect from "../components/selects/SingleMultiSelect";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import MultiSliderComp from "./MultiSliderComp";
+import { useAppDispatch } from "../redux/store";
+import _ from "lodash";
+
+const transformSelectionToIndexPathArray = (
+    defaults: string[],
+    selection?: string[],
+) =>
+    selection // TODO avoid indexOf
+        ? selection.map(c => new IndexPath(selection.indexOf(c)))
+        : defaults.map((_, i) => new IndexPath(i));
 
 export default function FilterModal({
     visible,
@@ -27,26 +41,33 @@ export default function FilterModal({
     setVisible: (newVisible: boolean) => void;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("common");
+    const dispatch = useAppDispatch();
     const dumpsterTypes = useSelector(dumpsterTypesSelector);
     const storeTypes = useSelector(storeTypesSelector);
     const categories = useSelector(categoriesSelector);
+    const filter = useSelector(dumpsterFilterSelector);
     const lock = ["all", "locked", "unlocked"];
-    const [selectedDumpsters, setSelectedDumpsters] = useState([
-        new IndexPath(0),
-        new IndexPath(1),
-    ]);
-    const [selectedStores, setSelectedStores] = useState([
-        new IndexPath(0),
-        new IndexPath(1),
-    ]);
-    const [selectedCategories, setSelectedCategories] = useState([
-        new IndexPath(0),
-        new IndexPath(1),
-    ]);
-    const [locked, setLocked] = useState(lock[0]);
-    const [rating, setRating] = useState([0, 4]);
-    const [cleanliness, setCleanliness] = useState([0, 4]);
-    const [view, setView] = useState([0, 2]);
+    const [selectedDumpsters, setSelectedDumpsters] = useState(
+        transformSelectionToIndexPathArray(dumpsterTypes, filter.dumpsterTypes),
+    );
+    const [selectedStores, setSelectedStores] = useState(
+        transformSelectionToIndexPathArray(storeTypes, filter.storeTypes),
+    );
+    const [selectedCategories, setSelectedCategories] = useState(
+        transformSelectionToIndexPathArray(categories, filter.categories),
+    );
+    const [locked, setLocked] = useState(
+        filter.locked === undefined ? 0 : filter.locked ? 1 : 2,
+    );
+    const [rating, setRating] = useState(
+        filter.rating ? filter.rating.map(i => i - 1) : [0, 4],
+    );
+    const [cleanliness, setCleanliness] = useState(
+        filter.cleanliness ? filter.cleanliness.map(i => i - 1) : [0, 4],
+    );
+    const [storeView, setStoreView] = useState(
+        filter.positiveStoreView || [0, 2],
+    );
 
     const ratingLabels = [
         {
@@ -177,8 +198,8 @@ export default function FilterModal({
                         <CheckBox
                             key={index}
                             style={styles.checkbox}
-                            checked={locked === value}
-                            onChange={next => setLocked(value)}
+                            checked={locked === index}
+                            onChange={() => setLocked(index)}
                         >
                             {t(`${value}`)}
                         </CheckBox>
@@ -205,10 +226,10 @@ export default function FilterModal({
                 <View style={styles.slider}>
                     <Text>{t("view")}</Text>
                     <MultiSliderComp
-                        values={view}
+                        values={storeView}
                         max={2}
                         labels={viewLabels}
-                        onChange={setView}
+                        onChange={setStoreView}
                     />
                 </View>
 
@@ -218,16 +239,53 @@ export default function FilterModal({
                     <Button
                         style={{ marginHorizontal: 5, minWidth: "40%" }}
                         status="basic"
+                        onPress={() => setVisible(false)}
                     >
                         {t("cancel")}
                     </Button>
-                    <Button style={{ marginHorizontal: 5, minWidth: "40%" }}>
+                    <Button
+                        style={{ marginHorizontal: 5, minWidth: "40%" }}
+                        onPress={handleFilter}
+                    >
                         {t("filter")}
                     </Button>
                 </View>
             </Card>
         </Modal>
     );
+
+    function transformRating([min, max, ...rest]: number[]):
+        | [number, number]
+        | undefined {
+        return min === 0 && max === 4 ? undefined : [min + 1, max + 1];
+    }
+    function transformSelection(defaults: string[], selection: IndexPath[]) {
+        return selection.length > 0 && !(selection.length === defaults.length)
+            ? selection.map(i => defaults[i.row])
+            : undefined;
+    }
+
+    function handleFilter() {
+        // Set new filter – make sure to set undefined where it isn't necessary to perform any filtering
+        dispatch(
+            setDumpsterFilter({
+                categories: transformSelection(categories, selectedCategories),
+                dumpsterTypes: transformSelection(
+                    dumpsterTypes,
+                    selectedDumpsters,
+                ),
+                storeTypes: transformSelection(storeTypes, selectedStores),
+                positiveStoreView:
+                    storeView[0] === 0 && storeView[1] === 2
+                        ? undefined
+                        : [storeView[0], storeView[1]],
+                cleanliness: transformRating(cleanliness),
+                rating: transformRating(rating),
+                locked: locked === 0 ? undefined : locked === 1,
+            }),
+        );
+        setVisible(false);
+    }
 }
 
 const styles = StyleSheet.create({

@@ -19,6 +19,7 @@ import { Layout } from "@ui-kitten/components";
 import MapPositionMarker from "../components/map/MapPositionMarker";
 import CustomMapView from "../components/map/CustomMapView";
 import FilterModal from "../components/FilterModal";
+import useFilter from "../hooks/useFilter";
 
 export default function MapScreen({
     navigation,
@@ -28,7 +29,7 @@ export default function MapScreen({
     const dispatch = useAppDispatch();
     const position = useSelector(positionSelector);
     const firstTime = useSelector(firstTimeSelector);
-    const dumpsters = useSelector(allDumpstersSelector);
+    const dumpsters = useFilter();
     const [mapView, setMapView] = useState<MapView | null>(null);
     const [showFilter, setShowFilter] = useState(false);
 

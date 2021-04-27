@@ -18,6 +18,16 @@ api_deps:
     paths:
       - backend/api/node_modules
 
+test_app:
+  stage: test
+  script:
+    - cd frontend
+    - npm ci
+    - npm run test:ci
+  artifacts:
+    paths:
+      - frontend/coverage
+
 test_api:
   stage: test
   services:
