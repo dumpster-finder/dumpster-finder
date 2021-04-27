@@ -20,7 +20,7 @@
 import { RouteDependencies } from "../types";
 import {Request, Router} from "express";
 import RatingDAO from "../daos/ratings";
-import { standardLimiter } from "../middleware/rateLimiter";
+import {standardLimiter, updateLimiter} from "../middleware/rateLimiter";
 import { JwtMiddleware } from "../middleware/tokenMiddleware";
 import { validate } from "express-validation";
 import {
@@ -65,7 +65,7 @@ export default function ({ Models }: RouteDependencies) {
     router.post("/",
         JwtMiddleware,
         validate(addRatings),
-        standardLimiter,
+        updateLimiter,
         async (
             req: Request,
             res,
@@ -117,7 +117,7 @@ export default function ({ Models }: RouteDependencies) {
     router.put("/",
         JwtMiddleware,
         validate(addRatings),
-        standardLimiter,
+        updateLimiter,
         async (
             req: Request & { params: { dumpsterID: number } },
             res,
