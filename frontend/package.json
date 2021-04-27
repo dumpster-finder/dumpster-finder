@@ -64,6 +64,7 @@
     "@types/react-native-vector-icons": "^6.4.6",
     "@types/react-redux": "^7.1.16",
     "@types/redux-persist": "^4.3.1",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "dotenv": "^8.2.0",
     "jest-expo": "~40.0.0",
     "typedoc": "^0.20.24",
