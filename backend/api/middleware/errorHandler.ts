@@ -53,6 +53,10 @@ const errorHandler = (logger: Logger) => (
     } else if (err instanceof APIError) {
         logger.error(err, err.message);
         res.status(err.statusCode);
+    } else {
+        // Unknown error, count it as a server error
+        err.message = err.message || "Unknown error occurred";
+        res.status(500);
     }
 
     // Send an object with the gathered data
