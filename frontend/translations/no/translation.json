@@ -30,7 +30,8 @@
         "km": "km",
         "delete": "Slett",
         "tapToSeeMore": "Trykk for mer info",
-        "yourPosition": "Din posisjon"
+        "yourPosition": "Din posisjon",
+        "unknown": "Ukjent"
     },
     "advice": {
         "title": "Råd for dumpster diving",
