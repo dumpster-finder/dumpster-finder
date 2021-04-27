@@ -1,5 +1,5 @@
 export default interface Rating {
-    userID: string;
+    userID: number;
     dumpsterID: number;
     rating: number;
     date: string;

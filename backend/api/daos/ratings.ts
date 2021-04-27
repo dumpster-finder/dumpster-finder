@@ -4,6 +4,7 @@ import Rating from "../types/Rating";
 import { RatingAttributes } from "../models/Ratings";
 import Position, { GeoJSONPoint, PositionParams } from "../types/Position";
 import { ConflictError, InvalidKeyError } from "../types/errors";
+import {logger} from "../server";
 /**
  * Add a dumpster to the database table.
  * When adding, the dumpster does not yet have an ID.
@@ -21,19 +22,19 @@ export default function ({
         /**
          * Adds a rating to a dumpster, returning the inserted entity
          *
+         * @param dumpsterID
          * @param rating
-         * @param rating
+         * @param userID
          */
 
-        addOne: async (dumpsterID : number, rating: Omit<Rating, "date" | "dumpsterID">) => {
-            // Rewrite position data to GeoJSON format
-
+        addOne: async (dumpsterID : number, rating : number, userID : number ) => {
             // Perform transaction
             return await sequelize.transaction(async t => {
                 return await Ratings.create(
                     {
                         dumpsterID,
-                        ...rating
+                        rating,
+                        userID
                     },
                     {transaction: t},
                 ).catch(_ => {
@@ -47,6 +48,8 @@ export default function ({
         /**
          * update a rating to a dumpster, returning the inserted entity
          *
+         * @param userID
+         * @param dumpsterID
          * @param rating
          */
 
@@ -65,10 +68,10 @@ export default function ({
                     throw new InvalidKeyError(
                         "There is no rating for this dumpster from this user",
                     );
-                return await Ratings.update(
+                logger.info(match);
+                const updatedRating = await Ratings.update(
                     {
                         rating,
-                        date : Sequelize.fn('NOW').toString(),
                     },
                     {
                         where: {
@@ -78,6 +81,8 @@ export default function ({
                         transaction: t,
                     },
                 );
+                if(!match) return false;
+                else return true;
             });
         },
     }

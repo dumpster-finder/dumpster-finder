@@ -34,6 +34,8 @@ const toDumpster = (dumpster: DumpsterAttributes): Dumpster => ({
     // @ts-ignore
     visits: dumpster.dataValues.visits || 0,
     // @ts-ignore
+    visits: dumpster.dataValues.visits || 0,
+    // @ts-ignore
     distance: dumpster.dataValues.distance,
 });
 

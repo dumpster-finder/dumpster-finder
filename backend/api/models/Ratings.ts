@@ -7,7 +7,7 @@ export interface RatingAttributes {
     userID: number;
     dumpsterID: number;
     rating: number;
-    date: string;
+    date: Date;
 }
 
 export interface RatingCreationAttributes
@@ -19,7 +19,7 @@ export class Ratings
     userID!: number;
     dumpsterID!: number;
     rating!: number;
-    date!: string;
+    date!: Date;
 }
 
 // Inject Sequelize

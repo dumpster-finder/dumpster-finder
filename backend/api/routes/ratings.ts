@@ -5,17 +5,12 @@
  *         Rating:
  *             type: object
  *             required:
- *                 - userID
  *                 - rating
  *             properties:
- *                 userID:
- *                     type: string
- *                     description: ID of this user, has to be parsed
  *                 rating:
  *                     type: number
  *                     description: the rating value
  *             example:
- *                 userID: crawl daring message team lamp develop
  *                 rating: 4
  * tags:
  *   - name: Ratings
@@ -26,9 +21,15 @@ import { RouteDependencies } from "../types";
 import {Request, Router} from "express";
 import RatingDAO from "../daos/ratings";
 import { standardLimiter } from "../middleware/rateLimiter";
+import { JwtMiddleware } from "../middleware/tokenMiddleware";
+import {logger} from "../server";
+import { validate } from "express-validation";
+import {
+    addRatings,
+} from "../validators/ratings";
 
 export default function ({ Models }: RouteDependencies) {
-    const router = Router();
+    const router = Router({ mergeParams: true });
     const ratingDAO = RatingDAO(Models);
 
     /**
@@ -44,6 +45,13 @@ export default function ({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *       content:
      *         application/json:
@@ -56,14 +64,19 @@ export default function ({ Models }: RouteDependencies) {
      *           application/json:
      */
     router.post("/",
+        JwtMiddleware,
+        validate(addRatings),
         standardLimiter,
         async (
-            req: Request & { params: { dumpsterID: number } },
+            req: Request,
             res,
             next,
         ) => {
         try {
-            const rating = await ratingDAO.addOne(req.params.dumpsterID, req.body);
+            logger.info(req.params.dumpsterID);
+            const rating = await ratingDAO.addOne(parseInt(req.params.dumpsterID),
+                req.body.rating,
+                res.locals.session.id);
             res.status(201).json(rating);
         } catch (e) {
             next(e);
@@ -85,6 +98,13 @@ export default function ({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     requestBody:
      *       content:
      *         application/json:
@@ -97,6 +117,8 @@ export default function ({ Models }: RouteDependencies) {
      *           application/json:
      */
     router.put("/",
+        JwtMiddleware,
+        validate(addRatings),
         standardLimiter,
         async (
             req: Request & { params: { dumpsterID: number } },
@@ -104,7 +126,7 @@ export default function ({ Models }: RouteDependencies) {
             next,
         ) => {
             try {
-                const rating = await ratingDAO.updateOne(req.body.userID, req.params.dumpsterID, req.body.rating);
+                const rating = await ratingDAO.updateOne(res.locals.session.id, req.params.dumpsterID, req.body.rating);
                 res.status(201).json(rating);
             } catch (e) {
                 next(e);
