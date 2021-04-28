@@ -19,8 +19,9 @@ import {
     visitsSelector,
     registeredVisitsSelector,
     resetRegisteredVisits,
-    dumpsterFilterSelector,
     setDumpsterFilter,
+    dumpsterRatingsSelector,
+    resetDumpsterRatings,
 } from "./redux/slices/configSlice";
 import {
     fetchNearbyDumpsters,
@@ -57,16 +58,17 @@ const InnerApp = () => {
     const radius = useSelector(radiusSelector);
     const language = useSelector(languageSelector);
     const ratedComments = useSelector(ratedCommentsSelector);
+    const dumpsterRatings = useSelector(dumpsterRatingsSelector);
     const visitDate = useSelector(visitsSelector);
     const registeredVisits = useSelector(registeredVisitsSelector);
     const userName = useSelector(userNameSelector);
     const token = useSelector(tokenSelector);
-    const dumpsterFilter = useSelector(dumpsterFilterSelector);
 
     useEffect(() => {
         // Do some state-independent resets and fetches at app load
         // TODO Remove this when ratedComments is guaranteed to be undefined on our dev devices
         if (!ratedComments) store.dispatch(resetRatedComments());
+        if (!dumpsterRatings) store.dispatch(resetDumpsterRatings());
         if (!registeredVisits) store.dispatch(resetRegisteredVisits());
         // TODO add setting to persist filter between sessions (can't be default)
         store.dispatch(setDumpsterFilter({}));

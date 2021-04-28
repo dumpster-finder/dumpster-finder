@@ -3,6 +3,7 @@ import Dumpster from "../../models/Dumpster";
 import Position from "../../models/Position";
 import { RootState } from "../store";
 import { DumpsterService } from "../../services";
+import { templateDumpster } from "./editorSlice";
 
 /**
  * The dumpster list will be fetched asynchronously,
@@ -12,7 +13,7 @@ interface SliceState {
     dumpsters: Record<string, Dumpster>;
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
-    currentDumpster: Dumpster | null;
+    currentDumpster: Dumpster;
 }
 
 /**
@@ -46,7 +47,7 @@ export const dumpsterSlice = createSlice({
         dumpsters: {},
         status: "idle",
         error: null,
-        currentDumpster: null,
+        currentDumpster: templateDumpster,
     } as SliceState,
     reducers: {
         /**

@@ -13,6 +13,7 @@ interface SliceState {
     firstTime: boolean;
     language: string;
     ratedComments: Record<string, number>;
+    dumpsterRatings: Record<string, number>;
     hideNegativeRating: boolean;
     visits: number;
     registeredVisits: Record<string, Date>;
@@ -33,6 +34,7 @@ export const configSlice = createSlice({
         firstTime: true,
         language: "no",
         ratedComments: {},
+        dumpsterRatings: {},
         hideNegativeRating: true, // Hide 'em by default
         visits: 2,
         registeredVisits: {},
@@ -65,6 +67,15 @@ export const configSlice = createSlice({
         },
         resetRatedComments: state => {
             state.ratedComments = {};
+        },
+        setDumpsterRating: (
+            { dumpsterRatings },
+            { payload }: { payload: { rating: number; dumpsterID: number } },
+        ) => {
+            dumpsterRatings[payload.dumpsterID] = payload.rating;
+        },
+        resetDumpsterRatings: state => {
+            state.dumpsterRatings = {};
         },
         setHideNegativeRating: (state, { payload }: { payload: boolean }) => {
             state.hideNegativeRating = payload;
@@ -145,13 +156,19 @@ export const {
     /**
      * Set vote registered on comment
      *
-     * Usage: dispatch(setRatedComment("[NOE HER]"));
-     *
-     * @param payload [NOE HER]
+     * Usage: dispatch(setRatedComment({ rated: -1, commentID: 44}));
      */
     setRatedComments,
 
     resetRatedComments,
+
+    /**
+     * Store a rating of a dumpster
+     *
+     * Usage: dispatch(setDumpsterRating({ rating: 4, dumpsterID: 32 });
+     */
+    setDumpsterRating,
+    resetDumpsterRatings,
 
     setHideNegativeRating,
 
@@ -175,6 +192,8 @@ export const firstTimeSelector = (state: RootState) => state.config.firstTime;
 export const languageSelector = (state: RootState) => state.config.language;
 export const ratedCommentsSelector = (state: RootState) =>
     state.config.ratedComments;
+export const dumpsterRatingsSelector = (state: RootState) =>
+    state.config.dumpsterRatings;
 export const hideNegativeRatingSelector = (state: RootState) =>
     state.config.hideNegativeRating;
 export const visitsSelector = (state: RootState) => state.config.visits;

@@ -21,10 +21,14 @@ import usePhotos from "../hooks/usePhotos";
 import { useState } from "react";
 import { subDays, subHours } from "date-fns";
 import {
+    dumpsterRatingsSelector,
+    positionSelector,
     registeredVisitsSelector,
     visitsSelector,
+    setDumpsterRating,
 } from "../redux/slices/configSlice";
 import Message from "../utils/Message";
+import { distance } from "../utils/distance";
 
 export default function DetailsScreen({
     navigation,
@@ -35,13 +39,13 @@ export default function DetailsScreen({
     const visitDate = useSelector(visitsSelector);
     const { t }: { t: (s: string) => string } = useTranslation("details");
     const dumpster = useSelector(currentDumpsterSelector);
+    const { dumpsterID } = dumpster;
     const photos = usePhotos();
     const [visits, setVisits] = useState(dumpster ? dumpster.visits : 0);
-    let lastVisit = new Date();
-
-    if (dumpster) {
-        lastVisit = useSelector(registeredVisitsSelector)[dumpster.dumpsterID];
-    }
+    const currentRating = useSelector(dumpsterRatingsSelector)[dumpsterID] || 0;
+    const lastVisit =
+        useSelector(registeredVisitsSelector)[dumpsterID] || new Date();
+    const position = useSelector(positionSelector);
 
     const [disabled, setDisabled] = useState(
         subHours(new Date(), 4) <= lastVisit || false,
@@ -115,7 +119,7 @@ export default function DetailsScreen({
                             <AirbnbRating
                                 size={20}
                                 showRating={false}
-                                defaultRating={0}
+                                defaultRating={currentRating}
                                 onFinishRating={handleRating}
                             />
                         </View>
@@ -143,10 +147,15 @@ export default function DetailsScreen({
     }
 
     async function handleRating(rating: number) {
-        if (!dumpster) return;
         try {
-            // TODO differentiate add vs. update
-            await RatingService.rate(dumpster.dumpsterID, rating);
+            if (currentRating) {
+                // found a stored rating
+                await RatingService.updateRating(dumpsterID, rating);
+            } else {
+                // user has never rated a dumpster before
+                await RatingService.rate(dumpsterID, rating);
+            }
+            dispatch(setDumpsterRating({ dumpsterID, rating }));
         } catch (e) {
             Message.error(e, "Could not rate dumpster");
         }
@@ -156,7 +165,7 @@ export default function DetailsScreen({
         setVisits(visits + 1);
         if (dumpster) {
             try {
-                await VisitService.addOne(dumpster.dumpsterID);
+                await VisitService.addOne(dumpsterID);
                 await getDumpster();
                 setDisabled(true);
             } catch (e) {
@@ -174,11 +183,15 @@ export default function DetailsScreen({
             .split("T")[0];
         if (dumpster) {
             try {
-                const updatedDumpster = await DumpsterService.getDumpster(
-                    dumpster.dumpsterID,
+                let updatedDumpster = await DumpsterService.getDumpster(
+                    dumpsterID,
                     visitSinceDate,
                 );
-                // TODO calc distance here (fix-list has stuff)
+                // Calculate distance to dumpster manually, to avoid calculating it again
+                updatedDumpster.distance = distance(
+                    position,
+                    updatedDumpster.position,
+                );
                 dispatch(setCurrentDumpster(updatedDumpster));
                 dispatch(addDumpster(updatedDumpster));
             } catch (e) {
