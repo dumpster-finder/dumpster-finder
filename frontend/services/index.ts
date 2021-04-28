@@ -10,6 +10,7 @@ import PhotoServiceClass from "./PhotoService";
 import VisitServiceClass from "./VisitService";
 import UserServiceClass from "./UserService";
 import ReportServiceClass from "./ReportService";
+import RatingServiceClass from "./RatingService";
 import Constants from "expo-constants";
 import {
     addTokenHeader,
@@ -23,7 +24,7 @@ const axiosInstance = axios.create({
     timeout: 1000,
 });
 
-// Add some interceptors for tokens
+// Add some interceptors for tokens (TODO call this after exports)
 axiosInstance.interceptors.request.use(addTokenHeader);
 axiosInstance.interceptors.response.use(handleTokenResponse, handleTokenError);
 
@@ -41,6 +42,7 @@ const PhotoService = new PhotoServiceClass(axiosInstance);
 const VisitService = new VisitServiceClass(axiosInstance);
 const UserService = new UserServiceClass(axiosInstance);
 const ReportService = new ReportServiceClass(axiosInstance);
+const RatingService = new RatingServiceClass(axiosInstance);
 
 // and export them
 export {
@@ -55,4 +57,5 @@ export {
     VisitService,
     UserService,
     ReportService,
+    RatingService,
 };

@@ -15,7 +15,7 @@ import CategoryInfo from "../components/dumpsterInfo/CategoryInfo";
 import ExtraInfo from "../components/dumpsterInfo/ExtraInfo";
 import InfoRow from "../components/dumpsterInfo/InfoRow";
 import GeneralInfo from "../components/dumpsterInfo/GeneralInfo";
-import { DumpsterService, VisitService } from "../services";
+import { DumpsterService, RatingService, VisitService } from "../services";
 import { useAppDispatch } from "../redux/store";
 import usePhotos from "../hooks/usePhotos";
 import { useState } from "react";
@@ -25,7 +25,6 @@ import {
     visitsSelector,
 } from "../redux/slices/configSlice";
 import Message from "../utils/Message";
-import { userIDSelector } from "../redux/slices/userSlice";
 
 export default function DetailsScreen({
     navigation,
@@ -117,6 +116,7 @@ export default function DetailsScreen({
                                 size={20}
                                 showRating={false}
                                 defaultRating={0}
+                                onFinishRating={handleRating}
                             />
                         </View>
                     </View>
@@ -140,6 +140,16 @@ export default function DetailsScreen({
                 </ScrollView>
             </Layout>
         );
+    }
+
+    async function handleRating(rating: number) {
+        if (!dumpster) return;
+        try {
+            // TODO differentiate add vs. update
+            await RatingService.rate(dumpster.dumpsterID, rating);
+        } catch (e) {
+            Message.error(e, "Could not rate dumpster");
+        }
     }
 
     async function visit() {
