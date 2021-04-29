@@ -11,10 +11,9 @@ import UserDAO from "../daos/users";
 import { validateUser } from "../validators/users";
 import { RouteDependencies } from "../types";
 import { generateUserID } from "../utils/IdGeneration";
-import { hashUser, generateSalt, hashPassword } from "../utils/hashing";
+import { generateSalt, hashPassword } from "../utils/hashing";
 import { encodeToken } from "../utils/token";
 import {standardLimiter, updateLimiter} from "../middleware/rateLimiter";
-import { JwtMiddleware } from "../middleware/tokenMiddleware";
 import { logger } from "../server";
 
 export default function({ Models }: RouteDependencies) {
@@ -24,8 +23,8 @@ export default function({ Models }: RouteDependencies) {
     /**
      * @swagger
      * /users/:
-     *   get:
-     *     summary: GET a userID, and register it in server
+     *   post:
+     *     summary: POST a request to generate a userID, and returns it to the user.
      *     tags: [Users]
      *     responses:
      *       "200":
@@ -35,14 +34,13 @@ export default function({ Models }: RouteDependencies) {
      *             schema:
      *               type: string
      */
-    router.get("/", updateLimiter, async (req, res, next) => {
+    router.post("/", updateLimiter, async (req, res, next) => {
         try {
             const userName: string = await generateUserID();
-            const userHash = hashUser(userName);
             const salt = generateSalt();
             const passwordHash = await hashPassword(salt, userName);
             console.log(userName, passwordHash);
-            const userID = await userDAO.postOne(userHash, salt, passwordHash);
+            const userID = await userDAO.postOne(salt, passwordHash);
             res.status(200).json({userName, userID});
         } catch (e) {
             logger.error(e, "that user already exists, send new request");
@@ -52,7 +50,7 @@ export default function({ Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /users/validation/{userID}:
+     * /users/validation/{userID}-{userName}:
      *   get:
      *     summary: Authenticates the user
      *     tags: [Users]
@@ -60,9 +58,15 @@ export default function({ Models }: RouteDependencies) {
      *       - in: path
      *         name: userID
      *         schema:
-     *           type: string
+     *           type: number
      *         required: true
      *         description: the User Id
+     *       - in: path
+     *         name: userName
+     *         schema:
+     *           type: string
+     *         required: true
+     *         description: the User Name
      *     responses:
      *       "200":
      *         description: User valid
@@ -70,13 +74,16 @@ export default function({ Models }: RouteDependencies) {
      *         description: user Not found
      */
     router.get(
-        "/validation/:userID",
+        "/validation/:userID(\\d+)-:userName",
         standardLimiter,
         validate(validateUser),
-        async (req, res, next) => {
+        async (req: Request & { params: { userID: number, userName: string } },
+               res,
+               next,) => {
             try {
                 const userExists: number = await userDAO.getOne(
-                    req.params.userID,
+                    req.params.userName,
+                    req.params.userID
                 );
                 if (userExists) {
                     res.header("x-access-token", encodeToken(userExists));

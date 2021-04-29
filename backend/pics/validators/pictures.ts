@@ -11,6 +11,7 @@ export const getPicture = {
 
 export const postPicture = {
     body: Joi.object({
-        userID: Joi.string().alphanum(),
+        userID: Joi.number().positive(),
+        userName: Joi.string().alphanum(),
     }),
 };

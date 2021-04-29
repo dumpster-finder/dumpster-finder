@@ -131,9 +131,12 @@ export default function({ logger }: RouteDependencies) {
      *             type: object
      *             required:
      *               - userID
+     *               - userName
      *               - picture
      *             properties:
      *               userID:
+     *                 type: number
+     *               userName:
      *                 type: string
      *               picture:
      *                 type: string
@@ -177,7 +180,7 @@ export default function({ logger }: RouteDependencies) {
                     );
                 }
                 try{
-                    let validated = await axiosApi.get(`/users/validation/${req.body.userID}`)
+                    await axiosApi.get(`/users/validation/${req.body.userID}-${req.body.userName}`)
                 }
                 catch (e){
                     throw new ServerError("Failed to validate userID")

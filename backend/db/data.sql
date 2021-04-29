@@ -102,17 +102,16 @@ VALUES
     (7, 7, 15), -- noodles
     (7, 7, 16); -- eggs
 
-INSERT INTO Users(userID, passwordHash, userName, salt)
+INSERT INTO Users(userID, passwordHash, salt)
 VALUES
-(1, 'temp', 'temp', 'temp'),
-(2, 'temp1', 'temp2', 'temp2'),
-(3, 'temp2', 'temp1', 'temp1'),
-(4, 'temp3', 'temp3', 'temp3'),
-(5, 'temp4', 'temp4', 'temp4'),
-(6, 'temp5', 'temp5', 'temp5'),
-(7, 'temp6', 'temp6', 'temp6'),
+(1, 'temp', 'temp'),
+(2, 'temp1', 'temp2'),
+(3, 'temp2', 'temp1'),
+(4, 'temp3', 'temp3'),
+(5, 'temp4',  'temp4'),
+(6, 'temp5',  'temp5'),
+(7, 'temp6',  'temp6'),
 (8, '52ca3a47e839d66f419297abde8a1dc7d4507162d9ca308270a8a84879110e75aa8f78ce7c2af2c41c26752a84ad422d79d2a91928b7a99ee47674c3a526fc13c6a550148317aa507c2adc6cd5508b27af2c607e0a8060cfd7cdc6f88e9edce276f08d25',
- '76f2d41e00708c4644ab2fb4636f0ae741784bb48ff429659b5a79344bec88358df0052f773cefaebcfeaacf9c9c68e9e851f666e007a7e1cbc1e69a03a9efe0',
  '1c45a7c753a365624c8fafa53e7b70e2');
 -- crawl daring message team lamp develop
 
