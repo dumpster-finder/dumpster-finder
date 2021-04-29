@@ -18,14 +18,12 @@
  */
 
 import { RouteDependencies } from "../types";
-import {Request, Router} from "express";
+import { Request, Router } from "express";
 import RatingDAO from "../daos/ratings";
-import {standardLimiter, updateLimiter} from "../middleware/rateLimiter";
+import { updateLimiter } from "../middleware/rateLimiter";
 import { JwtMiddleware } from "../middleware/tokenMiddleware";
 import { validate } from "express-validation";
-import {
-    addRatings,
-} from "../validators/ratings";
+import { addRatings } from "../validators/ratings";
 
 export default function ({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
@@ -59,29 +57,25 @@ export default function ({ Models }: RouteDependencies) {
      *     responses:
      *       "201":
      *         description: Rating successfully written
-     *         content:
-     *           application/json:
      */
-    router.post("/",
+    router.post(
+        "/",
         JwtMiddleware,
         validate(addRatings),
         updateLimiter,
-        async (
-            req: Request,
-            res,
-            next,
-        ) => {
+        async (req: Request, res, next) => {
             try {
-                const rating = await ratingDAO.addOne(parseInt(req.params.dumpsterID),
+                const rating = await ratingDAO.addOne(
+                    parseInt(req.params.dumpsterID),
                     req.body.rating,
-                    res.locals.session.id);
+                    res.locals.session.id,
+                );
                 res.status(201).json(rating);
             } catch (e) {
                 next(e);
             }
         },
     );
-
 
     /**
      * @swagger
@@ -110,11 +104,10 @@ export default function ({ Models }: RouteDependencies) {
      *               $ref: '#/components/schemas/Rating'
      *     responses:
      *       "201":
-     *         description: Rating successfully Overwritten
-     *         content:
-     *           application/json:
+     *         description: Rating successfully overwritten
      */
-    router.put("/",
+    router.put(
+        "/",
         JwtMiddleware,
         validate(addRatings),
         updateLimiter,
@@ -124,7 +117,11 @@ export default function ({ Models }: RouteDependencies) {
             next,
         ) => {
             try {
-                const rating = await ratingDAO.updateOne(res.locals.session.id, req.params.dumpsterID, req.body.rating);
+                const rating = await ratingDAO.updateOne(
+                    res.locals.session.id,
+                    req.params.dumpsterID,
+                    req.body.rating,
+                );
                 res.status(201).json(rating);
             } catch (e) {
                 next(e);

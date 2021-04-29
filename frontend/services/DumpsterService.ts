@@ -16,7 +16,7 @@ export default class DumpsterService {
      * @param dumpsterID ID of the dumpster to fetch
      * @param visitSinceDate date limit for calculating visits
      */
-    getDumpster(dumpsterID: number, visitSinceDate: string) {
+    getDumpster(dumpsterID: number, visitSinceDate: string): Promise<Dumpster> {
         console.log("Fetched dumpster with ID", dumpsterID);
         return this.axios
             .get(`/dumpsters/${dumpsterID}`, {
