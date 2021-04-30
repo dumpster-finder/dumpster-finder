@@ -27,6 +27,7 @@
         "save": "Save",
         "remove": "Remove",
         "filter": "Apply filter",
+        "resetFilter": "Reset",
         "back": "Back",
         "km": "km",
         "delete": "Delete",

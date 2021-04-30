@@ -155,6 +155,31 @@ export default function FilterModal({
         },
     ];
 
+    // const renderDropdown = (
+    //     name: string,
+    //     list: string[],
+    //     setSelected: (xs: IndexPath[]) => void,
+    //     selectAll: () => void,
+    // ) => (
+    //     <View style={styles.dropdown}>
+    //         <SingleMultiSelect
+    //             style={styles.dropdownField}
+    //             sValue={selectedCategories}
+    //             label={t(name)}
+    //             values={list.map(c => t(`${name}:${c}`))}
+    //             onSelect={setSelected}
+    //         />
+    //         <Button
+    //             status="basic"
+    //             size="small"
+    //             style={styles.dropdownButton}
+    //             onPress={selectAll}
+    //         >
+    //             {t("all")}
+    //         </Button>
+    //     </View>
+    // );
+
     return (
         <Modal
             style={{ width: "98%" }}
@@ -165,27 +190,54 @@ export default function FilterModal({
             <Card>
                 <View style={styles.dropdown}>
                     <SingleMultiSelect
+                        style={styles.dropdownField}
                         sValue={selectedDumpsters}
                         label={t("dumpsterType")}
                         values={dumpsterTypes.map(c => t(`dumpsterType:${c}`))}
                         onSelect={xs => setSelectedDumpsters(xs)}
                     />
+                    <Button
+                        status="basic"
+                        size="small"
+                        style={styles.dropdownButton}
+                        onPress={selectAllDumpsterTypes}
+                    >
+                        {t("all")}
+                    </Button>
                 </View>
                 <View style={styles.dropdown}>
                     <SingleMultiSelect
+                        style={styles.dropdownField}
                         sValue={selectedStores}
                         label={t("storeType")}
                         values={storeTypes.map(c => t(`storeType:${c}`))}
                         onSelect={xs => setSelectedStores(xs)}
                     />
+                    <Button
+                        status="basic"
+                        size="small"
+                        style={styles.dropdownButton}
+                        onPress={selectAllStoreTypes}
+                    >
+                        {t("all")}
+                    </Button>
                 </View>
                 <View style={styles.dropdown}>
                     <SingleMultiSelect
+                        style={styles.dropdownField}
                         sValue={selectedCategories}
                         label={t("categories")}
                         values={categories.map(c => t(`categories:${c}`))}
                         onSelect={xs => setSelectedCategories(xs)}
                     />
+                    <Button
+                        status="basic"
+                        size="small"
+                        style={styles.dropdownButton}
+                        onPress={selectAllCategories}
+                    >
+                        {t("all")}
+                    </Button>
                 </View>
 
                 <View
@@ -237,14 +289,21 @@ export default function FilterModal({
                     style={{ flexDirection: "row", justifyContent: "center" }}
                 >
                     <Button
-                        style={{ marginHorizontal: 5, minWidth: "40%" }}
+                        style={{ marginHorizontal: 5, flex: 1 }}
                         status="basic"
                         onPress={() => setVisible(false)}
                     >
                         {t("cancel")}
                     </Button>
                     <Button
-                        style={{ marginHorizontal: 5, minWidth: "40%" }}
+                        style={{ marginHorizontal: 5, flex: 1 }}
+                        status="warning"
+                        onPress={handleResetFilter}
+                    >
+                        {t("resetFilter")}
+                    </Button>
+                    <Button
+                        style={{ marginHorizontal: 5, flex: 1 }}
                         onPress={handleFilter}
                     >
                         {t("filter")}
@@ -253,6 +312,29 @@ export default function FilterModal({
             </Card>
         </Modal>
     );
+
+    function selectAllDumpsterTypes() {
+        setSelectedDumpsters(transformSelectionToIndexPathArray(dumpsterTypes));
+    }
+
+    function selectAllStoreTypes() {
+        setSelectedStores(transformSelectionToIndexPathArray(storeTypes));
+    }
+
+    function selectAllCategories() {
+        setSelectedCategories(transformSelectionToIndexPathArray(categories));
+    }
+
+    function handleResetFilter() {
+        // Reset all state
+        selectAllStoreTypes();
+        selectAllDumpsterTypes();
+        selectAllCategories();
+        setLocked(0);
+        setRating([0, 4]);
+        setCleanliness([0, 4]);
+        setStoreView([0, 2]);
+    }
 
     function transformRating([min, max, ...rest]: number[]):
         | [number, number]
@@ -294,6 +376,14 @@ const styles = StyleSheet.create({
     },
     dropdown: {
         marginVertical: 5,
+        flexDirection: "row",
+        alignItems: "flex-end",
+    },
+    dropdownField: {
+        flex: 1,
+    },
+    dropdownButton: {
+        height: "67%",
     },
     checkbox: {
         marginHorizontal: 2,
