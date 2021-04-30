@@ -27,7 +27,7 @@ import {
     fetchNearbyDumpsters,
     setDumpsters,
 } from "./redux/slices/dumpsterSlice";
-import { resetPhotos } from "./redux/slices/photoSlice";
+import { resetPhotos, setUploadURI } from "./redux/slices/photoSlice";
 import {
     setEditorDumpster,
     templateDumpster,
@@ -66,6 +66,7 @@ const InnerApp = () => {
 
     useEffect(() => {
         // Do some state-independent resets and fetches at app load
+        store.dispatch(setUploadURI(""));
         // TODO Remove this when ratedComments is guaranteed to be undefined on our dev devices
         if (!ratedComments) store.dispatch(resetRatedComments());
         if (!dumpsterRatings) store.dispatch(resetDumpsterRatings());

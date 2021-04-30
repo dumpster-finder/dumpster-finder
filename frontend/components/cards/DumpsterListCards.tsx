@@ -11,6 +11,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { coverPhotoSelector } from "../../redux/slices/photoSlice";
 import { calcOrUseDistance } from "../../utils/distance";
+const placeholder = require("../../assets/images/placeholder-wide.png");
 
 export default function DumpsterListCards({
     dumpster,
@@ -23,17 +24,13 @@ export default function DumpsterListCards({
     const currentPosition = useSelector(positionSelector);
     const visitWindow = useSelector(visitsSelector);
     const coverPhoto = useSelector(coverPhotoSelector(dumpster.dumpsterID));
-    const placeholder =
-        "https://i.pinimg.com/originals/87/b2/ec/87b2ece63b4075dd6b294a4dc153f18c.jpg";
 
     return (
         <Card onPress={onPress} style={styles.card}>
             <View style={styles.insideContainer}>
                 <Image
                     style={styles.photo}
-                    source={{
-                        uri: coverPhoto ? coverPhoto.url : placeholder,
-                    }}
+                    source={coverPhoto ? { uri: coverPhoto.url } : placeholder}
                 />
 
                 <View style={styles.right}>
@@ -101,6 +98,7 @@ const styles = StyleSheet.create({
     },
     photo: {
         width: "40%",
+        height: "100%",
     },
     right: {
         width: "60%",

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@ui-kitten/components";
 import { ArrowLeftIcon, ArrowRightIcon } from "../basicComponents/Icons";
 import Photo from "../../models/Photo";
+const placeholder = require("../../assets/images/placeholder.png");
 
 export default function PhotoDisplay({
     photoList,
@@ -25,11 +26,13 @@ export default function PhotoDisplay({
                 <Image
                     style={styles.photo}
                     resizeMode="contain"
-                    source={{
-                        uri: photoList[photoDisplay]
-                            ? photoList[photoDisplay].url
-                            : "https://picsum.photos/400", // TODO insert an actual placeholder image here!
-                    }}
+                    source={
+                        photoList[photoDisplay]
+                            ? {
+                                  uri: photoList[photoDisplay].url,
+                              }
+                            : placeholder
+                    }
                 />
             </TouchableOpacity>
             <Button
