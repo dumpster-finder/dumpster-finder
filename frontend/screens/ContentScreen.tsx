@@ -11,8 +11,15 @@ import AddContentModal from "../components/Modals/AddContentModal";
 import { useTranslation } from "react-i18next";
 import { ContentService } from "../services";
 import Message from "../utils/Message";
+import SelectMethodModal from "../components/Modals/SelectMethodModal";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { PhotoButtonIcon } from "../components/basicComponents/Icons";
 
-export default function ContentScreen() {
+export default function ContentScreen({
+    navigation,
+}: {
+    navigation: StackNavigationProp<any>;
+}) {
     const dumpster = useSelector(currentDumpsterSelector);
     const [contents, setContents] = useState<Content[]>([]);
     const [selectedContent, setSelectedContent] = useState<Content>(
@@ -20,6 +27,7 @@ export default function ContentScreen() {
     );
     const [visibleEdit, setVisibleEdit] = useState(false);
     const [pendingEdit, setPendingEdit] = useState(false);
+    const [visibleSelect, setVisibleSelect] = useState(false);
     const [visibleAdd, setVisibleAdd] = useState(false);
     const [pendingAdd, setPendingAdd] = useState(false);
     const { t }: { t: (s: string) => string } = useTranslation("contents");
@@ -45,13 +53,24 @@ export default function ContentScreen() {
                 <View
                     style={{
                         alignItems: "center",
-                        paddingBottom: 5,
+                        marginVertical: 10,
+                        flexDirection: "row",
                     }}
                 >
-                    <Text category={"h4"}>{dumpster.name}</Text>
-                    <Text category={"h6"}>{dumpster.storeType}</Text>
-                    <Button onPress={() => setVisibleAdd(true)}>
+                    <Button
+                        style={{ marginHorizontal: 5 }}
+                        onPress={() => setVisibleSelect(true)}
+                    >
                         {t("add")}
+                    </Button>
+                    <Button
+                        style={{ marginHorizontal: 5 }}
+                        accessoryLeft={PhotoButtonIcon}
+                        onPress={() =>
+                            navigation.navigate("PhotoGalleryScreen")
+                        }
+                    >
+                        {t("photo:see")}
                     </Button>
                 </View>
                 <ScrollView style={styles.scrollView}>
@@ -84,9 +103,26 @@ export default function ContentScreen() {
                             onAdd={handleAdd}
                         />
                     )}
+                    {visibleSelect && (
+                        <SelectMethodModal
+                            visible={visibleSelect}
+                            setVisible={setVisibleSelect}
+                            onSelect={i => addSelect(i)}
+                        />
+                    )}
                 </ScrollView>
             </Layout>
         );
+    }
+
+    function addSelect(i: number) {
+        if (i === 1) {
+            setVisibleSelect(false);
+            navigation.navigate("AddPhotoScreen");
+        } else if (i === 2) {
+            setVisibleSelect(false);
+            setVisibleAdd(true);
+        }
     }
 
     async function handleAdd(

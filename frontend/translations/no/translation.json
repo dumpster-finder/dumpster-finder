@@ -175,7 +175,8 @@
         "unit": "Enhet",
         "quality": "Kvalitet",
         "expiryDate": "Utløpsdato",
-        "foundDate": "Funnet"
+        "foundDate": "Funnet",
+        "addItem": "Legg til vare"
     },
 
     "contentsEditor": {
@@ -333,7 +334,8 @@
         "take": "Ta bilde",
         "photo": "Bilde",
         "delete" : "Slett bilde",
-        "add": "Legg til bide"
+        "add": "Legg til bide",
+        "see": "Se bilder"
     },
     "report": {
         "report": "Rapporter denne søppelkassen",

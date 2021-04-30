@@ -180,7 +180,8 @@
         "unit": "Unit",
         "quality": "Quality",
         "expiryDate": "Expiration date",
-        "foundDate": "Found date"
+        "foundDate": "Found date",
+        "addItem": "Add item"
     },
 
     "contentsEditor": {
@@ -343,7 +344,8 @@
         "take": "Take Photo",
         "photo": "Photo",
         "delete" : "Delete photo",
-        "add": "Add photo"
+        "add": "Add photo",
+        "see": "See photos"
     },
 
     "report": {
