@@ -344,6 +344,7 @@ export default function FilterModal({
                 cleanliness: transformRating(cleanliness),
                 rating: transformRating(rating),
                 locked: locked === 0 ? undefined : locked === 1,
+                query: filter.query, // keep whatever is in the search box present
             }),
         );
         setVisible(false);

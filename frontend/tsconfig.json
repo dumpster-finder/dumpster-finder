@@ -27,6 +27,5 @@
       "@types"
     ],
     "out": "docs"
-  },
-  "extends": "expo/tsconfig.base"
+  }
 }
