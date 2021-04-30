@@ -22,9 +22,9 @@ export default class UserService {
     /**
      * Authenticates a user with an ID, returns a token
      */
-    authenticate(userID: string): Promise<string> {
+    authenticate(userID: number, userName: string): Promise<string> {
         return this.axios
-            .get(`/users/validation/${userID}`)
+            .post(`/users/validation/${userID}`, { userName })
             .then(response => response.headers["x-access-token"]);
     }
 }

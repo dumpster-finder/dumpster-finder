@@ -13,7 +13,7 @@ import { RouteDependencies } from "../types";
 import { generateUserID } from "../utils/IdGeneration";
 import { generateSalt, hashPassword } from "../utils/hashing";
 import { encodeToken } from "../utils/token";
-import {standardLimiter, updateLimiter} from "../middleware/rateLimiter";
+import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
 import { logger } from "../server";
 
 export default function({ Models }: RouteDependencies) {
@@ -41,7 +41,7 @@ export default function({ Models }: RouteDependencies) {
             const passwordHash = await hashPassword(salt, userName);
             console.log(userName, passwordHash);
             const userID = await userDAO.postOne(salt, passwordHash);
-            res.status(200).json({userName, userID});
+            res.status(200).json({ userName, userID });
         } catch (e) {
             logger.error(e, "that user already exists, send new request");
             next(e);
@@ -50,8 +50,8 @@ export default function({ Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /users/validation/{userID}-{userName}:
-     *   get:
+     * /users/validation/{userID}:
+     *   post:
      *     summary: Authenticates the user
      *     tags: [Users]
      *     parameters:
@@ -61,29 +61,35 @@ export default function({ Models }: RouteDependencies) {
      *           type: number
      *         required: true
      *         description: the User Id
-     *       - in: path
-     *         name: userName
-     *         schema:
-     *           type: string
-     *         required: true
-     *         description: the User Name
+     *     requestBody:
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - userName
+     *             properties:
+     *               userName:
+     *                 type: string
      *     responses:
      *       "200":
      *         description: User valid
      *       "404":
-     *         description: user Not found
+     *         description: User not found
      */
-    router.get(
-        "/validation/:userID(\\d+)-:userName",
+    router.post(
+        "/validation/:userID(\\d+)",
         standardLimiter,
         validate(validateUser),
-        async (req: Request & { params: { userID: number, userName: string } },
-               res,
-               next,) => {
+        async (
+            req: Request & { params: { userID: number; userName: string } },
+            res,
+            next,
+        ) => {
             try {
                 const userExists: number = await userDAO.getOne(
-                    req.params.userName,
-                    req.params.userID
+                    req.body.userName,
+                    req.params.userID,
                 );
                 if (userExists) {
                     res.header("x-access-token", encodeToken(userExists));

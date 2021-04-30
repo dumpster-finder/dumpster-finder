@@ -5,6 +5,7 @@ import {
     setToken,
     refreshToken,
     userNameSelector,
+    userIDSelector,
 } from "./slices/userSlice";
 import Message from "../utils/Message";
 
@@ -43,10 +44,11 @@ export const handleTokenError = (error: AxiosError) => {
     if (error.response && error.response.data.statusCode === 401) {
         // If authorization failed, get a new token
         console.log("401 occurred, refreshing token …");
+        const userID = userIDSelector(store.getState());
         const userName = userNameSelector(store.getState());
         // Don't wait for the dispatch to finish
         store
-            .dispatch(refreshToken(userName))
+            .dispatch(refreshToken({ userID, userName }))
             .catch(e => Message.error(e, "Failed to refresh token"));
     }
 
