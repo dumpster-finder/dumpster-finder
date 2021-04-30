@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import MultiSliderComp from "./MultiSliderComp";
 import { useAppDispatch } from "../redux/store";
-import _ from "lodash";
+import { FilterButtonIcon } from "./basicComponents/Icons";
 
 const transformSelectionToIndexPathArray = (
     defaults: string[],
@@ -155,31 +155,6 @@ export default function FilterModal({
         },
     ];
 
-    // const renderDropdown = (
-    //     name: string,
-    //     list: string[],
-    //     setSelected: (xs: IndexPath[]) => void,
-    //     selectAll: () => void,
-    // ) => (
-    //     <View style={styles.dropdown}>
-    //         <SingleMultiSelect
-    //             style={styles.dropdownField}
-    //             sValue={selectedCategories}
-    //             label={t(name)}
-    //             values={list.map(c => t(`${name}:${c}`))}
-    //             onSelect={setSelected}
-    //         />
-    //         <Button
-    //             status="basic"
-    //             size="small"
-    //             style={styles.dropdownButton}
-    //             onPress={selectAll}
-    //         >
-    //             {t("all")}
-    //         </Button>
-    //     </View>
-    // );
-
     return (
         <Modal
             style={{ width: "98%" }}
@@ -286,7 +261,11 @@ export default function FilterModal({
                 </View>
 
                 <View
-                    style={{ flexDirection: "row", justifyContent: "center" }}
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        marginVertical: 5,
+                    }}
                 >
                     <Button
                         style={{ marginHorizontal: 5, flex: 1 }}
@@ -302,13 +281,14 @@ export default function FilterModal({
                     >
                         {t("resetFilter")}
                     </Button>
-                    <Button
-                        style={{ marginHorizontal: 5, flex: 1 }}
-                        onPress={handleFilter}
-                    >
-                        {t("filter")}
-                    </Button>
                 </View>
+                <Button
+                    style={{ marginHorizontal: 5, marginTop: 5, flex: 1 }}
+                    accessoryLeft={FilterButtonIcon}
+                    onPress={handleFilter}
+                >
+                    {t("applyFilter")}
+                </Button>
             </Card>
         </Modal>
     );
