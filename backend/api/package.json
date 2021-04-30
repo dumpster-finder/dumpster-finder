@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "nodemon index.ts | pino-pretty -c -t",
+    "startHelene": "ts-node index.ts | pino-pretty -c -t",
     "test": "jest --detectOpenHandles",
     "test:ci": "jest --collect-coverage --detectOpenHandles",
     "docs": "typedoc --out docs *.ts */*.ts"
