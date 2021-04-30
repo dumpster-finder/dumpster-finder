@@ -13,7 +13,10 @@
    version="1.1"
    id="svg1462"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
-   sodipodi:docname="placeholder-wide.svg">
+   sodipodi:docname="placeholder-wide.svg"
+   inkscape:export-filename="/home/qualitanty/git/dumpster-diving/frontend/assets/images/placeholder-wide.png"
+   inkscape:export-xdpi="25.4"
+   inkscape:export-ydpi="25.4">
   <defs
      id="defs1456" />
   <sodipodi:namedview
@@ -24,8 +27,8 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="722.16408"
-     inkscape:cy="646.54986"
+     inkscape:cx="907.36468"
+     inkscape:cy="731.76225"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -50,5 +53,19 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1" />
+     id="layer1">
+    <rect
+       style="fill:none;stroke:#808080;stroke-width:10.066"
+       id="rect2045"
+       width="445.77979"
+       height="318.76761"
+       x="32.607243"
+       y="33.896343"
+       ry="12.694682" />
+    <path
+       style="fill:none;stroke:#808080;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 32.711038,209.00673 61.675918,-72.87002 76.923804,83.564 48.17337,-38.20477 65.82471,65.85428 53.40289,-36.96897 63.32754,67.26861 73.68215,-23.49638"
+       id="path2047"
+       sodipodi:nodetypes="cccccccc" />
+  </g>
 </svg>
