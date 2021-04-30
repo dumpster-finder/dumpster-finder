@@ -8,7 +8,7 @@ import {
     Modal,
     Text,
 } from "@ui-kitten/components";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, useWindowDimensions, View } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
@@ -33,6 +33,7 @@ export default function AddContentModal({
         "contentsEditor",
     );
     const [datePicker, setDatePicker] = useState<Datepicker | null>(null);
+    const dimensions = useWindowDimensions();
 
     return (
         <Modal
@@ -69,7 +70,9 @@ export default function AddContentModal({
                     values,
                     errors,
                 }) => (
-                    <Card style={{ alignItems: "center" }}>
+                    <Card
+                        style={[styles.card, { width: dimensions.width * 0.9 }]}
+                    >
                         <Text category={"h5"} style={styles.title}>
                             {t("addTitle")}
                         </Text>
@@ -91,7 +94,10 @@ export default function AddContentModal({
 
                         <View style={styles.row}>
                             <Input
-                                style={styles.smallInput}
+                                style={[
+                                    styles.smallInput,
+                                    styles.smallInputLeft,
+                                ]}
                                 label={t("amount.label")}
                                 keyboardType={"number-pad"}
                                 placeholder={t("amount.placeholder")}
@@ -102,7 +108,6 @@ export default function AddContentModal({
                                     errors.amount && t("amount.errorInvalid")
                                 }
                             />
-                            <View style={{ width: "9%" }} />
                             <Input
                                 style={styles.smallInput}
                                 label={t("unit.label")}
@@ -148,23 +153,23 @@ export default function AddContentModal({
                         />
                         <View style={[styles.row, styles.marginAbove]}>
                             <Button
+                                style={{ marginHorizontal: 5, flex: 1 }}
+                                status={"basic"}
+                                onPress={onCancel}
+                            >
+                                {t("cancel")}
+                            </Button>
+                            <Button
                                 disabled={pending}
                                 accessoryLeft={
                                     pending ? PendingButtonIcon : SaveButtonIcon
                                 }
-                                style={{ marginHorizontal: 5 }}
+                                style={{ marginHorizontal: 5, flex: 1 }}
                                 onPress={() => {
                                     handleSubmit();
                                 }}
                             >
                                 {t("add")}
-                            </Button>
-                            <Button
-                                style={{ marginHorizontal: 5 }}
-                                status={"basic"}
-                                onPress={onCancel}
-                            >
-                                {t("cancel")}
                             </Button>
                         </View>
                     </Card>
@@ -203,6 +208,9 @@ export default function AddContentModal({
 }
 
 const styles = StyleSheet.create({
+    card: {
+        alignItems: "center",
+    },
     title: {
         marginBottom: 4,
     },
@@ -216,14 +224,15 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         paddingVertical: 2,
+        width: "100%",
     },
     input: {
         paddingTop: 5,
-        maxWidth: "80%",
-        minWidth: "80%",
+    },
+    smallInputLeft: {
+        marginRight: 10,
     },
     smallInput: {
-        maxWidth: "40%",
-        minWidth: "40%",
+        flex: 1,
     },
 });
