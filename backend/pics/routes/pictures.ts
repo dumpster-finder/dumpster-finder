@@ -185,6 +185,7 @@ export default function({ logger }: RouteDependencies) {
                         "Invalid or mismatched file type",
                     );
                 }
+                logger.info(req.body.userName);
                 try {
                     await axiosApi.post(
                         `/users/validation/${req.body.userID}`,
@@ -193,8 +194,8 @@ export default function({ logger }: RouteDependencies) {
                         },
                     );
                 } catch (e) {
-                    logger.error(e, "Failed to validate userID");
-                    throw new ServerError("Failed to validate userID");
+                    logger.error(e, "Could not validate user");
+                    throw new InvalidDataError("Could not validate user");
                 }
 
                 // Rename file so it has an extension

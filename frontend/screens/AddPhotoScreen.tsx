@@ -21,6 +21,7 @@ import {
 } from "../redux/slices/photoSlice";
 import { useAppDispatch } from "../redux/store";
 import Message from "../utils/Message";
+import { userIDSelector, userNameSelector } from "../redux/slices/userSlice";
 
 export default function AddPhotoScreen({
     navigation,
@@ -33,6 +34,8 @@ export default function AddPhotoScreen({
     const dumpster = useSelector(currentDumpsterSelector);
     const dispatch = useAppDispatch();
     const uploadURI = useSelector(uploadURISelector);
+    const userID = useSelector(userIDSelector);
+    const userName = useSelector(userNameSelector);
 
     useEffect(() => {
         // This part is just example code from Expo documentation
@@ -132,6 +135,8 @@ export default function AddPhotoScreen({
             const photo = await PhotoService.addPhoto(
                 dumpster.dumpsterID,
                 uploadURI,
+                userID,
+                userName,
             );
             dispatch(addPhoto({ dumpsterID: dumpster.dumpsterID, photo }));
             dispatch(setUploadURI(""));

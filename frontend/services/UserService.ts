@@ -16,7 +16,7 @@ export default class UserService {
      * Fetches a user ID from the API server
      */
     getUserID(): Promise<UserResponse> {
-        return this.axios.get("/users").then(response => response.data);
+        return this.axios.post("/users").then(response => response.data);
     }
 
     /**
