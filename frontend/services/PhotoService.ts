@@ -44,10 +44,17 @@ export default class PhotoService {
 
     /**
      * Uploads a photo and registers it as a photo of the given dumpster
-     * @param dumpsterID
-     * @param photoURI
+     * @param dumpsterID The dumpster's ID
+     * @param photoURI   URI to the photo (gotten from some image roll API)
+     * @param userID     The user's ID
+     * @param userName   The user's user name (unique key thing)
      */
-    async addPhoto(dumpsterID: number, photoURI: string): Promise<RawPhoto> {
+    async addPhoto(
+        dumpsterID: number,
+        photoURI: string,
+        userID: number,
+        userName: string,
+    ): Promise<RawPhoto> {
         console.log("Uploading photo of dumpster", dumpsterID);
         const extension = photoURI.split(".").pop();
         if (!(extension && extension in typeMap))
@@ -55,7 +62,8 @@ export default class PhotoService {
 
         // First, upload photo
         const formData = new FormData();
-        formData.append("userID", "temp");
+        formData.append("userID", userID.toString());
+        formData.append("userName", userName);
         formData.append("picture", {
             // @ts-ignore
             uri: photoURI,

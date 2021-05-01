@@ -3,7 +3,6 @@ import { Sequelize, DataTypes, Optional, Model, ModelStatic } from "sequelize";
 export interface UserAttributes {
     userID : number;
     passwordHash : string;
-    userName : string;
     salt : string;
 }
 
@@ -15,7 +14,6 @@ class Users
     implements UserAttributes {
     userID!: number;
     passwordHash!: string;
-    userName!: string;
     salt!: string;
 }
 
@@ -30,10 +28,6 @@ export function init(sequelize: Sequelize) {
                 autoIncrement: true,
             },
             passwordHash : {
-                type: DataTypes.STRING,
-                unique: true,
-            },
-            userName : {
                 type: DataTypes.STRING,
                 unique: true,
             },

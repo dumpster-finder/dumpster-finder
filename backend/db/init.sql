@@ -49,7 +49,6 @@ CREATE TABLE StoreTypes (
 CREATE TABLE Users (
     userID INT PRIMARY KEY AUTO_INCREMENT,
     passwordHash VARCHAR(256) UNIQUE NOT NULL,
-    userName VARCHAR(256) UNIQUE NOT NULL,
     salt VARCHAR(256) NOT NULL
     );
 -- Dumpster Positions: Stores dumpster id and position

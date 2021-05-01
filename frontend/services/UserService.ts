@@ -16,15 +16,15 @@ export default class UserService {
      * Fetches a user ID from the API server
      */
     getUserID(): Promise<UserResponse> {
-        return this.axios.get("/users").then(response => response.data);
+        return this.axios.post("/users").then(response => response.data);
     }
 
     /**
      * Authenticates a user with an ID, returns a token
      */
-    authenticate(userID: string): Promise<string> {
+    authenticate(userID: number, userName: string): Promise<string> {
         return this.axios
-            .get(`/users/validation/${userID}`)
+            .post(`/users/validation/${userID}`, { userName })
             .then(response => response.headers["x-access-token"]);
     }
 }

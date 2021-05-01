@@ -44,6 +44,7 @@ import {
     getUserID,
     refreshToken,
     tokenSelector,
+    userIDSelector,
     userNameSelector,
 } from "./redux/slices/userSlice";
 import Message from "./utils/Message";
@@ -61,6 +62,7 @@ const InnerApp = () => {
     const dumpsterRatings = useSelector(dumpsterRatingsSelector);
     const visitDate = useSelector(visitsSelector);
     const registeredVisits = useSelector(registeredVisitsSelector);
+    const userID = useSelector(userIDSelector);
     const userName = useSelector(userNameSelector);
     const token = useSelector(tokenSelector);
 
@@ -83,17 +85,21 @@ const InnerApp = () => {
 
     useEffect(() => {
         // Refresh token when the app loads!
-        if (userName) store.dispatch(refreshToken(userName));
+        if (userName) store.dispatch(refreshToken({ userID, userName }));
     }, []);
 
     useEffect(() => {
         if (!userName) {
             // should be the case only when you *first* open the app
-            store.dispatch(getUserID()).catch(e => console.error(e));
+            store
+                .dispatch(getUserID())
+                .catch(e =>
+                    Message.error(e, "Could not generate user ID, try again"),
+                );
             // User will have to press a retry button if it did not work
             // (for the time being)
         } else if (!token) {
-            store.dispatch(refreshToken(userName));
+            store.dispatch(refreshToken({ userID, userName }));
             console.log("Refreshing token for the first time …");
         }
     }, [userName, token]);
