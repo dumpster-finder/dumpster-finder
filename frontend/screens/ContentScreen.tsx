@@ -66,6 +66,7 @@ export default function ContentScreen({
                     <Button
                         style={{ marginHorizontal: 5 }}
                         accessoryLeft={PhotoButtonIcon}
+                        status={"basic"}
                         onPress={() =>
                             navigation.navigate("PhotoGalleryScreen")
                         }
