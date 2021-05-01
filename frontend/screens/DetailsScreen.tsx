@@ -43,12 +43,11 @@ export default function DetailsScreen({
     const photos = usePhotos();
     const [visits, setVisits] = useState(dumpster ? dumpster.visits : 0);
     const currentRating = useSelector(dumpsterRatingsSelector)[dumpsterID] || 0;
-    const lastVisit =
-        useSelector(registeredVisitsSelector)[dumpsterID] || new Date();
+    const lastVisit = useSelector(registeredVisitsSelector)[dumpsterID];
     const position = useSelector(positionSelector);
 
-    const [disabled, setDisabled] = useState(
-        subHours(new Date(), 4) <= lastVisit || false,
+    const [visitDisabled, setVisitDisabled] = useState(
+        lastVisit ? subHours(new Date(), 4) <= lastVisit || false : false,
     );
 
     if (!dumpster) {
@@ -124,7 +123,7 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
-                    {disabled && (
+                    {visitDisabled && (
                         <Text
                             style={{ marginVertical: 5, alignSelf: "center" }}
                         >
@@ -132,7 +131,7 @@ export default function DetailsScreen({
                         </Text>
                     )}
                     <Button
-                        disabled={disabled}
+                        disabled={visitDisabled}
                         style={{
                             alignSelf: "center",
                         }}
@@ -167,7 +166,7 @@ export default function DetailsScreen({
             try {
                 await VisitService.addOne(dumpsterID);
                 await getDumpster();
-                setDisabled(true);
+                setVisitDisabled(true);
             } catch (e) {
                 Message.error(e, "Could not register visit");
             }
