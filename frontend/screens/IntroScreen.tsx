@@ -54,8 +54,6 @@ export default function IntroScreen({
                                 {t("settings:language.title")}
                             </Text>
                         </View>
-
-                        {/* TODO fix: adding more languages results in disappearances */}
                         <LanguagePicker />
                     </View>
                 </Layout>
@@ -142,7 +140,7 @@ const styles = StyleSheet.create({
         flexGrow: 10,
     },
     languageSetting: {
-        flex: 2,
+        flex: 4,
         alignItems: "center",
         marginHorizontal: 25,
         marginBottom: 25,
