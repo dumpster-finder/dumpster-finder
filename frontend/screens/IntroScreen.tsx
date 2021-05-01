@@ -63,6 +63,9 @@ export default function IntroScreen({
                     </View>
                 </Layout>
                 <Layout style={styles.userIDDisplay}>
+                    <Text category="h4" style={styles.title}>
+                        {t("userID")}
+                    </Text>
                     <Text category="h5">
                         {userIDStatus === "succeeded"
                             ? userID
