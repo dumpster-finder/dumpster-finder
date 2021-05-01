@@ -178,7 +178,8 @@
         "unit": "Unit",
         "quality": "Quality",
         "expiryDate": "Expiration date",
-        "foundDate": "Found date"
+        "foundDate": "Found date",
+        "addItem": "Add item"
     },
 
     "contentsEditor": {
@@ -319,6 +320,7 @@
         "introBlurb": "Welcome to Dumpster Finder, an app for dumpster divers. It will help you find information about dumpsters in your area, and let you inform others of dumpsters you know.",
         "generatingUserID": "Generating user ID …",
         "userIDFailed": "Failed to generate user ID",
+        "userID": "User ID",
         "locationBlurb": "Your location is only stored locally on your device. It will be sent to our server when dumpster data is fetched. It is never shared with any third-party application. However, we had to make do with a map solution that uses Google Maps and may ask for points of interest around the locations showed on the map. We hope to avoid this."
     },
 
@@ -341,7 +343,8 @@
         "take": "Take Photo",
         "photo": "Photo",
         "delete" : "Delete photo",
-        "add": "Add photo"
+        "add": "Add photo",
+        "see": "See photos"
     },
 
     "report": {

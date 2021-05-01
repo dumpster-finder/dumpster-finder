@@ -173,7 +173,8 @@
         "unit": "Enhet",
         "quality": "Kvalitet",
         "expiryDate": "Utløpsdato",
-        "foundDate": "Funnet"
+        "foundDate": "Funnet",
+        "addItem": "Legg til vare"
     },
 
     "contentsEditor": {
@@ -309,6 +310,7 @@
         "generatingUserID": "Genererer bruker-ID …",
         "introBlurb": "Velkommen til Dumpster Finder, en app for søppeldykkere. Den er lagd for å dele informasjon om søppelkonteinere det er mulig å lete etter ting i. Du kan finne dumpstere i nærheten av deg, og legge til informasjon om andre dumpstere og innholdet i dem.",
         "userIDFailed": "Kunne ikke generere bruker-ID",
+        "userID": "Bruker-ID",
         "locationBlurb": "Plasseringen din lagres kun lokalt på enheten. Den sendes til serveren vår når dumpstere hentes. Vi deler den ikke med tredjeparter – men dessverre måtte vi bruke en kartløsning som spør Google Maps om informasjon og kart over steder. Vi satser på å unngå dette senere."
     },
 
@@ -331,7 +333,8 @@
         "take": "Ta bilde",
         "photo": "Bilde",
         "delete" : "Slett bilde",
-        "add": "Legg til bide"
+        "add": "Legg til bide",
+        "see": "Se bilder"
     },
     "report": {
         "report": "Rapporter denne søppelkassen",
