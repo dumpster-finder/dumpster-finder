@@ -17,6 +17,7 @@ import {
 } from "../redux/slices/userSlice";
 import { useTranslation } from "react-i18next";
 import LanguagePicker from "../components/settings/LanguagePicker";
+import { GlobeIcon } from "../components/basicComponents/Icons";
 
 export default function IntroScreen({
     navigation,
@@ -47,10 +48,12 @@ export default function IntroScreen({
                     </View>
                     <View style={styles.divider} />
                     <View style={styles.languageSetting}>
-                        <Text category="h6">
-                            {t("settings:language.title")}
-                        </Text>
-                        {/* TODO fix: adding more languages results in disappearances */}
+                        <View style={{ flexDirection: "row" }}>
+                            <GlobeIcon size="medium" />
+                            <Text category="h6" style={{ marginLeft: 2 }}>
+                                {t("settings:language.title")}
+                            </Text>
+                        </View>
                         <LanguagePicker />
                     </View>
                 </Layout>
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
         flexGrow: 10,
     },
     languageSetting: {
-        flex: 1,
+        flex: 4,
         alignItems: "center",
         marginHorizontal: 25,
         marginBottom: 25,

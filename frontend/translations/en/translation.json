@@ -72,10 +72,7 @@
         "language": {
             "title": "Language",
             "en": "English",
-            "no": "Norwegian",
-            "de": "German",
-            "fr": "French",
-            "es": "Spanish"
+            "no": "Norsk"
         },
         "visitInterval": {
             "title": "Visit interval",

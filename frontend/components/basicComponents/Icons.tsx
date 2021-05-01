@@ -197,6 +197,10 @@ export const MenuIcon = (props: IconProps) => (
     <BaseIcon {...props} name="menu" />
 );
 
+export const GlobeIcon = (props: IconProps) => (
+    <BaseIcon {...props} name="globe" />
+);
+
 const styles: Record<string, any> = StyleSheet.create({
     small: {
         width: 16,

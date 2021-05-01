@@ -5,11 +5,6 @@ const keylen = 100;
 const digest = 'sha512';
 const crypto = require('crypto');
 
-export function hashUser(userId : string){
-    let userName = getUserName(userId);
-    return crypto.createHash("sha512").update(userName).digest("hex");
-}
-
 function getUserName(userID : string){
     let words = userID.split(" ");
     words.length = userNameStop;

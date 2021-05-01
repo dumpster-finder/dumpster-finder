@@ -27,7 +27,7 @@ import {
 } from "../redux/slices/configSlice";
 import { useAppDispatch } from "../redux/store";
 import { useEffect, useState } from "react";
-import { ArrowRightIcon } from "../components/basicComponents/Icons";
+import { ArrowRightIcon, GlobeIcon } from "../components/basicComponents/Icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DropdownCard from "../components/cards/DropdownCard";
 import ButtonGroupDisplay from "../components/basicComponents/ButtonGroupDisplay";
@@ -116,9 +116,7 @@ export default function SettingsScreen({
                         </Text>
                         <Button
                             style={{ minWidth: "53%", marginTop: 5 }}
-                            onPress={() =>
-                                dispatch(setNickname(nicknameFieldText))
-                            }
+                            onPress={setNick}
                         >
                             {t("nickname.save")}
                         </Button>
@@ -202,6 +200,11 @@ export default function SettingsScreen({
     function setInterval(i: number) {
         setVisitInterval(i);
         dispatch(setVisits(i));
+    }
+
+    function setNick() {
+        dispatch(setNickname(nicknameFieldText));
+        setShowNick(false);
     }
 }
 

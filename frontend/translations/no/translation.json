@@ -67,11 +67,8 @@
         },
         "language": {
             "title": "Språk",
-            "en": "Engelsk",
-            "no": "Norsk",
-            "de": "Tysk",
-            "fr": "Fransk",
-            "es": "Spansk"
+            "en": "English",
+            "no": "Norsk"
         },
         "visitInterval": {
             "title": "Besøksintervall",
