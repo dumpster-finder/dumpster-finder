@@ -1,5 +1,10 @@
 import * as React from "react";
-import { IndexPath, Select, SelectItem } from "@ui-kitten/components";
+import {
+    IndexPath,
+    Select,
+    SelectItem,
+    SelectProps,
+} from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
 
 export default function singleMultiSelect({
@@ -8,13 +13,14 @@ export default function singleMultiSelect({
     values,
     onSelect,
     placeholder,
+    ...restProps
 }: {
     sValue: Array<IndexPath>;
     label: string;
     values: string[];
     onSelect: (newValue: Array<IndexPath>) => void;
     placeholder?: string;
-}) {
+} & Omit<SelectProps, "onSelect">) {
     const { t }: { t: (s: string) => string } = useTranslation();
     const val = sValue.map(value => values[value.row]);
     return (
@@ -25,6 +31,7 @@ export default function singleMultiSelect({
             onSelect={index => index instanceof Array && onSelect(index)}
             placeholder={placeholder || t("dropdownPlaceholder")!}
             value={val.join(", ")}
+            {...restProps}
         >
             {values.map((value, i) => (
                 <SelectItem title={value} key={i} />

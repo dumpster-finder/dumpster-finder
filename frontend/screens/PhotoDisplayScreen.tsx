@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Dimensions, Image, StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import { Layout, ViewPager, Text } from "@ui-kitten/components";
 import { useState } from "react";
 import usePhotos from "../hooks/usePhotos";
@@ -11,7 +11,6 @@ export default function PhotoDisplayScreen({
 }: {
     route: RouteProp<any, any>;
 }) {
-    const windowWidth = Dimensions.get("window").width;
     const photos = usePhotos();
     const [photoIndex, setPhotoIndex] = useState(
         route.params ? route.params.index : 0,
@@ -26,10 +25,8 @@ export default function PhotoDisplayScreen({
                     <Layout style={styles.tab} key={photo.url}>
                         <Image
                             style={{
-                                display: "flex",
+                                flex: 1,
                                 alignItems: "stretch",
-                                width: windowWidth,
-                                height: windowWidth,
                             }}
                             resizeMode="contain"
                             source={{
@@ -52,10 +49,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     tab: {
-        paddingTop: "10%",
-        width: "100%",
+        paddingTop: 20,
         height: "100%",
-        paddingVertical: "10%",
+        paddingBottom: 25,
     },
     date: {
         alignSelf: "center",

@@ -213,4 +213,29 @@ describe("applyFilter", () => {
             })(dumpsters),
         ).toEqual(dumpsters);
     });
+
+    it("should filter by search query, ignoring case", () => {
+        expect(
+            applyFilter({
+                query: "lock",
+            })(dumpsters),
+        ).toEqual(dumpsters);
+        expect(
+            // uppercase
+            applyFilter({
+                query: "Unlocked",
+            })(dumpsters).map(toName),
+        ).toEqual(["Unlocked dumpster 1", "Unlocked dumpster 2"]);
+        expect(
+            // mixed case
+            applyFilter({
+                query: "unloCKed",
+            })(dumpsters).map(toName),
+        ).toEqual(["Unlocked dumpster 1", "Unlocked dumpster 2"]);
+        expect(
+            applyFilter({
+                query: "dumpster 2",
+            })(dumpsters).map(toName),
+        ).toEqual(["Unlocked dumpster 2", "Locked dumpster 2"]);
+    });
 });

@@ -14,6 +14,7 @@ export interface DumpsterFilter {
     dumpsterTypes?: string[];
     storeTypes?: string[];
     categories?: string[];
+    query?: string;
 }
 
 /**
@@ -73,6 +74,13 @@ const filterCategories = (categories: string[]) => (d: Dumpster) =>
     categories.every(c => d.categories.includes(c));
 
 /**
+ * Filter by text
+ * @param query Text to search for
+ */
+const filterName = (query: string) => (d: Dumpster) =>
+    d.name.toLowerCase().includes(query.trim().toLowerCase());
+
+/**
  * Apply a set of filters to a list of dumpsters
  * @param filter
  */
@@ -90,6 +98,7 @@ export const applyFilter = (filter: DumpsterFilter) => (
     if (filter.locked !== undefined) filters.push(filterLocked(filter.locked));
     if (filter.positiveStoreView)
         filters.push(filterStoreView(filter.positiveStoreView));
+    if (filter.query) filters.push(filterName(filter.query));
 
     // Then apply them
     return dumpsters.filter(d => filters.every(f => f(d)));

@@ -103,6 +103,10 @@ export const FlagButtonIcon = (props: IconProps) => (
     <Icon {...props} name="flag" />
 );
 
+export const FilterButtonIcon = (props: IconProps) => (
+    <Icon {...props} name="funnel" />
+);
+
 /* These should not */
 
 export const RefreshIcon = (props: IconProps) => (

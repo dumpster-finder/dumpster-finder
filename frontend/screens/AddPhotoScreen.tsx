@@ -22,6 +22,7 @@ import {
 import { useAppDispatch } from "../redux/store";
 import Message from "../utils/Message";
 import { userIDSelector, userNameSelector } from "../redux/slices/userSlice";
+const placeholder = require("../assets/images/placeholder.png");
 
 export default function AddPhotoScreen({
     navigation,
@@ -71,23 +72,25 @@ export default function AddPhotoScreen({
                     {t("take")}
                 </Button>
 
-                {uploadURI ? ( // TODO add placeholder / empty thing here
-                    <View style={{ alignItems: "center", marginVertical: 10 }}>
-                        <Text category={"h6"}>{t("photo")}:</Text>
-                        <Image
-                            style={{
-                                display: "flex",
-                                alignItems: "stretch",
-                                width: windowWidth / 2,
-                                height: windowWidth / 2,
-                            }}
-                            resizeMode="contain"
-                            source={{
-                                uri: uploadURI,
-                            }}
-                        />
-                    </View>
-                ) : null}
+                <View style={{ alignItems: "center", marginVertical: 10 }}>
+                    <Text category={"h6"}>{t("photo")}:</Text>
+                    <Image
+                        style={{
+                            display: "flex",
+                            alignItems: "stretch",
+                            width: windowWidth / 2,
+                            height: windowWidth / 2,
+                        }}
+                        resizeMode="contain"
+                        source={
+                            uploadURI
+                                ? {
+                                      uri: uploadURI,
+                                  }
+                                : placeholder
+                        }
+                    />
+                </View>
 
                 <View
                     style={{
