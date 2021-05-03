@@ -5,7 +5,7 @@ import { StyleSheet, View } from "react-native";
 
 type IconProps = BaseIconProps & {
     faded?: boolean;
-    color?: "red" | "green" | "yellow" | "faded";
+    color?: "red" | "green" | "yellow" | "faded" | "white";
     size?: "small" | "medium" | "large";
 };
 
@@ -44,6 +44,9 @@ export const BaseIcon = withStyles(UnthemedIcon, theme => {
         },
         yellow: {
             color: theme["color-warning-default"],
+        },
+        white: {
+            color: theme["color-basic-300"],
         },
     };
 });

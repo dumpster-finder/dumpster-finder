@@ -20,6 +20,7 @@ import MapPositionMarker from "../components/map/MapPositionMarker";
 import CustomMapView from "../components/map/CustomMapView";
 import FilterModal from "../components/FilterModal";
 import useFilter from "../hooks/useFilter";
+import FloatButton from "../components/basicComponents/FloatButton";
 
 export default function MapScreen({
     navigation,
@@ -73,6 +74,9 @@ export default function MapScreen({
                     />
                 ))}
             </CustomMapView>
+            <FloatButton
+                onPress={() => navigation.navigate("AddPositionScreen")}
+            />
         </Layout>
     );
 }

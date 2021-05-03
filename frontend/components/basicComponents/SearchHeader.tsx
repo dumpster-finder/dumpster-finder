@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
-import { PlusIcon, FilterIcon, SearchInputIcon } from "./Icons";
+import { FilterIcon, SearchInputIcon } from "./Icons";
 import { Autocomplete, Button } from "@ui-kitten/components";
 import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/store";
@@ -13,7 +13,6 @@ import { useTranslation } from "react-i18next";
 import _ from "lodash";
 
 export default function SearchHeader({
-    onPressPlus,
     onPressFilter,
 }: {
     onPressPlus: () => void;
@@ -59,16 +58,10 @@ export default function SearchHeader({
                 paddingBottom: 3,
             }}
         >
-            <Button
-                style={{ width: "15%" }}
-                appearance="ghost"
-                size={"medium"}
-                accessoryLeft={PlusIcon}
-                onPress={onPressPlus}
-            />
+            <View style={{ width: "3%" }} />
             <View
                 style={{
-                    width: "70%",
+                    width: "82%",
                 }}
             >
                 <Autocomplete
