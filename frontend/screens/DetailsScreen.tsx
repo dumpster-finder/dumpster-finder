@@ -155,6 +155,7 @@ export default function DetailsScreen({
                 await RatingService.rate(dumpsterID, rating);
             }
             dispatch(setDumpsterRating({ dumpsterID, rating }));
+            await getDumpster();
         } catch (e) {
             Message.error(e, "Could not rate dumpster");
         }
