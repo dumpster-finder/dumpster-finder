@@ -66,10 +66,10 @@ export default function IntroScreen({
                     </View>
                 </Layout>
                 <Layout style={styles.userIDDisplay}>
-                    <Text category="h4" style={styles.title}>
+                    <Text category="h3" style={styles.userIDTitle}>
                         {t("userID")}
                     </Text>
-                    <Text category="h5">
+                    <Text category="h5" style={styles.userID}>
                         {userIDStatus === "succeeded"
                             ? userID
                             : userIDStatus === "failed"
@@ -126,6 +126,14 @@ const styles = StyleSheet.create({
     title: {
         alignSelf: "center",
         paddingTop: 5,
+    },
+    userIDTitle: {
+        alignSelf: "center",
+        paddingTop: 5,
+        paddingBottom: 20,
+    },
+    userID: {
+        textAlign: "center",
     },
     tab: {
         height: "90%",
