@@ -1,6 +1,6 @@
 import * as React from "react";
 import { PlusIcon } from "./Icons";
-import { Pressable, TouchableOpacity, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { useTheme } from "@ui-kitten/components";
 
 export default function FloatButton({ onPress }: { onPress: () => void }) {
@@ -14,7 +14,7 @@ export default function FloatButton({ onPress }: { onPress: () => void }) {
                 bottom: 14,
                 right: 14,
                 padding: 5,
-                backgroundColor: theme["color-primary-default"],
+                backgroundColor: theme["color-warning-default"],
                 elevation: 10,
                 borderRadius: 25,
                 width: 48,
