@@ -25,6 +25,7 @@ import {
 import { useEffect } from "react";
 import { PhotoService } from "../services";
 import useFilter from "../hooks/useFilter";
+import FloatButton from "../components/basicComponents/FloatButton";
 
 export default function ListScreen({
     navigation,
@@ -92,6 +93,9 @@ export default function ListScreen({
                         />
                     ))}
             </ScrollView>
+            <FloatButton
+                onPress={() => navigation.navigate("AddPositionScreen")}
+            />
         </Layout>
     );
 }

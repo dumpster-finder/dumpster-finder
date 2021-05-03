@@ -50,13 +50,7 @@ export default function SearchHeader({
                 paddingBottom: 3,
             }}
         >
-            <Button
-                style={{ width: "15%" }}
-                appearance="ghost"
-                size={"medium"}
-                accessoryLeft={PlusIcon}
-                onPress={onPressPlus}
-            />
+            <View style={{ width: "15%" }} />
             <View
                 style={{
                     width: "70%",
