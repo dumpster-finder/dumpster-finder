@@ -20,10 +20,11 @@ import {
 } from "../redux/slices/configSlice";
 import SingleMultiSelect from "../components/selects/SingleMultiSelect";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MultiSliderComp from "./MultiSliderComp";
 import { useAppDispatch } from "../redux/store";
 import { FilterButtonIcon } from "./basicComponents/Icons";
+import { DumpsterFilter } from "../utils/filter";
 
 const transformSelectionToIndexPathArray = (
     defaults: string[],
@@ -32,6 +33,18 @@ const transformSelectionToIndexPathArray = (
     selection // TODO avoid indexOf
         ? selection.map(c => new IndexPath(selection.indexOf(c)))
         : defaults.map((_, i) => new IndexPath(i));
+
+const transformLockedState = (filter: DumpsterFilter) =>
+    filter.locked === undefined ? 0 : filter.locked ? 1 : 2;
+
+const transformRatingState = (filter: DumpsterFilter) =>
+    filter.rating ? filter.rating.map(i => i - 1) : [0, 4];
+
+const transformCleanlinessState = (filter: DumpsterFilter) =>
+    filter.cleanliness ? filter.cleanliness.map(i => i - 1) : [0, 4];
+
+const transformStoreViewState = (filter: DumpsterFilter) =>
+    filter.positiveStoreView || [0, 2];
 
 export default function FilterModal({
     visible,
@@ -56,18 +69,37 @@ export default function FilterModal({
     const [selectedCategories, setSelectedCategories] = useState(
         transformSelectionToIndexPathArray(categories, filter.categories),
     );
-    const [locked, setLocked] = useState(
-        filter.locked === undefined ? 0 : filter.locked ? 1 : 2,
-    );
-    const [rating, setRating] = useState(
-        filter.rating ? filter.rating.map(i => i - 1) : [0, 4],
-    );
+    const [locked, setLocked] = useState(transformLockedState(filter));
+    const [rating, setRating] = useState(transformRatingState(filter));
     const [cleanliness, setCleanliness] = useState(
-        filter.cleanliness ? filter.cleanliness.map(i => i - 1) : [0, 4],
+        transformCleanlinessState(filter),
     );
-    const [storeView, setStoreView] = useState(
-        filter.positiveStoreView || [0, 2],
+    const [storeView, setStoreView] = useState<number[]>(
+        transformStoreViewState(filter),
     );
+
+    useEffect(() => {
+        // Set state based on changed filter
+        if (filter.storeTypes)
+            setSelectedStores(
+                transformSelectionToIndexPathArray(filter.storeTypes),
+            );
+        else selectAllStoreTypes();
+        if (filter.dumpsterTypes)
+            setSelectedDumpsters(
+                transformSelectionToIndexPathArray(filter.dumpsterTypes),
+            );
+        else selectAllDumpsterTypes();
+        if (filter.categories)
+            setSelectedCategories(
+                transformSelectionToIndexPathArray(filter.categories),
+            );
+        else selectAllCategories();
+        setLocked(transformLockedState(filter));
+        setRating(transformRatingState(filter));
+        setCleanliness(transformCleanlinessState(filter));
+        setStoreView(transformStoreViewState(filter));
+    }, [filter]);
 
     const ratingLabels = [
         {
@@ -314,6 +346,10 @@ export default function FilterModal({
         setRating([0, 4]);
         setCleanliness([0, 4]);
         setStoreView([0, 2]);
+        // Then dispatch a reset
+        dispatch(setDumpsterFilter({ query: filter.query }));
+        // And close the modal
+        setVisible(false);
     }
 
     function transformRating([min, max, ...rest]: number[]):

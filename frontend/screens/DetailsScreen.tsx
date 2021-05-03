@@ -29,6 +29,7 @@ import {
 } from "../redux/slices/configSlice";
 import Message from "../utils/Message";
 import { distance } from "../utils/distance";
+import { PendingButtonIcon } from "../components/basicComponents/Icons";
 
 export default function DetailsScreen({
     navigation,
@@ -49,6 +50,8 @@ export default function DetailsScreen({
     const [visitDisabled, setVisitDisabled] = useState(
         lastVisit ? subHours(new Date(), 4) <= lastVisit || false : false,
     );
+
+    const [visitPending, setVisitPending] = useState(false);
 
     if (!dumpster) {
         return (
@@ -83,7 +86,10 @@ export default function DetailsScreen({
                         />
                     </View>
                     <Button
-                        disabled={visitDisabled}
+                        disabled={visitPending || visitDisabled}
+                        accessoryLeft={
+                            visitPending ? PendingButtonIcon : undefined
+                        }
                         style={{
                             alignSelf: "center",
                         }}
@@ -104,8 +110,6 @@ export default function DetailsScreen({
                             {t("visit:disabled")}
                         </Text>
                     )}
-
-                    {/*TODO this might end badly on really small screens!*/}
 
                     <CategoryInfo dumpster={dumpster} />
                     <GeneralInfo dumpster={dumpster} />
@@ -160,6 +164,7 @@ export default function DetailsScreen({
                 await RatingService.rate(dumpsterID, rating);
             }
             dispatch(setDumpsterRating({ dumpsterID, rating }));
+            await getDumpster();
         } catch (e) {
             Message.error(e, "Could not rate dumpster");
         }
@@ -167,15 +172,16 @@ export default function DetailsScreen({
 
     async function visit() {
         setVisits(visits + 1);
-        if (dumpster) {
-            try {
-                await VisitService.addOne(dumpsterID);
-                await getDumpster();
-                setVisitDisabled(true);
-            } catch (e) {
-                Message.error(e, "Could not register visit");
-            }
+        setVisitPending(true);
+        try {
+            await VisitService.addOne(dumpsterID);
+            await getDumpster();
+            setVisitDisabled(true);
+        } catch (e) {
+            Message.error(e, "Could not register visit");
+            setVisits(visits);
         }
+        setVisitPending(false);
     }
 
     async function getDumpster() {

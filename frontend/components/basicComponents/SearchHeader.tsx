@@ -2,7 +2,7 @@ import * as React from "react";
 import { View } from "react-native";
 import { PlusIcon, FilterIcon, SearchInputIcon } from "./Icons";
 import { Autocomplete, Button } from "@ui-kitten/components";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
 import {
@@ -26,20 +26,29 @@ export default function SearchHeader({
 
     // Update the filter to include the current query
     const search = (query: string) => {
+        console.log(filter);
         dispatch(setDumpsterFilter({ ...filter, query }));
     };
 
     // Use debounce to prevent severe delay
-    const debouncedSearch = useCallback(
-        _.debounce(search, 500, { leading: false }),
-        [],
-    );
+    // TODO debounce uses an OLD filter,
+    //      this must be adapted for Redux!
+    // const debouncedSearch = useCallback(
+    //     _.debounce(search, 500, { leading: false }),
+    //     [],
+    // );
 
     // Immediately update state, debounce actual search
     const handleSearchInput = (text: string) => {
         setQuery(text);
-        debouncedSearch(text);
+        // debouncedSearch(text);
+        search(text);
     };
+
+    useEffect(() => {
+        if (filter.query) setQuery(filter.query);
+        else setQuery("");
+    }, [filter]);
 
     return (
         <View

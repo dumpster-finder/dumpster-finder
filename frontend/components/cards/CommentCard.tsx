@@ -53,6 +53,7 @@ export default function CommentCard({
                         size={"small"}
                         accessoryLeft={RateUpIcon}
                         onPress={up}
+                        disabled={mine}
                     />
                     <Button
                         style={styles.smallBtn}
@@ -61,6 +62,7 @@ export default function CommentCard({
                         status={votedUp === -1 ? "warning" : "basic"}
                         accessoryLeft={RateDownIcon}
                         onPress={down}
+                        disabled={mine}
                     />
                     <View style={{ marginHorizontal: 5 }}>
                         <Text>{rating}</Text>
