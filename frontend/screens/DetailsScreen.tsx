@@ -85,8 +85,31 @@ export default function DetailsScreen({
                             }
                         />
                     </View>
-
-                    {/*TODO this might end badly on really small screens!*/}
+                    <Button
+                        disabled={visitPending || visitDisabled}
+                        accessoryLeft={
+                            visitPending ? PendingButtonIcon : undefined
+                        }
+                        style={{
+                            alignSelf: "center",
+                        }}
+                        status={"warning"}
+                        size="small"
+                        onPress={visit}
+                    >
+                        {t("visit:visitbtn")}
+                    </Button>
+                    {visitDisabled && (
+                        <Text
+                            category={"c1"}
+                            style={{
+                                marginVertical: 5,
+                                alignSelf: "center",
+                            }}
+                        >
+                            {t("visit:disabled")}
+                        </Text>
+                    )}
 
                     <CategoryInfo dumpster={dumpster} />
                     <GeneralInfo dumpster={dumpster} />
@@ -126,26 +149,6 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
-                    {visitDisabled && (
-                        <Text
-                            style={{ marginVertical: 5, alignSelf: "center" }}
-                        >
-                            {t("visit:disabled")}
-                        </Text>
-                    )}
-                    <Button
-                        disabled={visitPending || visitDisabled}
-                        accessoryLeft={
-                            visitPending ? PendingButtonIcon : undefined
-                        }
-                        style={{
-                            alignSelf: "center",
-                        }}
-                        size="small"
-                        onPress={visit}
-                    >
-                        {t("visit:visitbtn")}
-                    </Button>
                 </ScrollView>
             </Layout>
         );
