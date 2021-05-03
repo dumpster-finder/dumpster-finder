@@ -82,6 +82,28 @@ export default function DetailsScreen({
                             }
                         />
                     </View>
+                    <Button
+                        disabled={visitDisabled}
+                        style={{
+                            alignSelf: "center",
+                        }}
+                        status={"warning"}
+                        size="small"
+                        onPress={visit}
+                    >
+                        {t("visit:visitbtn")}
+                    </Button>
+                    {visitDisabled && (
+                        <Text
+                            category={"c1"}
+                            style={{
+                                marginVertical: 5,
+                                alignSelf: "center",
+                            }}
+                        >
+                            {t("visit:disabled")}
+                        </Text>
+                    )}
 
                     {/*TODO this might end badly on really small screens!*/}
 
@@ -123,23 +145,6 @@ export default function DetailsScreen({
                             />
                         </View>
                     </View>
-                    {visitDisabled && (
-                        <Text
-                            style={{ marginVertical: 5, alignSelf: "center" }}
-                        >
-                            {t("visit:disabled")}
-                        </Text>
-                    )}
-                    <Button
-                        disabled={visitDisabled}
-                        style={{
-                            alignSelf: "center",
-                        }}
-                        size="small"
-                        onPress={visit}
-                    >
-                        {t("visit:visitbtn")}
-                    </Button>
                 </ScrollView>
             </Layout>
         );
