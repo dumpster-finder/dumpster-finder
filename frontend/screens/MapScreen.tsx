@@ -20,7 +20,6 @@ import MapPositionMarker from "../components/map/MapPositionMarker";
 import CustomMapView from "../components/map/CustomMapView";
 import FilterModal from "../components/FilterModal";
 import useFilter from "../hooks/useFilter";
-import { FloatingAction } from "react-native-floating-action";
 import FloatButton from "../components/basicComponents/FloatButton";
 
 export default function MapScreen({
