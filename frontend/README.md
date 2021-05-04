@@ -15,7 +15,15 @@ you need to specify the address to the server.
 Create a `.env` file with variables like those set in `.env.template` – it might look like this:
 
 ```sh
-API_URL=http://xxx.yy.zz:8080/
+API_URL=http://xxx.yy.zz:3000/api/
+PIC_URL=http://xxx.yy.zz:3001/pic/
+```
+
+Or like this, if you have a domain name and are running a proper instance with HTTPS:
+
+```sh
+API_URL=https://your.domain/api/
+PIC_URL=https://your.domain/pic/
 ```
 
 Then start the app in development mode:

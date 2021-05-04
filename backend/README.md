@@ -69,15 +69,55 @@ rsync --archive
       backend/ "dumpster@$SERVER_IP:dumpster"
 ```
 
-Copy your .env file and make a few changes, then make a dynamic link to it:
+Copy your API's .env template file and make a dynamic link to it:
 
 ```shell
-scp backend/api/.env "dumpster@$SERVER_IP:dumpster/api"
-ssh dumpster@$SERVER_IP sed -i "s/DB_HOST=localhost/DB_HOST=db/" \
-                               "s/API_HOST=localhost/API_HOST=<your server's IP>/" \
-                               dumpster/api/.env
+scp backend/api/.env.template "dumpster@$SERVER_IP:dumpster/api"
 ssh dumpster@$SERVER_IP ln -s dumpster/api/.env dumpster/.env
 ```
+
+Then tweak it to fit the following pattern:
+
+```shell
+HTTPS=true
+PROJECT_PATH=/home/dumpster/dumpster
+# API server:
+API_PORT=3000
+API_HOST="<your server's domain or IP>"
+NODE_ENV=production
+TOKEN_SECRET="<some random, long string>"
+# Photo server:
+PHOTO_URL="https://<your server's domain or IP>/pic/"
+# Database:
+DB_NAME=dumpster
+DB_USER=root
+DB_PASSWORD="<your database password>"
+DB_HOST=db
+DB_PORT=3306
+DB_DIALECT=mariadb
+# Certbot:
+EMAIL="<email of whoever wants to sign this>"
+DOMAIN_NAME="<your server's domain or IP>"
+```
+
+Copy over the photo server's .env template
+
+```shell
+scp backend/pics/.env.template "dumpster@$SERVER_IP:dumpster/pics"
+```
+
+and tweak it a little as well – it should look like this:
+
+```shell
+PIC_PORT=3000
+PIC_HOST=pics
+PIC_URL="https://<your server's domain or IP>/pic/"
+API_URL=http://api:3000/api/
+PIC_FOLDER=/var/uploads/
+PIC_MAX_SIZE=10000000
+```
+
+INSERT SOMETHING ABOUT THE HTTPS SETUP HERE
 
 Copy over the `systemd` unit, reload the daemon and start the service:
 
@@ -88,7 +128,14 @@ ssh dumpster@$SERVER_IP systemctl daemon-reload
 ssh dumpster@$SERVER_IP systemctl --user start dumpster
 ```
 
+Wait a few seconds, then create the database tables:
+
+```shell
+ssh dumpster@$SERVER_IP "cd dumpster && make tables"
+```
+
 After this, the `.gitlab-ci.yml` file should make GitLab CI perform updates automatically after changes to `develop`.
+The server should be up and running, accessible from port 443.
 
 
 ## SSH hardening
