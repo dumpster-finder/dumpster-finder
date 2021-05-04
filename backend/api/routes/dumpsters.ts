@@ -95,13 +95,13 @@
  *                     latitude: 63.422407
  *                     longitude: 10.394954
  *                 dumpsterType: "Compressor"
- *                 storeType: "Electronics Store"
- *                 categories: ["Batteries"]
+ *                 storeType: "General Store"
+ *                 categories: ["Fish", "Vegetables", "Chocolate"]
  *                 locked: true
  *                 positiveStoreViewOnDiving: false
  *                 emptyingSchedule: "Every Saturday"
  *                 cleanliness: 2
- *                 info: "This dumpster can pack a lot of circuits"
+ *                 info: "*pats dumpster* This dumpster can pack a lot of food, mate"
  *
  *         Dumpster:
  *             allOf:
@@ -125,13 +125,13 @@
  *                     latitude: 63.422407
  *                     longitude: 10.394954
  *                 dumpsterType: "Compressor"
- *                 storeType: "Electronics Store"
- *                 categories: ["Batteries"]
+ *                 storeType: "General Store"
+ *                 categories: ["Fish", "Vegetables", "Chocolate"]
  *                 locked: true
  *                 positiveStoreViewOnDiving: false
  *                 emptyingSchedule: "Every Saturday"
  *                 cleanliness: 2
- *                 info: "This dumpster can pack a lot of circuits"
+ *                 info: "*pats dumpster* This dumpster can pack a lot of food, mate"
  *                 rating: 2.7
  *
  *         DumpsterRevision:
@@ -164,13 +164,13 @@
  *                     latitude: 63.422407
  *                     longitude: 10.394954
  *                 dumpsterType: "Compressor"
- *                 storeType: "Electronics Store"
- *                 categories: ["Batteries"]
+ *                 storeType: "General Store"
+ *                 categories: ["Fish", "Vegetables", "Chocolate"]
  *                 locked: true
  *                 positiveStoreViewOnDiving: false
  *                 emptyingSchedule: "Every Saturday"
  *                 cleanliness: 2
- *                 info: "This dumpster can pack a lot of circuits"
+ *                 info: "*pats dumpster* This dumpster can pack a lot of food, mate"
  *                 dateUpdated: "2021-01-30"
  *                 isActive: true
  *
@@ -198,7 +198,7 @@ import { updateLimiter, standardLimiter } from "../middleware/rateLimiter";
 import { NotFoundError } from "../types/errors";
 import { JwtMiddleware } from "../middleware/tokenMiddleware";
 
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const router = Router();
     const dumpsterDAO = DumpsterDAO(Models);
 

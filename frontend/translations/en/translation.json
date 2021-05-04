@@ -246,7 +246,6 @@
 
     "storeType": {
         "Grocery Store": "Grocery store",
-        "Electronics Store": "Electronics store",
         "Bakery": "Bakery",
         "Furniture Store": "Furniture store",
         "Miscellaneous": "Miscellaneous"
