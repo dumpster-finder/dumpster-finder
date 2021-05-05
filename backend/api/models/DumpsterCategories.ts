@@ -30,7 +30,6 @@ export function init(sequelize: Sequelize) {
         {
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
-                primaryKey: true,
                 allowNull: false,
             },
             revisionID: {
