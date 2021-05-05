@@ -200,7 +200,7 @@ CREATE TABLE DumpsterCategories (
     revisionID INT NOT NULL REFERENCES Dumpsters(revisionID),
     categoryID INT NOT NULL REFERENCES Categories(categoryID),
     dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT dumpsterContentsPK PRIMARY KEY DumpsterContents(dumpsterID, revisionID, categoryID),
+    CONSTRAINT dumpsterContentsPK PRIMARY KEY DumpsterContents(revisionID, categoryID),
     CONSTRAINT dumpsterCategoriesFK1 FOREIGN KEY DumpsterCategories(dumpsterID)
         REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
