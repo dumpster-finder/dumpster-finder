@@ -36,4 +36,10 @@ Now you should be able to connect an emulator or a device to the Expo server.
 
 ## Publishing
 
-TODO
+Create an Expo account and run `expo build:android` or `expo build:ios` to build and publish the app.
+On subsequent deployments, you should just need to do `expo publish` to update the JS bundle,
+since the native code should stay more or less the same.
+
+## Generating documentation
+
+Simply run `npm run docs` and open `docs/index.html` in a browser to read it.

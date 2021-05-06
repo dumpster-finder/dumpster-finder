@@ -27,3 +27,7 @@ otherwise the API server will crash after 10 unsuccessful connection attempts.
 ## Running the tests
 
 Run `npm test` after setting up the server.
+
+## Generating documentation
+
+Simply run `npm run docs` and open `docs/index.html` in a browser to read it.
