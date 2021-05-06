@@ -26,7 +26,7 @@ describe("addOne", () => {
     });
     it("Should add a new report to the database with empty string as reason", async () => {
         const reportBefore = await reportsDAO.getAllForDumpster(7);
-        const report = await reportsDAO.addOne(7, 3, "");
+        const report = await reportsDAO.addOne(7, 1, "");
         const reportAfter = await reportsDAO.getAllForDumpster(7);
         expect(reportAfter.length).toBe(reportBefore.length + 1);
     });
