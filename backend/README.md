@@ -4,6 +4,14 @@ Split into API server, database server and file server.
 
 The database server is *not* exposed to the public.
 
+For instructions for running each part of the backend locally (without much fuzz), see
+
++ [Database README](db/README.md)
++ [API server README](api/README.md)
++ [Photo server README](pics/README.md)
+
+and start them in that order.
+
 ## Usage
 
 To build the images and start docker-compose deattached:
@@ -233,6 +241,7 @@ http {
     # server {
     # (...)
     # }
+}
 ```
 
 Start the service and check the logs with `docker-compose logs certbot`.
