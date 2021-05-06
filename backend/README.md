@@ -44,7 +44,7 @@ Acquire a server with a recent Linux distro, install rsync, Docker and Docker Co
 apt install rsync docker.io docker-compose
 ```
 
-You _should_ set up SSH keys and disable password-based authentication.
+You _should_ set up SSH keys and disable password-based authentication, see [SSH hardening](#ssh-hardening).
 
 Create a user (e.g. `dumpster`) without administrative privileges, but in the `docker` group:
 
@@ -117,7 +117,7 @@ PIC_FOLDER=/var/uploads/
 PIC_MAX_SIZE=10000000
 ```
 
-INSERT SOMETHING ABOUT THE HTTPS SETUP HERE
+**Ideally, you'd set up HTTPS for some extra security here, see [SSL certificates](#ssl-certificates) for instructions.**
 
 Copy over the `systemd` unit, reload the daemon and start the service:
 
@@ -135,7 +135,7 @@ ssh dumpster@$SERVER_IP "cd dumpster && make tables"
 ```
 
 After this, the `.gitlab-ci.yml` file should make GitLab CI perform updates automatically after changes to `develop`.
-The server should be up and running, accessible from port 443.
+The server should be up and running, accessible from port 443 (or port 80 if you didn't enable HTTPS).
 
 
 ## SSH hardening
@@ -183,18 +183,65 @@ Specific changes to the SSH config:
 
 ## SSL certificates
 
-(blah blah blah TODO)
+The HTTPS setup detailed in this section was influenced by
+[a Digital Ocean tutorial](https://www.digitalocean.com/community/tutorials/how-to-secure-a-containerized-node-js-application-with-nginx-let-s-encrypt-and-docker-compose).
 
-Create a Diffie-Hellman key:
+In order to secure the connection between the app and your instance of the server,
+you should acquire an SSL certificate and enable HTTPS.
+Our setup uses `certbot` to get certificates signed by Let's Encrypt,
+for no cost at all.
+You _do_ need a server that is available to the outside world,
+otherwise the servers of Let's Encrypt won't be able to access your server.
 
-```sh
+Create a Diffie-Hellman key in the `backend` folder:
+
+```shell
 mkdir dhparam
 openssl dhparam -out dhparam/dhparam-2048.pem 2048
 ```
 
-(blah blah)
+Comment out the second server block in the NGINX config,
+and uncomment the parts of the first server block that are indicated by other comments.
+Since you do not yet have a certificate, everything must happen through HTTP.
+Let's Encrypt needs to be able to query for your challenge file.
 
-Add an entry in your crontab (with `crontab -e`):
+```conf
+http {
+    # (...)
+    
+    server {
+        # (...)
+
+        # (uncomment when first acquiring SSL cert)
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        
+        location ~ /.well-known/acme-challenge {
+            allow all;
+            root /var/www/html;
+        }
+        
+        # (uncomment when first acquiring SSL cert)
+        location / {
+            allow all;
+        }
+        
+        # (...)
+    }
+
+    # (comment out when first acquiring SSL cert)
+    # server {
+    # (...)
+    # }
+```
+
+Start the service and check the logs with `docker-compose logs certbot`.
+If no issues crop up, proceed.
+
+Now that you _do_ have a certificate, revert your changes to `nginx.conf` and restart the service.
+It should be possible to access your server through a normal web browser. Confirm that your connection is encrypted.
+
+To renew your certificate automatically, add an entry in your crontab (with `crontab -e`):
 ```cron
 0 6 * * * PROJECT_PATH=/home/user/dumpster-finder /home/user/dumpster-finder/renew_certs.sh >> /home/user/cron.log 2>&1
 ```
