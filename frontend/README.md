@@ -26,6 +26,12 @@ API_URL=https://your.domain/api/
 PIC_URL=https://your.domain/pic/
 ```
 
+Install dependencies:
+
+```sh
+npm install
+```
+
 Then start the app in development mode:
 
 ```sh

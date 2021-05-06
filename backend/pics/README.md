@@ -16,7 +16,7 @@ API_URL=http://localhost:3000/api/
 
 ... as specified in the [.env.template](.env.template) file.
 
-Run `npm start` to start the picture server.
+Run `npm install` to install dependencies, then run `npm start` to start the picture server.
 
 ## Generating documentation
 

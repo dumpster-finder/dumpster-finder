@@ -20,7 +20,8 @@ Note that you _must_ use `127.0.0.1` and not `localhost` as the database host if
 
 Depending on where you run the app, you may need to change the `PHOTO_URL` variable to match the IP the app makes contact with.
 
-Run `npm start` to start the API server.
+Run `npm install` to install dependencies,
+then run `npm start` to start the API server.
 **Make sure that your database is running**,
 otherwise the API server will crash after 10 unsuccessful connection attempts.
 
