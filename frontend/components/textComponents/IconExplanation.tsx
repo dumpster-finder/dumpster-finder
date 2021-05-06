@@ -2,6 +2,7 @@ import * as React from "react";
 import { Text } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
 import {
+    CleanIcon,
     LockIcon,
     PositiveIcon,
     StarIcon,
@@ -16,10 +17,6 @@ export default function IconExplanation() {
             <Text category={"h5"}>{t("title")}</Text>
             <View style={{ paddingVertical: 10 }}>
                 <View style={styles.row}>
-                    <StarIcon size="medium" />
-                    <Text style={styles.textPart}>{t("rating")}</Text>
-                </View>
-                <View style={styles.row}>
                     <LockIcon size="medium" />
                     <Text style={styles.textPart}>{t("locked")}</Text>
                 </View>
@@ -30,6 +27,10 @@ export default function IconExplanation() {
                 <View style={styles.row}>
                     <PositiveIcon size="medium" />
                     <Text style={styles.textPart}>{t("view")}</Text>
+                </View>
+                <View style={styles.row}>
+                    <CleanIcon size="medium" color="green" />
+                    <Text style={styles.textPart}>{t("cleanliness")}</Text>
                 </View>
             </View>
         </View>

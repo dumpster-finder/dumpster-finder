@@ -36,18 +36,21 @@
     },
     "advice": {
         "title": "Råd for dumpster diving",
-        "nr1": "1. Ikke gå i låste søppelkasser",
-        "nr2": "2. Ikke let i søppelkasser som er markert private",
+        "nr1": "1. Ikke bryt opp låste søppelkasser",
+        "nr2": "2. Ikke let i private søppelkasser",
         "nr3": "3. Ikke gå alene",
-        "nr4": "4. Kle deg passende",
-        "nr5": "5. Rydd opp etter deg"
+        "nr4": "4. Pass på å gå etter stengetid",
+        "nr5": "5. Vær forsiktig – maten kan være dårlig",
+        "nr6": "6. Kle deg passende",
+        "nr7": "7. Rydd opp etter deg"
     },
     "iconDesc": {
         "title": "Forklaring av ikoner",
         "rating": "Vurdering av søppelkassen",
-        "locked": "Er søppeøkassen låst",
+        "locked": "Hvorvidt søppelkassen er låst",
         "emptySchedule": "Tømmeplan for søppelkassen",
-        "view": "Butikkens syn på søppeldykkere"
+        "view": "Butikkens syn på søppeldykkere",
+        "cleanliness": "Hvor ren søppelkassen er"
     },
     "settings": {
         "setPosition": "Din posisjon",
