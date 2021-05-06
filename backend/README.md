@@ -148,9 +148,11 @@ The server should be up and running, accessible from port 443 (or port 80 if you
 
 ## SSH hardening
 
-Using SSH keys and disabling password authentication is the most important security measure we've taken.
+Using SSH keys and disabling password authentication are important security measures you may want to take.
+Specifically, generate an SSH key for your computer, add the public key to `.ssh/authorized_keys`,
+make sure you can log in without a password, and finally disable the `PasswordAuthentication` option in the SSH config (and perhaps disable `PermitRootLogin` as well).
 
-We also installed `fail2ban` with a basic configuration (in `/etc/fail2ban/jail.local`):
+You can also install `fail2ban` and run it with a basic configuration like this (in `/etc/fail2ban/jail.local`):
 
 ```ini
 [DEFAULT]
