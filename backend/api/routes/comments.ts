@@ -88,6 +88,13 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *       - in: query
      *         name: options
      *         schema:
@@ -115,6 +122,7 @@ export default function({ Models }: RouteDependencies) {
     router.get(
         "/",
         standardLimiter,
+        JwtMiddleware,
         validate(getComments),
         async (
             req: Request & {
@@ -128,6 +136,7 @@ export default function({ Models }: RouteDependencies) {
                 console.log(req.query);
                 const dumpsters = await commentDAO.getAllForDumpster(
                     req.params.dumpsterID,
+                    res.locals.session.id,
                     { showNegative: req.query.showNegative === "true" },
                 );
                 res.status(200).json(dumpsters);

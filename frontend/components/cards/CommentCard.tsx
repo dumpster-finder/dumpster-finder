@@ -18,12 +18,10 @@ import Message from "../../utils/Message";
 export default function CommentCard({
     comment,
     voted,
-    mine,
     onDelete,
 }: {
     comment: Comments;
     voted?: number;
-    mine: boolean;
     onDelete: (commentID: number) => void;
 }) {
     const { t }: { t: (s: string) => string } = useTranslation("comment");
@@ -31,6 +29,7 @@ export default function CommentCard({
     const [rating, setRating] = useState(comment.rating);
     const [votedUp, setVotedUp] = useState(voted || 0);
     const [modalVis, setModalVis] = useState(false);
+    const { mine } = comment;
 
     return (
         <Card style={{ width: "100%", marginVertical: 5 }}>

@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import Comments, { RawComment } from "../models/Comment";
+import Comments, { PostComment, RawComment } from "../models/Comment";
 
 export default class CommentService {
     readonly axios;
@@ -35,9 +35,7 @@ export default class CommentService {
      *
      * @param comment A comment with the data sent by the user
      */
-    addOne(
-        comment: Omit<Comments, "commentID" | "userID" | "date" | "rating">,
-    ): Promise<Comments> {
+    addOne(comment: PostComment): Promise<Comments> {
         return this.axios
             .post(`/dumpsters/${comment.dumpsterID}/comments`, comment)
             .then(response => {

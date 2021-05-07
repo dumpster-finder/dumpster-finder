@@ -8,13 +8,19 @@ beforeAll(setupTestData);
 
 describe("getAllForDumpster", () => {
     it("should return all comments for a given dumpster", async () => {
-        const comments = await commentDAO.getAllForDumpster(1);
+        const comments = await commentDAO.getAllForDumpster(1, 2);
         expect(comments.length).toBe(3);
         // Check order and contents
         expect(comments.map(c => c.nickname)).toEqual([
             "Trash panda",
             "TrashBin",
             "Tore på sporet",
+        ]);
+        // Check that your comment is marked as yourse
+        expect(comments.map(c => c.mine)).toEqual([
+            false,
+            false,
+            true
         ]);
         // Then check that it is sorted by date
         expect(
@@ -27,7 +33,7 @@ describe("getAllForDumpster", () => {
     });
 
     it("should hide negatively rated comments by default", async () => {
-        const comments = await commentDAO.getAllForDumpster(6);
+        const comments = await commentDAO.getAllForDumpster(6, 1);
         expect(comments.length).toBe(3);
         comments.forEach(c =>
             expect(c.rating).toBeGreaterThanOrEqual(COMMENT_RATING_TRESHOLD),
@@ -35,7 +41,7 @@ describe("getAllForDumpster", () => {
     });
 
     it("should show negatively rated comments when it is told to", async () => {
-        const comments = await commentDAO.getAllForDumpster(6, {
+        const comments = await commentDAO.getAllForDumpster(6, 1, {
             showNegative: true,
         });
         expect(comments.length).toBe(4);
@@ -47,15 +53,16 @@ describe("getAllForDumpster", () => {
 
 describe("addOne", () => {
     it("should add a comment to a dumpster", async () => {
-        const commentBefore = await commentDAO.getAllForDumpster(1);
+        const commentBefore = await commentDAO.getAllForDumpster(1, 1);
         const comment = await commentDAO.addOne({
             dumpsterID: 1,
             nickname: "FreeFood",
             userID: 4,
             comment: "I love free food",
         });
-        const commentAfter = await commentDAO.getAllForDumpster(1);
+        const commentAfter = await commentDAO.getAllForDumpster(1, 1);
         expect(comment).not.toBe(undefined);
+        expect(comment.mine).toBe(true);
         expect(commentAfter.length).toBe(commentBefore.length + 1);
     });
 });

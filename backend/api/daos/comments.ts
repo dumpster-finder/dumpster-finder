@@ -1,9 +1,58 @@
 import { literal, Op } from "sequelize";
 import { MyModels } from "../models";
-import Comment from "../types/Comment";
-import { InvalidDataError, NotFoundError, ServerError } from "../types/errors";
+import Comment, { PostComment } from "../types/Comment";
+import {
+    InvalidDataError,
+    NotFoundError,
+    ServerError,
+    UnknownError,
+} from "../types/errors";
+import { CommentAttributes } from "../models/Comments";
 
 export const COMMENT_RATING_TRESHOLD = -5;
+
+/**
+ * Maps a db comment to a comment returned from POSTing a comment,
+ * in which case we already know that this is *your* comment.
+ */
+const postToComment = ({
+    commentID,
+    dumpsterID,
+    nickname,
+    comment,
+    rating,
+    date,
+}: CommentAttributes): Comment => ({
+    commentID,
+    dumpsterID,
+    nickname,
+    comment,
+    rating,
+    date,
+    mine: true,
+});
+
+/**
+ * Maps a db comment to a comment returned from fetching comments,
+ * in which case we have no idea which ones are your comments & have to check.
+ */
+const allToComment = (myUserID: number) => ({
+    commentID,
+    dumpsterID,
+    userID,
+    nickname,
+    comment,
+    rating,
+    date,
+}: CommentAttributes): Comment => ({
+    commentID,
+    dumpsterID,
+    nickname,
+    comment,
+    rating,
+    date,
+    mine: userID == myUserID,
+});
 
 export default function({ Comments, sequelize }: MyModels) {
     return {
@@ -11,22 +60,25 @@ export default function({ Comments, sequelize }: MyModels) {
          * Fetches all comments for a dumpster,
          * placing the most recent ones first.
          *
-         * @param dumpsterID
+         * @param dumpsterID   ID of the dumpster to fetch comments for
+         * @param userID       ID of the user requesting a list of comments
+         * @param showNegative Whether the endpoint should return comments with a rating below -5
          */
         getAllForDumpster: async (
             dumpsterID: number,
+            userID: number,
             { showNegative = false } = {},
-        ) => {
+        ): Promise<Comment[]> => {
             const where: any = { dumpsterID };
             if (!showNegative) {
                 where["rating"] = {
                     [Op.gte]: COMMENT_RATING_TRESHOLD,
                 };
             }
-            return await Comments.findAll({
+            return (await Comments.findAll({
                 where,
                 order: [["date", "DESC"]],
-            });
+            })).map(allToComment(userID));
         },
 
         /**
@@ -34,17 +86,18 @@ export default function({ Comments, sequelize }: MyModels) {
          *
          * @param comment
          */
-        addOne: async (
-            comment: Omit<Comment, "commentID" | "date" | "rating">,
-        ) => {
+        addOne: async (comment: PostComment): Promise<Comment> => {
             return await sequelize.transaction(async t => {
                 const { commentID } = await Comments.create(comment, {
                     transaction: t,
                 });
-                return await Comments.findOne({
+                const result = await Comments.findOne({
                     where: { commentID },
                     transaction: t,
                 });
+                if (!result)
+                    throw new UnknownError("Could not find created comment");
+                return postToComment(result);
             });
         },
 
