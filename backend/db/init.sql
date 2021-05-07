@@ -108,7 +108,7 @@ ALTER TABLE DumpsterPositions ADD FOREIGN KEY (revisionID) references Dumpsters(
 CREATE TABLE DumpsterReports (
     dumpsterID INT REFERENCES DumpsterPositions(dumpsterID),
     userID INT REFERENCES Users(userID),
-    reason TEXT,
+    reason TEXT DEFAULT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (dumpsterID),
     PRIMARY KEY(dumpsterID, userID),
@@ -177,7 +177,7 @@ CREATE TABLE Photos (
 CREATE TABLE PhotoReports (
     photoID INT REFERENCES Photos(photoID),
     userID INT,
-    reason TEXT NOT NULL,
+    reason TEXT DEFAULT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (photoID),
     PRIMARY KEY(photoID, userID),

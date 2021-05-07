@@ -14,22 +14,22 @@ export default class ReportService {
      * @param dumpsterID ID of the dumpster that is reported
      * @param reason Optional reason for the report
      */
-    addOne(dumpsterID: number, reason: string | undefined): Promise<Report> {
+    addOne(dumpsterID: number, reason: string | undefined): Promise<void> {
         return this.axios
             .post(`/dumpsters/${dumpsterID}/reports`, {
-                reason,
+                reason: reason || null,
             })
             .then(response => response.data);
     }
 
     /**
-     * Fetches all reports for given dumpster
+     * Fetches your report of the given dumpster
      *
-     * @param dumpsterID ID of the dumpster to get reports
+     * @param dumpsterID ID of the dumpster to get your report of
      */
-    getAll(dumpsterID: number): Promise<Report[]> {
+    getOne(dumpsterID: number): Promise<Report> {
         return this.axios
-            .get(`/dumpsters/${dumpsterID}/reports`)
+            .get(`/dumpsters/${dumpsterID}/reports/mine`)
             .then(response => response.data);
     }
 }

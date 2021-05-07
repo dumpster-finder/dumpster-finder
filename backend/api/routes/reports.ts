@@ -5,11 +5,7 @@
  *     Report:
  *       type: object
  *       properties:
- *         dumpsterReportID:
- *           type: number
  *         dumpsterID:
- *           type: number
- *         userID:
  *           type: number
  *         reason:
  *           type: string
@@ -17,9 +13,7 @@
  *           type: string
  *           format: date
  *       example:
- *         dumpsterReportID: 1
  *         dumpsterID: 2
- *         userID: 34
  *         reason: "It does not exist"
  *         date: "2021-04-27T10:50:33.000Z"
  *     PostReport:
@@ -50,9 +44,9 @@ export default function({ Models }: RouteDependencies) {
 
     /**
      * @swagger
-     * /dumpsters/{dumpsterID}/reports:
+     * /dumpsters/{dumpsterID}/reports/mine:
      *   get:
-     *     summary: GET reports of a dumpster
+     *     summary: GET your report of a dumpster
      *     tags: [Reports]
      *     parameters:
      *       - in: path
@@ -61,19 +55,25 @@ export default function({ Models }: RouteDependencies) {
      *           type: integer
      *         required: true
      *         description: Dumpster ID
+     *       - in: header
+     *         name: x-access-token
+     *         schema:
+     *           type: string
+     *         format: uuid
+     *         required: true
+     *         description: JWT for authentication
      *     responses:
      *       "200":
-     *         description: A list of reports
+     *         description: A single report
      *         content:
      *           application/json:
      *             schema:
-     *               type: array
-     *               items:
-     *                 $ref: '#/components/schemas/Report'
+     *               $ref: '#/components/schemas/Report'
      */
     router.get(
-        "/",
+        "/mine",
         standardLimiter,
+        JwtMiddleware,
         validate(getReport),
         async (
             req: Request & {
@@ -83,10 +83,11 @@ export default function({ Models }: RouteDependencies) {
             next,
         ) => {
             try {
-                const dumpsters = await reportDAO.getAllForDumpster(
+                const report = await reportDAO.getOne(
                     req.params.dumpsterID,
+                    res.locals.session.id,
                 );
-                res.status(200).json(dumpsters);
+                res.status(200).json(report);
             } catch (e) {
                 next(e);
             }

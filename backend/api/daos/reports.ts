@@ -1,4 +1,5 @@
 import { MyModels } from "../models";
+import { NotFoundError } from "../types/errors";
 
 export default function({ Reports }: MyModels) {
     return {
@@ -8,11 +9,16 @@ export default function({ Reports }: MyModels) {
             reason: string | undefined,
         ) => Reports.create({ dumpsterID, userID, reason }),
 
-        getAllForDumpster: async (dumpsterID: number) => {
-            const where: any = { dumpsterID };
-            return await Reports.findAll({
-                where,
+        getOne: async (dumpsterID: number, userID: number) => {
+            const report = await Reports.findOne({
+                where: { dumpsterID, userID },
             });
+            if (!report) throw new NotFoundError("No such report");
+            return {
+                dumpsterID: report.dumpsterID,
+                reason: report.reason,
+                date: report.date,
+            };
         },
     };
 }
