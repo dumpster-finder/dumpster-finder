@@ -12,7 +12,6 @@ import {
 import { useTranslation } from "react-i18next";
 import { ReportService } from "../services";
 import Message from "../utils/Message";
-import { userIDSelector } from "../redux/slices/userSlice";
 
 export default function FlagScreen({
     navigation,
@@ -26,18 +25,19 @@ export default function FlagScreen({
     const [justFlagged, setJustFlagged] = useState(false);
     const [reason, setReason] = useState("");
     const [pending, setPending] = useState(false);
-    const myUserID = useSelector(userIDSelector);
 
     useEffect(() => {
         if (dumpster) {
-            ReportService.getAll(dumpster.dumpsterID)
-                .then(data => {
-                    data.forEach(data => {
-                        data.userID === myUserID ? setHasFlagged(true) : null;
-                    });
+            ReportService.getOne(dumpster.dumpsterID)
+                .then(_ => {
+                    setHasFlagged(true);
                     setFetchFlags(true);
                 })
-                .catch(e => Message.error(e, "Could not fetch reports"));
+                .catch(e => {
+                    if (e.response && e.response.data.statusCode === 404)
+                        setFetchFlags(true);
+                    else Message.error(e, "Could not fetch your report");
+                });
         }
     }, [dumpster]);
     return (
@@ -91,7 +91,6 @@ export default function FlagScreen({
 
     async function onFlag() {
         setPending(true);
-        // TODO reason get registered as empty string. Not null
         if (dumpster) {
             try {
                 await ReportService.addOne(dumpster.dumpsterID, reason);

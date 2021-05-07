@@ -8,7 +8,7 @@ export const postReport = {
     }),
     body: Joi.object({
         reason: Joi.string()
-            .allow("")
+            .allow("", null)
             .optional(),
     }),
 };
