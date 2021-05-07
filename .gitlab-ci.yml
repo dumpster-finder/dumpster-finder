@@ -7,6 +7,7 @@ include:
 stages:
   - install_deps
   - test
+  - docs
   - deploy
 
 api_deps:
@@ -20,6 +21,7 @@ api_deps:
 
 test_app:
   stage: test
+  dependencies: []
   script:
     - cd frontend
     - npm ci
@@ -45,11 +47,55 @@ test_api:
     paths:
       - backend/api/coverage
 
+api_docs:
+  stage: docs
+  script:
+    - cd backend/api
+    # (deps already installed)
+    - npm run docs
+  artifacts:
+    paths:
+      - backend/api/docs/
+  only:
+    - develop
+    - master
+
+pic_docs:
+  stage: docs
+  dependencies: []
+  script:
+    - cd backend/pics
+    - npm ci
+    - npm run docs
+  artifacts:
+    paths:
+      - backend/pics/docs/
+  only:
+    - develop
+    - master
+
+app_docs:
+  stage: docs
+  dependencies: []
+  script:
+    - cd frontend
+    - npm ci
+    - npm run docs
+  artifacts:
+    paths:
+      - frontend/docs/
+  only:
+    - develop
+    - master
+
 pages:
   stage: deploy
   script:
-    - mkdir .public
-    - cp -r backend/api/coverage/lcov-report/* .public
+    - mkdir .public .public/{api-cov,api-doc,pic-doc,app-doc}
+    - cp -r backend/api/coverage/lcov-report/* .public/api-cov
+    - cp -r backend/api/docs/* .public/api-doc
+    - cp -r backend/pic/docs/* .public/pic-doc
+    - cp -r frontend/docs/* .public/app-doc
     - mv .public public
   artifacts:
     paths:
@@ -60,6 +106,7 @@ pages:
 
 deploy_api:
   stage: deploy
+  dependencies: []
   script:
     # Copy SSH credentials from CI file variables
     - mkdir ~/.ssh
@@ -87,6 +134,7 @@ deploy_api:
 
 build_app:
   stage: deploy
+  dependencies: []
   script:
     - cd frontend
     - npm install expo-cli
