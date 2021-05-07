@@ -93,8 +93,8 @@ export default function DetailsScreen({
                         style={{
                             alignSelf: "center",
                         }}
-                        status={"warning"}
                         size="small"
+                        status="warning"
                         onPress={visit}
                     >
                         {t("visit:visitbtn")}
@@ -120,7 +120,6 @@ export default function DetailsScreen({
                         <Button
                             style={styles.button}
                             size="small"
-                            status="info"
                             onPress={() => navigation.navigate("ContentScreen")}
                         >
                             {t("content")}
@@ -128,7 +127,6 @@ export default function DetailsScreen({
                         <Button
                             style={styles.button}
                             size="small"
-                            status="info"
                             onPress={() => navigation.navigate("CommentScreen")}
                         >
                             {t("comments")}

@@ -14,7 +14,7 @@ export default function FloatButton({ onPress }: { onPress: () => void }) {
                 bottom: 14,
                 right: 14,
                 padding: 5,
-                backgroundColor: theme["color-warning-default"],
+                backgroundColor: theme["color-primary-default"],
                 elevation: 10,
                 borderRadius: 25,
                 width: 48,
