@@ -308,7 +308,7 @@ export default function FilterModal({
                     </Button>
                     <Button
                         style={{ marginHorizontal: 5, flex: 1 }}
-                        status="warning"
+                        status="danger"
                         onPress={handleResetFilter}
                     >
                         {t("resetFilter")}
