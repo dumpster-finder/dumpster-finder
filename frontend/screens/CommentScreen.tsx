@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Button, Input, Layout, Text } from "@ui-kitten/components";
-import Comments from "../models/Comment";
+import Comments, { PostComment } from "../models/Comment";
 import CommentCard from "../components/cards/CommentCard";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -18,7 +18,6 @@ import {
 } from "../components/basicComponents/Icons";
 import { useTranslation } from "react-i18next";
 import Message from "../utils/Message";
-import { userIDSelector } from "../redux/slices/userSlice";
 
 export default function CommentScreen() {
     const { t }: { t: (s: string) => string } = useTranslation("comment");
@@ -28,9 +27,6 @@ export default function CommentScreen() {
     const [pending, setPending] = useState(false);
     const dumpster = useSelector(currentDumpsterSelector);
     const nickname = useSelector(nicknameSelector);
-    const myUserID = useSelector(userIDSelector);
-
-    console.log("hirghrg", myUserID);
 
     useEffect(() => {
         if (dumpster)
@@ -68,7 +64,6 @@ export default function CommentScreen() {
                         comment={value}
                         key={value.commentID}
                         voted={ratedComments[value.commentID]}
-                        mine={value.userID === myUserID}
                         onDelete={removeComment}
                     />
                 ))}
@@ -84,10 +79,7 @@ export default function CommentScreen() {
 
     async function handleSave() {
         if (comment !== "" && dumpster) {
-            const newComment: Omit<
-                Comments,
-                "commentID" | "userID" | "date" | "rating"
-            > = {
+            const newComment: PostComment = {
                 dumpsterID: dumpster.dumpsterID,
                 nickname: nickname,
                 comment: comment,
