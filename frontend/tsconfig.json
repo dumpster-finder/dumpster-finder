@@ -2,11 +2,30 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true
+  },
+  "typedocOptions": {
+    "entryPoints": [
+      "App.tsx",
+      "types.ts",
+      "i18n.ts",
+      "screens",
+      "redux",
+      "navigation",
+      "models",
+      "hooks",
+      "constants",
+      "components",
+      "@types"
+    ],
+    "out": "docs"
   }
 }

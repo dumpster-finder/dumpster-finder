@@ -1,0 +1,145 @@
+image: node:latest
+
+include:
+  # For detecting secret keys and the like that are accidentally committed
+  - template: Security/Secret-Detection.gitlab-ci.yml
+
+stages:
+  - install_deps
+  - test
+  - docs
+  - deploy
+
+api_deps:
+  stage: install_deps
+  script:
+    - cd backend/api
+    - npm ci
+  artifacts:
+    paths:
+      - backend/api/node_modules
+
+test_app:
+  stage: test
+  dependencies: []
+  script:
+    - cd frontend
+    - npm ci
+    - npm run test:ci
+  artifacts:
+    paths:
+      - frontend/coverage
+
+test_api:
+  stage: test
+  services:
+    - name: mariadb
+  variables:
+    MYSQL_DATABASE: dumpster
+    MYSQL_ROOT_PASSWORD: password
+  script:
+    - cd backend/api
+    - printf "DB_HOST=mariadb\nDB_USER=root\nDB_PASSWORD=password\n" > .env
+    - apt-get update && apt-get upgrade -y
+    - apt-get install -y mariadb-client
+    - npm run test:ci
+  artifacts:
+    paths:
+      - backend/api/coverage
+
+api_docs:
+  stage: docs
+  script:
+    - cd backend/api
+    # (deps already installed)
+    - npm run docs
+  artifacts:
+    paths:
+      - backend/api/docs/
+  only:
+    - develop
+    - master
+
+pic_docs:
+  stage: docs
+  dependencies: []
+  script:
+    - cd backend/pics
+    - npm ci
+    - npm run docs
+  artifacts:
+    paths:
+      - backend/pics/docs/
+  only:
+    - develop
+    - master
+
+app_docs:
+  stage: docs
+  dependencies: []
+  script:
+    - cd frontend
+    - npm ci
+    - npm run docs
+  artifacts:
+    paths:
+      - frontend/docs/
+  only:
+    - develop
+    - master
+
+pages:
+  stage: deploy
+  script:
+    - mkdir .public .public/{api-cov,api-doc,pic-doc,app-doc}
+    - cp -r backend/api/coverage/lcov-report/* .public/api-cov
+    - cp -r backend/api/docs/* .public/api-doc
+    - cp -r backend/pics/docs/* .public/pic-doc
+    - cp -r frontend/docs/* .public/app-doc
+    - mv .public public
+  artifacts:
+    paths:
+      - public/
+  only:
+    - develop
+    - master
+
+deploy_api:
+  stage: deploy
+  dependencies: []
+  script:
+    # Copy SSH credentials from CI file variables
+    - mkdir ~/.ssh
+    - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
+    - cp "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    # Install rsync
+    - apt-get update
+    - apt-get install --assume-yes rsync
+    # Sync repo with remote,
+    # leaving .env files and node_modules intact
+    - rsync --archive --delete
+            --exclude='.git'
+            --exclude='node_modules'
+            --exclude='.env'
+            --exclude='dhparam'
+            backend/ "dumpster@$SERVER_IP:dumpster"
+    # Restart service
+    - ssh "dumpster@$SERVER_IP" -- systemctl --user restart dumpster
+  only:
+    # This is currently meant for test builds,
+    # so the develop branch must be included
+    - develop
+    - master
+
+build_app:
+  stage: deploy
+  dependencies: []
+  script:
+    - cd frontend
+    - npm install expo-cli
+    - npx expo login --non-interactive -u "$EXPO_CLI_USERNAME" # password is env var
+    - npx expo build:android --non-interactive --no-wait
+  only:
+    - develop
+    - master

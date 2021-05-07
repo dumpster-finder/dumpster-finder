@@ -1,44 +1,108 @@
 {
+  "name": "dumpster-finder",
+  "version": "0.0.1",
+  "description": "An app for dumpster finders",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
+    "android": "expo start --localhost --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "test:ci": "jest --collect-coverage",
+    "docs": "typedoc"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "collectCoverage": true,
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
   },
   "dependencies": {
+    "@eva-design/eva": "^2.0.0",
     "@expo/vector-icons": "^12.0.0",
+    "@ptomasroos/react-native-multi-slider": "git://github.com/ptomasroos/react-native-multi-slider.git#38eb8100d667908c591a19cdd8f08a3e92252112",
+    "@react-native-async-storage/async-storage": "^1.13.4",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.1",
     "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.12.6",
+    "@reduxjs/toolkit": "^1.5.0",
+    "@types/yup": "^0.29.11",
+    "@ui-kitten/components": "^5.0.0",
+    "@ui-kitten/eva-icons": "^5.0.0",
+    "axios": "^0.21.1",
+    "date-fns": "^2.20.0",
     "expo": "~40.0.0",
     "expo-asset": "~8.2.1",
+    "expo-camera": "~9.1.0",
     "expo-constants": "~9.3.0",
     "expo-font": "~8.4.0",
+    "expo-image-picker": "~9.2.0",
     "expo-linking": "~2.0.0",
     "expo-splash-screen": "~0.8.0",
     "expo-status-bar": "~1.0.3",
     "expo-web-browser": "~8.6.0",
+    "formik": "^2.2.6",
+    "i18next": "^20.0.0",
+    "lodash": "^4.17.21",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-i18next": "^11.8.10",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-gesture-handler": "~1.8.0",
+    "react-native-maps": "^0.27.1",
+    "react-native-ratings": "^7.4.0",
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.0",
-    "react-native-web": "~0.13.12"
+    "react-native-svg": "12.1.0",
+    "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "redux-persist": "^6.0.0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@types/jest": "^26.0.23",
+    "@types/lodash": "^4.14.168",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "@types/react-native-vector-icons": "^6.4.6",
+    "@types/react-redux": "^7.1.16",
+    "@types/redux-persist": "^4.3.1",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "dotenv": "^8.2.0",
     "jest-expo": "~40.0.0",
+    "ts-jest": "^26.5.5",
+    "typedoc": "^0.20.24",
     "typescript": "~4.0.0"
   },
-  "private": true
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.stud.iie.ntnu.no/heleneyj/dumpster-diving"
+  },
+  "contributors": [
+    {
+      "name": "Tore Bergebakken"
+    },
+    {
+      "name": "Jon Åby Bergquist"
+    },
+    {
+      "name": "Helene Yuee Jonson"
+    }
+  ],
+  "license": "SEE LICENSE IN LICENSE.md"
 }

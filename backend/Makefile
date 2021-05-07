@@ -1,4 +1,18 @@
+.PHONY: all tables local-tables upload
+
+all: compose
+
 tables:
-	mysql --user=root \
-		  --password=thecakeisalive \
-		  --host=127.0.0.1 dumpster < db/init.sql
+	./tables.sh init constants
+
+# Test data as well as initialization
+data:
+	./tables.sh init constants data
+
+upload:
+	rsync --archive \
+        --exclude='.git' \
+        --exclude='node_modules' \
+        --exclude='.env' \
+        --exclude='dhparam' \
+        ./ "dumpster@${SERVER_IP}:dumpster"

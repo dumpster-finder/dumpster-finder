@@ -1,0 +1,351 @@
+{
+    "common": {
+        "all": "Alle",
+        "rating": "Vurdering",
+        "cleanliness": "Renhet",
+        "locked": "Låst",
+        "unlocked": "Åpen",
+        "view": "Butikkens syn på søppeldykkere",
+        "negative": "Negativt",
+        "neutral": "Nøytralt",
+        "positive": "Positivt",
+        "emptyingSchedule": "Tømmeplan",
+        "categories": "Kategorier",
+        "content": "Se innhold",
+        "comments": "Se kommentarer",
+        "storeType": "Butikktype",
+        "dumpsterType": "Type søppelkasse",
+        "extraInfo": "Ekstra info",
+        "dropdownPlaceholder": "Velg noe …",
+        "searchPlaceholder": "Søk etter en dumpster",
+        "somethingWrong": "Noe gikk galt.",
+        "areYouSure": "Er du sikker?",
+        "retry": "Prøv på nytt",
+        "cancel": "Avbryt",
+        "add": "Legg til",
+        "save": "Lagre",
+        "remove": "Fjern",
+        "applyFilter": "Filtrer",
+        "resetFilter": "Nullstill",
+        "back": "Tilbake",
+        "km": "km",
+        "delete": "Slett",
+        "tapToSeeMore": "Trykk for mer info",
+        "yourPosition": "Din posisjon",
+        "unknown": "Ukjent"
+    },
+    "advice": {
+        "title": "Råd for dumpster diving",
+        "nr1": "1. Ikke bryt opp låste søppelkasser",
+        "nr2": "2. Ikke let i private søppelkasser",
+        "nr3": "3. Ikke gå alene",
+        "nr4": "4. Pass på å gå etter stengetid",
+        "nr5": "5. Vær forsiktig – maten kan være dårlig",
+        "nr6": "6. Kle deg passende",
+        "nr7": "7. Rydd opp etter deg"
+    },
+    "iconDesc": {
+        "title": "Forklaring av ikoner",
+        "rating": "Vurdering av søppelkassen",
+        "locked": "Hvorvidt søppelkassen er låst",
+        "emptySchedule": "Tømmeplan for søppelkassen",
+        "view": "Butikkens syn på søppeldykkere",
+        "cleanliness": "Hvor ren søppelkassen er"
+    },
+    "settings": {
+        "setPosition": "Din posisjon",
+        "userID": {
+            "title": "Din bruker-ID",
+            "about": "Denne ID-en knyttes til endringer du gjør. Ikke del den med noen."
+        },
+        "nickname": {
+            "title": "Kallenavn",
+            "placeholder": "f.eks. Sitron58",
+            "about": "Kallenavnet ditt vises kun på kommentarer du legger til.",
+            "save": "Lagre kallenavn"
+        },
+        "distance": {
+            "title": "Maksavstand til dumpsterne (km)",
+            "about": "Hvor langt unna din posisjon du vil se dumpstere"
+        },
+        "language": {
+            "title": "Språk",
+            "en": "English",
+            "no": "Norsk"
+        },
+        "visitInterval": {
+            "title": "Besøksintervall",
+            "about": "Hvor langt tidsrom du vil se antall besøkende innenfor"
+        },
+        "darkMode": "Mørkt tema",
+        "hideNegativeComments": "Sjul kommentarer med negativ vurdering"
+    },
+    "details": {
+        "rating": "Vurdering",
+        "cleanliness": "Renhet",
+        "locked": "Låst",
+        "unlocked": "Åpen",
+        "view": "Butikkens syn på søppeldykkere",
+        "negative": "Negativt",
+        "neutral": "Nøytralt",
+        "positive": "Positivt",
+        "emptyingSchedule": "Tømmeplan",
+        "categories": "Her kan du finne",
+        "content": "Se andres funn",
+        "comments": "Se kommentarer",
+        "setRating": "Vurder meg",
+        "storeType": "Butikktype",
+        "dumpsterType": "Type søppelkasse",
+        "extraInfo": "Ekstra info"
+    },
+
+    "menu": {
+        "flag": "Rapporter søppelkasse",
+        "revision": "Revisjonshistorikk",
+        "editDumpster": "Rediger søppelkasse",
+        "editContent": "Rediger innhold",
+        "gallery": "Se bilder"
+    },
+
+    "revision": {
+        "revert": "Tilbakestill til denne revisjonen",
+        "current": "Dette er den nåværende revisjonen"
+    },
+
+    "comment": {
+        "add": "Publisér kommentar",
+        "comment": "Kommentar",
+        "yourPos": "Din posisjon",
+        "delComment": "Sikker på at du vil slette kommentaren?"
+    },
+
+    "editor": {
+        "storeName": {
+            "label": "Butikknavn",
+            "placeholder": "f.eks. Rema 1000 Aker brygge",
+            "errorEmpty": "Dumpsteren trenger et navn",
+            "errorLong": "Navnet kan ikke være lengre enn 64 tegn"
+        },
+        "dumpsterType": {
+            "label": "Type søppelkasse",
+            "errorEmpty": "Dumpstertype må oppgis"
+        },
+        "storeType": {
+            "label": "Butikktype",
+            "errorEmpty": "Butikktype må oppgis"
+        },
+        "categories": {
+            "label": "Kategorier"
+        },
+        "emptyingSchedule": {
+            "label": "Tømmeplan",
+            "placeholder": "f.eks Første mandag i måneden",
+            "errorLong": "Tømmeplanen kan ikke være lengre enn 128 tegn"
+        },
+        "storeView": {
+            "label": "Butikkens syn på søppeldykkere",
+            "negative": "Negativt",
+            "neutral": "Nøytralt",
+            "positive": "Positivt"
+        },
+        "locked": {
+            "label": "Dumpsterens tilstand",
+            "locked": "Låst",
+            "unlocked": "Åpen"
+        },
+        "cleanliness": {
+            "label": "Renhet",
+            "pristine": "Nydelig",
+            "clean": "Ren",
+            "average": "Normal",
+            "dirty": "Skitten",
+            "filthy": "Forferdelig"
+        },
+        "extraInfo": {
+            "label": "Annen info",
+            "placeholder": "Ekstra info som ikke passer inn andre steder",
+            "errorLong": "Her er det ikke plass til mer enn 500 tegn"
+        },
+        "save": "Lagre dumpster",
+        "create": "Opprett dumpster"
+    },
+
+    "contents": {
+        "add": "Legg til innhold",
+        "amount": "Mengde",
+        "unit": "Enhet",
+        "quality": "Kvalitet",
+        "expiryDate": "Utløpsdato",
+        "foundDate": "Funnet",
+        "addItem": "Legg til vare"
+    },
+
+    "contentsEditor": {
+        "addTitle": "Nytt innhold",
+        "name": {
+            "label": "Produkt",
+            "placeholder": "Produkt",
+            "errorEmpty": "Innholdet trenger et navn",
+            "errorLong": "Navnet kan ikke være lengre enn 24 tegn"
+        },
+        "amount": {
+            "label": "Mengde",
+            "placeholder": "1",
+            "errorInvalid": "Mengden må være et tall"
+        },
+        "unit": {
+            "label": "Enhet",
+            "placeholder": "liter",
+            "errorLong": "Enheten kan ikke være lengre enn 12 tegn"
+        },
+        "expiryDate": {
+            "label": "Utløpsdato",
+            "placeholder": "Velg dato"
+        },
+        "expiresOn": "Utløper den",
+        "add": "Legg til",
+        "remove": "Fjern innhold",
+        "save": "Lagre innhold"
+    },
+
+    "position": {
+        "save": "Sett posision",
+        "help": "Trykk på kartet eller dra markøren for å presisere sted",
+        "none": "Ingen posisjon valgt",
+        "unknown": "Ukjent sted",
+        "searchBox": {
+            "label":  "Søk etter et sted",
+            "placeholder": "f.eks. Paris",
+            "pending": "Leter etter steder …"
+        }
+    },
+
+    "placeholders": {
+        "search": "Place your text",
+        "comment": "Comment",
+        "choose": "Choose..."
+    },
+
+    "cleanliness": {
+        "pristine": "Nydelig",
+        "clean": "Ren",
+        "average": "Normal",
+        "dirty": "Skitten",
+        "filthy": "Forferdelig"
+    },
+
+    "dumpsterType": {
+        "Compressor": "Kompressor",
+        "Large Container": "Stor konteiner",
+        "Small Container": "Liten konteiner",
+        "Trash Bin": "Søppeldunk"
+    },
+
+    "storeType": {
+        "Grocery Store": "Matbutikk",
+        "Bakery": "Bakeri",
+        "Furniture Store": "Møbelbutikk",
+        "General Store": "Dagligvarebutikk",
+        "Miscellaneous": "Blandet"
+    },
+
+
+    "categories": {
+        "Dairy": "Meieriprodukter",
+        "Bread": "Brød",
+        "Vegetables": "Grønnsaker",
+        "Meat": "Kjøtt",
+        "Fruit": "Frukt",
+        "Pastries": "Bakevarer",
+        "Seafood": "Sjømat",
+        "Chocolate": "Sjokolade",
+        "Candy": "Godteri",
+        "Nuts": "Nøtter",
+        "Rice": "Ris",
+        "Pasta": "Pasta",
+        "Fish": "Fisk",
+        "Cereals": "Frokostblanding",
+        "Noodles": "Nudler",
+        "Eggs": "Egg",
+        "unknown": "Ukjent"
+    },
+
+    "content": {
+        "title": "Legg til innhold",
+        "product": "Produkt",
+        "productPlace": "Produktnavn",
+        "amount": "Mengde",
+        "unit": "Konteiner",
+        "expiryDate": "Utløpsdato",
+        "expiryPlace": "Velg dato ...",
+        "cancel": "Avbryt",
+        "add": "Legg til"
+    },
+
+    "notFound": {
+        "text": "Denne siden finnes ikke",
+        "back": "Gå tilbake til forsiden"
+    },
+
+    "titles": {
+        "mapBar": "Kart",
+        "listBar": "Liste",
+        "map": "Kartvisning",
+        "addPos": "Sett posisjon",
+        "addInfo": "Legg til informasjon",
+        "details": "Detaljer",
+        "comment": "Kommentarer",
+        "content": "Innhold",
+        "revision": "Revisjonshistorikk",
+        "list": "Listevisning",
+        "edit": "Rediger dumpster",
+        "info": "Informasjon",
+        "settings": "Innstillinger",
+        "yourPos": "Sett posisjon",
+        "gallery": "Bildegalleri",
+        "display": "Bilde",
+        "addPhoto": "Legg til bilde",
+        "flag": "Raporter søppeldunk"
+    },
+
+    "intro": {
+        "generatingUserID": "Genererer bruker-ID …",
+        "introBlurb": "Velkommen til Dumpster Finder, en app for søppeldykkere. Den er lagd for å dele informasjon om søppelkonteinere det er mulig å lete etter ting i. Du kan finne dumpstere i nærheten av deg, og legge til informasjon om andre dumpstere og innholdet i dem.",
+        "userIDFailed": "Kunne ikke generere bruker-ID",
+        "userID": "Bruker-ID",
+        "locationBlurb": "Plasseringen din lagres kun lokalt på enheten. Den sendes til serveren vår når dumpstere hentes. Vi deler den ikke med tredjeparter – men dessverre måtte vi bruke en kartløsning som spør Google Maps om informasjon og kart over steder. Vi satser på å unngå dette senere."
+    },
+
+    "visit": {
+        "visitbtn":"Jeg var her",
+        "part1": "Besøkt",
+        "time": "gang",
+        "times": "ganger",
+        "dayText": "det siste døgnet",
+        "daysText": "de siste tre dagene",
+        "weekText": "den siste uka",
+        "day": "døgn",
+        "days": "3 dager",
+        "week": "uke",
+        "disabled": "Du må vente litt med å registrere deg igjen"
+    },
+
+    "photo": {
+        "upload": "Velg bilde",
+        "take": "Ta bilde",
+        "photo": "Bilde",
+        "delete" : "Slett bilde",
+        "add": "Legg til bide",
+        "see": "Se bilder"
+    },
+    "report": {
+        "report": "Rapporter denne søppelkassen",
+        "text": "Rapporter søppelkassen dersom den ikke eksisterer, er ulovlig å dumpstre i osv. Dersom det er noe feil med informasjonen om dumpsteren så kan du endre den selv",
+        "reason": {
+            "label": "Grunn (valgfritt)",
+            "placeholder": "f.eks. Jeg har sett grundig etter og finner den ikke."
+        },
+        "alreadyReport": "Du har allerede rapporter denne dumpsteren",
+        "justReport": "Vi har registrert din rapport"
+    }
+}
