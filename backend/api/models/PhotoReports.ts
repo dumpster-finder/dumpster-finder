@@ -3,22 +3,20 @@ import { PhotoAttributes, PhotoCreationAttributes } from "./Photos";
 import { UserAttributes, UserCreationAttributes } from "./Users";
 
 export interface PhotoReportAttributes {
-    photoReportID: number;
     photoID: number;
-    userID: number | null;
+    userID: number;
     reason: string;
     date: string;
 }
 
 export interface PhotoReportCreationAttributes
-    extends Optional<PhotoReportAttributes, "photoReportID"> {}
+    extends PhotoReportAttributes {}
 
 export class PhotoReports
     extends Model<PhotoReportAttributes, PhotoReportCreationAttributes>
     implements PhotoReportAttributes {
-    public photoReportID!: number;
     public photoID!: number;
-    public userID!: number | null;
+    public userID!: number;
     public reason!: string;
     public date!: string;
 }
@@ -27,17 +25,14 @@ export class PhotoReports
 export function init(sequelize: Sequelize) {
     PhotoReports.init(
         {
-            photoReportID: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
-                primaryKey: true,
-            },
+
             photoID: {
                 type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: false,
+                primaryKey: true,
             },
             userID: {
                 type: DataTypes.NUMBER,
+                primaryKey: true,
             },
             reason: {
                 type: DataTypes.STRING,

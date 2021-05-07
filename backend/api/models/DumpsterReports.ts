@@ -3,22 +3,20 @@ import { DumpsterPositionAttributes, DumpsterPositionCreationAttributes } from "
 import { UserAttributes, UserCreationAttributes } from "./Users";
 
 export interface DumpsterReportAttributes {
-    dumpsterReportID: number;
     dumpsterID: number;
-    userID: number | null;
+    userID: number;
     reason: string;
     date: string;
 }
 
 export interface DumpsterReportCreationAttributes
-    extends Optional<DumpsterReportAttributes, "dumpsterReportID"> {}
+    extends DumpsterReportAttributes {}
 
 export class DumpsterReports
     extends Model<DumpsterReportAttributes, DumpsterReportCreationAttributes>
     implements DumpsterReportAttributes {
-    dumpsterReportID!: number;
     dumpsterID!: number;
-    userID!: number | null;
+    userID!: number;
     reason!: string;
     date!: string;
 }
@@ -27,17 +25,13 @@ export class DumpsterReports
 export function init(sequelize: Sequelize) {
     DumpsterReports.init(
         {
-            dumpsterReportID: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
-                primaryKey: true,
-            },
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: false,
+                primaryKey: true,
             },
             userID: {
                 type: DataTypes.NUMBER,
+                primaryKey: true,
             },
             reason: {
                 type: DataTypes.STRING,

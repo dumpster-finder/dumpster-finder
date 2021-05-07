@@ -6,7 +6,6 @@ import {
 } from "./DumpsterPositions";
 
 export interface ReportsAttributes {
-    dumpsterReportID: number;
     dumpsterID: number;
     userID: number;
     reason: string;
@@ -16,12 +15,11 @@ export interface ReportsAttributes {
 export interface ReportsCreationAttributes
     extends Optional<
         ReportsAttributes,
-        "dumpsterReportID" | "reason" | "date"
+         "reason" | "date"
     > {}
 
 export class Reports extends Model<ReportsAttributes, ReportsCreationAttributes>
     implements ReportsAttributes {
-    public dumpsterReportID!: number;
     public dumpsterID!: number;
     public userID!: number;
     public reason!: string;
@@ -31,18 +29,13 @@ export class Reports extends Model<ReportsAttributes, ReportsCreationAttributes>
 export function init(sequelize: Sequelize) {
     Reports.init(
         {
-            dumpsterReportID: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
-                primaryKey: true,
-            },
             dumpsterID: {
                 type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: false,
+                primaryKey: true,
             },
             userID: {
                 type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: false,
+                primaryKey: true,
             },
             reason: {
                 type: DataTypes.STRING,

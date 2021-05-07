@@ -41,8 +41,10 @@ import { standardLimiter, updateLimiter } from "../middleware/rateLimiter";
 import { validate } from "express-validation";
 import { getReport, postReport } from "../validators/reports";
 import { JwtMiddleware } from "../middleware/tokenMiddleware";
+import { ConflictError } from "../types/errors";
+import { UniqueConstraintError } from "sequelize";
 
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const reportDAO = ReportDAO(Models);
     const router = Router({ mergeParams: true });
 
@@ -119,6 +121,8 @@ export default function ({ Models }: RouteDependencies) {
      *     responses:
      *       "201":
      *          description: Added a new report
+     *       "409":
+     *          description: You have already reported this dumpster
      */
     router.post(
         "/",
@@ -133,14 +137,22 @@ export default function ({ Models }: RouteDependencies) {
             next,
         ) => {
             try {
-                const result = await reportDAO.addOne(
+                await reportDAO.addOne(
                     req.params.dumpsterID,
                     res.locals.session.id,
                     req.body.reason,
                 );
-                res.status(201).json(result);
+                res.status(201).send(
+                    "Report added, thanks for the information",
+                );
             } catch (e) {
-                next(e);
+                if (e instanceof UniqueConstraintError)
+                    next(
+                        new ConflictError(
+                            "You have already reported this dumpster",
+                        ),
+                    );
+                else next(e);
             }
         },
     );

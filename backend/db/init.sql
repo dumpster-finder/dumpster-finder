@@ -106,12 +106,12 @@ ALTER TABLE DumpsterPositions ADD FOREIGN KEY (revisionID) references Dumpsters(
 -- Dumpster may not exist
 -- This should be reported.
 CREATE TABLE DumpsterReports (
-    dumpsterReportID INT PRIMARY KEY AUTO_INCREMENT,
-    dumpsterID INT NOT NULL REFERENCES DumpsterPositions(dumpsterID),
+    dumpsterID INT REFERENCES DumpsterPositions(dumpsterID),
     userID INT REFERENCES Users(userID),
     reason TEXT,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (dumpsterID),
+    PRIMARY KEY(dumpsterID, userID),
     CONSTRAINT dumpsterReportFK1 FOREIGN KEY DumpsterReports(dumpsterID)
         REFERENCES DumpsterPositions (dumpsterID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
@@ -175,12 +175,12 @@ CREATE TABLE Photos (
 
 -- Photos may contain unwanted imagery that will need to be moderated
 CREATE TABLE PhotoReports (
-    photoReportID INT PRIMARY KEY AUTO_INCREMENT,
-    photoID INT NOT NULL REFERENCES Photos(photoID),
+    photoID INT REFERENCES Photos(photoID),
     userID INT,
     reason TEXT NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX (photoID),
+    PRIMARY KEY(photoID, userID),
     CONSTRAINT photoReportFK1 FOREIGN KEY PhotoReports(photoID)
         REFERENCES Photos (photoID)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
