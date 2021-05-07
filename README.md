@@ -3,10 +3,13 @@
 An app for dumpster divers
 
 ![map](screenshots/map.png)
+![map](screenshots/map-dark.png)
 
-![list view](screenshots/list.png)![list view, dark](screenshots/list-dark.png)
+![list view](screenshots/list.png)
+![list view, dark](screenshots/list-dark.png)
 
-![details view](screenshots/details.png)![details view, dark](screenshots/details-dark.png)
+![details view](screenshots/details.png)
+![details view, dark](screenshots/details-dark.png)
 
 ## External links
 

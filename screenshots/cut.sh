@@ -3,6 +3,5 @@
 
 for img in "$@"
 do
-  convert "$img" -crop 1080x1728+0+64 "$img"
-  #convert "$img" -resize 50% "$img"
+  convert "$img" -crop 1080x1728+0+64 -resize 30% "$img"
 done
