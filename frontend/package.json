@@ -1,4 +1,7 @@
 {
+  "name": "dumpster-finder",
+  "version": "0.0.1",
+  "description": "An app for dumpster finders",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -85,5 +88,21 @@
     "typedoc": "^0.20.24",
     "typescript": "~4.0.0"
   },
-  "private": true
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.stud.iie.ntnu.no/heleneyj/dumpster-diving"
+  },
+  "contributors": [
+    {
+      "name": "Tore Bergebakken"
+    },
+    {
+      "name": "Jon Åby Bergquist"
+    },
+    {
+      "name": "Helene Yuee Jonson"
+    }
+  ],
+  "license": "SEE LICENSE IN LICENSE.md"
 }

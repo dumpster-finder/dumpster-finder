@@ -9,6 +9,7 @@ An app for dumpster divers
 + [Photo server documentation](http://heleneyj.pages.stud.idi.ntnu.no/dumpster-diving/pic-doc/)
 + [Frontend documentation](http://heleneyj.pages.stud.idi.ntnu.no/dumpster-diving/app-doc/)
 + [Builds of the app](https://expo.io/accounts/toberge/projects/dumpster-finder/builds)
++ [Expo project page](https://expo.io/@toberge/projects/dumpster-finder)
 
 ## Instructions
 
