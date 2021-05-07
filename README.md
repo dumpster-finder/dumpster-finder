@@ -11,5 +11,6 @@ An app for dumpster divers
 
 + [Backend](backend/README.md)
 + [API server](backend/api/README.md)
++ [Photo server](backend/pics/README.md)
 + [Database](backend/db/README.md)
 + [Frontend](frontend/README.md)

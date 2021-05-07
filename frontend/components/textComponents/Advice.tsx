@@ -16,6 +16,8 @@ export default function Advice() {
                 <Text style={styles.text}>{t("nr3")!}</Text>
                 <Text style={styles.text}>{t("nr4")!}</Text>
                 <Text style={styles.text}>{t("nr5")!}</Text>
+                <Text style={styles.text}>{t("nr6")!}</Text>
+                <Text style={styles.text}>{t("nr7")!}</Text>
             </View>
         </View>
     );

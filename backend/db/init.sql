@@ -34,23 +34,25 @@ BEGIN
 END;;
 DELIMITER ;
 
--- Dumpster types: Compressor, dumpster, idk
+-- Dumpster types: Compressor, large container, etc.
 CREATE TABLE DumpsterTypes (
     dumpsterTypeID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(24) NOT NULL
 );
 
--- Store types: Grocery, electronics, etc.
+-- Store types: Grocery store, bakery, etc.
 CREATE TABLE StoreTypes (
     storeTypeID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(24) NOT NULL
 );
--- Store types: Grocery, electronics, etc.
+
+-- Users: Simply a pair of userID and a randomly generated string
 CREATE TABLE Users (
     userID INT PRIMARY KEY AUTO_INCREMENT,
     passwordHash VARCHAR(256) UNIQUE NOT NULL,
     salt VARCHAR(256) NOT NULL
     );
+
 -- Dumpster Positions: Stores dumpster id and position
 -- saves a lot of pain using UUID and revision while maintaining
 -- unique positions for non revised dumpsters
@@ -60,6 +62,7 @@ CREATE TABLE DumpsterPositions (
     revisionID INT, -- references Dumpsters(revisionID)
     SPATIAL INDEX (position)
 );
+
 -- Dumpsters: Uniquely identified by position
 --            (you better know what a dumpster is)
 CREATE TABLE Dumpsters (
@@ -99,8 +102,6 @@ CREATE TABLE Dumpsters (
 );
 
 ALTER TABLE DumpsterPositions ADD FOREIGN KEY (revisionID) references Dumpsters(revisionID) ON UPDATE RESTRICT ON DELETE SET NULL;
-
-
 
 -- Dumpster may not exist
 -- This should be reported.

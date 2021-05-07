@@ -12,7 +12,6 @@ export default class ReportService {
      * Add a report on a dumpster
      *
      * @param dumpsterID ID of the dumpster that is reported
-     * @param userID ID of the user who reports the dumpster
      * @param reason Optional reason for the report
      */
     addOne(dumpsterID: number, reason: string | undefined): Promise<Report> {

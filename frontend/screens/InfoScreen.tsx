@@ -11,10 +11,7 @@ export default function InfoScreen() {
                 style={styles.scrollView}
                 contentContainerStyle={styles.innerContainer}
             >
-                <View style={{ paddingHorizontal: 10 }}>
-                    <IconExplanation />
-                    <Advice />
-                </View>
+                <Advice />
             </ScrollView>
         </Layout>
     );
@@ -30,7 +27,10 @@ const styles = StyleSheet.create({
         width: "auto",
     },
     innerContainer: {
-        marginVertical: "15%",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: 10,
+        minHeight: "100%",
     },
     row: {
         flex: 1,
