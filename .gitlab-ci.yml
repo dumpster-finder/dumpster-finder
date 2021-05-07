@@ -94,7 +94,7 @@ pages:
     - mkdir .public .public/{api-cov,api-doc,pic-doc,app-doc}
     - cp -r backend/api/coverage/lcov-report/* .public/api-cov
     - cp -r backend/api/docs/* .public/api-doc
-    - cp -r backend/pic/docs/* .public/pic-doc
+    - cp -r backend/pics/docs/* .public/pic-doc
     - cp -r frontend/docs/* .public/app-doc
     - mv .public public
   artifacts:
