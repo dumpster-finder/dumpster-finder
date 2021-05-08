@@ -288,7 +288,7 @@ export default function({ Models }: RouteDependencies) {
      *         description: JWT for authentication
      *     responses:
      *       "204":
-     *         description: Number of affected rows
+     *         description: Successful removal
      */
     router.delete(
         "/:commentID",
