@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     rowText: {
         marginLeft: 3,
     },
-
     box: {
         display: "flex",
         flexWrap: "wrap",

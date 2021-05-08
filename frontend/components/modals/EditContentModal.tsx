@@ -20,7 +20,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
 import { AirbnbRating } from "react-native-ratings";
-import { number } from "yup";
 
 export default function EditContentModal({
     visible,

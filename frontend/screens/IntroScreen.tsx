@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Layout, ViewPager, Text, Button } from "@ui-kitten/components";
 import { useState } from "react";
 import ButtonGroupDisplay from "../components/basicComponents/ButtonGroupDisplay";

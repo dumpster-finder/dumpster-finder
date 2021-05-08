@@ -77,9 +77,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
     },
-    column: {
-        flexDirection: "column",
-    },
     nameView: {
         width: "33.3%",
         justifyContent: "center",

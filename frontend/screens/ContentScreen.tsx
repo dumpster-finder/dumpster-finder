@@ -6,12 +6,12 @@ import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
 import ContentCard from "../components/cards/ContentCard";
 import Content from "../models/Content";
 import { useEffect, useState } from "react";
-import EditContentModal from "../components/Modals/EditContentModal";
-import AddContentModal from "../components/Modals/AddContentModal";
+import EditContentModal from "../components/modals/EditContentModal";
+import AddContentModal from "../components/modals/AddContentModal";
 import { useTranslation } from "react-i18next";
 import { ContentService } from "../services";
 import Message from "../utils/Message";
-import SelectMethodModal from "../components/Modals/SelectMethodModal";
+import SelectMethodModal from "../components/modals/SelectMethodModal";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PhotoButtonIcon } from "../components/basicComponents/Icons";
 

@@ -85,14 +85,7 @@ export default function CommentCard({
                 onBackdropPress={() => setModalVis(false)}
                 backdropStyle={styles.backdrop}
             >
-                <Card
-                    style={{
-                        alignSelf: "center",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        maxWidth: "90%",
-                    }}
-                >
+                <Card style={styles.card}>
                     <Text category={"h5"}>{t("delComment")}</Text>
                     <Divider />
                     <View style={styles.modalBtn}>
@@ -196,5 +189,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         marginVertical: 5,
+    },
+    card: {
+        alignSelf: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        maxWidth: "90%",
     },
 });

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import DumpsterRevisionCard from "../components/cards/DumpsterRevisionCard";
 import { useSelector } from "react-redux";
