@@ -25,7 +25,7 @@ import { JwtMiddleware } from "../middleware/tokenMiddleware";
 import { validate } from "express-validation";
 import { addRatings } from "../validators/ratings";
 
-export default function ({ Models }: RouteDependencies) {
+export default function({ Models }: RouteDependencies) {
     const router = Router({ mergeParams: true });
     const ratingDAO = RatingDAO(Models);
 
@@ -65,12 +65,12 @@ export default function ({ Models }: RouteDependencies) {
         updateLimiter,
         async (req: Request, res, next) => {
             try {
-                const rating = await ratingDAO.addOne(
+                await ratingDAO.addOne(
                     parseInt(req.params.dumpsterID),
                     req.body.rating,
                     res.locals.session.id,
                 );
-                res.status(201).json(rating);
+                res.status(201).send();
             } catch (e) {
                 next(e);
             }
@@ -117,12 +117,12 @@ export default function ({ Models }: RouteDependencies) {
             next,
         ) => {
             try {
-                const rating = await ratingDAO.updateOne(
+                await ratingDAO.updateOne(
                     res.locals.session.id,
                     req.params.dumpsterID,
                     req.body.rating,
                 );
-                res.status(201).json(rating);
+                res.status(201).send();
             } catch (e) {
                 next(e);
             }
