@@ -33,7 +33,8 @@ export default function ButtonGroupDisplay({
                                 key={i}
                                 style={{ width: width + "%" }}
                                 onPress={() => onSelect(i)}
-                                appearance={value === i ? "filled" : "outline"}
+                                appearance="outline"
+                                status={value === i ? "primary" : "basic"}
                             >
                                 {name}
                             </Button>
@@ -79,7 +80,8 @@ export default function ButtonGroupDisplay({
                                 key={i}
                                 style={{ width: width + "%" }}
                                 onPress={() => onSelect(i)}
-                                appearance={value === i ? "filled" : "outline"}
+                                appearance="outline"
+                                status={value === i ? "primary" : "basic"}
                             >
                                 {name}
                             </Button>
