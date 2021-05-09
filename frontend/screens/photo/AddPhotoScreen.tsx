@@ -8,21 +8,21 @@ import {
     SaveButtonIcon,
     PhotoButtonIcon,
     PendingButtonIcon,
-} from "../components/basicComponents/Icons";
+} from "../../components/basicComponents/Icons";
 import { NavigationProp } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import { PhotoService } from "../services";
+import { PhotoService } from "../../services";
 import { useSelector } from "react-redux";
-import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
+import { currentDumpsterSelector } from "../../redux/slices/dumpsterSlice";
 import {
     addPhoto,
     setUploadURI,
     uploadURISelector,
-} from "../redux/slices/photoSlice";
-import { useAppDispatch } from "../redux/store";
-import Message from "../utils/Message";
-import { userIDSelector, userNameSelector } from "../redux/slices/userSlice";
-const placeholder = require("../assets/images/placeholder.png");
+} from "../../redux/slices/photoSlice";
+import { useAppDispatch } from "../../redux/store";
+import Message from "../../utils/Message";
+import { userIDSelector, userNameSelector } from "../../redux/slices/userSlice";
+const placeholder = require("../../assets/images/placeholder.png");
 
 export default function AddPhotoScreen({
     navigation,

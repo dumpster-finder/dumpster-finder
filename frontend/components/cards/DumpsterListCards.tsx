@@ -13,6 +13,12 @@ import { coverPhotoSelector } from "../../redux/slices/photoSlice";
 import { calcOrUseDistance } from "../../utils/distance";
 const placeholder = require("../../assets/images/placeholder-wide.png");
 
+/**
+ * Returns a card that displays the dumpster in listView.
+ * @param dumpster
+ * @param onPress
+ *
+ */
 export default function DumpsterListCards({
     dumpster,
     onPress,

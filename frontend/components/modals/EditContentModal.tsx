@@ -21,6 +21,16 @@ import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
 import { AirbnbRating } from "react-native-ratings";
 
+/**
+ * Returns modal that lets user edit the registered content if they have taken some or it is gone.
+ * @param visible
+ * @param setVisible
+ * @param pending
+ * @param selectedContent
+ * @param onSave
+ * @param onDelete
+ *
+ */
 export default function EditContentModal({
     visible,
     setVisible,

@@ -3,6 +3,11 @@ import { Layout, Text } from "@ui-kitten/components";
 import * as React from "react";
 import { StyleSheet } from "react-native";
 
+/**
+ * Displays the additional information a user can add about a dumpster.
+ * @param dumpster
+ *
+ */
 export default function ExtraInfo({ dumpster }: { dumpster: Dumpster }) {
     if (!dumpster.info) return null;
 

@@ -13,7 +13,7 @@ import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 
 import IntroScreen from "../screens/IntroScreen";
-import CameraScreen from "../screens/CameraScreen";
+import CameraScreen from "../screens/photo/CameraScreen";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started

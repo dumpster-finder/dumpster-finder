@@ -15,6 +15,13 @@ import { formatDate } from "../../utils/date";
 import { useTranslation } from "react-i18next";
 import Message from "../../utils/Message";
 
+/**
+ * Card that displays the data connected to the comment and the possibility of rating the comment
+ * @param comment
+ * @param voted
+ * @param onDelete
+ *
+ */
 export default function CommentCard({
     comment,
     voted,

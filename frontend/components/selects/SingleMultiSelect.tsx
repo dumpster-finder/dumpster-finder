@@ -7,6 +7,15 @@ import {
 } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
 
+/**
+ * Displays a dropdown menu where the user can select multiple values
+ * @param sValue
+ * @param label
+ * @param values
+ * @param onSelect
+ * @param placeholder
+ * @param restProps
+ */
 export default function singleMultiSelect({
     sValue,
     label,

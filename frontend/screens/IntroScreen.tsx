@@ -19,6 +19,11 @@ import { useTranslation } from "react-i18next";
 import LanguagePicker from "../components/settings/LanguagePicker";
 import { GlobeIcon } from "../components/basicComponents/Icons";
 
+/**
+ * Introduction shown first time the app is used
+ * @param navigation
+ *
+ */
 export default function IntroScreen({
     navigation,
 }: {

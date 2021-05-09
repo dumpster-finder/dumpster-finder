@@ -7,6 +7,9 @@ import { useSelector } from "react-redux";
 import { languageSelector, setLanguage } from "../../redux/slices/configSlice";
 import { useAppDispatch } from "../../redux/store";
 
+/**
+ * Ratio buttons with different languages as values
+ */
 export default function() {
     const dispatch = useAppDispatch();
     const language = useSelector(languageSelector);

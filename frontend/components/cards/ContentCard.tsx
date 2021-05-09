@@ -6,6 +6,12 @@ import { Card } from "@ui-kitten/components";
 import { formatDate } from "../../utils/date";
 import { useTranslation } from "react-i18next";
 
+/**
+ * Returns a card that displays the registered data for the content registered.
+ * @param content
+ * @param onPress
+ *
+ */
 export default function ContentCard({
     content,
     onPress,

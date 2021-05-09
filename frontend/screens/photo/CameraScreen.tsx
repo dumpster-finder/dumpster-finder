@@ -7,9 +7,9 @@ import {
     CameraButtonIcon,
     FlipButtonIcon,
     PendingButtonIcon,
-} from "../components/basicComponents/Icons";
-import { setUploadURI } from "../redux/slices/photoSlice";
-import { useAppDispatch } from "../redux/store";
+} from "../../components/basicComponents/Icons";
+import { setUploadURI } from "../../redux/slices/photoSlice";
+import { useAppDispatch } from "../../redux/store";
 
 export default function CameraScreen({
     navigation,

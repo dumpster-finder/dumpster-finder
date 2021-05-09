@@ -1,32 +1,37 @@
 import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import DumpsterListCards from "../components/cards/DumpsterListCards";
+import DumpsterListCards from "../../components/cards/DumpsterListCards";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { useAppDispatch } from "../redux/store";
+import { useAppDispatch } from "../../redux/store";
 import {
     allDumpstersSelector,
     dumpsterMapSelector,
     setCurrentDumpster,
-} from "../redux/slices/dumpsterSlice";
+} from "../../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
-import SearchHeader from "../components/basicComponents/SearchHeader";
+import SearchHeader from "../../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
-import FilterModal from "../components/FilterModal";
+import FilterModal from "../../components/FilterModal";
 import { useState } from "react";
-import { calcOrUseDistance } from "../utils/distance";
+import { calcOrUseDistance } from "../../utils/distance";
 import {
     dumpsterFilterSelector,
     positionSelector,
-} from "../redux/slices/configSlice";
+} from "../../redux/slices/configSlice";
 import {
     coverPhotoMapSelector,
     setCoverPhoto,
-} from "../redux/slices/photoSlice";
+} from "../../redux/slices/photoSlice";
 import { useEffect } from "react";
-import { PhotoService } from "../services";
-import useFilter from "../hooks/useFilter";
-import FloatButton from "../components/basicComponents/FloatButton";
+import { PhotoService } from "../../services";
+import useFilter from "../../hooks/useFilter";
+import FloatButton from "../../components/basicComponents/FloatButton";
 
+/**
+ * Screen that shows all dumpsters as cards
+ * @param navigation
+ *
+ */
 export default function ListScreen({
     navigation,
 }: {

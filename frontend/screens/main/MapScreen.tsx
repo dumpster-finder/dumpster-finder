@@ -2,25 +2,25 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 import { StackNavigationProp } from "@react-navigation/stack";
-import DumpsterMarker from "../components/map/DumpsterMarker";
-import { useAppDispatch } from "../redux/store";
+import DumpsterMarker from "../../components/map/DumpsterMarker";
+import { useAppDispatch } from "../../redux/store";
 import {
     allDumpstersSelector,
     setCurrentDumpster,
-} from "../redux/slices/dumpsterSlice";
+} from "../../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
 import {
     firstTimeSelector,
     positionSelector,
-} from "../redux/slices/configSlice";
+} from "../../redux/slices/configSlice";
 import { useEffect, useState } from "react";
-import SearchHeader from "../components/basicComponents/SearchHeader";
+import SearchHeader from "../../components/basicComponents/SearchHeader";
 import { Layout } from "@ui-kitten/components";
-import MapPositionMarker from "../components/map/MapPositionMarker";
-import CustomMapView from "../components/map/CustomMapView";
-import FilterModal from "../components/FilterModal";
-import useFilter from "../hooks/useFilter";
-import FloatButton from "../components/basicComponents/FloatButton";
+import MapPositionMarker from "../../components/map/MapPositionMarker";
+import CustomMapView from "../../components/map/CustomMapView";
+import FilterModal from "../../components/FilterModal";
+import useFilter from "../../hooks/useFilter";
+import FloatButton from "../../components/basicComponents/FloatButton";
 
 export default function MapScreen({
     navigation,

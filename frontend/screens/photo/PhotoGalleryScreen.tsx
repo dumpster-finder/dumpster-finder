@@ -9,8 +9,13 @@ import {
 import { Layout } from "@ui-kitten/components";
 import { Dimensions } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import usePhotos from "../hooks/usePhotos";
+import usePhotos from "../../hooks/usePhotos";
 
+/**
+ * Displays photos in a gallery
+ * @param navigation
+ *
+ */
 export default function PhotoGalleryScreen({
     navigation,
 }: {

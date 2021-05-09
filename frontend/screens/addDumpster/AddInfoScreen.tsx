@@ -2,19 +2,19 @@ import * as React from "react";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
-import { useAppDispatch } from "../redux/store";
+import { useAppDispatch } from "../../redux/store";
 import {
     editorDumpsterSelector,
     resetEditor,
-} from "../redux/slices/editorSlice";
-import { addDumpster } from "../redux/slices/dumpsterSlice";
+} from "../../redux/slices/editorSlice";
+import { addDumpster } from "../../redux/slices/dumpsterSlice";
 import { useSelector } from "react-redux";
-import { UpdatedDumpster } from "../models/Dumpster";
+import { UpdatedDumpster } from "../../models/Dumpster";
 import { StackNavigationProp } from "@react-navigation/stack";
-import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
-import { DumpsterService } from "../services";
+import DumpsterEditor from "../../components/compoundComponents/DumpsterEditor";
+import { DumpsterService } from "../../services";
 import { StackActions } from "@react-navigation/native";
-import Message from "../utils/Message";
+import Message from "../../utils/Message";
 
 export default function AddInfoScreen({
     navigation,

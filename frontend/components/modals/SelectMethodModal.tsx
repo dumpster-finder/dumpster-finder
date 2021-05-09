@@ -4,6 +4,13 @@ import { StyleSheet, View } from "react-native";
 import { CameraButtonIcon, EditButtonIcon } from "../basicComponents/Icons";
 import { useTranslation } from "react-i18next";
 
+/**
+ * Returns modal that lets users decide if they want to add an item or add a photo of the contents.
+ * @param visible
+ * @param setVisible
+ * @param onSelect
+ *
+ */
 export default function SelectMethodModal({
     visible,
     setVisible,
