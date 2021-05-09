@@ -32,13 +32,17 @@ export default function ContentCard({
                 <View style={styles.infoView}>
                     {content.amount && (
                         <View style={styles.row}>
-                            <Text style={styles.boldText}>{t("amount")}: </Text>
+                            <Text style={styles.boldText}>
+                                {t("amountLabel")}:{" "}
+                            </Text>
                             <Text style={styles.text}>{content.amount}</Text>
                         </View>
                     )}
                     {content.unit && (
                         <View style={styles.row}>
-                            <Text style={styles.boldText}>{t("unit")}: </Text>
+                            <Text style={styles.boldText}>
+                                {t("unitLabel")}:{" "}
+                            </Text>
                             <Text style={styles.text}>{content.unit}</Text>
                         </View>
                     )}

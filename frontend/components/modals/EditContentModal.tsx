@@ -47,9 +47,7 @@ export default function EditContentModal({
     onDelete: (content: Content) => void;
 }) {
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-    const { t }: { t: (s: string) => string } = useTranslation(
-        "contentsEditor",
-    );
+    const { t }: { t: (s: string) => string } = useTranslation("contents");
     return (
         <View>
             <Modal
@@ -96,7 +94,7 @@ export default function EditContentModal({
 
                             <View style={styles.row}>
                                 <Input
-                                    label={t("amount.label")}
+                                    label={t("amountLabel")}
                                     style={styles.input}
                                     size={"large"}
                                     value={values.amount}
@@ -120,7 +118,7 @@ export default function EditContentModal({
                             </View>
                             <View style={styles.row}>
                                 <Text style={styles.boldText}>
-                                    {t("contents:quality")}:{" "}
+                                    {t("quality")}:{" "}
                                 </Text>
                                 <AirbnbRating
                                     size={20}
