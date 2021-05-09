@@ -23,10 +23,10 @@ export default function GeneralInfo({ dumpster }: { dumpster: Dumpster }) {
         <View style={styles.infoView}>
             <View style={styles.row}>
                 <TrashIcon size="small" />
-                <Text style={styles.rowText}>
+                <Text style={[styles.label, styles.bold]}>
                     {t("emptyingSchedule")}:{" "}
-                    {dumpster.emptyingSchedule || t("unknown")}
                 </Text>
+                <Text>{dumpster.emptyingSchedule || t("unknown")}</Text>
             </View>
 
             {/* STORE VIEW */}
@@ -38,20 +38,20 @@ export default function GeneralInfo({ dumpster }: { dumpster: Dumpster }) {
                 ) : (
                     <NegativeIcon size={"small"} />
                 )}
-                <Text style={styles.rowText}>
+                <Text style={[styles.label, styles.bold]}>
                     {t("view")}
                     {": "}
-                    {dumpster.positiveStoreViewOnDiving ? (
-                        <Text>{t("positive")}</Text>
-                    ) : dumpster.positiveStoreViewOnDiving === null ? (
-                        <Text>{t("neutral")}</Text>
-                    ) : (
-                        <Text>{t("negative")}</Text>
-                    )}
                 </Text>
+                {dumpster.positiveStoreViewOnDiving ? (
+                    <Text>{t("positive")}</Text>
+                ) : dumpster.positiveStoreViewOnDiving === null ? (
+                    <Text>{t("neutral")}</Text>
+                ) : (
+                    <Text>{t("negative")}</Text>
+                )}
             </View>
             <View style={styles.row}>
-                <Text style={styles.rowText}>
+                <Text style={styles.label}>
                     {t("visit:part1")} {dumpster.visits}{" "}
                     {dumpster.visits === 1 ? t("visit:time") : t("visit:times")}{" "}
                     {visitWindow === 0
@@ -66,8 +66,11 @@ export default function GeneralInfo({ dumpster }: { dumpster: Dumpster }) {
 }
 
 const styles = StyleSheet.create({
-    rowText: {
+    label: {
         marginLeft: 3,
+    },
+    bold: {
+        fontWeight: "bold",
     },
     infoView: {
         marginVertical: 5,

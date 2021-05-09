@@ -138,7 +138,7 @@ export default function DetailsScreen({
                         </Button>
                     </View>
 
-                    <Text style={{ alignSelf: "center" }}>
+                    <Text style={{ alignSelf: "center", fontWeight: "bold" }}>
                         {t("setRating")}
                     </Text>
                     <View style={styles.row}>
