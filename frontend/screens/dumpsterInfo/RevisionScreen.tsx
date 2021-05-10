@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import { Layout, Text } from "@ui-kitten/components";
+import { Layout } from "@ui-kitten/components";
 import DumpsterRevisionCard from "../../components/cards/DumpsterRevisionCard";
 import { useSelector } from "react-redux";
 import {
@@ -38,60 +38,43 @@ export default function RevisionScreen({
                 .then(data => setDumpsterList(data))
                 .catch(e => Message.error(e, "Could not fetch revisions"));
     }, []);
-    if (dumpster === null) {
-        return (
-            <Layout style={styles.container}>
-                <Text category="h1">{t("somethingWrong")}</Text>
-            </Layout>
-        );
-    } else {
-        return (
-            <Layout style={styles.container}>
-                <ScrollView>
-                    {dumpsterList.map((value, index) => (
-                        <DumpsterRevisionCard
-                            key={index}
-                            text={formatDate(new Date(value.dateUpdated))}
-                            dumpster={value}
-                            onReset={reset}
-                        />
-                    ))}
-                </ScrollView>
-            </Layout>
-        );
-    }
+    return (
+        <Layout>
+            <ScrollView>
+                {dumpsterList.map((value, index) => (
+                    <DumpsterRevisionCard
+                        key={index}
+                        text={formatDate(new Date(value.dateUpdated))}
+                        dumpster={value}
+                        onReset={reset}
+                    />
+                ))}
+            </ScrollView>
+        </Layout>
+    );
     function reset(newDumpster: RevDumpster) {
         const { dateUpdated, isActive, ...restDumpster } = newDumpster;
-        if (dumpster)
-            DumpsterService.setRevision(
-                newDumpster.dumpsterID,
-                newDumpster.revisionID,
-            )
-                .then(() => {
-                    dispatch(
-                        setCurrentDumpster({
-                            ...restDumpster,
-                            rating: dumpster.rating,
-                        }),
-                    );
-                    dispatch(
-                        addDumpster({
-                            ...restDumpster,
-                            rating: dumpster.rating,
-                        }),
-                    );
-                    navigation.navigate("DetailsScreen");
-                })
-                .catch(e => {
-                    Message.error(e, "Could not reset revisions");
-                });
+        DumpsterService.setRevision(
+            newDumpster.dumpsterID,
+            newDumpster.revisionID,
+        )
+            .then(() => {
+                dispatch(
+                    setCurrentDumpster({
+                        ...restDumpster,
+                        rating: dumpster.rating,
+                    }),
+                );
+                dispatch(
+                    addDumpster({
+                        ...restDumpster,
+                        rating: dumpster.rating,
+                    }),
+                );
+                navigation.navigate("DetailsScreen");
+            })
+            .catch(e => {
+                Message.error(e, "Could not reset revisions");
+            });
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});

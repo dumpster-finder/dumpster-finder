@@ -23,10 +23,10 @@ export default function GeneralInfo({ dumpster }: { dumpster: Dumpster }) {
         <View style={styles.infoView}>
             <View style={styles.row}>
                 <TrashIcon size="small" />
-                <Text style={[styles.label, styles.bold]}>
+                <Text style={[styles.label, styles.bold, styles.wrap]}>
                     {t("emptyingSchedule")}:{" "}
+                    <Text>{dumpster.emptyingSchedule || t("unknown")}</Text>
                 </Text>
-                <Text>{dumpster.emptyingSchedule || t("unknown")}</Text>
             </View>
 
             {/* STORE VIEW */}
@@ -38,20 +38,20 @@ export default function GeneralInfo({ dumpster }: { dumpster: Dumpster }) {
                 ) : (
                     <NegativeIcon size={"small"} />
                 )}
-                <Text style={[styles.label, styles.bold]}>
+                <Text style={[styles.label, styles.bold, styles.wrap]}>
                     {t("view")}
                     {": "}
+                    {dumpster.positiveStoreViewOnDiving ? (
+                        <Text>{t("positive")}</Text>
+                    ) : dumpster.positiveStoreViewOnDiving === null ? (
+                        <Text>{t("neutral")}</Text>
+                    ) : (
+                        <Text>{t("negative")}</Text>
+                    )}
                 </Text>
-                {dumpster.positiveStoreViewOnDiving ? (
-                    <Text>{t("positive")}</Text>
-                ) : dumpster.positiveStoreViewOnDiving === null ? (
-                    <Text>{t("neutral")}</Text>
-                ) : (
-                    <Text>{t("negative")}</Text>
-                )}
             </View>
             <View style={styles.row}>
-                <Text style={styles.label}>
+                <Text style={[styles.label, styles.wrap]}>
                     {t("visit:part1")} {dumpster.visits}{" "}
                     {dumpster.visits === 1 ? t("visit:time") : t("visit:times")}{" "}
                     {visitWindow === 0
@@ -71,6 +71,9 @@ const styles = StyleSheet.create({
     },
     bold: {
         fontWeight: "bold",
+    },
+    wrap: {
+        flexShrink: 1,
     },
     infoView: {
         marginVertical: 5,

@@ -58,104 +58,94 @@ export default function DetailsScreen({
 
     const [visitPending, setVisitPending] = useState(false);
 
-    if (!dumpster) {
-        return (
-            <Layout style={styles.container}>
-                <Text category="h1">{t("somethingWrong")}</Text>
-            </Layout>
-        );
-    } else {
-        return (
-            <Layout style={styles.container}>
-                <ScrollView style={styles.scrollView}>
-                    <View style={styles.row}>
-                        <View style={{ width: "10%" }} />
-                        <View style={{ width: "80%", alignItems: "center" }}>
-                            <Text category="h4">{dumpster.name}</Text>
-                        </View>
+    return (
+        <Layout>
+            <ScrollView style={styles.scrollView}>
+                <View style={styles.row}>
+                    <View style={{ width: "10%" }} />
+                    <View style={{ width: "80%", alignItems: "center" }}>
+                        <Text category="h4">{dumpster.name}</Text>
                     </View>
+                </View>
 
-                    <View style={{ alignItems: "center" }}>
-                        <Text category="h6">
-                            {t(`dumpsterType:${dumpster.dumpsterType}`)}
-                            {" – "}
-                            {t(`storeType:${dumpster.storeType}`)}
-                        </Text>
-                    </View>
-                    <View style={{ height: 150, marginVertical: 5 }}>
-                        <PhotoDisplay
-                            photoList={photos}
-                            onPress={() =>
-                                navigation.navigate("PhotoGalleryScreen")
-                            }
-                        />
-                    </View>
-                    <Button
-                        disabled={visitPending || visitDisabled}
-                        accessoryLeft={
-                            visitPending ? PendingButtonIcon : undefined
+                <View style={{ alignItems: "center" }}>
+                    <Text category="h6">
+                        {t(`dumpsterType:${dumpster.dumpsterType}`)}
+                        {" – "}
+                        {t(`storeType:${dumpster.storeType}`)}
+                    </Text>
+                </View>
+                <View style={{ height: 150, marginVertical: 5 }}>
+                    <PhotoDisplay
+                        photoList={photos}
+                        onPress={() =>
+                            navigation.navigate("PhotoGalleryScreen")
                         }
+                    />
+                </View>
+                <Button
+                    disabled={visitPending || visitDisabled}
+                    accessoryLeft={visitPending ? PendingButtonIcon : undefined}
+                    style={{
+                        alignSelf: "center",
+                    }}
+                    size="small"
+                    status="warning"
+                    onPress={visit}
+                >
+                    {t("visit:visitbtn")}
+                </Button>
+                {visitDisabled && (
+                    <Text
+                        category={"c1"}
                         style={{
+                            marginVertical: 5,
                             alignSelf: "center",
                         }}
-                        size="small"
-                        status="warning"
-                        onPress={visit}
                     >
-                        {t("visit:visitbtn")}
-                    </Button>
-                    {visitDisabled && (
-                        <Text
-                            category={"c1"}
-                            style={{
-                                marginVertical: 5,
-                                alignSelf: "center",
-                            }}
-                        >
-                            {t("visit:disabled")}
-                        </Text>
-                    )}
-
-                    <CategoryInfo dumpster={dumpster} />
-                    <GeneralInfo dumpster={dumpster} />
-                    <InfoRow dumpster={dumpster} />
-                    <ExtraInfo dumpster={dumpster} />
-
-                    <View style={styles.buttonRow}>
-                        <Button
-                            style={styles.button}
-                            size="small"
-                            onPress={() => navigation.navigate("ContentScreen")}
-                        >
-                            {t("content")}
-                        </Button>
-                        <Button
-                            style={styles.button}
-                            size="small"
-                            onPress={() => navigation.navigate("CommentScreen")}
-                        >
-                            {t("comments")}
-                        </Button>
-                    </View>
-
-                    <Text style={{ alignSelf: "center", fontWeight: "bold" }}>
-                        {t("setRating")}
+                        {t("visit:disabled")}
                     </Text>
-                    <View style={styles.row}>
-                        <View style={{ width: "10%" }} />
-                        <View style={{ width: "80%", marginBottom: 10 }}>
-                            <AirbnbRating
-                                size={20}
-                                showRating={false}
-                                defaultRating={currentRating}
-                                onFinishRating={handleRating}
-                            />
-                        </View>
+                )}
+
+                <CategoryInfo dumpster={dumpster} />
+                <GeneralInfo dumpster={dumpster} />
+                <InfoRow dumpster={dumpster} />
+                <ExtraInfo dumpster={dumpster} />
+
+                <View style={styles.buttonRow}>
+                    <Button
+                        style={styles.button}
+                        size="small"
+                        onPress={() => navigation.navigate("ContentScreen")}
+                    >
+                        {t("content")}
+                    </Button>
+                    <Button
+                        style={styles.button}
+                        size="small"
+                        onPress={() => navigation.navigate("CommentScreen")}
+                    >
+                        {t("comments")}
+                    </Button>
+                </View>
+
+                <Text style={{ alignSelf: "center", fontWeight: "bold" }}>
+                    {t("setRating")}
+                </Text>
+                <View style={styles.row}>
+                    <View style={{ width: "10%" }} />
+                    <View style={{ width: "80%", marginBottom: 10 }}>
+                        <AirbnbRating
+                            size={20}
+                            showRating={false}
+                            defaultRating={currentRating}
+                            onFinishRating={handleRating}
+                        />
                     </View>
-                </ScrollView>
-            </Layout>
-        );
-    }
+                </View>
+            </ScrollView>
+        </Layout>
+    );
 
     async function handleRating(rating: number) {
         try {
@@ -194,31 +184,25 @@ export default function DetailsScreen({
         )
             .toISOString()
             .split("T")[0];
-        if (dumpster) {
-            try {
-                let updatedDumpster = await DumpsterService.getDumpster(
-                    dumpsterID,
-                    visitSinceDate,
-                );
-                // Calculate distance to dumpster manually, to avoid calculating it again
-                updatedDumpster.distance = distance(
-                    position,
-                    updatedDumpster.position,
-                );
-                dispatch(setCurrentDumpster(updatedDumpster));
-                dispatch(addDumpster(updatedDumpster));
-            } catch (e) {
-                Message.error(e, "Could not add visit");
-            }
+        try {
+            let updatedDumpster = await DumpsterService.getDumpster(
+                dumpsterID,
+                visitSinceDate,
+            );
+            // Calculate distance to dumpster manually, to avoid calculating it again
+            updatedDumpster.distance = distance(
+                position,
+                updatedDumpster.position,
+            );
+            dispatch(setCurrentDumpster(updatedDumpster));
+            dispatch(addDumpster(updatedDumpster));
+        } catch (e) {
+            Message.error(e, "Could not add visit");
         }
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: "center",
-        justifyContent: "center",
-    },
     scrollView: {
         paddingHorizontal: 12,
         minHeight: "100%",
@@ -233,9 +217,5 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: 10,
-    },
-    view: {
-        flexDirection: "row",
-        alignItems: "center",
     },
 });
