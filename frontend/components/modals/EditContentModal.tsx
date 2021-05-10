@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import { AirbnbRating } from "react-native-ratings";
 
 /**
- * Returns modal that lets user edit the registered content if they have taken some or it is gone.
+ * Modal that lets user edit the registered content if they have taken some or it is gone.
  * @param visible
  * @param setVisible
  * @param pending

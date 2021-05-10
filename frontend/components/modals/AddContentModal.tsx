@@ -18,7 +18,7 @@ import { AirbnbRating } from "react-native-ratings";
 import { useState } from "react";
 
 /**
- * Return modal that lets user enter information about an item they found and add it to the app.
+ * Modal that lets user enter information about an item they found and add it to the app.
  * @param visible
  * @param setVisible
  * @param pending

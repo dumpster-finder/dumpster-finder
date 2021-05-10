@@ -14,7 +14,7 @@ import { calcOrUseDistance } from "../../utils/distance";
 const placeholder = require("../../assets/images/placeholder-wide.png");
 
 /**
- * Returns a card that displays the dumpster in listView.
+ * A card that displays the dumpster in listView.
  * @param dumpster
  * @param onPress
  *

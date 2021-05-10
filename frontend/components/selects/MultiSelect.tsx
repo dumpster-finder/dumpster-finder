@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
  * @param placeholder
  * @param restProps
  */
-export default function singleMultiSelect({
+export default function multiSelect({
     sValue,
     label,
     values,

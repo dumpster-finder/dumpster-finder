@@ -18,7 +18,7 @@ import {
     dumpsterFilterSelector,
     setDumpsterFilter,
 } from "../redux/slices/configSlice";
-import SingleMultiSelect from "../components/selects/SingleMultiSelect";
+import MultiSelect from "./selects/MultiSelect";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import MultiSliderComp from "./MultiSliderComp";
@@ -196,7 +196,7 @@ export default function FilterModal({
         >
             <Card>
                 <View style={styles.dropdown}>
-                    <SingleMultiSelect
+                    <MultiSelect
                         style={styles.dropdownField}
                         sValue={selectedDumpsters}
                         label={t("dumpsterType")}
@@ -213,7 +213,7 @@ export default function FilterModal({
                     </Button>
                 </View>
                 <View style={styles.dropdown}>
-                    <SingleMultiSelect
+                    <MultiSelect
                         style={styles.dropdownField}
                         sValue={selectedStores}
                         label={t("storeType")}
@@ -230,7 +230,7 @@ export default function FilterModal({
                     </Button>
                 </View>
                 <View style={styles.dropdown}>
-                    <SingleMultiSelect
+                    <MultiSelect
                         style={styles.dropdownField}
                         sValue={selectedCategories}
                         label={t("categories")}

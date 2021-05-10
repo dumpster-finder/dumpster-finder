@@ -3,7 +3,7 @@ import Dumpster, { UpdatedDumpster } from "../../models/Dumpster";
 import { Button, IndexPath, Input, Text } from "@ui-kitten/components";
 import { ScrollView, StyleSheet, View } from "react-native";
 import DropdownSelect from "../selects/DropdownSelect";
-import SingleMultiSelect from "../selects/SingleMultiSelect";
+import MultiSelect from "../selects/MultiSelect";
 import {
     LockIcon,
     PendingButtonIcon,
@@ -168,7 +168,7 @@ export default function DumpsterEditor({
                         </View>
 
                         <View style={styles.inputField}>
-                            <SingleMultiSelect
+                            <MultiSelect
                                 sValue={values.categories.map(
                                     i => new IndexPath(i),
                                 )}

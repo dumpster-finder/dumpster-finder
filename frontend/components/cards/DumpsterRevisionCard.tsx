@@ -11,7 +11,7 @@ import InfoRow from "../dumpsterInfo/InfoRow";
 import ExtraInfo from "../dumpsterInfo/ExtraInfo";
 
 /**
- * Return a dropdown card that will show the data for a dumpster revision when it is clicked.
+ * A dropdown card that will show the data for a dumpster revision when it is clicked.
  * @param text
  * @param dumpster
  * @param onReset

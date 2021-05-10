@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 /**
- * Returns a view with advice for dumpster divers
+ * A view with advice for dumpster divers
  *
  */
 export default function Advice() {

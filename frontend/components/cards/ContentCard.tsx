@@ -7,7 +7,7 @@ import { formatDate } from "../../utils/date";
 import { useTranslation } from "react-i18next";
 
 /**
- * Returns a card that displays the registered data for the content registered.
+ * A card that displays the registered data for the content registered.
  * @param content
  * @param onPress
  *

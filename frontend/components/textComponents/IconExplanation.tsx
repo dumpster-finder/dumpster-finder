@@ -11,7 +11,7 @@ import {
 import { useTranslation } from "react-i18next";
 
 /**
- * Returns view with an explanation of icons used in the app
+ * View with an explanation of icons used in the app
  *
  */
 export default function IconExplanation() {

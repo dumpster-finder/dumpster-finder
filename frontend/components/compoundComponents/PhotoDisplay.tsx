@@ -7,7 +7,7 @@ import Photo from "../../models/Photo";
 const placeholder = require("../../assets/images/placeholder.png");
 
 /**
- * Returns a component with a photo and two buttons to move to the next/last photo.
+ * A component with a photo and two buttons to move to the next/last photo.
  * @param photoList
  * @param onPress
  * @constructor

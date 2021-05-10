@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { ArrowDownIcon, ArrowUpIcon } from "../basicComponents/Icons";
 
 /**
- * Function that creates a clickable card that displays a name and an arrow to show if it is clicked.
+ * A clickable card that displays a name and an arrow to show if it is clicked.
  * @param value
  * @param text
  * @param onClick
