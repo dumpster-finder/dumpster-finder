@@ -13,7 +13,7 @@ export default function ExtraInfo({ dumpster }: { dumpster: Dumpster }) {
 
     return (
         <Layout level="2" style={styles.infoBox}>
-            <Text style={{ marginVertical: 2 }}>{dumpster.info}</Text>
+            <Text style={styles.infoText}>{dumpster.info}</Text>
         </Layout>
     );
 }
@@ -24,5 +24,9 @@ const styles = StyleSheet.create({
         paddingVertical: 3,
         paddingHorizontal: 9,
         borderRadius: 15,
+    },
+    infoText: {
+        marginVertical: 2,
+        flexShrink: 1,
     },
 });

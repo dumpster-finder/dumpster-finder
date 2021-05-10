@@ -66,7 +66,7 @@ export default function DumpsterRevisionCard({
 
 const styles = StyleSheet.create({
     infoView: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 12,
         paddingVertical: 5,
     },
 });
