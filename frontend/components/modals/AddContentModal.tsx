@@ -17,6 +17,14 @@ import { PendingButtonIcon, SaveButtonIcon } from "../basicComponents/Icons";
 import { AirbnbRating } from "react-native-ratings";
 import { useState } from "react";
 
+/**
+ * Modal that lets user enter information about an item they found and add it to the app.
+ * @param visible
+ * @param setVisible
+ * @param pending
+ * @param onAdd
+ *
+ */
 export default function AddContentModal({
     visible,
     setVisible,
@@ -29,9 +37,7 @@ export default function AddContentModal({
     onAdd: (content: Pick<Content, "name"> & Partial<Content>) => any;
 }) {
     // temp decalaration that makes TS shut up...
-    const { t }: { t: (s: string) => string } = useTranslation(
-        "contentsEditor",
-    );
+    const { t }: { t: (s: string) => string } = useTranslation("contents");
     const [datePicker, setDatePicker] = useState<Datepicker | null>(null);
     const dimensions = useWindowDimensions();
 
@@ -79,7 +85,7 @@ export default function AddContentModal({
                         <Divider />
                         <Input
                             style={styles.input}
-                            label={t("name.label")}
+                            label={t("productPlace")}
                             placeholder={t("name.placeholder")}
                             value={values.name}
                             onChangeText={handleChange("name")}
@@ -98,7 +104,7 @@ export default function AddContentModal({
                                     styles.smallInput,
                                     styles.smallInputLeft,
                                 ]}
-                                label={t("amount.label")}
+                                label={t("amountLabel")}
                                 keyboardType={"number-pad"}
                                 placeholder={t("amount.placeholder")}
                                 value={values.amount}
@@ -110,7 +116,7 @@ export default function AddContentModal({
                             />
                             <Input
                                 style={styles.smallInput}
-                                label={t("unit.label")}
+                                label={t("unitLabel")}
                                 placeholder={t("unit.placeholder")}
                                 value={values.unit}
                                 onChangeText={handleChange("unit")}
@@ -142,8 +148,8 @@ export default function AddContentModal({
                             style={styles.input}
                             // @ts-ignore
                             ref={r => setDatePicker(r)}
-                            label={t("expiryDate.label")}
-                            placeholder={t("expiryDate.placeholder")}
+                            label={t("expiryDate")}
+                            placeholder={t("date.placeholder")}
                             date={values.expiryDate}
                             onSelect={change =>
                                 setFieldValue("expiryDate", change)

@@ -10,6 +10,11 @@ import {
 import { Layout, Text } from "@ui-kitten/components";
 import * as React from "react";
 
+/**
+ * Displays information in a row.
+ * @param dumpster
+ *
+ */
 export default function InfoRow({ dumpster }: { dumpster: Dumpster }) {
     const { t }: { t: (s: string) => string } = useTranslation("details");
     return (
@@ -49,7 +54,6 @@ const styles = StyleSheet.create({
     rowText: {
         marginLeft: 3,
     },
-
     box: {
         display: "flex",
         flexWrap: "wrap",

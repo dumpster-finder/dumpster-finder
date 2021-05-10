@@ -11,8 +11,8 @@
         "positive": "Positivt",
         "emptyingSchedule": "Tømmeplan",
         "categories": "Kategorier",
-        "content": "Se innhold",
         "comments": "Se kommentarer",
+        "setRating": "Vurder meg",
         "storeType": "Butikktype",
         "dumpsterType": "Type søppelkasse",
         "extraInfo": "Ekstra info",
@@ -34,6 +34,7 @@
         "yourPosition": "Din posisjon",
         "unknown": "Ukjent"
     },
+
     "advice": {
         "title": "Råd for dumpster diving",
         "nr1": "1. Ikke bryt opp låste søppelkasser",
@@ -44,14 +45,15 @@
         "nr6": "6. Kle deg passende",
         "nr7": "7. Rydd opp etter deg"
     },
+
     "iconDesc": {
         "title": "Forklaring av ikoner",
         "rating": "Vurdering av søppelkassen",
         "locked": "Hvorvidt søppelkassen er låst",
         "emptySchedule": "Tømmeplan for søppelkassen",
-        "view": "Butikkens syn på søppeldykkere",
         "cleanliness": "Hvor ren søppelkassen er"
     },
+
     "settings": {
         "setPosition": "Din posisjon",
         "userID": {
@@ -80,23 +82,10 @@
         "darkMode": "Mørkt tema",
         "hideNegativeComments": "Sjul kommentarer med negativ vurdering"
     },
+
     "details": {
-        "rating": "Vurdering",
-        "cleanliness": "Renhet",
-        "locked": "Låst",
-        "unlocked": "Åpen",
-        "view": "Butikkens syn på søppeldykkere",
-        "negative": "Negativt",
-        "neutral": "Nøytralt",
-        "positive": "Positivt",
-        "emptyingSchedule": "Tømmeplan",
         "categories": "Her kan du finne",
-        "content": "Se andres funn",
-        "comments": "Se kommentarer",
-        "setRating": "Vurder meg",
-        "storeType": "Butikktype",
-        "dumpsterType": "Type søppelkasse",
-        "extraInfo": "Ekstra info"
+        "content": "Se andres funn"
     },
 
     "menu": {
@@ -115,7 +104,6 @@
     "comment": {
         "add": "Publisér kommentar",
         "comment": "Kommentar",
-        "yourPos": "Din posisjon",
         "delComment": "Sikker på at du vil slette kommentaren?"
     },
 
@@ -127,34 +115,20 @@
             "errorLong": "Navnet kan ikke være lengre enn 64 tegn"
         },
         "dumpsterType": {
-            "label": "Type søppelkasse",
             "errorEmpty": "Dumpstertype må oppgis"
         },
         "storeType": {
-            "label": "Butikktype",
             "errorEmpty": "Butikktype må oppgis"
-        },
-        "categories": {
-            "label": "Kategorier"
         },
         "emptyingSchedule": {
             "label": "Tømmeplan",
             "placeholder": "f.eks Første mandag i måneden",
             "errorLong": "Tømmeplanen kan ikke være lengre enn 128 tegn"
         },
-        "storeView": {
-            "label": "Butikkens syn på søppeldykkere",
-            "negative": "Negativt",
-            "neutral": "Nøytralt",
-            "positive": "Positivt"
-        },
         "locked": {
-            "label": "Dumpsterens tilstand",
-            "locked": "Låst",
-            "unlocked": "Åpen"
+            "label": "Dumpsterens tilstand"
         },
         "cleanliness": {
-            "label": "Renhet",
             "pristine": "Nydelig",
             "clean": "Ren",
             "average": "Normal",
@@ -171,35 +145,29 @@
     },
 
     "contents": {
-        "add": "Legg til innhold",
-        "amount": "Mengde",
-        "unit": "Enhet",
-        "quality": "Kvalitet",
-        "expiryDate": "Utløpsdato",
-        "foundDate": "Funnet",
-        "addItem": "Legg til vare"
-    },
-
-    "contentsEditor": {
         "addTitle": "Nytt innhold",
+        "expiryDate": "Utløpsdato",
+        "amountLabel": "Mengde",
+        "unitLabel": "Antall",
+        "quality": "Kvalitet",
+        "foundDate": "Funnet",
+        "addItem": "Legg til produkt",
+        "product": "Produkt",
+        "productPlace": "Produkt navn",
         "name": {
-            "label": "Produkt",
             "placeholder": "Produkt",
             "errorEmpty": "Innholdet trenger et navn",
             "errorLong": "Navnet kan ikke være lengre enn 24 tegn"
         },
         "amount": {
-            "label": "Mengde",
             "placeholder": "1",
             "errorInvalid": "Mengden må være et tall"
         },
         "unit": {
-            "label": "Enhet",
             "placeholder": "liter",
             "errorLong": "Enheten kan ikke være lengre enn 12 tegn"
         },
-        "expiryDate": {
-            "label": "Utløpsdato",
+        "date": {
             "placeholder": "Velg dato"
         },
         "expiresOn": "Utløper den",
@@ -221,17 +189,9 @@
     },
 
     "placeholders": {
-        "search": "Place your text",
-        "comment": "Comment",
-        "choose": "Choose..."
-    },
-
-    "cleanliness": {
-        "pristine": "Nydelig",
-        "clean": "Ren",
-        "average": "Normal",
-        "dirty": "Skitten",
-        "filthy": "Forferdelig"
+        "search": "Legg inn tekst",
+        "comment": "Kommentar",
+        "choose": "Velg..."
     },
 
     "dumpsterType": {
@@ -245,10 +205,9 @@
         "Grocery Store": "Matbutikk",
         "Bakery": "Bakeri",
         "Furniture Store": "Møbelbutikk",
-        "General Store": "Dagligvarebutikk",
-        "Miscellaneous": "Blandet"
+        "Miscellaneous": "Blandet",
+        "General Store": "Dagligvarebutikk"
     },
-
 
     "categories": {
         "Dairy": "Meieriprodukter",
@@ -268,18 +227,6 @@
         "Noodles": "Nudler",
         "Eggs": "Egg",
         "unknown": "Ukjent"
-    },
-
-    "content": {
-        "title": "Legg til innhold",
-        "product": "Produkt",
-        "productPlace": "Produktnavn",
-        "amount": "Mengde",
-        "unit": "Konteiner",
-        "expiryDate": "Utløpsdato",
-        "expiryPlace": "Velg dato ...",
-        "cancel": "Avbryt",
-        "add": "Legg til"
     },
 
     "notFound": {
@@ -309,6 +256,7 @@
     },
 
     "intro": {
+        "appName": "Dumpster Finder",
         "generatingUserID": "Genererer bruker-ID …",
         "introBlurb": "Velkommen til Dumpster Finder, en app for søppeldykkere. Den er lagd for å dele informasjon om søppelkonteinere det er mulig å lete etter ting i. Du kan finne dumpstere i nærheten av deg, og legge til informasjon om andre dumpstere og innholdet i dem.",
         "userIDFailed": "Kunne ikke generere bruker-ID",
@@ -338,6 +286,7 @@
         "add": "Legg til bide",
         "see": "Se bilder"
     },
+
     "report": {
         "report": "Rapporter denne søppelkassen",
         "text": "Rapporter søppelkassen dersom den ikke eksisterer, er ulovlig å dumpstre i osv. Dersom det er noe feil med informasjonen om dumpsteren så kan du endre den selv",

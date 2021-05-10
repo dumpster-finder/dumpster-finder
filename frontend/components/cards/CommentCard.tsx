@@ -15,6 +15,13 @@ import { formatDate } from "../../utils/date";
 import { useTranslation } from "react-i18next";
 import Message from "../../utils/Message";
 
+/**
+ * Card that displays the data connected to the comment and the possibility of rating the comment
+ * @param comment
+ * @param voted
+ * @param onDelete
+ *
+ */
 export default function CommentCard({
     comment,
     voted,
@@ -85,14 +92,7 @@ export default function CommentCard({
                 onBackdropPress={() => setModalVis(false)}
                 backdropStyle={styles.backdrop}
             >
-                <Card
-                    style={{
-                        alignSelf: "center",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        maxWidth: "90%",
-                    }}
-                >
+                <Card style={styles.card}>
                     <Text category={"h5"}>{t("delComment")}</Text>
                     <Divider />
                     <View style={styles.modalBtn}>
@@ -196,5 +196,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         marginVertical: 5,
+    },
+    card: {
+        alignSelf: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        maxWidth: "90%",
     },
 });

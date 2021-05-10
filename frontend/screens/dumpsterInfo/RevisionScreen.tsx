@@ -1,22 +1,27 @@
 import * as React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
-import DumpsterRevisionCard from "../components/cards/DumpsterRevisionCard";
+import DumpsterRevisionCard from "../../components/cards/DumpsterRevisionCard";
 import { useSelector } from "react-redux";
 import {
     addDumpster,
     currentDumpsterSelector,
     setCurrentDumpster,
-} from "../redux/slices/dumpsterSlice";
-import { RevDumpster } from "../models/Dumpster";
+} from "../../redux/slices/dumpsterSlice";
+import { RevDumpster } from "../../models/Dumpster";
 import { useEffect, useState } from "react";
-import { DumpsterService } from "../services";
-import { useAppDispatch } from "../redux/store";
+import { DumpsterService } from "../../services";
+import { useAppDispatch } from "../../redux/store";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { formatDate } from "../utils/date";
+import { formatDate } from "../../utils/date";
 import { useTranslation } from "react-i18next";
-import Message from "../utils/Message";
+import Message from "../../utils/Message";
 
+/**
+ * Shows a list of registered revisions of the dumpster
+ * @param navigation
+ *
+ */
 export default function RevisionScreen({
     navigation,
 }: {

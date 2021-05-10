@@ -2,10 +2,15 @@ import * as React from "react";
 import { Image, StyleSheet } from "react-native";
 import { Layout, ViewPager, Text } from "@ui-kitten/components";
 import { useState } from "react";
-import usePhotos from "../hooks/usePhotos";
+import usePhotos from "../../hooks/usePhotos";
 import { RouteProp } from "@react-navigation/native";
-import { formatDate } from "../utils/date";
+import { formatDate } from "../../utils/date";
 
+/**
+ * Displays single photo and a user can swipe to show last/nest photo
+ * @param route
+ * @constructor
+ */
 export default function PhotoDisplayScreen({
     route,
 }: {

@@ -3,6 +3,10 @@ import { Text } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
+/**
+ * A view with advice for dumpster divers
+ *
+ */
 export default function Advice() {
     // Specify the namespace when you get the t function
     const { t }: { t: (s: string) => string } = useTranslation("advice");

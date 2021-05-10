@@ -2,19 +2,24 @@ import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
-import ContentCard from "../components/cards/ContentCard";
-import Content from "../models/Content";
+import { currentDumpsterSelector } from "../../redux/slices/dumpsterSlice";
+import ContentCard from "../../components/cards/ContentCard";
+import Content from "../../models/Content";
 import { useEffect, useState } from "react";
-import EditContentModal from "../components/Modals/EditContentModal";
-import AddContentModal from "../components/Modals/AddContentModal";
+import EditContentModal from "../../components/modals/EditContentModal";
+import AddContentModal from "../../components/modals/AddContentModal";
 import { useTranslation } from "react-i18next";
-import { ContentService } from "../services";
-import Message from "../utils/Message";
-import SelectMethodModal from "../components/Modals/SelectMethodModal";
+import { ContentService } from "../../services";
+import Message from "../../utils/Message";
+import SelectMethodModal from "../../components/modals/SelectMethodModal";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { PhotoButtonIcon } from "../components/basicComponents/Icons";
+import { PhotoButtonIcon } from "../../components/basicComponents/Icons";
 
+/**
+ * Shows a list of the registered content in the dumpster
+ * @param navigation
+ *
+ */
 export default function ContentScreen({
     navigation,
 }: {

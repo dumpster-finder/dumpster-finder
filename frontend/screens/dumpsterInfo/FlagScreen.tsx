@@ -2,17 +2,22 @@ import * as React from "react";
 import { Button, Input, Layout, Text } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
-import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
+import { currentDumpsterSelector } from "../../redux/slices/dumpsterSlice";
 import { useEffect, useState } from "react";
 import { NavigationProp } from "@react-navigation/native";
 import {
     FlagButtonIcon,
     PendingButtonIcon,
-} from "../components/basicComponents/Icons";
+} from "../../components/basicComponents/Icons";
 import { useTranslation } from "react-i18next";
-import { ReportService } from "../services";
-import Message from "../utils/Message";
+import { ReportService } from "../../services";
+import Message from "../../utils/Message";
 
+/**
+ * Screen that lets user report a dumpster or tells the user that they already have reported it.
+ * @param navigation
+ *
+ */
 export default function FlagScreen({
     navigation,
 }: {

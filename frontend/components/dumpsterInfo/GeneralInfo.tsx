@@ -11,6 +11,11 @@ import { Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import { visitsSelector } from "../../redux/slices/configSlice";
 
+/**
+ * Displays the basic information registered about a dumpster.
+ * @param dumpster
+ *
+ */
 export default function GeneralInfo({ dumpster }: { dumpster: Dumpster }) {
     const { t }: { t: (s: string) => string } = useTranslation("details");
     const visitWindow = useSelector(visitsSelector);

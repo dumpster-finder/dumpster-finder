@@ -2,20 +2,20 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
-import { UpdatedDumpster } from "../models/Dumpster";
-import DumpsterEditor from "../components/compoundComponents/DumpsterEditor";
+import { UpdatedDumpster } from "../../models/Dumpster";
+import DumpsterEditor from "../../components/compoundComponents/DumpsterEditor";
 import {
     addDumpster,
     currentDumpsterSelector,
-} from "../redux/slices/dumpsterSlice";
+} from "../../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { DumpsterService } from "../services";
-import { setCurrentDumpster } from "../redux/slices/dumpsterSlice";
-import { resetEditor } from "../redux/slices/editorSlice";
-import { useAppDispatch } from "../redux/store";
+import { DumpsterService } from "../../services";
+import { setCurrentDumpster } from "../../redux/slices/dumpsterSlice";
+import { resetEditor } from "../../redux/slices/editorSlice";
+import { useAppDispatch } from "../../redux/store";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Message from "../utils/Message";
+import Message from "../../utils/Message";
 
 export default function EditDumpsterScreen({
     navigation,

@@ -13,10 +13,10 @@ export default function ToggleSwitch({
 }) {
     return (
         <View style={styles.row}>
-            <View style={{ width: "50%", justifyContent: "center" }}>
+            <View style={styles.name}>
                 <Text category={"h6"}>{name}</Text>
             </View>
-            <View style={{ width: "50%", alignItems: "flex-end" }}>
+            <View style={styles.toggle}>
                 <Toggle checked={checked} onChange={v => onChange(v)} />
             </View>
         </View>
@@ -27,5 +27,13 @@ const styles = StyleSheet.create({
     row: {
         flex: 1,
         flexDirection: "row",
+    },
+    name: {
+        width: "50%",
+        justifyContent: "center",
+    },
+    toggle: {
+        width: "50%",
+        alignItems: "flex-end",
     },
 });

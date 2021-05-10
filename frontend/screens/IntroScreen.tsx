@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Layout, ViewPager, Text, Button } from "@ui-kitten/components";
 import { useState } from "react";
 import ButtonGroupDisplay from "../components/basicComponents/ButtonGroupDisplay";
@@ -19,6 +19,11 @@ import { useTranslation } from "react-i18next";
 import LanguagePicker from "../components/settings/LanguagePicker";
 import { GlobeIcon } from "../components/basicComponents/Icons";
 
+/**
+ * Introduction shown first time the app is used
+ * @param navigation
+ *
+ */
 export default function IntroScreen({
     navigation,
 }: {

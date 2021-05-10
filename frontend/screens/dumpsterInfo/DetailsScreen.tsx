@@ -7,17 +7,17 @@ import {
     addDumpster,
     currentDumpsterSelector,
     setCurrentDumpster,
-} from "../redux/slices/dumpsterSlice";
+} from "../../redux/slices/dumpsterSlice";
 import { StackNavigationProp } from "@react-navigation/stack";
-import PhotoDisplay from "../components/compoundComponents/PhotoDisplay";
+import PhotoDisplay from "../../components/compoundComponents/PhotoDisplay";
 import { useTranslation } from "react-i18next";
-import CategoryInfo from "../components/dumpsterInfo/CategoryInfo";
-import ExtraInfo from "../components/dumpsterInfo/ExtraInfo";
-import InfoRow from "../components/dumpsterInfo/InfoRow";
-import GeneralInfo from "../components/dumpsterInfo/GeneralInfo";
-import { DumpsterService, RatingService, VisitService } from "../services";
-import { useAppDispatch } from "../redux/store";
-import usePhotos from "../hooks/usePhotos";
+import CategoryInfo from "../../components/dumpsterInfo/CategoryInfo";
+import ExtraInfo from "../../components/dumpsterInfo/ExtraInfo";
+import InfoRow from "../../components/dumpsterInfo/InfoRow";
+import GeneralInfo from "../../components/dumpsterInfo/GeneralInfo";
+import { DumpsterService, RatingService, VisitService } from "../../services";
+import { useAppDispatch } from "../../redux/store";
+import usePhotos from "../../hooks/usePhotos";
 import { useState } from "react";
 import { subDays, subHours } from "date-fns";
 import {
@@ -26,11 +26,16 @@ import {
     registeredVisitsSelector,
     visitsSelector,
     setDumpsterRating,
-} from "../redux/slices/configSlice";
-import Message from "../utils/Message";
-import { distance } from "../utils/distance";
-import { PendingButtonIcon } from "../components/basicComponents/Icons";
+} from "../../redux/slices/configSlice";
+import Message from "../../utils/Message";
+import { distance } from "../../utils/distance";
+import { PendingButtonIcon } from "../../components/basicComponents/Icons";
 
+/**
+ * Displays the details of the selected dumpster
+ * @param navigation
+ *
+ */
 export default function DetailsScreen({
     navigation,
 }: {
