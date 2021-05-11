@@ -76,7 +76,9 @@ const InnerApp = () => {
         // TODO add setting to persist filter between sessions (can't be default)
         store.dispatch(setDumpsterFilter({}));
         store.dispatch(resetPhotos());
-        store.dispatch(fetchAllConstants());
+        store
+            .dispatch(fetchAllConstants())
+            .catch(e => Message.error(e, "Failed to fetch categories"));
         store.dispatch(setEditorDumpster(templateDumpster));
         if (firstTime) {
             store.dispatch(setDarkMode(externalColorScheme === "dark"));
@@ -86,7 +88,12 @@ const InnerApp = () => {
 
     useEffect(() => {
         // Refresh token when the app loads!
-        if (userName) store.dispatch(refreshToken({ userID, userName }));
+        if (userName)
+            store
+                .dispatch(refreshToken({ userID, userName }))
+                .catch(e =>
+                    Message.error(e, "Could not refresh token, please wait"),
+                );
     }, []);
 
     useEffect(() => {
@@ -100,13 +107,16 @@ const InnerApp = () => {
             // User will have to press a retry button if it did not work
             // (for the time being)
         } else if (!token) {
-            store.dispatch(refreshToken({ userID, userName }));
+            store
+                .dispatch(refreshToken({ userID, userName }))
+                .catch(e =>
+                    Message.error(e, "Could not refresh token, please wait"),
+                );
             console.log("Refreshing token for the first time …");
         }
     }, [userName, token]);
 
     useEffect(() => {
-        // TODO reconsider the 1st part
         store.dispatch(setDumpsters([]));
         // Fetch dumpsters each time position, visits or radius changes
         const visitSinceDate = subDays(
@@ -115,9 +125,16 @@ const InnerApp = () => {
         )
             .toISOString()
             .split("T")[0];
-        store.dispatch(
-            fetchNearbyDumpsters({ position, radius, visitSinceDate }),
-        );
+        store
+            .dispatch(
+                fetchNearbyDumpsters({ position, radius, visitSinceDate }),
+            )
+            .catch(e =>
+                Message.error(
+                    e,
+                    "Could not fetch dumpsters, check your Internet connection",
+                ),
+            );
     }, [position, radius, visitDate]);
 
     useEffect(() => {
