@@ -1,9 +1,13 @@
-import MapView, { Region } from "react-native-maps";
+import MapView from "react-native-maps";
 import * as React from "react";
 import { LegacyRef, PropsWithChildren } from "react";
 import MapTileSet from "./MapTileSet";
-import { StyleProp, ViewStyle } from "react-native";
+import { Platform, StyleProp, ViewStyle } from "react-native";
 import Position from "../../models/Position";
+import darkMapStyle from "./styles/dark.json";
+import lightMapStyle from "./styles/light.json";
+import { useSelector } from "react-redux";
+import { darkModeSelector } from "../../redux/slices/configSlice";
 
 interface MapProps {
     initialPosition: Position;
@@ -19,6 +23,8 @@ export default function CustomMapView({
     setRef,
     onPress,
 }: PropsWithChildren<MapProps>) {
+    const darkMode = useSelector(darkModeSelector);
+    const mapStyle = darkMode ? darkMapStyle : lightMapStyle;
     return (
         <MapView
             provider={null}
@@ -37,6 +43,8 @@ export default function CustomMapView({
                 bottom: 0,
             }}
             onPress={onPress && (e => onPress(e.nativeEvent.coordinate))}
+            // Add a custom map style for Google Maps *only if* this is Android
+            customMapStyle={Platform.OS === "android" ? mapStyle : undefined}
         >
             {children}
             <MapTileSet />
