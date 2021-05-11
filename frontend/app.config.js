@@ -33,6 +33,11 @@ export default {
         },
         softwareKeyboardLayoutMode: "pan",
         package: "org.dumpsterfire.dumpsterfinder",
+        config: {
+            googleMaps: {
+                apiKey: process.env.MAPS_API_KEY,
+            },
+        },
     },
     web: {
         favicon: "./assets/images/favicon.png",
@@ -41,6 +46,6 @@ export default {
         apiURL: process.env.API_URL,
         photoURL: process.env.PHOTO_URL,
         nodeEnv: process.env.NODE_ENV,
-        debug: Boolean(process.env.DEBUG) || false,
+        debug: process.env.DEBUG === "true",
     },
 };
