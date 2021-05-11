@@ -280,7 +280,7 @@
 
     "photo": {
         "upload": "Choose photo",
-        "take": "Take Photo",
+        "take": "Take photo",
         "photo": "Photo",
         "delete" : "Delete photo",
         "add": "Add photo",
