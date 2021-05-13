@@ -7,6 +7,7 @@ include:
 stages:
   - install_deps
   - test
+  - audit
   - docs
   - deploy
 
@@ -46,6 +47,24 @@ test_api:
   artifacts:
     paths:
       - backend/api/coverage
+
+api_audit:
+  stage: audit
+  script:
+    - cd backend/api
+    - npx audit-ci --moderate
+
+pic_audit:
+  stage: audit
+  script:
+    - cd backend/pics
+    - npx audit-ci --moderate
+
+app_audit:
+  stage: audit
+  script:
+    - cd frontend
+    - npx audit-ci --moderate
 
 api_docs:
   stage: docs
