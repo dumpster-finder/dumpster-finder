@@ -1,0 +1,6 @@
+{
+    "ignore": [
+        { "id": "3d8a020a-8863-4811-aeef-f086e77d7167", "reason": "The frontend does not use websockets..." },
+        { "id": "bcd8143c-e087-4471-b5ee-7537c8936296", "reason": "We use Axios, not fetch" }
+    ]
+}
