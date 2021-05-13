@@ -52,18 +52,21 @@ api_audit:
   stage: audit
   script:
     - cd backend/api
+    - npm ci
     - npx auditjs@latest ossi --whitelist=ossi-whitelist.json
 
 pic_audit:
   stage: audit
   script:
     - cd backend/pics
+    - npm ci
     - npx auditjs@latest ossi --whitelist=ossi-whitelist.json
 
 app_audit:
   stage: audit
   script:
     - cd frontend
+    - npm ci
     - npx auditjs@latest ossi --whitelist=ossi-whitelist.json
 
 api_docs:
