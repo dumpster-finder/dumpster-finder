@@ -27,7 +27,7 @@ export default function SelectMethodModal({
             onBackdropPress={() => setVisible(false)}
             backdropStyle={styles.backdrop}
         >
-            <Card style={{ alignItems: "center" }}>
+            <Card style={styles.card}>
                 <Text category={"h5"}>{t("contents:add")}</Text>
                 <Divider />
                 <View style={styles.view}>
@@ -45,14 +45,14 @@ export default function SelectMethodModal({
                     >
                         {t("contents:addItem")}
                     </Button>
+                    <Button
+                        style={styles.button}
+                        status={"basic"}
+                        onPress={() => setVisible(false)}
+                    >
+                        {t("back")}
+                    </Button>
                 </View>
-                <Button
-                    style={styles.button}
-                    status={"basic"}
-                    onPress={() => setVisible(false)}
-                >
-                    {t("back")}
-                </Button>
             </Card>
         </Modal>
     );
@@ -62,11 +62,18 @@ const styles = StyleSheet.create({
     backdrop: {
         backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
+    card: {
+        width: "100%",
+    },
     view: {
-        marginVertical: 5,
+        // cursed styling because of the way it was before... but please bear with it
         flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
     },
     button: {
-        marginHorizontal: 5,
+        margin: 5,
+        width: "100%",
+        flexDirection: "row",
     },
 });
