@@ -148,7 +148,6 @@ export default function EditContentModal({
                             <Button
                                 status={"danger"}
                                 style={{ marginVertical: 10 }}
-                                size={"small"}
                                 onPress={deleteCheck}
                                 accessoryLeft={DeleteButtonIcon}
                             >
