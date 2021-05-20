@@ -18,7 +18,7 @@ interface APIType {
     geometry: GeoJSONPoint;
 }
 
-export default class DumpsterTypeService {
+export default class PlaceService {
     readonly axios;
 
     constructor(axios: AxiosInstance) {

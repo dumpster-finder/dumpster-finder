@@ -3,7 +3,7 @@ import Dumpster, { UpdatedDumpster } from "../../models/Dumpster";
 import { Button, IndexPath, Input, Text } from "@ui-kitten/components";
 import { ScrollView, StyleSheet, View } from "react-native";
 import DropdownSelect from "../selects/DropdownSelect";
-import SingleMultiSelect from "../selects/SingleMultiSelect";
+import MultiSelect from "../selects/MultiSelect";
 import {
     LockIcon,
     PendingButtonIcon,
@@ -139,7 +139,7 @@ export default function DumpsterEditor({
                         <View style={styles.inputField}>
                             <DropdownSelect
                                 value={values.dumpsterType}
-                                label={t("dumpsterType.label")}
+                                label={t("common:dumpsterType")}
                                 values={dumpsterTypes.map(v =>
                                     t(`dumpsterType:${v}`),
                                 )}
@@ -154,7 +154,7 @@ export default function DumpsterEditor({
                         <View style={styles.inputField}>
                             <DropdownSelect
                                 value={values.storeType}
-                                label={t("storeType.label")}
+                                label={t("common:storeType")}
                                 values={storeTypes.map(s =>
                                     t(`storeType:${s}`),
                                 )}
@@ -168,11 +168,11 @@ export default function DumpsterEditor({
                         </View>
 
                         <View style={styles.inputField}>
-                            <SingleMultiSelect
+                            <MultiSelect
                                 sValue={values.categories.map(
                                     i => new IndexPath(i),
                                 )}
-                                label={t("categories.label")}
+                                label={t("common:categories")}
                                 values={categories.map(c =>
                                     t(`categories:${c}`),
                                 )}
@@ -203,11 +203,13 @@ export default function DumpsterEditor({
                         <View style={styles.row}>
                             <ButtonGroupDisplay
                                 value={values.storeView}
-                                values={["negative", "neutral", "positive"].map(
-                                    v => t(`storeView.${v}`),
-                                )}
+                                values={[
+                                    "negative",
+                                    "neutral",
+                                    "positive",
+                                ].map(v => t(`${v}`))}
                                 icon={PositiveIcon}
-                                label={t("storeView.label")}
+                                label={t("view")}
                                 onSelect={i => setFieldValue("storeView", i)}
                             />
                         </View>
@@ -216,8 +218,8 @@ export default function DumpsterEditor({
                             <ButtonGroupDisplay
                                 value={values.locked}
                                 values={[
-                                    t("locked.locked"),
-                                    t("locked.unlocked"),
+                                    t("common:locked"),
+                                    t("common:unlocked"),
                                 ]}
                                 label={t("locked.label")}
                                 icon={LockIcon}
@@ -226,7 +228,7 @@ export default function DumpsterEditor({
                         </View>
 
                         <Text category="s2" appearance="hint">
-                            {t("cleanliness.label")!}
+                            {t("common:cleanliness")!}
                         </Text>
                         <View style={styles.row}>
                             <Rating

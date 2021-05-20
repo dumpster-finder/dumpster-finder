@@ -5,11 +5,11 @@ import {
     StackNavigationProp,
 } from "@react-navigation/stack";
 import * as React from "react";
-import MapScreen from "../screens/MapScreen";
-import ListScreen from "../screens/ListScreen";
-import InfoScreen from "../screens/InfoScreen";
-import SettingsScreen from "../screens/SettingsScreen";
-import CommentScreen from "../screens/CommentScreen";
+import MapScreen from "../screens/main/MapScreen";
+import ListScreen from "../screens/main/ListScreen";
+import InfoScreen from "../screens/main/InfoScreen";
+import SettingsScreen from "../screens/main/SettingsScreen";
+import CommentScreen from "../screens/dumpsterInfo/CommentScreen";
 import {
     BottomTabParamList,
     InfoTabParamList,
@@ -18,11 +18,11 @@ import {
     SettingsTabParamList,
 } from "../types";
 
-import AddInfoScreen from "../screens/AddInfoScreen";
-import AddPositionScreen from "../screens/AddPositionScreen";
-import DetailsScreen from "../screens/DetailsScreen";
-import ContentScreen from "../screens/ContentScreen";
-import EditDumpsterScreen from "../screens/EditDumpsterScreen";
+import AddInfoScreen from "../screens/addDumpster/AddInfoScreen";
+import AddPositionScreen from "../screens/addDumpster/AddPositionScreen";
+import DetailsScreen from "../screens/dumpsterInfo/DetailsScreen";
+import ContentScreen from "../screens/dumpsterInfo/ContentScreen";
+import EditDumpsterScreen from "../screens/dumpsterInfo/EditDumpsterScreen";
 import SetPositionScreen from "../screens/SetPositionScreen";
 import IntroScreen from "../screens/IntroScreen";
 import { useEffect } from "react";
@@ -30,13 +30,13 @@ import { useSelector } from "react-redux";
 import { firstTimeSelector } from "../redux/slices/configSlice";
 import { useTheme } from "@ui-kitten/components";
 import DetailsMenu from "../components/basicComponents/DetailsMenu";
-import RevisionScreen from "../screens/RevisionScreen";
+import RevisionScreen from "../screens/dumpsterInfo/RevisionScreen";
 import { useTranslation } from "react-i18next";
-import PhotoGalleryScreen from "../screens/PhotoGalleryScreen";
-import PhotoDisplayScreen from "../screens/PhotoDisplayScreen";
+import PhotoGalleryScreen from "../screens/photo/PhotoGalleryScreen";
+import PhotoDisplayScreen from "../screens/photo/PhotoDisplayScreen";
 import AddPhotoHeader from "../components/basicComponents/AddPhotoHeader";
-import AddPhotoScreen from "../screens/AddPhotoScreen";
-import FlagScreen from "../screens/FlagScreen";
+import AddPhotoScreen from "../screens/photo/AddPhotoScreen";
+import FlagScreen from "../screens/dumpsterInfo/FlagScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 

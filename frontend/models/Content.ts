@@ -1,5 +1,4 @@
 export interface RawContent {
-    // dumpsterID: number;
     name: string;
     amount?: number | null;
     unit?: string | null;
@@ -9,7 +8,6 @@ export interface RawContent {
 }
 
 class Content {
-    // readonly dumpsterID: number;
     readonly name: string;
     readonly amount?: number | null;
     readonly unit?: string | null;
@@ -18,7 +16,6 @@ class Content {
     readonly foundDate: Date;
 
     constructor({
-        // dumpsterID,
         name,
         amount,
         unit,
@@ -26,7 +23,6 @@ class Content {
         foundDate,
         expiryDate,
     }: RawContent) {
-        // this.dumpsterID = dumpsterID;
         this.name = name;
         this.amount = amount;
         this.unit = unit;

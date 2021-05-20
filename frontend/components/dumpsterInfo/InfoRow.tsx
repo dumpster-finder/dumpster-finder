@@ -10,6 +10,11 @@ import {
 import { Layout, Text } from "@ui-kitten/components";
 import * as React from "react";
 
+/**
+ * Displays information in a row.
+ * @param dumpster
+ *
+ */
 export default function InfoRow({ dumpster }: { dumpster: Dumpster }) {
     const { t }: { t: (s: string) => string } = useTranslation("details");
     return (
@@ -18,7 +23,8 @@ export default function InfoRow({ dumpster }: { dumpster: Dumpster }) {
                 <View style={styles.boxRow}>
                     <StarIcon size="small" />
                     <Text style={styles.rowText}>
-                        {t("rating")}: {dumpster.rating.toFixed(1)}/5
+                        <Text style={styles.bold}>{t("rating")}: </Text>
+                        {dumpster.rating.toFixed(1)}/5
                     </Text>
                 </View>
             )}
@@ -26,19 +32,24 @@ export default function InfoRow({ dumpster }: { dumpster: Dumpster }) {
             <View style={styles.boxRow}>
                 <BrushIcon size="small" />
                 <Text style={styles.rowText}>
-                    {t("cleanliness")}: {dumpster.cleanliness}/5
+                    <Text style={styles.bold}>{t("cleanliness")}: </Text>
+                    {dumpster.cleanliness}/5
                 </Text>
             </View>
             <View style={styles.boxRow}>
                 {dumpster.locked ? (
                     <>
                         <LockIcon size="small" />
-                        <Text style={styles.rowText}>{t("locked")}</Text>
+                        <Text style={[styles.rowText, styles.bold]}>
+                            {t("locked")}
+                        </Text>
                     </>
                 ) : (
                     <>
                         <OpenLockIcon size="small" />
-                        <Text style={styles.rowText}>{t("unlocked")}</Text>
+                        <Text style={[styles.rowText, styles.bold]}>
+                            {t("unlocked")}
+                        </Text>
                     </>
                 )}
             </View>
@@ -49,7 +60,9 @@ const styles = StyleSheet.create({
     rowText: {
         marginLeft: 3,
     },
-
+    bold: {
+        fontWeight: "bold",
+    },
     box: {
         display: "flex",
         flexWrap: "wrap",

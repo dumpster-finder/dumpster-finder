@@ -77,6 +77,7 @@ export default function({ Comments, sequelize }: MyModels) {
             }
             return (await Comments.findAll({
                 where,
+                limit: 100,
                 order: [["date", "DESC"]],
             })).map(allToComment(userID));
         },

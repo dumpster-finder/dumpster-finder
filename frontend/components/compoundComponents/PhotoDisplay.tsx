@@ -6,6 +6,12 @@ import { ArrowLeftIcon, ArrowRightIcon } from "../basicComponents/Icons";
 import Photo from "../../models/Photo";
 const placeholder = require("../../assets/images/placeholder.png");
 
+/**
+ * A component with a photo and two buttons to move to the next/last photo.
+ * @param photoList
+ * @param onPress
+ * @constructor
+ */
 export default function PhotoDisplay({
     photoList,
     onPress,

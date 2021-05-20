@@ -20,8 +20,17 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
 import { AirbnbRating } from "react-native-ratings";
-import { number } from "yup";
 
+/**
+ * Modal that lets user edit the registered content if they have taken some or it is gone.
+ * @param visible
+ * @param setVisible
+ * @param pending
+ * @param selectedContent
+ * @param onSave
+ * @param onDelete
+ *
+ */
 export default function EditContentModal({
     visible,
     setVisible,
@@ -38,9 +47,7 @@ export default function EditContentModal({
     onDelete: (content: Content) => void;
 }) {
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-    const { t }: { t: (s: string) => string } = useTranslation(
-        "contentsEditor",
-    );
+    const { t }: { t: (s: string) => string } = useTranslation("contents");
     return (
         <View>
             <Modal
@@ -87,7 +94,7 @@ export default function EditContentModal({
 
                             <View style={styles.row}>
                                 <Input
-                                    label={t("amount.label")}
+                                    label={t("amountLabel")}
                                     style={styles.input}
                                     size={"large"}
                                     value={values.amount}
@@ -111,7 +118,7 @@ export default function EditContentModal({
                             </View>
                             <View style={styles.row}>
                                 <Text style={styles.boldText}>
-                                    {t("contents:quality")}:{" "}
+                                    {t("quality")}:{" "}
                                 </Text>
                                 <AirbnbRating
                                     size={20}
@@ -141,7 +148,6 @@ export default function EditContentModal({
                             <Button
                                 status={"danger"}
                                 style={{ marginVertical: 10 }}
-                                size={"small"}
                                 onPress={deleteCheck}
                                 accessoryLeft={DeleteButtonIcon}
                             >

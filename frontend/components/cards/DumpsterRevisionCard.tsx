@@ -10,6 +10,13 @@ import GeneralInfo from "../dumpsterInfo/GeneralInfo";
 import InfoRow from "../dumpsterInfo/InfoRow";
 import ExtraInfo from "../dumpsterInfo/ExtraInfo";
 
+/**
+ * A dropdown card that will show the data for a dumpster revision when it is clicked.
+ * @param text
+ * @param dumpster
+ * @param onReset
+ *
+ */
 export default function DumpsterRevisionCard({
     text,
     dumpster,
@@ -59,7 +66,7 @@ export default function DumpsterRevisionCard({
 
 const styles = StyleSheet.create({
     infoView: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 12,
         paddingVertical: 5,
     },
 });

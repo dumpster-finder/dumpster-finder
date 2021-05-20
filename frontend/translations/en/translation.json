@@ -1,7 +1,7 @@
 {
     "common": {
         "all": "All",
-        "rating": "Rating:",
+        "rating": "Rating",
         "cleanliness": "Cleanliness",
         "locked": "Locked",
         "unlocked": "Unlocked",
@@ -11,7 +11,6 @@
         "positive": "Positive",
         "emptyingSchedule": "Emptying schedule",
         "categories": "Categories",
-        "content": "See content",
         "comments": "See comments",
         "setRating": "Rate me",
         "storeType": "Store type",
@@ -52,7 +51,6 @@
         "rating": "Rating for dumpster",
         "locked": "Whether the dumpster is locked",
         "emptySchedule": "Emptying schedule for dumpster",
-        "view": "Store's view on dumpster diving",
         "cleanliness": "Hvor ren søppelkassen er"
     },
 
@@ -86,22 +84,8 @@
     },
 
     "details": {
-        "rating": "Rating",
-        "cleanliness": "Cleanliness",
-        "locked": "Locked",
-        "unlocked": "Unlocked",
-        "view": "Store's view on dumpster diving",
-        "negative": "Negative",
-        "neutral": "Neutral",
-        "positive": "Positive",
-        "emptyingSchedule": "Emptying schedule",
         "categories": "You might find",
-        "content": "See others' findings",
-        "comments": "See comments",
-        "setRating": "Rate me",
-        "storeType": "Store type",
-        "dumpsterType": "Dumpster type",
-        "extraInfo": "Extra info"
+        "content": "See others' findings"
     },
 
     "menu": {
@@ -120,7 +104,6 @@
     "comment": {
         "add": "Add comment",
         "comment": "Comment",
-        "yourPos": "Your position",
         "delComment": "Are you sure you want to delete this comment?"
     },
 
@@ -132,34 +115,20 @@
             "errorLong": "Name can be no longer than 64 characters"
         },
         "dumpsterType": {
-            "label": "Dumpster type",
             "errorEmpty": "Dumpster type is required"
         },
         "storeType": {
-            "label": "Store type",
             "errorEmpty": "Store type is required"
-        },
-        "categories": {
-            "label": "Categories"
         },
         "emptyingSchedule": {
             "label": "Emptying schedule",
             "placeholder": "e.g. First Monday in the month",
             "errorLong": "This schedule cannot be longer than 128 characters"
         },
-        "storeView": {
-            "label": "Store's view on dumpster diving",
-            "negative": "Negative",
-            "neutral": "Neutral",
-            "positive": "Positive"
-        },
         "locked": {
-            "label": "Dumpster state",
-            "locked": "Locked",
-            "unlocked": "Open"
+            "label": "Dumpster state"
         },
         "cleanliness": {
-            "label": "Cleanliness",
             "pristine": "Pristine",
             "clean": "Clean",
             "average": "Average",
@@ -175,36 +144,38 @@
         "create": "Create dumpster"
     },
 
-    "contents": {
-        "add": "Add content",
-        "amount": "Amount",
-        "unit": "Unit",
-        "quality": "Quality",
-        "expiryDate": "Expiration date",
-        "foundDate": "Found date",
-        "addItem": "Add item"
+    "cleanliness": {
+        "pristine": "Pristine",
+        "clean": "Clean",
+        "average": "Average",
+        "dirty": "Dirty",
+        "filthy": "Filthy"
     },
 
-    "contentsEditor": {
+    "contents": {
         "addTitle": "Add content",
+        "expiryDate": "Expiration date",
+        "amountLabel": "Amount",
+        "unitLabel": "Unit",
+        "quality": "Quality",
+        "foundDate": "Found date",
+        "addItem": "Add item",
+        "product": "Product",
+        "productPlace": "Product name",
         "name": {
-            "label": "Product",
             "placeholder": "e.g. Milk",
             "errorEmpty": "Product name is required",
             "errorLong": "This cannot be longer than 24 characters"
         },
         "amount": {
-            "label": "Amount",
             "placeholder": "1",
             "errorInvalid": "Must be a number"
         },
         "unit": {
-            "label": "Unit",
             "placeholder": "liters",
             "errorLong": "Unit cannot be longer than 12 characters"
         },
-        "expiryDate": {
-            "label": "Expiration date",
+        "date": {
             "placeholder": "Select date …"
         },
         "expiresOn": "Expires on",
@@ -228,16 +199,7 @@
     "placeholders": {
         "search": "Place your text",
         "comment": "Comment",
-        "choose": "Choose..",
-        "extraInfo": "Other information"
-    },
-
-    "cleanliness": {
-        "pristine": "Pristine",
-        "clean": "Clean",
-        "average": "Average",
-        "dirty": "Dirty",
-        "filthy": "Filthy"
+        "choose": "Choose.."
     },
 
     "dumpsterType": {
@@ -251,7 +213,8 @@
         "Grocery Store": "Grocery store",
         "Bakery": "Bakery",
         "Furniture Store": "Furniture store",
-        "Miscellaneous": "Miscellaneous"
+        "Miscellaneous": "Miscellaneous",
+        "General Store": "General store"
     },
 
     "categories": {
@@ -272,23 +235,6 @@
         "Noodles": "Noodles",
         "Eggs": "Eggs",
         "Unknown": "Unknown"
-    },
-
-    "storeView": {
-        "negative": "Negative",
-        "neutral": "Neutral",
-        "positive": "Positive"
-    },
-    "content": {
-        "title": "Add content",
-        "product": "Product",
-        "productPlace": "Product name",
-        "amount": "Amount",
-        "unit": "Unit",
-        "expiryDate": "Expires on",
-        "expiryPlace": "Select date ...",
-        "cancel": "Cancel",
-        "add": "Add"
     },
 
     "notFound": {
@@ -342,7 +288,7 @@
 
     "photo": {
         "upload": "Choose photo",
-        "take": "Take Photo",
+        "take": "Take photo",
         "photo": "Photo",
         "delete" : "Delete photo",
         "add": "Add photo",

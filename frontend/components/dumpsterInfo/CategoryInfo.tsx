@@ -33,7 +33,7 @@ export default function CategoryInfo({
     return (
         <View style={styles.infoView}>
             {/* CATEGORIES */}
-            <Text style={{ alignSelf: "center" }}>{t("categories")}</Text>
+            <Text style={styles.tagHeader}>{t("categories")}</Text>
             <View style={styles.tagRow}>
                 {showAll
                     ? categories.map(renderCategory)
@@ -52,6 +52,10 @@ export default function CategoryInfo({
 const styles = StyleSheet.create({
     infoView: {
         marginVertical: 5,
+    },
+    tagHeader: {
+        alignSelf: "center",
+        fontWeight: "bold",
     },
     tagRow: {
         width: "100%",

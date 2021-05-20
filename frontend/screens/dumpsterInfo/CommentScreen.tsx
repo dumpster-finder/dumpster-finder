@@ -1,24 +1,28 @@
 import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Button, Input, Layout, Text } from "@ui-kitten/components";
-import Comments, { PostComment } from "../models/Comment";
-import CommentCard from "../components/cards/CommentCard";
+import Comments, { PostComment } from "../../models/Comment";
+import CommentCard from "../../components/cards/CommentCard";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { currentDumpsterSelector } from "../redux/slices/dumpsterSlice";
-import { CommentService } from "../services";
+import { currentDumpsterSelector } from "../../redux/slices/dumpsterSlice";
+import { CommentService } from "../../services";
 import {
     hideNegativeRatingSelector,
     nicknameSelector,
     ratedCommentsSelector,
-} from "../redux/slices/configSlice";
+} from "../../redux/slices/configSlice";
 import {
     CommentButtonIcon,
     PendingButtonIcon,
-} from "../components/basicComponents/Icons";
+} from "../../components/basicComponents/Icons";
 import { useTranslation } from "react-i18next";
-import Message from "../utils/Message";
+import Message from "../../utils/Message";
 
+/**
+ * A screen that displays comments from the dumpster and lets the user add a comment
+ *
+ */
 export default function CommentScreen() {
     const { t }: { t: (s: string) => string } = useTranslation("comment");
     const ratedComments = useSelector(ratedCommentsSelector);

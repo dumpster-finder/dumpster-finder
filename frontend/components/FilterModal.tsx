@@ -18,7 +18,7 @@ import {
     dumpsterFilterSelector,
     setDumpsterFilter,
 } from "../redux/slices/configSlice";
-import SingleMultiSelect from "../components/selects/SingleMultiSelect";
+import MultiSelect from "./selects/MultiSelect";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import MultiSliderComp from "./MultiSliderComp";
@@ -196,7 +196,7 @@ export default function FilterModal({
         >
             <Card>
                 <View style={styles.dropdown}>
-                    <SingleMultiSelect
+                    <MultiSelect
                         style={styles.dropdownField}
                         sValue={selectedDumpsters}
                         label={t("dumpsterType")}
@@ -213,7 +213,7 @@ export default function FilterModal({
                     </Button>
                 </View>
                 <View style={styles.dropdown}>
-                    <SingleMultiSelect
+                    <MultiSelect
                         style={styles.dropdownField}
                         sValue={selectedStores}
                         label={t("storeType")}
@@ -230,7 +230,7 @@ export default function FilterModal({
                     </Button>
                 </View>
                 <View style={styles.dropdown}>
-                    <SingleMultiSelect
+                    <MultiSelect
                         style={styles.dropdownField}
                         sValue={selectedCategories}
                         label={t("categories")}
@@ -265,7 +265,7 @@ export default function FilterModal({
                     ))}
                 </View>
                 <View style={styles.slider}>
-                    <Text>{t("rating")}</Text>
+                    <Text style={styles.bold}>{t("rating")}</Text>
                     <MultiSliderComp
                         values={rating}
                         max={4}
@@ -274,7 +274,7 @@ export default function FilterModal({
                     />
                 </View>
                 <View style={styles.slider}>
-                    <Text>{t("cleanliness")}</Text>
+                    <Text style={styles.bold}>{t("cleanliness")}</Text>
                     <MultiSliderComp
                         values={cleanliness}
                         max={4}
@@ -283,7 +283,7 @@ export default function FilterModal({
                     />
                 </View>
                 <View style={styles.slider}>
-                    <Text>{t("view")}</Text>
+                    <Text style={styles.bold}>{t("view")}</Text>
                     <MultiSliderComp
                         values={storeView}
                         max={2}
@@ -390,6 +390,9 @@ export default function FilterModal({
 const styles = StyleSheet.create({
     backdrop: {
         backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    bold: {
+        fontWeight: "bold",
     },
     dropdown: {
         marginVertical: 5,

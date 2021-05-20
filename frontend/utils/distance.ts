@@ -1,9 +1,10 @@
 import Position from "../models/Position";
 import Dumpster from "../models/Dumpster";
 
-// Uses the Haversine formula to calculate distance between two points
-// TODO: Was this merely copy-paste, or did you do something else with it?
-//       → if copy-paste: please credit the original author!
+/**
+ * Uses the Haversine formula to calculate distance between two points
+ * Based on https://stackoverflow.com/questions/365826/calculate-distance-between-2-gps-coordinates
+ */
 export function distance(
     currentPosition: Position,
     dumpsterPosition: Position,

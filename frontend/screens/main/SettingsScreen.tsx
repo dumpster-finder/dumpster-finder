@@ -24,18 +24,18 @@ import {
     setHideNegativeRating,
     visitsSelector,
     setVisits,
-} from "../redux/slices/configSlice";
-import { useAppDispatch } from "../redux/store";
+} from "../../redux/slices/configSlice";
+import { useAppDispatch } from "../../redux/store";
 import { useEffect, useState } from "react";
-import { ArrowRightIcon, GlobeIcon } from "../components/basicComponents/Icons";
+import { ArrowRightIcon } from "../../components/basicComponents/Icons";
 import { StackNavigationProp } from "@react-navigation/stack";
-import DropdownCard from "../components/cards/DropdownCard";
-import ButtonGroupDisplay from "../components/basicComponents/ButtonGroupDisplay";
+import DropdownCard from "../../components/cards/DropdownCard";
+import ButtonGroupDisplay from "../../components/basicComponents/ButtonGroupDisplay";
 import { useTranslation } from "react-i18next";
-import ToggleSwitch from "../components/basicComponents/ToggleSwitch";
-import { userNameSelector, setUserName } from "../redux/slices/userSlice";
+import ToggleSwitch from "../../components/basicComponents/ToggleSwitch";
+import { userNameSelector, setUserName } from "../../redux/slices/userSlice";
 import Constants from "expo-constants";
-import LanguagePicker from "../components/settings/LanguagePicker";
+import LanguagePicker from "../../components/settings/LanguagePicker";
 
 export default function SettingsScreen({
     navigation,

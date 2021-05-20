@@ -2,7 +2,7 @@ import * as React from "react";
 import { View } from "react-native";
 import { FilterIcon, SearchInputIcon } from "./Icons";
 import { Autocomplete, Button } from "@ui-kitten/components";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
 import {
@@ -10,7 +10,6 @@ import {
     setDumpsterFilter,
 } from "../../redux/slices/configSlice";
 import { useTranslation } from "react-i18next";
-import _ from "lodash";
 
 export default function SearchHeader({
     onPressFilter,

@@ -10,6 +10,10 @@ import {
 } from "../basicComponents/Icons";
 import { useTranslation } from "react-i18next";
 
+/**
+ * View with an explanation of icons used in the app
+ *
+ */
 export default function IconExplanation() {
     const { t }: { t: (s: string) => string } = useTranslation("iconDesc");
     return (

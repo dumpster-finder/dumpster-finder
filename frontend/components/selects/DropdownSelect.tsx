@@ -7,6 +7,18 @@ import {
 } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
 
+/**
+ * Displays a dropdown menu where the user can select one value
+ * @param value
+ * @param label
+ * @param values
+ * @param placeholder
+ * @param onSelect
+ * @param status
+ * @param caption
+ * @param restProps
+ *
+ */
 export default function DropdownSelect({
     value,
     label,

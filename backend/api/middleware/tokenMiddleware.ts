@@ -11,7 +11,6 @@ import {
     Session,
     checkTokenTime,
 } from "../utils/token";
-import { logger } from "../server";
 import { UnauthorizedError } from "../types/errors";
 
 const requestHeader = "x-access-token";

@@ -6,6 +6,12 @@ import { Card } from "@ui-kitten/components";
 import { formatDate } from "../../utils/date";
 import { useTranslation } from "react-i18next";
 
+/**
+ * A card that displays the registered data for the content registered.
+ * @param content
+ * @param onPress
+ *
+ */
 export default function ContentCard({
     content,
     onPress,
@@ -26,13 +32,17 @@ export default function ContentCard({
                 <View style={styles.infoView}>
                     {content.amount && (
                         <View style={styles.row}>
-                            <Text style={styles.boldText}>{t("amount")}: </Text>
+                            <Text style={styles.boldText}>
+                                {t("amountLabel")}:{" "}
+                            </Text>
                             <Text style={styles.text}>{content.amount}</Text>
                         </View>
                     )}
                     {content.unit && (
                         <View style={styles.row}>
-                            <Text style={styles.boldText}>{t("unit")}: </Text>
+                            <Text style={styles.boldText}>
+                                {t("unitLabel")}:{" "}
+                            </Text>
                             <Text style={styles.text}>{content.unit}</Text>
                         </View>
                     )}
@@ -76,9 +86,6 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: "row",
         flexWrap: "wrap",
-    },
-    column: {
-        flexDirection: "column",
     },
     nameView: {
         width: "33.3%",
