@@ -265,7 +265,7 @@ export default function FilterModal({
                     ))}
                 </View>
                 <View style={styles.slider}>
-                    <Text>{t("rating")}</Text>
+                    <Text style={styles.bold}>{t("rating")}</Text>
                     <MultiSliderComp
                         values={rating}
                         max={4}
@@ -274,7 +274,7 @@ export default function FilterModal({
                     />
                 </View>
                 <View style={styles.slider}>
-                    <Text>{t("cleanliness")}</Text>
+                    <Text style={styles.bold}>{t("cleanliness")}</Text>
                     <MultiSliderComp
                         values={cleanliness}
                         max={4}
@@ -283,7 +283,7 @@ export default function FilterModal({
                     />
                 </View>
                 <View style={styles.slider}>
-                    <Text>{t("view")}</Text>
+                    <Text style={styles.bold}>{t("view")}</Text>
                     <MultiSliderComp
                         values={storeView}
                         max={2}
@@ -390,6 +390,9 @@ export default function FilterModal({
 const styles = StyleSheet.create({
     backdrop: {
         backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    bold: {
+        fontWeight: "bold",
     },
     dropdown: {
         marginVertical: 5,

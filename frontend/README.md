@@ -49,3 +49,10 @@ since the native code should stay more or less the same.
 ## Generating documentation
 
 Simply run `npm run docs` and open `docs/index.html` in a browser to read it.
+
+## Credits
+
+This project was bootstrapped with Expo's tab bar template.
+Some files are very similar to that template's version of them.
+
+We also wrote a [modified version](components/basicComponents/ButtonGroup.tsx) of Kitten's ButtonGroup component.

@@ -144,6 +144,14 @@
         "create": "Opprett dumpster"
     },
 
+    "cleanliness": {
+        "pristine": "Nydelig",
+        "clean": "Ren",
+        "average": "Normal",
+        "dirty": "Skitten",
+        "filthy": "Forferdelig"
+    },
+
     "contents": {
         "addTitle": "Nytt innhold",
         "expiryDate": "Utløpsdato",
