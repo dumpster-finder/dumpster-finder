@@ -27,6 +27,7 @@ export default function({ Photos, DumpsterPositions, sequelize }: MyModels) {
 
                 return await Photos.findAll({
                     where: { dumpsterID },
+                    limit: 100,
                     order: [["dateAdded", "DESC"]],
                     transaction: t,
                 }).then(ps => ps.map(modelToPhoto));

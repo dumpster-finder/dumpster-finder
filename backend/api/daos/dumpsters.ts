@@ -231,6 +231,7 @@ export default function({
                         String(radius),
                     )} ORDER BY distance ASC`,
                 ),
+                limit: 300,
             }).then(dumpsters => dumpsters.map(toDumpster)),
 
         /**
@@ -301,6 +302,7 @@ export default function({
                 where: {
                     dumpsterID,
                 },
+                limit: 300,
                 order: [["dateUpdated", "DESC"]],
             }).then(data => data.map(toRevision)),
 

@@ -55,7 +55,7 @@ const createResultToContent = (
     foundDate,
 });
 
-export default function ({
+export default function({
     ContentTypes,
     DumpsterContents,
     StandardContentTypes,
@@ -112,6 +112,7 @@ export default function ({
                             as: "contentType",
                         },
                     ],
+                    limit: 100,
                     order: [["foundDate", "DESC"]],
                     transaction: t,
                 }).then(data =>
@@ -140,13 +141,11 @@ export default function ({
                     contentID = match.contentID;
                 } else {
                     // Otherwise, we'll have to add a new content type
-                    contentID = (
-                        await ContentTypes.create(
-                            // TODO either scrap category binding or find a way to set it...
-                            { categoryID: 1, name },
-                            { transaction: t },
-                        )
-                    ).contentID;
+                    contentID = (await ContentTypes.create(
+                        // TODO either scrap category binding or find a way to set it...
+                        { categoryID: 1, name },
+                        { transaction: t },
+                    )).contentID;
                 }
 
                 // Create the content entry
