@@ -144,6 +144,14 @@
         "create": "Create dumpster"
     },
 
+    "cleanliness": {
+        "pristine": "Pristine",
+        "clean": "Clean",
+        "average": "Average",
+        "dirty": "Dirty",
+        "filthy": "Filthy"
+    },
+
     "contents": {
         "addTitle": "Add content",
         "expiryDate": "Expiration date",
